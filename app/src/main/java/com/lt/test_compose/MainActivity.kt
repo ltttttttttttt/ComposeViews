@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.lt.test_compose.ui.theme.MyTheme
 import com.lt.test_compose.ui.theme.Test_composeTheme
 import com.lt.test_compose.ui.view.TitleView
 
@@ -26,7 +27,8 @@ class MainActivity : BaseComposeActivity() {
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
-        Test_composeTheme {
+//        Test_composeTheme {
+        MyTheme {
             Greeting("Android")
         }
     }
