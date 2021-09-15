@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,118 +39,123 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     fun XueQing() {
-        Row {
-            HorizontalSpace(dp = 31)
-            Column(M.weight(1f)) {
-                Text(
-                    text = "最近一次学案作答分析",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                VerticalSpace(dp = 15)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Spacer(
-                        modifier = Modifier
-                            .width(4.dp)
-                            .height(18.dp)
-                            .background(Color.Black)
-                    )
-                    HorizontalSpace(dp = 8)
+        Column {
+            TitleView(text = "学情报告")
+            Row {
+                HorizontalSpace(dp = 31)
+                Column(
+                    M.fillMaxWidth()
+                ) {
                     Text(
-                        text = "课前测",
-                        fontSize = 18.sp,
+                        text = "最近一次学案作答分析",
+                        fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                     )
-                }
-                VerticalSpace(dp = 15)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.img1),
-                        contentDescription = "",
-                        M.size(27.dp)
-                    )
-                    HorizontalSpace(dp = 8)
-                    Text(text = "本次测试不认识单词(共计3个)", fontSize = 17.sp)
-                }
-                VerticalSpace(dp = 9)
-                LazyColumn(
-                    Modifier.border(
-                        border = BorderStroke(
-                            width = 3.dp,
-                            color = Color(0xFF999999),
-                        ),
-                        shape = RoundedCornerShape(2f, 2f, 2f, 2f),
-                    )//边框
-                ) {
-                    items(30) {
-                        Column {
-                            if (it != 0)
-                                Spacer(
-                                    modifier = M
-                                        .fillMaxWidth()
-                                        .height(1.dp)
-                                        .background(Color.Black)
-                                )
-                            Row(
-                                M.height(IntrinsicSize.Min),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "序号",
-                                    M.weight(153f),
-                                    textAlign = TextAlign.Center,
-                                )
-                                Spacer(
-                                    modifier = M
-                                        .width(1.dp)
-                                        .fillMaxHeight()
-                                        .background(Color.Black)
-                                )
-                                Text(
-                                    text = "单词",
-                                    M.weight(219f),
-                                    textAlign = TextAlign.Center,
-                                )
-                                Spacer(
-                                    modifier = M
-                                        .width(1.dp)
-                                        .fillMaxHeight()
-                                        .background(Color.Black)
-                                )
-                                Text(
-                                    text = "音标",
-                                    M.weight(219f),
-                                    textAlign = TextAlign.Center,
-                                )
-                                Spacer(
-                                    modifier = M
-                                        .width(1.dp)
-                                        .fillMaxHeight()
-                                        .background(Color.Black)
-                                )
-                                Text(
-                                    text = "发音",
-                                    M.weight(219f),
-                                    textAlign = TextAlign.Center,
-                                )
-                                Spacer(
-                                    modifier = M
-                                        .width(1.dp)
-                                        .fillMaxHeight()
-                                        .background(Color.Black)
-                                )
-                                Text(
-                                    text = "词性",
-                                    M.weight(219f),
-                                    textAlign = TextAlign.Center,
-                                )
+                    VerticalSpace(dp = 15)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(
+                            modifier = Modifier
+                                .width(4.dp)
+                                .height(18.dp)
+                                .background(Color.Black)
+                        )
+                        HorizontalSpace(dp = 8)
+                        Text(
+                            text = "课前测",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                    VerticalSpace(dp = 15)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.mipmap.img1),
+                            contentDescription = "",
+                            M.size(27.dp)
+                        )
+                        HorizontalSpace(dp = 8)
+                        Text(text = "本次测试不认识单词(共计3个)", fontSize = 17.sp)
+                    }
+                    VerticalSpace(dp = 9)
+                    LazyColumn(
+                        Modifier.border(
+                            border = BorderStroke(
+                                width = 3.dp,
+                                color = Color(0xFF999999),
+                            ),
+                            shape = RoundedCornerShape(2f, 2f, 2f, 2f),
+                        )//边框
+                    ) {
+                        items(30) {
+                            Column {
+                                if (it != 0)
+                                    Spacer(
+                                        modifier = M
+                                            .fillMaxWidth()
+                                            .height(1.dp)
+                                            .background(Color.Black)
+                                    )
+                                Row(
+                                    M.height(IntrinsicSize.Min),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "序号",
+                                        M.weight(153f),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                    Spacer(
+                                        modifier = M
+                                            .width(1.dp)
+                                            .fillMaxHeight()
+                                            .background(Color.Black)
+                                    )
+                                    Text(
+                                        text = "单词",
+                                        M.weight(219f),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                    Spacer(
+                                        modifier = M
+                                            .width(1.dp)
+                                            .fillMaxHeight()
+                                            .background(Color.Black)
+                                    )
+                                    Text(
+                                        text = "音标",
+                                        M.weight(219f),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                    Spacer(
+                                        modifier = M
+                                            .width(1.dp)
+                                            .fillMaxHeight()
+                                            .background(Color.Black)
+                                    )
+                                    Text(
+                                        text = "发音",
+                                        M.weight(219f),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                    Spacer(
+                                        modifier = M
+                                            .width(1.dp)
+                                            .fillMaxHeight()
+                                            .background(Color.Black)
+                                    )
+                                    Text(
+                                        text = "词性",
+                                        M.weight(219f),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
+                HorizontalSpace(dp = 31)
             }
-            HorizontalSpace(dp = 31)
         }
     }
 
