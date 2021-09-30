@@ -1,5 +1,6 @@
 package com.lt.test_compose
 
+import android.view.View
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.lt.test_compose.ui.theme.MyTheme
 import com.lt.test_compose.ui.view.TitleView
 import util.compose.HorizontalSpace
@@ -30,17 +32,22 @@ import util.compose.M
 import util.compose.VerticalSpace
 
 class MainActivity : BaseComposeActivity() {
+    val title = MutableLiveData("学情报告")
+
     @Composable
     override fun InitCompose() {
         // A surface container using the 'background' color from the theme
 //        Greeting("Android")
-        XueQing()
+        XueQing(title)
+        findViewById<View>(android.R.id.content).postDelayed({
+            title.value = "首测报告"
+        }, 3000)
     }
 
     @Composable
-    fun XueQing() {
+    fun XueQing(title: LiveData<String>) {
         Column {
-            TitleView(text = "学情报告")
+            TitleView(text = title.value ?: "")
             Row {
                 HorizontalSpace(dp = 31)
                 Column(
@@ -190,7 +197,7 @@ class MainActivity : BaseComposeActivity() {
 //        Test_composeTheme {
         MyTheme {
 //            Greeting("Android")
-            XueQing()
+            XueQing(title)
         }
     }
 }
