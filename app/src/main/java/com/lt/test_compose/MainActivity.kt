@@ -13,6 +13,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +33,7 @@ import com.lt.test_compose.ui.view.TitleView
 import util.compose.HorizontalSpace
 import util.compose.M
 import util.compose.VerticalSpace
+import util.compose.rememberMutableStateOf
 
 class MainActivity : BaseComposeActivity() {
     val title = MutableLiveData("学情报告")
@@ -41,13 +45,14 @@ class MainActivity : BaseComposeActivity() {
         XueQing(title)
         findViewById<View>(android.R.id.content).postDelayed({
             title.value = "首测报告"
-        }, 3000)
+        }, 9000)
     }
 
     @Composable
     fun XueQing(title: LiveData<String>) {
+        val title by title.observeAsState()
         Column {
-            TitleView(text = title.value ?: "")
+            TitleView(text = title?:"")
             Row {
                 HorizontalSpace(dp = 31)
                 Column(
