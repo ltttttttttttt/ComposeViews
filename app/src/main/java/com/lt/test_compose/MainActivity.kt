@@ -1,5 +1,7 @@
 package com.lt.test_compose
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -15,7 +17,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +34,6 @@ import com.lt.test_compose.ui.view.TitleView
 import util.compose.HorizontalSpace
 import util.compose.M
 import util.compose.VerticalSpace
-import util.compose.rememberMutableStateOf
 
 class MainActivity : BaseComposeActivity() {
     val title = MutableLiveData("学情报告")
@@ -48,11 +48,16 @@ class MainActivity : BaseComposeActivity() {
         }, 9000)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        startActivity(Intent(this, MainListActivity::class.java))
+    }
+
     @Composable
     fun XueQing(title: LiveData<String>) {
         val title by title.observeAsState()
         Column {
-            TitleView(text = title?:"")
+            TitleView(text = title ?: "")
             Row {
                 HorizontalSpace(dp = 31)
                 Column(

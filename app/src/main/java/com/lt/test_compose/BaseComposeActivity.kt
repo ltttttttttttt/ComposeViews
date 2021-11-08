@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import com.lt.test_compose.ui.theme.MyTheme
+import kotlinx.coroutines.MainScope
 
 /**
  * creator: lt  2021/5/23  lt.dygzs@qq.com
@@ -12,6 +13,7 @@ import com.lt.test_compose.ui.theme.MyTheme
  * warning:
  */
 abstract class BaseComposeActivity : AppCompatActivity() {
+    val mainScope = MainScope()
 
     @Composable
     abstract fun InitCompose()
