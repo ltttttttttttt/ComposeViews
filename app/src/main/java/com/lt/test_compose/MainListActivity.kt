@@ -1,6 +1,8 @@
 package com.lt.test_compose
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,13 +10,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.MutableLiveData
 import com.lt.test_compose.ui.view.TitleView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,52 +34,71 @@ class MainListActivity : BaseComposeActivity() {
     private var array = ArrayList<Int>(IntArray(50) { it * 2 }.asList())
     private var job: Job? = null
     private val random = Random()
+    private val arrayLD = MutableLiveData(array)
 
     @Composable
     override fun InitCompose() {
+//            var list by rememberMutableStateOf(value = array)
+        val list = remember {
+            mutableStateOf(array)
+        }
+//        val list = arrayLD.observeAsState()
         Column {
-            var list by rememberMutableStateOf(value = array)
             TitleView(text = "rv")
             Divider()
             Text(text = "不动的text")
-            LazyColumn(// TODO by lt 2021/11/8 11:49 这里更新不了,需要改一下,然后加上自定义的下拉刷新 
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                content = {
-                    item {
-                        Text(text = "头布局")
-                    }
-                    val size = list.size
-                    items(size) {
-                        Text(
-                            text = list[it].toString(),
-                            M.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    item {
-                        Text(text = "尾布局")
-                    }
-                    item {
-                        //加载的布局
-                        Text(text = "加载中")
-                        if (job == null) {
-                            job = mainScope.launch {
-                                try {
-                                    delay(3000)
-                                    array.addAll(IntArray(20) {
-                                        random.nextInt()
-                                    }.asList())
-                                    list = array
-                                    Log.e("lllttt", array.toString())
-                                    Log.e("lllttt2", list.toString())
-                                } finally {
-                                    job = null
-                                }
+            ShowRv(list.value) {
+                list.value = it
+            }
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun ShowRv(list: ArrayList<Int>?, listChangeListener: (ArrayList<Int>) -> Unit) {
+        LazyColumn(// TODO by lt 2021/11/8 11:49 这里更新不了,需要改一下,然后加上自定义的下拉刷新
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            content = {
+                stickyHeader {
+                    Text(text = "粘懈标题")
+                }
+                item {
+                    Text(text = "头布局")
+                }
+                stickyHeader {
+                    Text(text = "粘懈标题2")
+                }
+                val size = list!!.size
+                items(size) {
+                    Text(
+                        text = list[it].toString(),
+                        M.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                item {
+                    Text(text = "尾布局")
+                }
+                item {
+                    //加载的布局
+                    Text(text = "加载中")
+                    if (job == null) {
+                        job = mainScope.launch {
+                            try {
+                                delay(1000)
+                                Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
+                                    .show()
+                                array.addAll(IntArray(20) {
+                                    random.nextInt()
+                                }.asList())
+                                listChangeListener(ArrayList(array))
+                            } finally {
+                                job = null
                             }
                         }
                     }
-                })
-        }
+                }
+            })
     }
 
     @Preview
