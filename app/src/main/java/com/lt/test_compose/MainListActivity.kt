@@ -36,20 +36,16 @@ class MainListActivity : BaseComposeActivity() {
 
     @Composable
     override fun InitCompose() {
-//            var list by rememberMutableStateOf(value = array)
-        var list by remember {
-            mutableStateOf(array)
+        val list = remember {
+            mutableStateListOf<Int>()
         }
-        var string by remember {
-            mutableStateOf("")
-        }
-//        val list = arrayLD.observeAsState()
+        list.addAll(array)
         Column {
             TitleView(text = "rv")
             Divider()
             Text(text = "不动的text")
-            ShowRv(list, string, { string = it }) {
-                list = it
+            ShowRv(list) {
+                list.addAll(it)
             }
         }
     }
@@ -57,12 +53,10 @@ class MainListActivity : BaseComposeActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ShowRv(
-        list: ArrayList<Int>,
-        string: String,
-        scl: (String) -> Unit,
-        listChangeListener: (ArrayList<Int>) -> Unit
+        list: MutableList<Int>,
+        listChangeListener: (List<Int>) -> Unit
     ) {
-        LazyColumn(// TODO by lt 2021/11/8 11:49 这里更新不了,需要改一下,然后加上自定义的下拉刷新
+        LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             content = {
                 stickyHeader {
@@ -86,18 +80,16 @@ class MainListActivity : BaseComposeActivity() {
                 }
                 item {
                     //加载的布局
-                    Text(text = "加载中$string")
+                    Text(text = "加载中")
                     if (job == null) {
                         job = mainScope.launch {
                             try {
                                 delay(1000)
                                 Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
                                     .show()
-                                array.addAll(IntArray(20) {
+                                listChangeListener(IntArray(20) {
                                     random.nextInt()
                                 }.asList())
-                                listChangeListener(ArrayList(array))
-                                scl("$string*")
                             } finally {
                                 job = null
                             }
