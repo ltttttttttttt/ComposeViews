@@ -1,4 +1,4 @@
-package com.lt.test_compose.ui.theme
+package com.lt.test_compose.base
 
 import androidx.compose.ui.graphics.Color
 

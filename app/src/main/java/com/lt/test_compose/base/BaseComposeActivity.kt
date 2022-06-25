@@ -1,10 +1,9 @@
-package com.lt.test_compose
+package com.lt.test_compose.base
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
-import com.lt.test_compose.ui.theme.MyTheme
 import kotlinx.coroutines.MainScope
 
 /**

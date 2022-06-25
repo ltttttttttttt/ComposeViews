@@ -1,9 +1,9 @@
 package com.lt.test_compose
 
+import android.os.Build.VERSION_CODES.M
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,11 +18,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.viewpager2.widget.ViewPager2
+import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.ui.view.TitleView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import util.compose.M
 import util.compose.rememberMutableStateOf
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,7 +56,7 @@ class MainListActivity : BaseComposeActivity() {
                 text = "不动的text${bean.a}  b=${bean.b}",
                 M
                     .clickable { bean = bean.copy(bean.a + "0", bean.b + "1") }
-                    .verticalScroll(ScrollState(0))
+                    .verticalScroll(ViewPager2.ScrollState(0))
             )
             ShowRv(list) {
                 list.addAll(it)

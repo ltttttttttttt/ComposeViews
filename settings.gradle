@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 //rootProject.name = "test_compose"
 include ':app'
+include ':compose_views'
