@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.sp
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.test_compose.base.BaseComposeActivity
-import kotlinx.coroutines.delay
 import util.compose.M
 
 class ComposePagerActivity : BaseComposeActivity() {
@@ -30,24 +29,25 @@ class ComposePagerActivity : BaseComposeActivity() {
     @Composable
     override fun InitCompose() {
         val composePagerState = rememberComposePagerState()
-        LaunchedEffect(key1 = Unit, block = {
-            while (true) {
-                colors.withIndex().forEach {
-                    composePagerState.currSelectIndex.value = it.index
-                    delay(2000)
-                }
-            }
-        })
         ComposePager(
             M
                 .fillMaxWidth()
-                .height(200.dp), composePagerState = composePagerState) {
+                .height(200.dp), composePagerState = composePagerState
+        ) {
             Box(
                 modifier = M
                     .fillMaxSize()
-                    .background(colors[index])
-            )
-            Text(text = index.toString(), M.align(Alignment.Center), fontSize = 30.sp)
+                    .background(colors.getOrNull(index) ?: Color.Black)
+            ) {
+                Button(onClick = {
+                    composePagerState.currSelectIndex.value = if (index + 1 >= colors.size)
+                        0
+                    else
+                        index + 1
+                }, modifier = M.align(Alignment.Center)) {
+                    Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
+                }
+            }
         }
     }
 
