@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import com.lt.compose_views.midOf
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
@@ -26,15 +27,20 @@ fun ComposePager(
     var mOffset by remember {
         mutableStateOf(0f)
     }
-    val offset = remember { Animatable(0f) }
+    var width = remember { 0 }
+    var height = remember { 0 }
+    val offset = remember {
+        val anim = Animatable(0f)
+        composePagerState.anim = anim
+        anim
+    }
     LaunchedEffect(key1 = mOffset, block = {
         offset.snapTo(mOffset)
     })
     val draggableState = rememberDraggableState {
-        mOffset += it
+        val maxNumber = if (orientation == Orientation.Horizontal) width else height
+        mOffset = midOf(-maxNumber.toFloat(), mOffset + it, maxNumber.toFloat())
     }
-    var width = remember { 0 }
-    var height = remember { 0 }
     val currSelectIndex = composePagerState.currSelectIndex.value
     val composePagerScope0 = remember(currSelectIndex) {
         ComposePagerScope(currSelectIndex - 1)
@@ -121,10 +127,18 @@ fun rememberComposePagerState() = remember { ComposePagerState(mutableStateOf(0)
  */
 class ComposePagerState(
     val currSelectIndex: MutableState<Int>,
-    //isAnim
-    //offset
 ) {
+    /**
+     * 动画是否执行中
+     */
+    fun isAnimRunning(): Boolean = anim?.isRunning ?: false
 
+    /**
+     * 获取Offset偏移量的state对象
+     */
+    fun getOffsetState(): State<Float>? = anim?.asState()
+
+    internal var anim: Animatable<Float, *>? = null
 }
 
 /**
