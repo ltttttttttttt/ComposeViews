@@ -30,10 +30,12 @@ class ComposePagerActivity : BaseComposeActivity() {
     override fun ComposeContent() {
         val composePagerState = rememberComposePagerState()
         ComposePager(
+            colors.size,
             M
                 .fillMaxWidth()
                 .height(200.dp),
-            composePagerState = composePagerState//, orientation = Orientation.Vertical
+            composePagerState = composePagerState,
+            //orientation = androidx.compose.foundation.gestures.Orientation.Vertical,
         ) {
             Box(
                 modifier = M

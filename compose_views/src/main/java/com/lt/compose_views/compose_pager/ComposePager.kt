@@ -2,6 +2,7 @@ package com.lt.compose_views.compose_pager
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
@@ -11,6 +12,7 @@ import com.lt.compose_views.midOf
  * creator: lt  2022/6/25  lt.dygzs@qq.com
  * effect : 类似于xml中的ViewPager
  * warning:
+ * [pageCount]一共有多少页
  * [modifier]修饰
  * [composePagerState]ComposePager的状态
  * [orientation]滑动的方向,默认横向
@@ -18,12 +20,12 @@ import com.lt.compose_views.midOf
  */
 @Composable
 fun ComposePager(
+    pageCount: Int,
     modifier: Modifier = Modifier,
     composePagerState: ComposePagerState = rememberComposePagerState(),
     orientation: Orientation = Orientation.Horizontal,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
-    // TODO by lt 2022/6/25 16:56 待完善
     var mOffset by remember {
         mutableStateOf(0f)
     }
@@ -39,7 +41,11 @@ fun ComposePager(
     })
     val draggableState = rememberDraggableState {
         val maxNumber = if (orientation == Orientation.Horizontal) width else height
-        mOffset = midOf(-maxNumber.toFloat(), mOffset + it, maxNumber.toFloat())
+        val min = if (composePagerState.currSelectIndex.value + 1 >= pageCount)
+            0f else -maxNumber.toFloat()
+        val max = if (composePagerState.currSelectIndex.value <= 0)
+            0f else maxNumber.toFloat()
+        mOffset = midOf(min, mOffset + it, max)
     }
     val currSelectIndex = composePagerState.currSelectIndex.value
     val composePagerScope0 = remember(currSelectIndex) {
@@ -54,9 +60,15 @@ fun ComposePager(
     //最后的lambda是测量和放置规则
     Layout(
         content = {
-            composePagerScope0.content()
+            if (composePagerScope0.index < 0)
+                Box(modifier = Modifier)
+            else
+                composePagerScope0.content()
             composePagerScope1.content()
-            composePagerScope2.content()
+            if (composePagerScope2.index >= pageCount)
+                Box(modifier = Modifier)
+            else
+                composePagerScope2.content()
         },
         modifier = modifier
             .draggable(draggableState, orientation, onDragStopped = {
