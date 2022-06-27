@@ -15,13 +15,13 @@ abstract class BaseComposeActivity : AppCompatActivity() {
     val mainScope = MainScope()
 
     @Composable
-    abstract fun InitCompose()
+    abstract fun ComposeContent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                InitCompose()
+                ComposeContent()
             }
         }
     }

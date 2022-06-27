@@ -15,7 +15,7 @@ class MainActivity : BaseComposeActivity() {
     )
 
     @Composable
-    override fun InitCompose() {
+    override fun ComposeContent() {
         startActivity(Intent(this@MainActivity, buttons[1].second))
         LazyColumn {
             items(buttons) {

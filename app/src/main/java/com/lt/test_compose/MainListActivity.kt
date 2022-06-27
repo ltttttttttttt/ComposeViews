@@ -40,7 +40,7 @@ class MainListActivity : BaseComposeActivity() {
     data class Value(val a: String, val b: String)
 
     @Composable
-    override fun InitCompose() {
+    override fun ComposeContent() {
         val list = remember {
             val list = mutableStateListOf<Int>()
             list.addAll(array)
@@ -115,7 +115,7 @@ class MainListActivity : BaseComposeActivity() {
     @Composable
     fun PreView() {
         Surface {
-            InitCompose()
+            ComposeContent()
         }
     }
 }
