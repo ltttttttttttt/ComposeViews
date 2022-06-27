@@ -3,14 +3,13 @@ package com.lt.test_compose
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
@@ -31,11 +30,9 @@ class ComposePagerActivity : BaseComposeActivity() {
         val composePagerState = rememberComposePagerState()
         ComposePager(
             colors.size,
-            M
-                .fillMaxWidth()
-                .height(200.dp),
+            M.fillMaxSize(),
             composePagerState = composePagerState,
-            //orientation = androidx.compose.foundation.gestures.Orientation.Vertical,
+            orientation = androidx.compose.foundation.gestures.Orientation.Vertical,
         ) {
             Box(
                 modifier = M
@@ -52,6 +49,7 @@ class ComposePagerActivity : BaseComposeActivity() {
                 }
             }
         }
+        FpsMonitor(modifier = Modifier)
     }
 
 }
