@@ -17,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
  * [pageCount]一共有多少页
  * [modifier]修饰
  * [composePagerState]ComposePager的状态
- * [orientation]滑动的方向,默认横向
+ * [orientation]滑动的方向
  * [content]compose内容区域
  */
 @Composable
@@ -148,9 +148,10 @@ fun rememberComposePagerState() = remember { ComposePagerState(mutableStateOf(0)
  */
 class ComposePagerState(
     val currSelectIndex: MutableState<Int>,
-    internal val onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null,
-    internal val onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null,
+    var onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null,
+    var onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null,
 ) {
+    // TODO by lt 2022/6/27 18:19 增加使用动画切换页数的功能,和普通切换页数的功能
     /**
      * 动画是否执行中
      */
