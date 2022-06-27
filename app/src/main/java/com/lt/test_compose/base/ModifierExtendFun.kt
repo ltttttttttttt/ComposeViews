@@ -1,4 +1,4 @@
-package util.compose
+package com.lt.test_compose.base
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width

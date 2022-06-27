@@ -15,17 +15,15 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.viewpager2.widget.ViewPager2
 import com.lt.test_compose.base.BaseComposeActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import util.compose.M
-import util.compose.rememberMutableStateOf
+import com.lt.test_compose.base.M
+import com.lt.test_compose.base.rememberMutableStateOf
 import java.util.*
 import kotlin.collections.ArrayList
 

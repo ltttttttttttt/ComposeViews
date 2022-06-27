@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.test_compose.base.BaseComposeActivity
-import util.compose.M
+import com.lt.test_compose.base.M
 
 class ComposePagerActivity : BaseComposeActivity() {
     val colors = listOf(
