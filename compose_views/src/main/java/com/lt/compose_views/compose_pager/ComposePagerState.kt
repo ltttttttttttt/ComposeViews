@@ -16,18 +16,33 @@ class ComposePagerState(
     var onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null,
     var onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null,
 ) {
-    // TODO by lt 2022/6/27 18:19 增加使用动画切换页数的功能,和普通切换页数的功能
+    //拖动的动画实现
+    internal val offsetAnim = Animatable(0f)
+
     /**
      * 动画是否执行中
      */
-    fun isAnimRunning(): Boolean = anim?.isRunning ?: false
+    fun isAnimRunning(): Boolean = offsetAnim.isRunning
 
     /**
      * 获取Offset偏移量的state对象
      */
-    fun getOffsetState(): State<Float>? = anim?.asState()
+    fun getOffsetState(): State<Float> = offsetAnim.asState()
 
-    internal var anim: Animatable<Float, *>? = null
+    /**
+     * 切换选中的页数,无动画
+     */
+    fun setPageIndex(index: Int) {
+        currSelectIndex.value = index
+    }
+
+    /**
+     * 切换选中的页数,有动画
+     */
+    fun setPageIndexWithAnim(index: Int) {
+        // TODO by lt 2022/6/27 18:19 增加使用动画切换页数的功能
+
+    }
 }
 
 /**
