@@ -10,6 +10,43 @@ views:
 4.ImageBanner</br>
 5.RefreshLayout
 
+<h3>Add to your project</h3>
+
+Step 1.Root dir, build.gradle.kts add:
+
+```kotlin
+buildscript {
+    repositories {
+        maven("https://jitpack.io")//this
+        ...
+    }
+}
+
+allprojects {
+    repositories {
+        maven("https://jitpack.io")//this
+        ...
+    }
+}
+```
+
+Step 2.Your compose-desktop dir, build.gradle.kts add:
+
+version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
+
+```kotlin
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                ...
+                implementation("com.github.ltttttttttttt:ComposeViews:$version")//this
+            }
+        }
+    }
+}
+```
+
 # ComposePager
 
 ```kotlin
