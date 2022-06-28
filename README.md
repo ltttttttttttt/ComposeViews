@@ -30,20 +30,14 @@ allprojects {
 }
 ```
 
-Step 2.Your compose-desktop dir, build.gradle.kts add:
+Step 2.Your app dir, build.gradle.kts add:
 
 version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
 
 ```kotlin
-kotlin {
-    sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                ...
-                implementation("com.github.ltttttttttttt:ComposeViews:$version")//this
-            }
-        }
-    }
+dependencies {
+    ...
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this
 }
 ```
 
