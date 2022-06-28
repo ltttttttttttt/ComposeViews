@@ -80,6 +80,7 @@ fun ComposePager(
                         try {
                             composePagerState.offsetAnim.animateTo(width.toFloat())
                         } finally {
+                            // TODO by lt 2022/6/28 15:56 看看能不能将两个重组动作合为一个
                             composePagerState.currSelectIndex.value--
                             mOffset = 0f
                         }

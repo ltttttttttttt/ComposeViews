@@ -1,5 +1,6 @@
 package com.lt.test_compose
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,12 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
-import com.lt.compose_views.compose_pager.ComposePager
-import com.lt.compose_views.compose_pager.rememberComposePagerState
+import com.lt.compose_views.banner.Banner
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
 
-class ComposePagerActivity : BaseComposeActivity() {
+class BannerActivity : BaseComposeActivity() {
     val colors = listOf(
         Color(150, 105, 61, 255),
         Color(122, 138, 55, 255),
@@ -26,11 +26,10 @@ class ComposePagerActivity : BaseComposeActivity() {
 
     @Composable
     override fun ComposeContent() {
-        val composePagerState = rememberComposePagerState()
-        ComposePager(
+        Banner(
             colors.size,
             M.fillMaxSize(),
-            composePagerState = composePagerState,
+            autoScrollTime = 1000,
             orientation = androidx.compose.foundation.gestures.Orientation.Vertical,
         ) {
             Box(
@@ -39,14 +38,9 @@ class ComposePagerActivity : BaseComposeActivity() {
                     .background(colors.getOrNull(index) ?: Color.Black)
             ) {
                 Button(onClick = {
-                    composePagerState.setPageIndex(
-                        if (index + 1 >= colors.size)
-                            0
-                        else
-                            index + 1
-                    )
+                    Toast.makeText(this@BannerActivity, "index=$index", Toast.LENGTH_SHORT).show()
                 }, modifier = M.align(Alignment.Center)) {
-                    Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
+                    Text(text = this@Banner.index.toString(), fontSize = 30.sp)
                 }
             }
         }
