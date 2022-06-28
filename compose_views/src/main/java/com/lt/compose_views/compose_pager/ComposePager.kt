@@ -41,8 +41,14 @@ fun ComposePager(
     var mOffset by remember {
         mutableStateOf(0f)
     }
+    //记录翻页标志位
+    var pageChangeAnimFlag by remember {
+        mutableStateOf<PageChangeAnimFlag?>(null)
+    }
     //滑动监听
     val draggableState = rememberDraggableState {
+        //停止之前的动画
+        pageChangeAnimFlag = null
         val maxNumber = if (orientation == Orientation.Horizontal) width else height
         val min = if (composePagerState.currSelectIndex.value + 1 >= pageCount)
             0f else -maxNumber.toFloat()
@@ -61,10 +67,6 @@ fun ComposePager(
     val composePagerScope2 = remember(currSelectIndex) {
         ComposePagerScope(currSelectIndex + 1)
     }
-    //记录翻页标志位
-    var pageChangeAnimFlag by remember {
-        mutableStateOf<PageChangeAnimFlag?>(null)
-    }
 
     //处理offset
     LaunchedEffect(key1 = mOffset, block = {
@@ -72,11 +74,18 @@ fun ComposePager(
     })
     //处理翻页动画
     LaunchedEffect(key1 = pageChangeAnimFlag, block = {
-        val flag = pageChangeAnimFlag ?: return@LaunchedEffect
+        val flag = pageChangeAnimFlag
+        if (flag == null) {
+            if (offset.isRunning)
+                offset.stop()
+            return@LaunchedEffect
+        }
         try {
             if (orientation == Orientation.Horizontal) {
                 when (flag) {
                     is PageChangeAnimFlag.Prev -> {
+                        if (composePagerState.currSelectIndex.value <= 0)
+                            return@LaunchedEffect
                         try {
                             offset.animateTo(width.toFloat())
                         } finally {
@@ -85,6 +94,8 @@ fun ComposePager(
                         }
                     }
                     is PageChangeAnimFlag.Next -> {
+                        if (composePagerState.currSelectIndex.value + 1 >= pageCount)
+                            return@LaunchedEffect
                         try {
                             offset.animateTo(-width.toFloat())
                         } finally {
@@ -99,6 +110,8 @@ fun ComposePager(
             } else {
                 when (flag) {
                     is PageChangeAnimFlag.Prev -> {
+                        if (composePagerState.currSelectIndex.value <= 0)
+                            return@LaunchedEffect
                         try {
                             offset.animateTo(height.toFloat())
                         } finally {
@@ -107,6 +120,8 @@ fun ComposePager(
                         }
                     }
                     is PageChangeAnimFlag.Next -> {
+                        if (composePagerState.currSelectIndex.value + 1 >= pageCount)
+                            return@LaunchedEffect
                         try {
                             offset.animateTo(-height.toFloat())
                         } finally {

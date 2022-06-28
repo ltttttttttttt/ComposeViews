@@ -1,6 +1,6 @@
 # ComposeViews
 
-jatpack compose views, in to Android,Web,Desktop,Ios...
+jatpack(jb) compose views, in to Android,Web,Desktop,Ios...
 
 views:
 </br>
