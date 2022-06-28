@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,6 +16,7 @@ import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
+import kotlinx.coroutines.delay
 
 class ComposePagerActivity : BaseComposeActivity() {
     val colors = listOf(
@@ -28,6 +30,12 @@ class ComposePagerActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         val composePagerState = rememberComposePagerState()
+        LaunchedEffect(key1 = Unit, block = {
+            for (i in 1..3){
+                delay(5000)
+                composePagerState.setPageIndexWithAnim(i)
+            }
+        })
         ComposePager(
             colors.size,
             M.fillMaxSize(),
