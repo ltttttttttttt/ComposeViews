@@ -39,6 +39,16 @@ android {
     }
 }
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.ltttttttttttt'
+            artifactId = 'release'
+            version = '1.0.0'
+        }
+    }
+}
+
 dependencies {
     def composeVersion = "1.1.1"
 
