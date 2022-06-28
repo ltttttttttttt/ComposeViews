@@ -1,14 +1,14 @@
 package com.lt.compose_views.compose_pager
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.Layout
 import com.lt.compose_views.midOf
-import kotlinx.coroutines.CoroutineScope
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
@@ -205,45 +205,6 @@ fun ComposePager(
         }
     }
 }
-
-/**
- * 创建一个[remember]的[ComposePagerState]
- */
-@Composable
-fun rememberComposePagerState() = remember { ComposePagerState(mutableStateOf(0)) }
-
-/**
- * ComposePager的compose作用域
- * [currSelectIndex]当前ComposePager所在的索引
- * [onUserDragStarted]监听用户开始滑动
- * [onUserDragStopped]监听用户结束滑动
- */
-class ComposePagerState(
-    val currSelectIndex: MutableState<Int>,
-    var onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null,
-    var onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null,
-) {
-    // TODO by lt 2022/6/27 18:19 增加使用动画切换页数的功能,和普通切换页数的功能
-    /**
-     * 动画是否执行中
-     */
-    fun isAnimRunning(): Boolean = anim?.isRunning ?: false
-
-    /**
-     * 获取Offset偏移量的state对象
-     */
-    fun getOffsetState(): State<Float>? = anim?.asState()
-
-    internal var anim: Animatable<Float, *>? = null
-}
-
-/**
- * ComposePager的compose作用域
- * [index]当前的ComposePager布局[content]所在的索引
- */
-class ComposePagerScope(
-    val index: Int,
-)
 
 //内部使用的翻页标志位
 private sealed class PageChangeAnimFlag {

@@ -35,7 +35,7 @@ fun Banner(
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     // TODO by lt 2022/6/27 18:17 待完善
-    remember {
+    val a=remember {
         //init
         composePagerState.onUserDragStarted = {
 
@@ -43,6 +43,7 @@ fun Banner(
         composePagerState.onUserDragStopped = {
 
         }
+        0
     }
     if (autoScroll)
         LaunchedEffect(key1 = autoScrollTime, block = {
