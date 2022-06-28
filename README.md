@@ -3,7 +3,12 @@
 jatpack compose views, in to Android,Web,Desktop,Ios...
 
 views:
-1.ComposePager 2.Banner 3.BannerIndicator 4.ImageBanner 5.RefreshLayout
+</br>
+1.ComposePager</br>
+2.Banner</br>
+3.BannerIndicator</br>
+4.ImageBanner</br>
+5.RefreshLayout
 
 # ComposePager
 
