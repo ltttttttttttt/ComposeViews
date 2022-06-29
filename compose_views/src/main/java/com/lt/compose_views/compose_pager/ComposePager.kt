@@ -27,9 +27,8 @@ fun ComposePager(
     orientation: Orientation = Orientation.Horizontal,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
-    //记录ComposePager的宽高
-    var width = remember { 0 }
-    var height = remember { 0 }
+    //记录ComposePager的宽高中的对应方向的值
+    var orientationLength = remember { 0 }
     //用于配合滑动和动画
     var mOffset by remember {
         mutableStateOf<Float?>(null)
@@ -38,11 +37,10 @@ fun ComposePager(
     val draggableState = rememberDraggableState {
         //停止之前的动画
         composePagerState.pageChangeAnimFlag = null
-        val maxNumber = if (orientation == Orientation.Horizontal) width else height
         val min = if (composePagerState.currSelectIndex.value + 1 >= pageCount)
-            0f else -maxNumber.toFloat()
+            0f else -orientationLength.toFloat()
         val max = if (composePagerState.currSelectIndex.value <= 0)
-            0f else maxNumber.toFloat()
+            0f else orientationLength.toFloat()
         mOffset = midOf(min, (mOffset ?: 0f) + it, max)
     }
     val currSelectIndex = composePagerState.currSelectIndex.value
@@ -60,7 +58,9 @@ fun ComposePager(
     //处理offset
     LaunchedEffect(key1 = mOffset, block = {
         val offset = mOffset ?: return@LaunchedEffect
-        composePagerState.offsetAnim.snapTo(offset)
+        composePagerState.offsetAnim.snapTo(
+            offset - composePagerState.currSelectIndex.value * orientationLength
+        )
     })
     //处理翻页动画
     LaunchedEffect(key1 = composePagerState.pageChangeAnimFlag, block = {
@@ -71,62 +71,32 @@ fun ComposePager(
             return@LaunchedEffect
         }
         try {
-            if (orientation == Orientation.Horizontal) {
-                when (flag) {
-                    is PageChangeAnimFlag.Prev -> {
-                        if (composePagerState.currSelectIndex.value <= 0)
-                            return@LaunchedEffect
-                        mOffset = null
-                        try {
-                            composePagerState.offsetAnim.animateTo(width.toFloat())
-                        } finally {
-                            // TODO by lt 2022/6/28 15:56 看看能不能将两个重组动作合为一个
-                            composePagerState.currSelectIndex.value--
-                            mOffset = 0f
-                        }
-                    }
-                    is PageChangeAnimFlag.Next -> {
-                        if (composePagerState.currSelectIndex.value + 1 >= pageCount)
-                            return@LaunchedEffect
-                        mOffset = null
-                        try {
-                            composePagerState.offsetAnim.animateTo(-width.toFloat())
-                        } finally {
-                            composePagerState.currSelectIndex.value++
-                            mOffset = 0f
-                        }
-                    }
-                    is PageChangeAnimFlag.Reduction -> {
-                        composePagerState.offsetAnim.animateTo(0f)
+            val index = composePagerState.currSelectIndex.value
+            when (flag) {
+                is PageChangeAnimFlag.Prev -> {
+                    if (index <= 0)
+                        return@LaunchedEffect
+                    mOffset = null
+                    try {
+                        composePagerState.offsetAnim.animateTo(-(index - 1) * orientationLength.toFloat())
+                    } finally {
+                        composePagerState.currSelectIndex.value = index - 1
+                        mOffset = 0f
                     }
                 }
-            } else {
-                when (flag) {
-                    is PageChangeAnimFlag.Prev -> {
-                        if (composePagerState.currSelectIndex.value <= 0)
-                            return@LaunchedEffect
-                        mOffset = null
-                        try {
-                            composePagerState.offsetAnim.animateTo(height.toFloat())
-                        } finally {
-                            composePagerState.currSelectIndex.value--
-                            mOffset = 0f
-                        }
+                is PageChangeAnimFlag.Next -> {
+                    if (index + 1 >= pageCount)
+                        return@LaunchedEffect
+                    mOffset = null
+                    try {
+                        composePagerState.offsetAnim.animateTo(-(index + 1) * orientationLength.toFloat())
+                    } finally {
+                        composePagerState.currSelectIndex.value = index + 1
+                        mOffset = 0f
                     }
-                    is PageChangeAnimFlag.Next -> {
-                        if (composePagerState.currSelectIndex.value + 1 >= pageCount)
-                            return@LaunchedEffect
-                        mOffset = null
-                        try {
-                            composePagerState.offsetAnim.animateTo(-height.toFloat())
-                        } finally {
-                            composePagerState.currSelectIndex.value++
-                            mOffset = 0f
-                        }
-                    }
-                    is PageChangeAnimFlag.Reduction -> {
-                        composePagerState.offsetAnim.animateTo(0f)
-                    }
+                }
+                is PageChangeAnimFlag.Reduction -> {
+                    composePagerState.offsetAnim.animateTo(-index * orientationLength.toFloat())
                 }
             }
         } finally {
@@ -152,28 +122,19 @@ fun ComposePager(
                 mOffset = 0f
                 composePagerState.onUserDragStarted?.invoke(this, it)
             }, onDragStopped = {
-                if (orientation == Orientation.Horizontal) {
-                    if (composePagerState.offsetAnim.value + it > width / 2) {
-                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev()
-                    } else if (composePagerState.offsetAnim.value + it < -width / 2) {
-                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next()
-                    } else {
-                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
-                    }
+                val index = composePagerState.currSelectIndex.value
+                if (composePagerState.offsetAnim.value + it > -((index) * orientationLength - orientationLength / 2)) {
+                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev()
+                } else if (composePagerState.offsetAnim.value + it < -((index + 1) * orientationLength - orientationLength / 2)) {
+                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next()
                 } else {
-                    if (composePagerState.offsetAnim.value + it > height / 2) {
-                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev()
-                    } else if (composePagerState.offsetAnim.value + it < -height / 2) {
-                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next()
-                    } else {
-                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
-                    }
+                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
                 }
                 composePagerState.onUserDragStopped?.invoke(this, it)
             })
     ) { measurables/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
-        width = 0
-        height = 0
+        var width = 0
+        var height = 0
         //测量子元素,并算出他们的最大宽度
         val placeables = measurables.map {
             val placeable = it.measure(constraints)
@@ -181,20 +142,22 @@ fun ComposePager(
             height = maxOf(height, placeable.height)
             placeable
         }
+        orientationLength = if (orientation == Orientation.Horizontal) width else height
         //设置自身大小,并布局子元素
         layout(width, height) {
             val animValue = composePagerState.offsetAnim.value.toInt()
+            val selectIndex = composePagerState.currSelectIndex.value
             placeables.forEachIndexed { index, placeable ->
                 //遍历放置子元素
                 if (orientation == Orientation.Horizontal)
                     placeable.placeRelative(
-                        x = (if (index == 1) 0 else if (index == 0) -width else width) + animValue,
+                        x = (index + selectIndex - 1) * width + animValue,
                         y = 0
                     )//placeRelative可以适配从右到左布局的放置子元素,place只适用于从左到右的布局
                 else
                     placeable.placeRelative(
                         x = 0,
-                        y = (if (index == 1) 0 else if (index == 0) -height else height) + animValue
+                        y = (index + selectIndex - 1) * height + animValue
                     )
             }
         }
