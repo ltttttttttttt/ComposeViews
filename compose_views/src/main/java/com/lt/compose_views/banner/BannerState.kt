@@ -3,8 +3,10 @@ package com.lt.compose_views.banner
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import com.lt.compose_views.compose_pager.ComposePagerState
 import com.lt.compose_views.compose_pager.PageChangeAnimFlag
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Banner的compose作用域
@@ -29,8 +31,9 @@ class BannerState {
     /**
      * 获取ComposePager所在的索引的state对象
      */
-    // TODO by lt 2022/6/29 17:52 emmm
-    //fun getCurrSelectIndexState(): State<Int> = composePagerState.getCurrSelectIndexState().map{it%pageCount}
+    fun getCurrSelectIndexState(): Flow<Int> = snapshotFlow {
+        composePagerState.getCurrSelectIndexState().value % pageCount
+    }
 
     /**
      * 动画是否执行中
