@@ -1,15 +1,15 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">Jetpack(jb) Compose Views, in to Android,Web,Desktop,Ios...</p>
+<p align="center">适用于Android,Web,Desktop,Ios的Jetpack Compose View</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
 <img src="https://jitpack.io/v/ltttttttttttt/ComposeViews.svg"/>
 </p>
 
-<div align="center">us English | <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README_CN.md">cn 简体中文</a></div>
+<div align="center"><a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README.md">us English</a> | cn 简体中文</div>
 
-## Views:
+## 目前提供的View
 
 1. ComposePager
 2. Banner
@@ -17,9 +17,9 @@
 4. ImageBanner
 5. RefreshLayout
 
-## Add to your project
+## 快速入门
 
-Step 1.Root dir, build.gradle.kts add:
+Step 1.在项目的根目录的build.gradle.kts内添加:
 
 ```kotlin
 buildscript {
@@ -37,7 +37,7 @@ allprojects {
 }
 ```
 
-Step 2.Your app dir, build.gradle.kts add:
+Step 2.在app模块目录内的build.gradle.kts内添加:
 
 version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
 
