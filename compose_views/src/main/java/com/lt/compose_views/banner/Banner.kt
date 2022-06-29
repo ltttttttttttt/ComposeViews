@@ -30,6 +30,7 @@ import kotlinx.coroutines.delay
  * [modifier]修饰
  * [bannerState]Banner的状态
  * [orientation]滑动的方向
+ * [userEnable]用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
  * [autoScroll]是否自动滚动
  * [autoScrollTime]自动滚动间隔时间
  * [content]compose内容区域
@@ -40,6 +41,7 @@ fun Banner(
     modifier: Modifier = Modifier,
     bannerState: BannerState = rememberBannerState(),
     orientation: Orientation = Orientation.Horizontal,
+    userEnable: Boolean = true,
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
     content: @Composable BannerScope.() -> Unit
@@ -81,6 +83,7 @@ fun Banner(
         modifier = modifier,
         composePagerState = bannerState.composePagerState,
         orientation = orientation,
+        userEnable = userEnable,
     ) {
         content(BannerScope(index % pageCount))
     }
