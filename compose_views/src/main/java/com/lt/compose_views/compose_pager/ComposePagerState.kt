@@ -7,20 +7,37 @@ import kotlinx.coroutines.CoroutineScope
 
 /**
  * ComposePager的compose作用域
- * [currSelectIndex]当前ComposePager所在的索引
- * [onUserDragStarted]监听用户开始滑动
- * [onUserDragStopped]监听用户结束滑动
  */
-class ComposePagerState(
-    val currSelectIndex: MutableState<Int>,
-    var onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null,
-    var onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null,
-) {
+class ComposePagerState {
+
+    //当前ComposePager所在的索引
+    internal val currSelectIndex: MutableState<Int> = mutableStateOf(0)
+
     //拖动的动画实现
     internal val offsetAnim = Animatable(0f)
 
     //翻页标志位
     internal var pageChangeAnimFlag by mutableStateOf<PageChangeAnimFlag?>(null)
+
+    /**
+     * 监听用户开始滑动
+     */
+    var onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null
+
+    /**
+     * 监听用户结束滑动
+     */
+    var onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null
+
+    /**
+     * 获取ComposePager当前所在的索引
+     */
+    fun getCurrSelectIndex(): Int = currSelectIndex.value
+
+    /**
+     * 获取ComposePager所在的索引的state对象
+     */
+    fun getCurrSelectIndexState(): State<Int> = currSelectIndex
 
     /**
      * 动画是否执行中
@@ -36,7 +53,7 @@ class ComposePagerState(
      * 切换选中的页数,无动画
      */
     fun setPageIndex(index: Int) {
-        currSelectIndex.value = index
+        pageChangeAnimFlag = PageChangeAnimFlag.GoToPageNotAnim(index)
     }
 
     /**
@@ -45,9 +62,9 @@ class ComposePagerState(
     fun setPageIndexWithAnim(index: Int) {
         val currIndex = currSelectIndex.value
         if (index == currIndex - 1) {
-            pageChangeAnimFlag = PageChangeAnimFlag.Prev()
+            pageChangeAnimFlag = PageChangeAnimFlag.Prev
         } else if (index == currIndex + 1) {
-            pageChangeAnimFlag = PageChangeAnimFlag.Next()
+            pageChangeAnimFlag = PageChangeAnimFlag.Next
         } else {
             setPageIndex(index)
         }
@@ -58,4 +75,4 @@ class ComposePagerState(
  * 创建一个[remember]的[ComposePagerState]
  */
 @Composable
-fun rememberComposePagerState() = remember { ComposePagerState(mutableStateOf(0)) }
+fun rememberComposePagerState() = remember { ComposePagerState() }

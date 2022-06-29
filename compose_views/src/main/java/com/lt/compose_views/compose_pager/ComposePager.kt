@@ -73,7 +73,7 @@ fun ComposePager(
         try {
             val index = composePagerState.currSelectIndex.value
             when (flag) {
-                is PageChangeAnimFlag.Prev -> {
+                PageChangeAnimFlag.Prev -> {
                     if (index <= 0)
                         return@LaunchedEffect
                     mOffset = null
@@ -84,7 +84,7 @@ fun ComposePager(
                         mOffset = 0f
                     }
                 }
-                is PageChangeAnimFlag.Next -> {
+                PageChangeAnimFlag.Next -> {
                     if (index + 1 >= pageCount)
                         return@LaunchedEffect
                     mOffset = null
@@ -95,8 +95,12 @@ fun ComposePager(
                         mOffset = 0f
                     }
                 }
-                is PageChangeAnimFlag.Reduction -> {
+                PageChangeAnimFlag.Reduction -> {
                     composePagerState.offsetAnim.animateTo(-index * orientationLength.toFloat())
+                }
+                is PageChangeAnimFlag.GoToPageNotAnim -> {
+                    composePagerState.currSelectIndex.value = flag.index
+                    composePagerState.offsetAnim.snapTo(-flag.index * orientationLength.toFloat())
                 }
             }
         } finally {
@@ -124,11 +128,11 @@ fun ComposePager(
             }, onDragStopped = {
                 val index = composePagerState.currSelectIndex.value
                 if (composePagerState.offsetAnim.value + it > -((index) * orientationLength - orientationLength / 2)) {
-                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev()
+                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
                 } else if (composePagerState.offsetAnim.value + it < -((index + 1) * orientationLength - orientationLength / 2)) {
-                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next()
+                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
                 } else {
-                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
+                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
                 }
                 composePagerState.onUserDragStopped?.invoke(this, it)
             })

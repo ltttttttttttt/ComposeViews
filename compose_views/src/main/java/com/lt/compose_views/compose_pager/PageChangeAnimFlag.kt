@@ -3,11 +3,14 @@ package com.lt.compose_views.compose_pager
 //内部使用的翻页标志位
 internal sealed class PageChangeAnimFlag {
     //下一页
-    class Next : PageChangeAnimFlag()
+    object Next : PageChangeAnimFlag()
 
     //上一页
-    class Prev : PageChangeAnimFlag()
+    object Prev : PageChangeAnimFlag()
 
     //还原offset
-    class Reduction : PageChangeAnimFlag()
+    object Reduction : PageChangeAnimFlag()
+
+    //跳转到某一页,无动画
+    class GoToPageNotAnim(val index: Int) : PageChangeAnimFlag()
 }

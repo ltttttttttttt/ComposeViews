@@ -4,9 +4,6 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.lt.compose_views.compose_pager.ComposePager
-import com.lt.compose_views.compose_pager.ComposePagerScope
-import com.lt.compose_views.compose_pager.ComposePagerState
-import com.lt.compose_views.compose_pager.rememberComposePagerState
 import kotlinx.coroutines.delay
 
 /**
@@ -15,7 +12,7 @@ import kotlinx.coroutines.delay
  * warning:
  * [pageCount]一共有多少页
  * [modifier]修饰
- * [composePagerState]ComposePager的状态
+ * [bannerState]Banner的状态
  * [orientation]滑动的方向
  * [autoScroll]是否自动滚动
  * [autoScrollTime]自动滚动间隔时间
@@ -25,42 +22,50 @@ import kotlinx.coroutines.delay
 fun Banner(
     pageCount: Int,
     modifier: Modifier = Modifier,
-    composePagerState: ComposePagerState = rememberComposePagerState(),
+    bannerState: BannerState = rememberBannerState(),
     orientation: Orientation = Orientation.Horizontal,
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
-    content: @Composable ComposePagerScope.() -> Unit
+    content: @Composable BannerScope.() -> Unit
 ) {
     //是否正在滚动倒计时中
     val scrolling by remember(autoScroll) {
         val scrolling = mutableStateOf(autoScroll)
-        composePagerState.onUserDragStarted = {
+        bannerState.composePagerState.onUserDragStarted = {
             scrolling.value = false
         }
-        composePagerState.onUserDragStopped = {
+        bannerState.composePagerState.onUserDragStopped = {
             scrolling.value = autoScroll
         }
         scrolling
     }
-    //初始页数为100n,总页数为一百万n
-    remember {
-        composePagerState.setPageIndex(pageCount * 100)
+    //计算总共多少页
+    val maxPageCount = remember(pageCount) {
+        bannerState.pageCount = pageCount
+        bannerState.composePagerState.setPageIndex(pageCount * bannerState.startMultiple)
+        minOf(pageCount * bannerState.sumMultiple, Int.MAX_VALUE)
     }
 
+    //自动滚动
     if (scrolling)
         LaunchedEffect(key1 = autoScrollTime, block = {
             while (true) {
                 delay(autoScrollTime)
-                composePagerState.setPageIndexWithAnim(composePagerState.currSelectIndex.value + 1)
+                val index = bannerState.composePagerState.currSelectIndex.value
+                if (index + 1 >= maxPageCount)
+                    bannerState.composePagerState.setPageIndex(pageCount * bannerState.startMultiple)
+                else
+                    bannerState.composePagerState.setPageIndexWithAnim(index + 1)
             }
         })
 
+    //使用ComposePager放置元素
     ComposePager(
-        pageCount = minOf(pageCount * 1000000, Int.MAX_VALUE),
+        pageCount = maxPageCount,
         modifier = modifier,
-        composePagerState = composePagerState,
+        composePagerState = bannerState.composePagerState,
         orientation = orientation,
     ) {
-        content(ComposePagerScope(index % pageCount))
+        content(BannerScope(index % pageCount))
     }
 }
