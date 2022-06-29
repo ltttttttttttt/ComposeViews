@@ -24,12 +24,12 @@ class BannerState {
     internal var pageCount: Int = 1
 
     /**
-     * 获取ComposePager当前所在的索引
+     * 获取Banner当前所在的索引
      */
     fun getCurrSelectIndex(): Int = composePagerState.getCurrSelectIndex() % pageCount
 
     /**
-     * 获取ComposePager所在的索引的state对象
+     * 获取Banner所在的索引的state对象
      */
     fun getCurrSelectIndexState(): Flow<Int> = snapshotFlow {
         composePagerState.getCurrSelectIndexState().value % pageCount
