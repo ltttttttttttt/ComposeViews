@@ -19,6 +19,9 @@ class ComposePagerState(
     //拖动的动画实现
     internal val offsetAnim = Animatable(0f)
 
+    //翻页标志位
+    internal var pageChangeAnimFlag by mutableStateOf<PageChangeAnimFlag?>(null)
+
     /**
      * 动画是否执行中
      */
@@ -40,8 +43,14 @@ class ComposePagerState(
      * 切换选中的页数,有动画
      */
     fun setPageIndexWithAnim(index: Int) {
-        // TODO by lt 2022/6/27 18:19 增加使用动画切换页数的功能
-
+        val currIndex = currSelectIndex.value
+        if (index == currIndex - 1) {
+            pageChangeAnimFlag = PageChangeAnimFlag.Prev()
+        } else if (index == currIndex + 1) {
+            pageChangeAnimFlag = PageChangeAnimFlag.Next()
+        } else {
+            setPageIndex(index)
+        }
     }
 }
 

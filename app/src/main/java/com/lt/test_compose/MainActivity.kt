@@ -12,11 +12,12 @@ class MainActivity : BaseComposeActivity() {
     private val buttons = listOf(
         "rv的基础功能" to MainListActivity::class.java,
         "ViewPager功能" to ComposePagerActivity::class.java,
+        "Banner功能" to BannerActivity::class.java,
     )
 
     @Composable
     override fun ComposeContent() {
-        startActivity(Intent(this@MainActivity, buttons[1].second))
+        startActivity(Intent(this@MainActivity, buttons[2].second))
         LazyColumn {
             items(buttons) {
                 Button(onClick = { startActivity(Intent(this@MainActivity, it.second)) }) {

@@ -32,22 +32,18 @@ fun ComposePager(
     var height = remember { 0 }
     //用于配合滑动和动画
     var mOffset by remember {
-        mutableStateOf(0f)
-    }
-    //记录翻页标志位
-    var pageChangeAnimFlag by remember {
-        mutableStateOf<PageChangeAnimFlag?>(null)
+        mutableStateOf<Float?>(null)
     }
     //滑动监听
     val draggableState = rememberDraggableState {
         //停止之前的动画
-        pageChangeAnimFlag = null
+        composePagerState.pageChangeAnimFlag = null
         val maxNumber = if (orientation == Orientation.Horizontal) width else height
         val min = if (composePagerState.currSelectIndex.value + 1 >= pageCount)
             0f else -maxNumber.toFloat()
         val max = if (composePagerState.currSelectIndex.value <= 0)
             0f else maxNumber.toFloat()
-        mOffset = midOf(min, mOffset + it, max)
+        mOffset = midOf(min, (mOffset ?: 0f) + it, max)
     }
     val currSelectIndex = composePagerState.currSelectIndex.value
     //放置的三个compose元素的scope,分别是0,1,2
@@ -63,11 +59,12 @@ fun ComposePager(
 
     //处理offset
     LaunchedEffect(key1 = mOffset, block = {
-        composePagerState.offsetAnim.snapTo(mOffset)
+        val offset = mOffset ?: return@LaunchedEffect
+        composePagerState.offsetAnim.snapTo(offset)
     })
     //处理翻页动画
-    LaunchedEffect(key1 = pageChangeAnimFlag, block = {
-        val flag = pageChangeAnimFlag
+    LaunchedEffect(key1 = composePagerState.pageChangeAnimFlag, block = {
+        val flag = composePagerState.pageChangeAnimFlag
         if (flag == null) {
             if (composePagerState.offsetAnim.isRunning)
                 composePagerState.offsetAnim.stop()
@@ -79,9 +76,11 @@ fun ComposePager(
                     is PageChangeAnimFlag.Prev -> {
                         if (composePagerState.currSelectIndex.value <= 0)
                             return@LaunchedEffect
+                        mOffset = null
                         try {
                             composePagerState.offsetAnim.animateTo(width.toFloat())
                         } finally {
+                            // TODO by lt 2022/6/28 15:56 看看能不能将两个重组动作合为一个
                             composePagerState.currSelectIndex.value--
                             mOffset = 0f
                         }
@@ -89,6 +88,7 @@ fun ComposePager(
                     is PageChangeAnimFlag.Next -> {
                         if (composePagerState.currSelectIndex.value + 1 >= pageCount)
                             return@LaunchedEffect
+                        mOffset = null
                         try {
                             composePagerState.offsetAnim.animateTo(-width.toFloat())
                         } finally {
@@ -105,6 +105,7 @@ fun ComposePager(
                     is PageChangeAnimFlag.Prev -> {
                         if (composePagerState.currSelectIndex.value <= 0)
                             return@LaunchedEffect
+                        mOffset = null
                         try {
                             composePagerState.offsetAnim.animateTo(height.toFloat())
                         } finally {
@@ -115,6 +116,7 @@ fun ComposePager(
                     is PageChangeAnimFlag.Next -> {
                         if (composePagerState.currSelectIndex.value + 1 >= pageCount)
                             return@LaunchedEffect
+                        mOffset = null
                         try {
                             composePagerState.offsetAnim.animateTo(-height.toFloat())
                         } finally {
@@ -128,7 +130,7 @@ fun ComposePager(
                 }
             }
         } finally {
-            pageChangeAnimFlag = null
+            composePagerState.pageChangeAnimFlag = null
         }
     })
 
@@ -152,19 +154,19 @@ fun ComposePager(
             }, onDragStopped = {
                 if (orientation == Orientation.Horizontal) {
                     if (composePagerState.offsetAnim.value + it > width / 2) {
-                        pageChangeAnimFlag = PageChangeAnimFlag.Prev()
+                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev()
                     } else if (composePagerState.offsetAnim.value + it < -width / 2) {
-                        pageChangeAnimFlag = PageChangeAnimFlag.Next()
+                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next()
                     } else {
-                        pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
+                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
                     }
                 } else {
                     if (composePagerState.offsetAnim.value + it > height / 2) {
-                        pageChangeAnimFlag = PageChangeAnimFlag.Prev()
+                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev()
                     } else if (composePagerState.offsetAnim.value + it < -height / 2) {
-                        pageChangeAnimFlag = PageChangeAnimFlag.Next()
+                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next()
                     } else {
-                        pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
+                        composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction()
                     }
                 }
                 composePagerState.onUserDragStopped?.invoke(this, it)
@@ -197,16 +199,4 @@ fun ComposePager(
             }
         }
     }
-}
-
-//内部使用的翻页标志位
-private sealed class PageChangeAnimFlag {
-    //下一页
-    class Next : PageChangeAnimFlag()
-
-    //上一页
-    class Prev : PageChangeAnimFlag()
-
-    //还原offset
-    class Reduction : PageChangeAnimFlag()
 }

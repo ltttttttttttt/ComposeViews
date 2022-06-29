@@ -1,14 +1,13 @@
 package com.lt.compose_views.banner
 
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.ComposePagerScope
 import com.lt.compose_views.compose_pager.ComposePagerState
 import com.lt.compose_views.compose_pager.rememberComposePagerState
+import kotlinx.coroutines.delay
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
@@ -20,7 +19,6 @@ import com.lt.compose_views.compose_pager.rememberComposePagerState
  * [orientation]滑动的方向
  * [autoScroll]是否自动滚动
  * [autoScrollTime]自动滚动间隔时间
- * [scrollAnimTime]自动滚动的动画时间
  * [content]compose内容区域
  */
 @Composable
@@ -31,29 +29,38 @@ fun Banner(
     orientation: Orientation = Orientation.Horizontal,
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
-    scrollAnimTime: Long = 500,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
-    // TODO by lt 2022/6/27 18:17 待完善
-    val a=remember {
-        //init
+    //是否正在滚动倒计时中
+    val scrolling by remember(autoScroll) {
+        val scrolling = mutableStateOf(autoScroll)
         composePagerState.onUserDragStarted = {
-
+            scrolling.value = false
         }
         composePagerState.onUserDragStopped = {
-
+            scrolling.value = autoScroll
         }
-        0
+        scrolling
     }
-    if (autoScroll)
-        LaunchedEffect(key1 = autoScrollTime, block = {
+    //初始页数为100n,总页数为一百万n
+    remember {
+        composePagerState.setPageIndex(pageCount * 100)
+    }
 
+    if (scrolling)
+        LaunchedEffect(key1 = autoScrollTime, block = {
+            while (true) {
+                delay(autoScrollTime)
+                composePagerState.setPageIndexWithAnim(composePagerState.currSelectIndex.value + 1)
+            }
         })
+
     ComposePager(
-        pageCount = pageCount,
+        pageCount = minOf(pageCount * 1000000, Int.MAX_VALUE),
         modifier = modifier,
         composePagerState = composePagerState,
         orientation = orientation,
-        content = content,
-    )
+    ) {
+        content(ComposePagerScope(index % pageCount))
+    }
 }
