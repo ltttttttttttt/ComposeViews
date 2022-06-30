@@ -154,6 +154,7 @@ fun ComposePager(
                 }
                 composePagerState.onUserDragStopped?.invoke(this, it)
             })
+            .clipScrollableContainer(orientation == Orientation.Vertical)
     ) { measurables/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
         var width = 0
         var height = 0
