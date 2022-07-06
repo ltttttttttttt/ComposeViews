@@ -102,6 +102,7 @@ class FlowLayoutActivity : BaseComposeActivity() {
                     .background(Color.Gray)
                     .padding(10.dp),
                 orientation = orientation.value,
+                maxLines = 8
             ) {
                 items.forEach {
                     if (it == "Image")

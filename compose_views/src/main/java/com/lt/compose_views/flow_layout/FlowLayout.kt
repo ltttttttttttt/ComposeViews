@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.IntArrayList
+import com.lt.compose_views.midOf
 
 /**
  * creator: lt  2022/7/4  lt.dygzs@qq.com
@@ -55,6 +56,7 @@ fun FlowLayout(
         val maxWidth = constraints.maxWidth
         val maxHeight = constraints.maxHeight
         val isHorizontal = orientation == Orientation.Horizontal
+        val mConstraints = constraints.copy(minWidth = 0, minHeight = 0)
 
         //保存每一行(列)的宽度或最大宽度
         val linesWidth = IntArrayList()
@@ -66,10 +68,10 @@ fun FlowLayout(
         var lineHeight = 0
 
         val placeables = measurables.map {
-            val placeable = it.measure(constraints)
             if (linesSize.size >= maxLines) {
-                return@map placeable // TODO by lt 2022/7/6 9:52 看这里能不能优化成不测量
+                return@map NotPlace
             }
+            val placeable = it.measure(mConstraints)
             if (isHorizontal) {
                 if (lineWidth + placeable.width > maxWidth) {
                     linesWidth.add(lineWidth)
@@ -97,15 +99,25 @@ fun FlowLayout(
             }
             placeable
         }
-        linesWidth.add(lineWidth)
-        linesHeight.add(lineHeight)
-        linesSize.add(lineSize)
+        if (linesSize.size < maxLines) {
+            linesWidth.add(lineWidth)
+            linesHeight.add(lineHeight)
+            linesSize.add(lineSize)
+        }
 
-        val linesWidthArray = linesWidth.toIntArray()
-        val linesHeightArray = linesHeight.toIntArray()
         layout(
-            if (isHorizontal) linesWidthArray.maxOrNull() ?: 0 else linesWidthArray.sum(),
-            if (isHorizontal) linesHeightArray.sum() else linesHeightArray.maxOrNull() ?: 0
+            midOf(
+                constraints.minWidth,
+                if (isHorizontal) linesWidth.toIntArray().maxOrNull() ?: 0
+                else linesWidth.toIntArray().sum(),
+                constraints.maxWidth
+            ),
+            midOf(
+                constraints.minHeight,
+                if (isHorizontal) linesHeight.toIntArray().sum()
+                else linesHeight.toIntArray().maxOrNull() ?: 0,
+                constraints.maxHeight
+            )
         ) {
             // TODO by lt 2022/7/4 18:13 使用对齐
             Log.w("lllttt", ".FlowLayout 104 : $linesSize   $linesWidth    $linesHeight")
