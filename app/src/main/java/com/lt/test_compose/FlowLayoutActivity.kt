@@ -102,6 +102,8 @@ class FlowLayoutActivity : BaseComposeActivity() {
                     .background(Color.Gray)
                     .padding(10.dp),
                 orientation = orientation.value,
+                horizontalMargin = 10.dp,
+                verticalMargin = 10.dp,
                 maxLines = 8
             ) {
                 items.forEach {

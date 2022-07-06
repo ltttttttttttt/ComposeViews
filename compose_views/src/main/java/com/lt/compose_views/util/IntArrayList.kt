@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views
+package com.lt.compose_views.util
 
 private typealias BasicsInt = Int
 

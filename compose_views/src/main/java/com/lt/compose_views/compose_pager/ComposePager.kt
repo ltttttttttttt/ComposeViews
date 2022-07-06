@@ -23,7 +23,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
-import com.lt.compose_views.midOf
+import com.lt.compose_views.util.clipScrollableContainer
+import com.lt.compose_views.util.midOf
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com

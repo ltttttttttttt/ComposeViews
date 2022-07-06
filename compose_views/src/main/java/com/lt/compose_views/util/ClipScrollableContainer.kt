@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.compose_pager
+package com.lt.compose_views.util
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip

@@ -23,10 +23,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.IntArrayList
-import com.lt.compose_views.midOf
+import com.lt.compose_views.util.IntArrayList
+import com.lt.compose_views.util.NotPlace
+import com.lt.compose_views.util.midOf
 
 /**
  * creator: lt  2022/7/4  lt.dygzs@qq.com
@@ -52,6 +54,8 @@ fun FlowLayout(
     maxLines: Int = Int.MAX_VALUE,
     content: @Composable () -> Unit
 ) {
+    val horizontalMarginPx = LocalDensity.current.run { horizontalMargin.roundToPx() }
+    val verticalMarginPx = LocalDensity.current.run { verticalMargin.roundToPx() }
     Layout(content, modifier) { measurables, constraints ->
         val maxWidth = constraints.maxWidth
         val maxHeight = constraints.maxHeight
@@ -73,7 +77,7 @@ fun FlowLayout(
             }
             val placeable = it.measure(mConstraints)
             if (isHorizontal) {
-                if (lineWidth + placeable.width > maxWidth) {
+                if (lineWidth + placeable.width + horizontalMarginPx > maxWidth) {
                     linesWidth.add(lineWidth)
                     linesHeight.add(lineHeight)
                     linesSize.add(lineSize)
@@ -82,10 +86,10 @@ fun FlowLayout(
                     lineSize = 0
                 }
                 lineSize++
-                lineWidth += placeable.width
+                lineWidth += placeable.width + horizontalMarginPx
                 lineHeight = maxOf(lineHeight, placeable.height)
             } else {
-                if (lineHeight + placeable.height > maxHeight) {
+                if (lineHeight + placeable.height + verticalMarginPx > maxHeight) {
                     linesWidth.add(lineWidth)
                     linesHeight.add(lineHeight)
                     linesSize.add(lineSize)
@@ -95,7 +99,7 @@ fun FlowLayout(
                 }
                 lineSize++
                 lineWidth = maxOf(lineWidth, placeable.width)
-                lineHeight += placeable.height
+                lineHeight += placeable.height + verticalMarginPx
             }
             placeable
         }
@@ -105,20 +109,34 @@ fun FlowLayout(
             linesSize.add(lineSize)
         }
 
-        layout(
-            midOf(
-                constraints.minWidth,
-                if (isHorizontal) linesWidth.toIntArray().maxOrNull() ?: 0
-                else linesWidth.toIntArray().sum(),
-                constraints.maxWidth
-            ),
-            midOf(
-                constraints.minHeight,
-                if (isHorizontal) linesHeight.toIntArray().sum()
-                else linesHeight.toIntArray().maxOrNull() ?: 0,
-                constraints.maxHeight
-            )
-        ) {
+        //计算宽度:
+        //宽度=midOf(最小宽度限制,自适应宽度,最大宽度限制)
+        //自适应宽度=if(横向排列){所有列中最宽的一个}else{所有宽度的总和+每列的间距}
+        val width = midOf(
+            constraints.minWidth,
+            if (isHorizontal) {
+                linesWidth.toIntArray().maxOrNull() ?: 0
+            } else {
+                linesWidth.toIntArray().sum() + maxOf(
+                    0,
+                    (linesWidth.size - 1) * horizontalMarginPx
+                )
+            },
+            constraints.maxWidth
+        )
+        val height = midOf(
+            constraints.minHeight,
+            if (isHorizontal) {
+                linesHeight.toIntArray().sum() + maxOf(
+                    0,
+                    (linesHeight.size - 1) * verticalMarginPx
+                )
+            } else {
+                linesHeight.toIntArray().maxOrNull() ?: 0
+            },
+            constraints.maxHeight
+        )
+        layout(width, height) {
             // TODO by lt 2022/7/4 18:13 使用对齐
             Log.w("lllttt", ".FlowLayout 104 : $linesSize   $linesWidth    $linesHeight")
             var index = 0
@@ -136,17 +154,17 @@ fun FlowLayout(
                         y = lineStartHeight
                     )
                     if (isHorizontal) {
-                        lineStartWidth += placeable.width
+                        lineStartWidth += placeable.width + horizontalMarginPx
                     } else {
-                        lineStartHeight += placeable.height
+                        lineStartHeight += placeable.height + verticalMarginPx
                     }
                     index++
                 }
                 if (isHorizontal) {
                     lineStartWidth = 0
-                    lineStartHeight += linesHeight[line]
+                    lineStartHeight += linesHeight[line] + verticalMarginPx
                 } else {
-                    lineStartWidth += linesWidth[line]
+                    lineStartWidth += linesWidth[line] + horizontalMarginPx
                     lineStartHeight = 0
                 }
             }
