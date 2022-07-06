@@ -41,6 +41,7 @@
         </activity>
         <activity android:name=".MainListActivity" />
         <activity android:name=".BannerActivity" />
+        <activity android:name=".FlowLayoutActivity" />
     </application>
 
 </manifest>

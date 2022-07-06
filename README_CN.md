@@ -16,6 +16,7 @@
 3. BannerIndicator
 4. ImageBanner
 5. RefreshLayout
+6. FlowLayout
 
 ## 快速入门
 
@@ -116,4 +117,32 @@ fun Banner(
 
 ```kotlin
 
+```
+
+## FlowLayout
+
+```kotlin
+/**
+ * 可以自动换行的线性布局
+ * [modifier]修饰
+ * [orientation]排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
+ * [horizontalAlignment]子级在横向上的位置
+ * [verticalArrangement]子级在竖向上的位置
+ * [horizontalMargin]子级在横向上的间距
+ * [verticalMargin]子级在竖向上的间距
+ * [maxLines]最多能放多少行(或列)
+ * [content]compose内容区域
+ */
+@Composable
+fun FlowLayout(
+    modifier: Modifier = Modifier,
+    orientation: Orientation = Orientation.Horizontal,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    horizontalMargin: Dp = 0.dp,
+    verticalMargin: Dp = 0.dp,
+    maxLines: Int = Int.MAX_VALUE,
+    content: @Composable () -> Unit
+) {
+}
 ```
