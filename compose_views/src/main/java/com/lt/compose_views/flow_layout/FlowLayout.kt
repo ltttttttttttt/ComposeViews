@@ -35,8 +35,8 @@ import com.lt.compose_views.IntArrayList
  * [orientation]排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
  * [horizontalAlignment]子级在横向上的位置
  * [verticalArrangement]子级在竖向上的位置
- * [horizontalMargin]子级在横向上的间距
- * [verticalMargin]子级在竖向上的间距
+ * [horizontalMargin]子级与子级在横向上的间距
+ * [verticalMargin]子级与子级在竖向上的间距
  * [maxLines]最多能放多少行(或列)
  * [content]compose内容区域
  */

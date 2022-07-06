@@ -35,13 +35,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lt.test_compose.base.BaseComposeActivity
+import com.lt.test_compose.base.M
+import com.lt.test_compose.base.rememberMutableStateOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.lt.test_compose.base.M
-import com.lt.test_compose.base.rememberMutableStateOf
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * creator: lt  2021/11/8  lt.dygzs@qq.com
@@ -54,6 +53,8 @@ class MainListActivity : BaseComposeActivity() {
     private val random = Random()
 
     data class Value(val a: String, val b: String)
+
+    override fun getTitleText(): String = "LazyColumn基础功能"
 
     @Composable
     override fun ComposeContent() {
@@ -106,6 +107,7 @@ class MainListActivity : BaseComposeActivity() {
                 item {
                     Text(text = "尾布局,list.size=${list.size}")
                 }
+                // TODO by lt 2022/7/6 11:05 废弃,待重新实现
                 item {
                     //加载的布局
                     Text(text = "加载中")

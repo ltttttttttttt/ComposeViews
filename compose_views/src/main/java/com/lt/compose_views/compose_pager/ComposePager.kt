@@ -45,6 +45,8 @@ fun ComposePager(
     userEnable: Boolean = true,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
+    if (pageCount <= 0)
+        return
     //记录ComposePager的宽高中的对应方向的值
     var mainAxisSize = remember { 0 }
     //用于配合滑动和动画
@@ -74,7 +76,7 @@ fun ComposePager(
     }
 
     //处理offset
-    LaunchedEffect(key1 = mOffset, block = {
+    LaunchedEffect(key1 = mOffset, key2 = orientation, block = {
         val offset = mOffset ?: return@LaunchedEffect
         composePagerState.offsetAnim.snapTo(
             offset - composePagerState.currSelectIndex.value * mainAxisSize

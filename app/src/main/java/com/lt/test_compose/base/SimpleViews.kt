@@ -17,9 +17,10 @@
 package com.lt.test_compose.base
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import com.lt.test_compose.base.h
-import com.lt.test_compose.base.w
+import androidx.compose.ui.unit.dp
 
 /**
  * creator: lt  2021/4/13  lt.dygzs@qq.com
@@ -32,10 +33,10 @@ import com.lt.test_compose.base.w
  */
 @Composable
 fun HorizontalSpace(dp: Int) {
-    Spacer(w(dp))
+    Spacer(M.width(dp.dp))
 }
 
 @Composable
 fun VerticalSpace(dp: Int) {
-    Spacer(h(dp))
+    Spacer(M.height(dp.dp))
 }

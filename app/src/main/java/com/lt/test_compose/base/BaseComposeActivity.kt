@@ -36,11 +36,14 @@ import kotlinx.coroutines.MainScope
 abstract class BaseComposeActivity : AppCompatActivity() {
     val mainScope = MainScope()
 
+    abstract fun getTitleText(): String
+
     @Composable
     abstract fun ComposeContent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        title = getTitleText()
         setContent {
             MyTheme {
                 ComposeContent()

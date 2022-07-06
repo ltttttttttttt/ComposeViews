@@ -46,6 +46,8 @@ fun Banner(
     autoScrollTime: Long = 3000,
     content: @Composable BannerScope.() -> Unit
 ) {
+    if (pageCount <= 0)
+        return
     //是否正在滚动倒计时中
     val scrolling by remember(autoScroll) {
         val scrolling = mutableStateOf(autoScroll)
