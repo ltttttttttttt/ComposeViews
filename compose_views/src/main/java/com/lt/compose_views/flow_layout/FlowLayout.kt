@@ -16,9 +16,7 @@
 
 package com.lt.compose_views.flow_layout
 
-import android.util.Log
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +35,7 @@ import com.lt.compose_views.util.midOf
  * [modifier]修饰
  * [orientation]排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
  * [horizontalAlignment]子级在横向上的位置
- * [verticalArrangement]子级在竖向上的位置
+ * [verticalAlignment]子级在竖向上的位置
  * [horizontalMargin]子级与子级在横向上的间距
  * [verticalMargin]子级与子级在竖向上的间距
  * [maxLines]最多能放多少行(或列)
@@ -48,7 +46,7 @@ fun FlowLayout(
     modifier: Modifier = Modifier,
     orientation: Orientation = Orientation.Horizontal,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    verticalAlignment: Alignment.Vertical = Alignment.Top,
     horizontalMargin: Dp = 0.dp,
     verticalMargin: Dp = 0.dp,
     maxLines: Int = Int.MAX_VALUE,
@@ -72,11 +70,14 @@ fun FlowLayout(
         var lineHeight = 0
 
         val placeables = measurables.map {
+            //如果超过了最大行数限制,后续元素不测量且不放置
             if (linesSize.size >= maxLines) {
                 return@map NotPlace
             }
+            //测量并计算每一行(列)能放多少元素,并记录下来元素放置的信息
             val placeable = it.measure(mConstraints)
             if (isHorizontal) {
+                //如果当前行放不下,就换行
                 if (lineWidth + placeable.width + horizontalMarginPx > maxWidth) {
                     linesWidth.add(lineWidth)
                     linesHeight.add(lineHeight)
@@ -85,6 +86,7 @@ fun FlowLayout(
                     lineHeight = 0
                     lineSize = 0
                 }
+                //记录当前行数据
                 lineSize++
                 lineWidth += placeable.width + horizontalMarginPx
                 lineHeight = maxOf(lineHeight, placeable.height)
@@ -103,6 +105,7 @@ fun FlowLayout(
             }
             placeable
         }
+        //如果没有超过最大行数限制,就记录最后一行的数据
         if (linesSize.size < maxLines) {
             linesWidth.add(lineWidth)
             linesHeight.add(lineHeight)
@@ -137,21 +140,50 @@ fun FlowLayout(
             constraints.maxHeight
         )
         layout(width, height) {
-            // TODO by lt 2022/7/4 18:13 使用对齐
-            Log.w("lllttt", ".FlowLayout 104 : $linesSize   $linesWidth    $linesHeight")
             var index = 0
             var lineStartWidth = 0
             var lineStartHeight = 0
+            //遍历每一行有多少元素,并双重遍历每一行内元素数量进行放置
             linesSize.forEachIndexed { line, lineSize ->
+                //这一行(列)的子元素相对于父元素的对齐方式
+                val lineWidth = linesWidth[line]
+                val lineHeight = linesHeight[line]
+                if (isHorizontal) {
+                    when (horizontalAlignment) {
+                        Alignment.Start -> lineStartWidth = 0
+                        Alignment.CenterHorizontally -> lineStartWidth =
+                            (width - lineWidth) / 2
+                        Alignment.End -> lineStartWidth = width - lineWidth
+                    }
+                } else {
+                    when (verticalAlignment) {
+                        Alignment.Top -> lineStartHeight = 0
+                        Alignment.CenterVertically -> lineStartHeight =
+                            (height - lineHeight) / 2
+                        Alignment.Bottom -> lineStartHeight = height - lineHeight
+                    }
+                }
                 repeat(lineSize) { lineIndex ->
                     val placeable = placeables[index]
-                    Log.w(
-                        "lllttt",
-                        ".FlowLayout 106 : $index   $lineStartWidth    $lineStartHeight"
-                    )
+                    //这个子元素相对于这一行(列)的对齐方式
+                    val xOffset = when {
+                        isHorizontal -> 0
+                        verticalAlignment == Alignment.Top -> 0
+                        verticalAlignment == Alignment.CenterVertically -> (lineWidth - placeable.width) / 2
+                        verticalAlignment == Alignment.Bottom -> lineWidth - placeable.width
+                        else -> 0
+                    }
+                    val yOffset = when {
+                        !isHorizontal -> 0
+                        horizontalAlignment == Alignment.Start -> 0
+                        horizontalAlignment == Alignment.CenterHorizontally -> (lineHeight - placeable.height) / 2
+                        horizontalAlignment == Alignment.End -> lineHeight - placeable.height
+                        else -> 0
+                    }
+                    //按照行或列放置元素
                     placeable.placeRelative(
-                        x = lineStartWidth,
-                        y = lineStartHeight
+                        x = lineStartWidth + xOffset,
+                        y = lineStartHeight + yOffset
                     )
                     if (isHorizontal) {
                         lineStartWidth += placeable.width + horizontalMarginPx
@@ -160,12 +192,11 @@ fun FlowLayout(
                     }
                     index++
                 }
+                //一行(列)放置完毕,换行
                 if (isHorizontal) {
-                    lineStartWidth = 0
                     lineStartHeight += linesHeight[line] + verticalMarginPx
                 } else {
                     lineStartWidth += linesWidth[line] + horizontalMarginPx
-                    lineStartHeight = 0
                 }
             }
         }

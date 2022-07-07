@@ -26,6 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,7 @@ class FlowLayoutActivity : BaseComposeActivity() {
                 Text(text = "当前排列方向:${orientation.value}")
                 Button(onClick = {
                     val sb = StringBuilder()
-                    val i = Random.nextInt(20)
+                    val i = Random.nextInt(20) + 1
                     repeat(i) {
                         sb.append(i.toString())
                     }
@@ -102,6 +103,8 @@ class FlowLayoutActivity : BaseComposeActivity() {
                     .background(Color.Gray)
                     .padding(10.dp),
                 orientation = orientation.value,
+                //horizontalAlignment = Alignment.CenterHorizontally,
+                //verticalAlignment = Alignment.CenterVertically,
                 horizontalMargin = 10.dp,
                 verticalMargin = 10.dp,
                 maxLines = 8
