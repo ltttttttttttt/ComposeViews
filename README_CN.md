@@ -17,6 +17,7 @@
 4. ImageBanner
 5. RefreshLayout
 6. FlowLayout
+7. GoodTextField and PasswordTextField
 
 ## 快速入门
 
@@ -51,6 +52,8 @@ dependencies {
 
 ## ComposePager
 
+![Example](md_resource/compose_pager.png)
+
 ```kotlin
 /**
  * 类似于xml中的ViewPager
@@ -62,15 +65,7 @@ dependencies {
  * [content]compose内容区域
  */
 @Composable
-fun ComposePager(
-    pageCount: Int,
-    modifier: Modifier = Modifier,
-    composePagerState: ComposePagerState = rememberComposePagerState(),
-    orientation: Orientation = Orientation.Horizontal,
-    userEnable: Boolean = true,
-    content: @Composable ComposePagerScope.() -> Unit
-) {
-}
+fun ComposePager()
 ```
 
 ## Banner
@@ -88,17 +83,7 @@ fun ComposePager(
  * [content]compose内容区域
  */
 @Composable
-fun Banner(
-    pageCount: Int,
-    modifier: Modifier = Modifier,
-    bannerState: BannerState = rememberBannerState(),
-    orientation: Orientation = Orientation.Horizontal,
-    userEnable: Boolean = true,
-    autoScroll: Boolean = true,
-    autoScrollTime: Long = 3000,
-    content: @Composable BannerScope.() -> Unit
-) {
-}
+fun Banner()
 ```
 
 ## BannerIndicator
@@ -121,6 +106,8 @@ fun Banner(
 
 ## FlowLayout
 
+![Example](md_resource/flow_layout.png)
+
 ```kotlin
 /**
  * 可以自动换行的线性布局
@@ -134,15 +121,70 @@ fun Banner(
  * [content]compose内容区域
  */
 @Composable
-fun FlowLayout(
-    modifier: Modifier = Modifier,
-    orientation: Orientation = Orientation.Horizontal,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    verticalAlignment: Alignment.Vertical = Alignment.Top,
-    horizontalMargin: Dp = 0.dp,
-    verticalMargin: Dp = 0.dp,
-    maxLines: Int = Int.MAX_VALUE,
-    content: @Composable () -> Unit
-) {
-}
+fun FlowLayout()
+```
+
+## GoodTextField and PasswordTextField
+
+![Example](md_resource/text_field.png)
+
+```kotlin
+/**
+ * 更方便易用的TextField(文本输入框)
+ * [text]输入框中的文字
+ * [onValueChange]输入框中文字的变化回调
+ * [modifier]修饰
+ * [hint]输入框没有文字时展示的内容
+ * [maxLines]最多能展示多少行文字
+ * [fontSize]text和hint的字体大小
+ * [fontColor]text的字体颜色
+ * [maxLength]最多能展示多少个文字
+ * [contentAlignment]text和hint对其方式
+ * [leading]展示在左边的组件
+ * [trailing]展示在右边的组件
+ * [background]背景
+ * [horizontalPadding]横向的内间距
+ * [enabled]是否可输入,false无法输入和复制
+ * [readOnly]是否可输入,true无法输入,但可复制,获取焦点,移动光标
+ * [textStyle]字体样式
+ * [keyboardOptions]键盘配置
+ * [keyboardActions]键盘回调
+ * [visualTransformation]文本展示的转换
+ * [onTextLayout]计算新文本布局时执行的回调
+ * [interactionSource]状态属性
+ * [cursorBrush]光标绘制
+ */
+@Composable
+fun GoodTextField()
+
+/**
+ * 更方便易用的TextField,适用于输入密码的情况
+ * [text]输入框中的文字
+ * [onValueChange]输入框中文字的变化回调
+ * [passwordIsShow]密码是否可见,false为密文状态
+ * [onPasswordIsShowChange]密码是否可见状态变化的回调
+ * [modifier]修饰
+ * [hint]输入框没有文字时展示的内容
+ * [maxLines]最多能展示多少行文字
+ * [fontSize]text和hint的字体大小
+ * [fontColor]text的字体颜色
+ * [maxLength]最多能展示多少个文字
+ * [contentAlignment]text和hint对其方式
+ * [leading]展示在左边的组件
+ * [trailing]展示在右边的组件,默认是可点击的眼睛图标,用于切换密码是否可见
+ * [background]背景
+ * [horizontalPadding]横向的内间距
+ * [enabled]是否可输入,false无法输入和复制
+ * [readOnly]是否可输入,true无法输入,但可复制,获取焦点,移动光标
+ * [textStyle]字体样式
+ * [keyboardOptions]键盘配置
+ * [keyboardActions]键盘回调
+ * [passwordChar]密码不可见时展示的字符
+ * [visualTransformation]文本展示的转换
+ * [onTextLayout]计算新文本布局时执行的回调
+ * [interactionSource]状态属性
+ * [cursorBrush]光标绘制
+ */
+@Composable
+fun PasswordTextField()
 ```
