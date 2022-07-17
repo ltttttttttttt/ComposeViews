@@ -52,7 +52,7 @@ dependencies {
 
 ## ComposePager
 
-<div align=center><img src="md_resource/compose_pager.gif" width=25%></div>
+<div align=center><img src="md_resource/compose_pager.gif" width=50%></div>
 
 ```kotlin
 /**
