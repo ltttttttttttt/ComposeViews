@@ -52,7 +52,7 @@ dependencies {
 
 ## ComposePager
 
-![Example](md_resource/compose_pager.png)
+<div align=center><img src="md_resource/compose_pager.gif" width=50%></div>
 
 ```kotlin
 /**
@@ -106,7 +106,7 @@ fun Banner()
 
 ## FlowLayout
 
-![Example](md_resource/flow_layout.png)
+<div align=center><img src="md_resource/flow_layout.png" width=40%></div>
 
 ```kotlin
 /**
@@ -126,7 +126,7 @@ fun FlowLayout()
 
 ## GoodTextField and PasswordTextField
 
-![Example](md_resource/text_field.png)
+<div align=center><img src="md_resource/text_field.png" width=40%></div>
 
 ```kotlin
 /**
