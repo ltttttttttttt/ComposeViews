@@ -138,7 +138,7 @@ fun FlowLayout()
  * [maxLines]最多能展示多少行文字
  * [fontSize]text和hint的字体大小
  * [fontColor]text的字体颜色
- * [maxLength]最多能展示多少个文字
+ * [maxLength]最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
  * [contentAlignment]text和hint对其方式
  * [leading]展示在左边的组件
  * [trailing]展示在右边的组件
@@ -168,7 +168,7 @@ fun GoodTextField()
  * [maxLines]最多能展示多少行文字
  * [fontSize]text和hint的字体大小
  * [fontColor]text的字体颜色
- * [maxLength]最多能展示多少个文字
+ * [maxLength]最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
  * [contentAlignment]text和hint对其方式
  * [leading]展示在左边的组件
  * [trailing]展示在右边的组件,默认是可点击的眼睛图标,用于切换密码是否可见

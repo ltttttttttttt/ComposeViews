@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lt.compose_views.util.Color333
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
@@ -49,7 +51,7 @@ import androidx.compose.ui.unit.sp
  * [maxLines]最多能展示多少行文字
  * [fontSize]text和hint的字体大小
  * [fontColor]text的字体颜色
- * [maxLength]最多能展示多少个文字
+ * [maxLength]最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
  * [contentAlignment]text和hint对其方式
  * [leading]展示在左边的组件
  * [trailing]展示在右边的组件
@@ -73,7 +75,7 @@ fun GoodTextField(
     hint: HintComposeWithTextField? = null,
     @IntRange(from = 1L) maxLines: Int = 1,
     fontSize: TextUnit = 16.sp,
-    fontColor: Color = Color(0xff333333),
+    fontColor: Color = Color333,
     maxLength: Int = Int.MAX_VALUE,
     contentAlignment: Alignment.Vertical = Alignment.CenterVertically,
     leading: (@Composable RowScope.() -> Unit)? = null,
@@ -82,7 +84,7 @@ fun GoodTextField(
     horizontalPadding: Dp = 16.dp,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = TextStyle.Default,
+    textStyle: TextStyle = LocalTextStyle.current,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,

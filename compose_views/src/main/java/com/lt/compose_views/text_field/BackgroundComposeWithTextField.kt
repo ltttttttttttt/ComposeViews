@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.Color0a000000
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
@@ -51,6 +52,6 @@ interface BackgroundComposeWithTextField {
         /**
          * 默认[GoodTextField]的背景,灰色圆角矩形
          */
-        val DEFAULT = createBackgroundCompose(RoundedCornerShape(8.dp), Color(0x0a000000))
+        val DEFAULT = createBackgroundCompose(RoundedCornerShape(8.dp), Color0a000000)
     }
 }
