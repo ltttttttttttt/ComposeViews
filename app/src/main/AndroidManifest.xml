@@ -43,6 +43,7 @@
         <activity android:name=".BannerActivity" />
         <activity android:name=".FlowLayoutActivity" />
         <activity android:name=".TextFieldActivity" />
+        <activity android:name=".MenuFabActivity" />
     </application>
 
 </manifest>
