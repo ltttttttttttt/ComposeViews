@@ -19,7 +19,7 @@ package com.lt.compose_views.text_field
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.TextUnit
-import com.lt.compose_views.util.ColorCCC
+import com.lt.compose_views.util.Color999
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
@@ -42,7 +42,7 @@ interface HintComposeWithTextField {
             override fun Hint(fontSize: TextUnit) {
                 Text(
                     text = hint,
-                    color = ColorCCC,
+                    color = Color999,
                     fontSize = fontSize
                 )
             }

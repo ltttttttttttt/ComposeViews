@@ -44,7 +44,7 @@ import com.lt.compose_views.util.Color333
  * creator: lt  2022/7/16  lt.dygzs@qq.com
  * effect : 更方便易用的TextField,适用于输入密码的情况
  * warning:
- * [text]输入框中的文字
+ * [value]输入框中的文字
  * [onValueChange]输入框中文字的变化回调
  * [passwordIsShow]密码是否可见,false为密文状态
  * [onPasswordIsShowChange]密码是否可见状态变化的回调
@@ -72,7 +72,7 @@ import com.lt.compose_views.util.Color333
  */
 @Composable
 fun PasswordTextField(
-    text: String,
+    value: String,
     onValueChange: (String) -> Unit,
     passwordIsShow: Boolean,
     onPasswordIsShowChange: (Boolean) -> Unit,
@@ -107,7 +107,7 @@ fun PasswordTextField(
     cursorBrush: Brush = SolidColor(MaterialTheme.colors.primary),
 ) {
     GoodTextField(
-        text = text,
+        value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         hint = hint,

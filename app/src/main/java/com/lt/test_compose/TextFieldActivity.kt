@@ -42,7 +42,8 @@ class TextFieldActivity : BaseComposeActivity() {
         Column(
             M
                 .padding(20.dp)
-                .width(200.dp)) {
+                .width(200.dp)
+        ) {
             val text1 = remember {
                 mutableStateOf("我是账号")
             }
@@ -62,20 +63,22 @@ class TextFieldActivity : BaseComposeActivity() {
                 mutableStateOf(true)
             }
             GoodTextField(
-                text = text1.value,
+                value = text1.value,
                 onValueChange = text1::value::set,
                 modifier = M.height(40.dp)
             )
             VerticalSpace(dp = 16)
             GoodTextField(
-                text = text2,
+                value = text2,
                 onValueChange = { text2 = it },
-                hint = HintComposeWithTextField.createTextHintCompose("请输入账号"),
+                hint = remember {
+                    HintComposeWithTextField.createTextHintCompose("请输入账号")
+                },
                 modifier = M.height(40.dp)
             )
             VerticalSpace(dp = 16)
             PasswordTextField(
-                text = password.value,
+                value = password.value,
                 onValueChange = { password.value = it },
                 passwordIsShow = passwordIsShow.value,
                 onPasswordIsShowChange = { passwordIsShow.value = it },
@@ -83,7 +86,7 @@ class TextFieldActivity : BaseComposeActivity() {
             )
             VerticalSpace(dp = 16)
             PasswordTextField(
-                text = password2.value,
+                value = password2.value,
                 onValueChange = { password2.value = it },
                 passwordIsShow = passwordIsShow2.value,
                 onPasswordIsShowChange = { passwordIsShow2.value = it },

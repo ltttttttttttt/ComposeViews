@@ -44,7 +44,7 @@ import com.lt.compose_views.util.Color333
  * creator: lt  2022/7/16  lt.dygzs@qq.com
  * effect : 更方便易用的TextField(文本输入框)
  * warning:
- * [text]输入框中的文字
+ * [value]输入框中的文字
  * [onValueChange]输入框中文字的变化回调
  * [modifier]修饰
  * [hint]输入框没有文字时展示的内容
@@ -69,7 +69,7 @@ import com.lt.compose_views.util.Color333
  */
 @Composable
 fun GoodTextField(
-    text: String,
+    value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     hint: HintComposeWithTextField? = null,
@@ -94,7 +94,7 @@ fun GoodTextField(
 ) {
     //使用基础输入框
     BasicTextField(
-        value = text,
+        value = value,
         onValueChange = {
             onValueChange(if (it.length > maxLength) it.substring(0, maxLength) else it)
         },
@@ -136,7 +136,7 @@ fun GoodTextField(
                                     it
                             }
                     ) {
-                        if (text.isEmpty() && hint != null)
+                        if (value.isEmpty() && hint != null)
                             hint.Hint(fontSize = fontSize)
                         it()
                     }

@@ -131,7 +131,7 @@ fun FlowLayout()
 ```kotlin
 /**
  * 更方便易用的TextField(文本输入框)
- * [text]输入框中的文字
+ * [value]输入框中的文字
  * [onValueChange]输入框中文字的变化回调
  * [modifier]修饰
  * [hint]输入框没有文字时展示的内容
@@ -159,7 +159,7 @@ fun GoodTextField()
 
 /**
  * 更方便易用的TextField,适用于输入密码的情况
- * [text]输入框中的文字
+ * [value]输入框中的文字
  * [onValueChange]输入框中文字的变化回调
  * [passwordIsShow]密码是否可见,false为密文状态
  * [onPasswordIsShowChange]密码是否可见状态变化的回调
