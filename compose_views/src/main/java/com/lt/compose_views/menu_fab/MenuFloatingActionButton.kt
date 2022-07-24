@@ -62,11 +62,11 @@ fun MenuFloatingActionButton(
     onFabItemClicked: ((item: MenuFabItem) -> Unit)? = null
 ) {
     //创建过渡对象，用于管理多个动画值，并且根据状态变化运行这些值
-    val transition = updateTransition(targetState = menuFabState, label = "")
+    val transition = updateTransition(targetState = menuFabState.menuFabStateEnum.value, label = "")
     //用于+号按钮的旋转动画
     val rotateAnim: Float by transition.animateFloat(
         transitionSpec = {
-            if (targetState.menuFabStateEnum.value == MenuFabStateEnum.Expanded) {
+            if (targetState == MenuFabStateEnum.Expanded) {
                 spring(stiffness = Spring.StiffnessLow)
             } else {
                 spring(stiffness = Spring.StiffnessMedium)
@@ -74,26 +74,26 @@ fun MenuFloatingActionButton(
         }, label = ""
     ) { state ->
         //根据state来设置最终的角度
-        if (state.menuFabStateEnum.value == MenuFabStateEnum.Collapsed) 0F else -45F
+        if (state == MenuFabStateEnum.Collapsed) 0F else -45F
     }
     //透明度动画
     val alphaAnim: Float by transition.animateFloat(transitionSpec = {
         tween(durationMillis = 200)
     }, label = "") { state ->
-        if (state.menuFabStateEnum.value == MenuFabStateEnum.Expanded) 1F else 0F
+        if (state == MenuFabStateEnum.Expanded) 1F else 0F
     }
     //记录每个Item的收缩动画的Transition
     val shrinkListAnim: MutableList<Float> = mutableListOf()
     items.forEachIndexed { index, _ ->
         //循环生成Transition
         val shrinkAnim by transition.animateFloat(targetValueByState = { state ->
-            when (state.menuFabStateEnum.value) {
+            when (state) {
                 MenuFabStateEnum.Collapsed -> 5F
                 //根据位置，递增每个item的位置高度
                 MenuFabStateEnum.Expanded -> (index + 1) * 60F + if (index == 0) 5F else 0F
             }
         }, label = "", transitionSpec = {
-            if (targetState.menuFabStateEnum.value == MenuFabStateEnum.Expanded) {
+            if (targetState == MenuFabStateEnum.Expanded) {
                 //dampingRatio属性删除等于默认1F，没有回弹效果
                 spring(stiffness = Spring.StiffnessLow, dampingRatio = 0.58F)
             } else {

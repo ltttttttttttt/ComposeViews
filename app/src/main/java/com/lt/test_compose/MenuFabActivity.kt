@@ -74,7 +74,7 @@ class MenuFabActivity : BaseComposeActivity() {
 
     @Composable
     override fun ComposeContent() {
-
+        FpsMonitor(modifier = M)
         ConstraintLayout(M.fillMaxSize()) {
             val (fab) = createRefs()
 
