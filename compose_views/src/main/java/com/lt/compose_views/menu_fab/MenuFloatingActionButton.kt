@@ -145,7 +145,7 @@ fun MenuFloatingActionButton(
                         pressedElevation = 4.dp
                     )
                 ) {
-                    item.icon
+                    item.icon()
                 }
             }
         }
