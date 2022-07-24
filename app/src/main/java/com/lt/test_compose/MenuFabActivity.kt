@@ -39,29 +39,35 @@ import com.lt.test_compose.base.M
 // Description: 
 // Documentation:
 
-class MenuFabActivity:BaseComposeActivity() {
+class MenuFabActivity : BaseComposeActivity() {
 
     private val menuItems = ArrayList<MenuFabItem>().apply {
-        add(MenuFabItem(
-            icon = {
-                Icon(
-                    modifier = Modifier.size(16.dp),
-                    painter = painterResource(id = R.drawable.ic_empty_delete),
-                    contentDescription = "",
-                    tint = Color.White
-                ) },
-            "删除"
-        ))
-        add(MenuFabItem(
-            icon = {
-                Icon(
-                    modifier = Modifier.size(16.dp),
-                    painter = painterResource(id = R.drawable.ic_empty_update),
-                    contentDescription = "",
-                    tint = Color.White
-                ) },
-            "更新"
-        ))
+        add(
+            MenuFabItem(
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        painter = painterResource(id = R.drawable.ic_empty_delete),
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                },
+                "删除"
+            )
+        )
+        add(
+            MenuFabItem(
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        painter = painterResource(id = R.drawable.ic_empty_update),
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                },
+                "更新"
+            )
+        )
     }
 
     override fun getTitleText() = "带菜单的Fab"
@@ -73,12 +79,12 @@ class MenuFabActivity:BaseComposeActivity() {
             val (fab) = createRefs()
 
             MenuFloatingActionButton(
-                modifier = Modifier.constrainAs(fab){
-                   bottom.linkTo(parent.bottom, margin = 60.dp)
-                   end.linkTo(parent.end, margin = 20.dp)
+                srcIcon = Icons.Filled.Add,
+                items = menuItems,
+                modifier = Modifier.constrainAs(fab) {
+                    bottom.linkTo(parent.bottom, margin = 60.dp)
+                    end.linkTo(parent.end, margin = 20.dp)
                 },
-                Icons.Filled.Add,
-                items = menuItems
             )
         }
 

@@ -16,31 +16,19 @@
 
 package com.lt.compose_views.menu_fab
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-
-
-// Author: Vast Gui
-// Email: guihy2019@gmail.com
-// Date: 2022/7/23 15:41
-// Description: 
-// Documentation:
-
 /**
- * 菜单的状态
+ * creator: lt  2022/7/24  lt.dygzs@qq.com
+ * effect : 菜单的状态的枚举
+ * warning:
  */
-class MenuFabState {
+enum class MenuFabStateEnum {
     /**
-     * 菜单内部的展开折叠状态
+     * 折叠
      */
-    val menuFabStateEnum: MutableState<MenuFabStateEnum> =
-        mutableStateOf(MenuFabStateEnum.Collapsed)
-}
+    Collapsed,
 
-/**
- * 创建一个[remember]的[MenuFabState]
- */
-@Composable
-fun rememberMenuFabState() = remember { MenuFabState() }
+    /**
+     * 展开
+     */
+    Expanded,
+}
