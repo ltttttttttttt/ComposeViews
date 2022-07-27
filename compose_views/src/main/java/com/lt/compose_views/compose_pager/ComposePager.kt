@@ -46,13 +46,17 @@ fun ComposePager(
     userEnable: Boolean = true,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
-    if (pageCount <= 0)
-        return
     //检查索引是否在页数内
     LaunchedEffect(key1 = pageCount, block = {
-        if (pageCount <= composePagerState.getCurrSelectIndex())
+        if (pageCount <= 0)
+            return@LaunchedEffect
+        else if (pageCount <= composePagerState.getCurrSelectIndex()) {
+            composePagerState.currSelectIndex.value = pageCount - 1
             composePagerState.setPageIndex(pageCount - 1)
+        }
     })
+    if (pageCount <= composePagerState.getCurrSelectIndex())
+        return
     //记录ComposePager的宽高中的对应方向的值
     var mainAxisSize = remember { 0 }
     //用于配合滑动和动画
