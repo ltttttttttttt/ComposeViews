@@ -49,7 +49,7 @@ class ComposePagerActivity : BaseComposeActivity() {
     )
     private val orientation = mutableStateOf(Orientation.Vertical)
 
-    override fun getTitleText(): String ="ComposePager"
+    override fun getTitleText(): String = "ComposePager"
 
     @Composable
     override fun ComposeContent() {
@@ -88,7 +88,7 @@ class ComposePagerActivity : BaseComposeActivity() {
                 Box(
                     modifier = M
                         .fillMaxSize()
-                        .background(colors.getOrNull(index) ?: Color.Black)
+                        .background(colors[index])
                 ) {
                     Button(composeClick {
                         composePagerState.setPageIndexWithAnim(
