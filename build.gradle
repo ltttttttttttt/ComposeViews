@@ -17,6 +17,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        maven { url "https://mirrors.tencent.com/nexus/repository/maven-public/" }
         google()
         mavenCentral()
         maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
