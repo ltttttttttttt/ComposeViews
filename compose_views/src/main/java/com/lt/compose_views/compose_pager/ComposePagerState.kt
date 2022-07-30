@@ -35,6 +35,15 @@ class ComposePagerState {
     //翻页标志位
     internal var pageChangeAnimFlag by mutableStateOf<PageChangeAnimFlag?>(null)
 
+    //记录ComposePager的宽高中的对应方向的值
+    internal var mainAxisSize by mutableStateOf(0)
+
+    //用于配合滑动和动画
+    internal var mOffset by mutableStateOf<Float?>(null)
+
+    //是否增加n个页数的偏移量,用于处理某些机型的闪动问题
+    internal var plusPageOffset by mutableStateOf(0)
+
     /**
      * 监听用户开始滑动
      */

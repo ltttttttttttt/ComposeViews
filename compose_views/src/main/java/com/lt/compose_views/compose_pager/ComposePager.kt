@@ -20,7 +20,9 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import com.lt.compose_views.util.clipScrollableContainer
@@ -53,86 +55,87 @@ fun ComposePager(
         if (pageCount <= composePagerState.getCurrSelectIndex())
             composePagerState.setPageIndex(pageCount - 1)
     })
-    //记录ComposePager的宽高中的对应方向的值
-    var mainAxisSize = remember { 0 }
-    //用于配合滑动和动画
-    var mOffset by remember {
-        mutableStateOf<Float?>(null)
-    }
+
     //滑动监听
     val draggableState = rememberDraggableState {
         //停止之前的动画
         composePagerState.pageChangeAnimFlag = null
         val min = if (composePagerState.currSelectIndex.value + 1 >= pageCount)
-            0f else -mainAxisSize.toFloat()
+            0f else -composePagerState.mainAxisSize.toFloat()
         val max = if (composePagerState.currSelectIndex.value <= 0)
-            0f else mainAxisSize.toFloat()
-        mOffset = midOf(min, (mOffset ?: 0f) + it, max)
+            0f else composePagerState.mainAxisSize.toFloat()
+        composePagerState.mOffset = midOf(min, (composePagerState.mOffset ?: 0f) + it, max)
     }
-    val currSelectIndex = composePagerState.currSelectIndex.value
     //放置的三个compose元素的scope,分别是0,1,2
-    val composePagerScope0 = remember(currSelectIndex) {
-        ComposePagerScope(currSelectIndex - 1)
+    val composePagerScope0 = remember(composePagerState.currSelectIndex.value) {
+        ComposePagerScope(composePagerState.currSelectIndex.value - 1)
     }
-    val composePagerScope1 = remember(currSelectIndex) {
-        ComposePagerScope(currSelectIndex)
+    val composePagerScope1 = remember(composePagerState.currSelectIndex.value) {
+        ComposePagerScope(composePagerState.currSelectIndex.value)
     }
-    val composePagerScope2 = remember(currSelectIndex) {
-        ComposePagerScope(currSelectIndex + 1)
+    val composePagerScope2 = remember(composePagerState.currSelectIndex.value) {
+        ComposePagerScope(composePagerState.currSelectIndex.value + 1)
     }
 
     //处理offset
-    LaunchedEffect(key1 = mOffset, key2 = orientation, block = {
-        val offset = mOffset ?: return@LaunchedEffect
-        composePagerState.offsetAnim.snapTo(
-            offset - composePagerState.currSelectIndex.value * mainAxisSize
-        )
-    })
+    LaunchedEffect(
+        key1 = composePagerState.mOffset,
+        key2 = orientation,
+        block = {
+            val offset = composePagerState.mOffset ?: return@LaunchedEffect
+            composePagerState.offsetAnim.snapTo(
+                offset - composePagerState.currSelectIndex.value * composePagerState.mainAxisSize
+            )
+        })
     //处理翻页动画
-    LaunchedEffect(key1 = composePagerState.pageChangeAnimFlag, block = {
-        val flag = composePagerState.pageChangeAnimFlag
-        if (flag == null) {
-            if (composePagerState.offsetAnim.isRunning)
-                composePagerState.offsetAnim.stop()
-            return@LaunchedEffect
-        }
-        try {
-            val index = composePagerState.currSelectIndex.value
-            when (flag) {
-                PageChangeAnimFlag.Prev -> {
-                    if (index <= 0)
-                        return@LaunchedEffect
-                    mOffset = null
-                    try {
-                        composePagerState.offsetAnim.animateTo(-(index - 1) * mainAxisSize.toFloat())
-                    } finally {
-                        composePagerState.currSelectIndex.value = index - 1
-                        mOffset = 0f
-                    }
-                }
-                PageChangeAnimFlag.Next -> {
-                    if (index + 1 >= pageCount)
-                        return@LaunchedEffect
-                    mOffset = null
-                    try {
-                        composePagerState.offsetAnim.animateTo(-(index + 1) * mainAxisSize.toFloat())
-                    } finally {
-                        composePagerState.currSelectIndex.value = index + 1
-                        mOffset = 0f
-                    }
-                }
-                PageChangeAnimFlag.Reduction -> {
-                    composePagerState.offsetAnim.animateTo(-index * mainAxisSize.toFloat())
-                }
-                is PageChangeAnimFlag.GoToPageNotAnim -> {
-                    composePagerState.currSelectIndex.value = flag.index
-                    composePagerState.offsetAnim.snapTo(-flag.index * mainAxisSize.toFloat())
-                }
+    LaunchedEffect(
+        key1 = composePagerState.pageChangeAnimFlag,
+        block = {
+            val flag = composePagerState.pageChangeAnimFlag
+            if (flag == null) {
+                if (composePagerState.offsetAnim.isRunning)
+                    composePagerState.offsetAnim.stop()
+                return@LaunchedEffect
             }
-        } finally {
-            composePagerState.pageChangeAnimFlag = null
-        }
-    })
+            try {
+                val index = composePagerState.currSelectIndex.value
+                when (flag) {
+                    PageChangeAnimFlag.Prev -> {
+                        if (index <= 0)
+                            return@LaunchedEffect
+                        composePagerState.mOffset = null
+                        try {
+                            composePagerState.offsetAnim.animateTo(-(index - 1) * composePagerState.mainAxisSize.toFloat())
+                        } finally {
+                            composePagerState.plusPageOffset = -1
+                            composePagerState.currSelectIndex.value = index - 1
+                            composePagerState.mOffset = 0f
+                        }
+                    }
+                    PageChangeAnimFlag.Next -> {
+                        if (index + 1 >= pageCount)
+                            return@LaunchedEffect
+                        composePagerState.mOffset = null
+                        try {
+                            composePagerState.offsetAnim.animateTo(-(index + 1) * composePagerState.mainAxisSize.toFloat())
+                        } finally {
+                            composePagerState.plusPageOffset = 1
+                            composePagerState.currSelectIndex.value = index + 1
+                            composePagerState.mOffset = 0f
+                        }
+                    }
+                    PageChangeAnimFlag.Reduction -> {
+                        composePagerState.offsetAnim.animateTo(-index * composePagerState.mainAxisSize.toFloat())
+                    }
+                    is PageChangeAnimFlag.GoToPageNotAnim -> {
+                        composePagerState.currSelectIndex.value = flag.index
+                        composePagerState.offsetAnim.snapTo(-flag.index * composePagerState.mainAxisSize.toFloat())
+                    }
+                }
+            } finally {
+                composePagerState.pageChangeAnimFlag = null
+            }
+        })
 
     //测量和放置compose元素
     Layout(
@@ -149,13 +152,13 @@ fun ComposePager(
         },
         modifier = modifier
             .draggable(draggableState, orientation, enabled = userEnable, onDragStarted = {
-                mOffset = 0f
+                composePagerState.mOffset = 0f
                 composePagerState.onUserDragStarted?.invoke(this, it)
             }, onDragStopped = {
                 val index = composePagerState.currSelectIndex.value
-                if (composePagerState.offsetAnim.value + it > -(index * mainAxisSize - mainAxisSize / 2)) {
+                if (composePagerState.offsetAnim.value + it > -(index * composePagerState.mainAxisSize - composePagerState.mainAxisSize / 2)) {
                     composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
-                } else if (composePagerState.offsetAnim.value + it < -(index * mainAxisSize + mainAxisSize / 2)) {
+                } else if (composePagerState.offsetAnim.value + it < -(index * composePagerState.mainAxisSize + composePagerState.mainAxisSize / 2)) {
                     composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
                 } else {
                     composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
@@ -173,24 +176,29 @@ fun ComposePager(
             height = maxOf(height, placeable.height)
             placeable
         }
-        mainAxisSize = if (orientation == Orientation.Horizontal) width else height
+        composePagerState.mainAxisSize =
+            if (orientation == Orientation.Horizontal) width else height
         //设置自身大小,并布局子元素
         layout(width, height) {
             val animValue = composePagerState.offsetAnim.value.toInt()
             val selectIndex = composePagerState.currSelectIndex.value
             placeables.forEachIndexed { index, placeable ->
+                val offset = (index + selectIndex - 1) * composePagerState.mainAxisSize +
+                        animValue -
+                        composePagerState.plusPageOffset * composePagerState.mainAxisSize
                 //遍历放置子元素
                 if (orientation == Orientation.Horizontal)
                     placeable.placeRelative(
-                        x = (index + selectIndex - 1) * width + animValue,
+                        x = offset,
                         y = 0
                     )//placeRelative可以适配从右到左布局的放置子元素,place只适用于从左到右的布局
                 else
                     placeable.placeRelative(
                         x = 0,
-                        y = (index + selectIndex - 1) * height + animValue
+                        y = offset
                     )
             }
+            composePagerState.plusPageOffset = 0
         }
     }
 }
