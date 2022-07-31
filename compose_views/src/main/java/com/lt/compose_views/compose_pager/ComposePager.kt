@@ -111,7 +111,6 @@ fun ComposePager(
                         try {
                             composePagerState.offsetAnim.animateTo(-(index - 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
-                            composePagerState.plusPageOffset = -1
                             composePagerState.currSelectIndex.value = index - 1
                             composePagerState.mOffset = 0f
                         }
@@ -123,7 +122,6 @@ fun ComposePager(
                         try {
                             composePagerState.offsetAnim.animateTo(-(index + 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
-                            composePagerState.plusPageOffset = 1
                             composePagerState.currSelectIndex.value = index + 1
                             composePagerState.mOffset = 0f
                         }
@@ -187,9 +185,7 @@ fun ComposePager(
             val animValue = composePagerState.offsetAnim.value.toInt()
             val selectIndex = composePagerState.currSelectIndex.value
             placeables.forEachIndexed { index, placeable ->
-                val offset = (index + selectIndex - 1) * composePagerState.mainAxisSize +
-                        animValue -
-                        composePagerState.plusPageOffset * composePagerState.mainAxisSize
+                val offset = (index + selectIndex - 1) * composePagerState.mainAxisSize + animValue
                 //遍历放置子元素
                 if (orientation == Orientation.Horizontal)
                     placeable.placeRelative(
@@ -202,7 +198,6 @@ fun ComposePager(
                         y = offset
                     )
             }
-            composePagerState.plusPageOffset = 0
         }
     }
 }

@@ -41,9 +41,6 @@ class ComposePagerState {
     //用于配合滑动和动画
     internal var mOffset by mutableStateOf<Float?>(null)
 
-    //是否增加n个页数的偏移量,用于处理某些机型的闪动问题
-    internal var plusPageOffset by mutableStateOf(0)
-
     /**
      * 监听用户开始滑动
      */
