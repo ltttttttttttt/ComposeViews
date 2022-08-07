@@ -20,8 +20,7 @@ import androidx.compose.foundation.Indication
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 
@@ -49,7 +48,7 @@ inline fun Modifier.click(
     role: Role? = null,
     crossinline onClick: () -> Unit
 ): Modifier {
-    var lastClickTime = remember { 0L }
+    var lastClickTime by remember { mutableStateOf(value = 0L) }
     return clickable(interactionSource, indication, enabled, onClickLabel, role) {
         val currentTimeMillis = System.currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {
@@ -67,7 +66,7 @@ inline fun composeClick(
     time: Int = VIEW_CLICK_INTERVAL_TIME,
     crossinline onClick: () -> Unit
 ): () -> Unit {
-    var lastClickTime = remember { 0L }
+    var lastClickTime by remember { mutableStateOf(value = 0L) }
     return {
         val currentTimeMillis = System.currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {
