@@ -16,6 +16,7 @@
 
 package com.lt.test_compose
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -85,7 +86,9 @@ class MenuFabActivity : BaseComposeActivity() {
                     bottom.linkTo(parent.bottom, margin = 60.dp)
                     end.linkTo(parent.end, margin = 20.dp)
                 },
-            )
+            ) {
+                Toast.makeText(this@MenuFabActivity, "点击了${it.label}", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
