@@ -18,6 +18,7 @@
 5. RefreshLayout
 6. FlowLayout
 7. GoodTextField and PasswordTextField
+8. MenuFloatingActionButton
 
 ## Add to your project
 
@@ -191,7 +192,7 @@ fun PasswordTextField()
 
 ## MenuFloatingActionButton
 
-<div align=center><img src="md_resource/fab.png" width=40%></div>
+<div align=center><img src="md_resource/fab.png" width=20%></div>
 
 ```kotlin
 /**
