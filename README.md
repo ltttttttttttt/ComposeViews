@@ -188,3 +188,21 @@ fun GoodTextField()
 @Composable
 fun PasswordTextField()
 ```
+
+## MenuFloatingActionButton
+
+```kotlin
+/**
+ * 带菜单的Fab
+ *
+ * [srcIcon]按钮的图标
+ * [items]菜单项
+ * [modifier]修饰
+ * [srcIconColor]按钮图标的颜色
+ * [fabBackgroundColor]按钮区域背景色
+ * [showLabels]是否展示菜单项的提示文本
+ * [onFabItemClicked]菜单项点击事件
+ */
+@Composable
+fun MenuFloatingActionButton()
+```
