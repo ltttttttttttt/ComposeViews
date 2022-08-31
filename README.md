@@ -191,6 +191,8 @@ fun PasswordTextField()
 
 ## MenuFloatingActionButton
 
+<div align=center><img src="md_resource/fab.png" width=40%></div>
+
 ```kotlin
 /**
  * 带菜单的Fab
