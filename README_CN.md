@@ -53,7 +53,7 @@ dependencies {
 
 ## ComposePager
 
-<div align=center><img src="md_resource/compose_pager.gif" width=50%></div>
+<div align=center><img src="md_resource/compose_pager.gif" width=30%></div>
 
 ```kotlin
 /**
@@ -127,7 +127,7 @@ fun FlowLayout()
 
 ## GoodTextField and PasswordTextField
 
-<div align=center><img src="md_resource/text_field.png" width=40%></div>
+<div align=center><img src="md_resource/text_field.png" width=30%></div>
 
 ```kotlin
 /**
