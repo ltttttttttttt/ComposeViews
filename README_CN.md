@@ -209,4 +209,4 @@ fun PasswordTextField()
 fun MenuFloatingActionButton()
 ```
 
-<h6>最后感谢<a href="https://www.jetbrains.com/?from=ComposeViews" target="_blank">JetBrains</a>对本项目的支持<h6>
+<h6>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对本项目的支持<h6>
