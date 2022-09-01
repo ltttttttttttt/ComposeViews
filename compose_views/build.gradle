@@ -23,7 +23,7 @@ plugins {
 group = "com.github.ltttttttttttt"
 version = "1.0.0"
 
-def composeVersion = "1.1.1"
+def composeVersion = file("../config/composeVersion.txt").getText()
 
 android {
     compileSdk 31

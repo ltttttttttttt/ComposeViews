@@ -44,6 +44,7 @@
         <activity android:name=".FlowLayoutActivity" />
         <activity android:name=".TextFieldActivity" />
         <activity android:name=".MenuFabActivity" />
+        <activity android:name=".RefreshLayoutActivity" />
     </application>
 
 </manifest>

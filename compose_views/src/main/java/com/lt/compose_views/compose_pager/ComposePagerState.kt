@@ -22,7 +22,7 @@ import androidx.compose.ui.geometry.Offset
 import kotlinx.coroutines.CoroutineScope
 
 /**
- * ComposePager的compose作用域
+ * ComposePager的状态
  */
 class ComposePagerState {
 

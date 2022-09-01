@@ -33,6 +33,7 @@ class MainActivity : BaseComposeActivity() {
         "FlowLayout功能" to FlowLayoutActivity::class.java,
         "TextField功能" to TextFieldActivity::class.java,
         "MenuFab功能" to MenuFabActivity::class.java,
+        "RefreshLayout功能" to RefreshLayoutActivity::class.java,
     )
 
     override fun getTitleText(): String = "功能列表"
