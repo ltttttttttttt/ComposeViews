@@ -192,7 +192,7 @@ fun PasswordTextField()
 
 ## MenuFloatingActionButton
 
-<div align=center><img src="md_resource/fab.png" width=20%></div>
+<div align=center><img src="md_resource/fab.gif" width=20%></div>
 
 ```kotlin
 /**
@@ -209,3 +209,5 @@ fun PasswordTextField()
 @Composable
 fun MenuFloatingActionButton()
 ```
+
+<h6>Finally, thank <a href="https://www.jetbrains.com/?from=ComposeViews" target="_blank">JetBrains</a> for its support to this project<h6>
