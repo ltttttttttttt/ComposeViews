@@ -23,6 +23,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
@@ -55,8 +56,14 @@ fun RefreshLayout(
     content: @Composable () -> Unit,
 ) {
     // TODO by lt 待实现
-    remember(key1 = refreshLayoutState, key2 = composePosition) {
+    val density = LocalDensity.current
+    //更新状态
+    remember(key1 = refreshLayoutState, key2 = composePosition, key3 = refreshContentThreshold) {
         refreshLayoutState.composePositionState.value = composePosition
+        if (refreshContentThreshold != null)
+            refreshLayoutState.refreshContentThresholdState.value =
+                with(density) { refreshContentThreshold.toPx() }
+        refreshLayoutState
     }
 
     Layout(
@@ -71,6 +78,15 @@ fun RefreshLayout(
     ) { measurables, constraints ->
         val refreshContentPlaceable = measurables[0].measure(Constraints())
         val contentPlaceable = measurables[1].measure(constraints)
+
+        if (refreshContentThreshold == null) {
+            refreshLayoutState.refreshContentThresholdState.value =
+                if (composePosition.orientation == Orientation.Horizontal) {
+                    refreshContentPlaceable.width.toFloat()
+                } else {
+                    refreshContentPlaceable.height.toFloat()
+                }
+        }
 
         layout(contentPlaceable.width, contentPlaceable.height) {
             // TODO by lt 待修改
