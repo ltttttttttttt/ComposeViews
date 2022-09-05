@@ -30,6 +30,7 @@ class MainActivity : BaseComposeActivity() {
         "rv的基础功能" to MainListActivity::class.java,
         "ViewPager功能" to ComposePagerActivity::class.java,
         "Banner功能" to BannerActivity::class.java,
+        "BannerIndicator功能" to BannerIndicatorActivity::class.java,
         "FlowLayout功能" to FlowLayoutActivity::class.java,
         "TextField功能" to TextFieldActivity::class.java,
         "MenuFab功能" to MenuFabActivity::class.java,

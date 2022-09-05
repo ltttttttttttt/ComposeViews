@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.refresh_layout.RefreshLayout
+import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
 import kotlin.random.Random
@@ -74,6 +75,8 @@ class RefreshLayoutActivity : BaseComposeActivity() {
 
             RefreshLayout({
                 Text(text = "下拉刷新")
+            }, rememberRefreshLayoutState {
+
             }) {
                 Text(text = "内容区域")
             }

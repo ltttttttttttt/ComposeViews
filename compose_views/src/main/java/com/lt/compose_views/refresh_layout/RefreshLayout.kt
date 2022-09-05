@@ -35,8 +35,8 @@ import com.lt.compose_views.util.clipScrollableContainer
  * effect : 可以上拉加载和下拉刷新的容器
  * warning:
  * [refreshContent]刷新布局内容区域
- * [modifier]修饰
  * [refreshLayoutState]RefreshLayout的状态
+ * [modifier]修饰
  * [refreshContentThreshold]刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
  * [composePosition]设置刷新布局的位置,并且间接指定了滑动方向
  * [childIsMove]内部子组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
@@ -47,8 +47,8 @@ import com.lt.compose_views.util.clipScrollableContainer
 @Composable
 fun RefreshLayout(
     refreshContent: @Composable RefreshLayoutState.() -> Unit,
+    refreshLayoutState: RefreshLayoutState,
     modifier: Modifier = Modifier,
-    refreshLayoutState: RefreshLayoutState = rememberRefreshLayoutState(),
     refreshContentThreshold: Dp? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     childIsMove: Boolean = true,

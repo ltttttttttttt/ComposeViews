@@ -16,8 +16,46 @@
 
 package com.lt.compose_views.banner_indicator
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 适用于Banner的指示器
  * warning:
+ * [size]指示器数量
+ * [offsetPercentWithSelect]选中的指示器的偏移百分比
+ * [selectIndex]选中的索引
+ * [indicatorItem]未被选中的指示器
+ * [selectIndicatorItem]被选中的指示器
+ * [modifier]修饰
+ * [margin]指示器之间的间距
  */
+@Composable
+fun HorizontalIndicator(
+    size: Int,
+    offsetPercentWithSelect: Float,
+    selectIndex: Int,
+    indicatorItem: @Composable (index: Int) -> Unit,
+    selectIndicatorItem: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    margin: Dp = 8.dp
+) {
+    // TODO by lt 2022/9/5 22:33 待实现
+    Box(modifier, contentAlignment = Alignment.CenterStart) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            repeat(size) {
+                if (it != 0)
+                    Spacer(modifier = Modifier.width(margin))
+                indicatorItem(it)
+            }
+        }
+        Box(Modifier.padding(start = (40.dp + margin) * selectIndex)) {// TODO by lt test
+            selectIndicatorItem()
+        }
+    }
+}

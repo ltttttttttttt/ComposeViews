@@ -45,6 +45,7 @@
         <activity android:name=".TextFieldActivity" />
         <activity android:name=".MenuFabActivity" />
         <activity android:name=".RefreshLayoutActivity" />
+        <activity android:name=".BannerIndicatorActivity" />
     </application>
 
 </manifest>
