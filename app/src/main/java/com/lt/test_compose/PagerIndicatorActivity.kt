@@ -31,11 +31,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.banner.Banner
 import com.lt.compose_views.banner.rememberBannerState
-import com.lt.compose_views.pager_indicator.PagerIndicator
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
+import com.lt.compose_views.image_banner.ImageBanner
 import com.lt.compose_views.other.VerticalSpace
+import com.lt.compose_views.pager_indicator.PagerIndicator
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
 
@@ -74,6 +75,8 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             BannerView()
             VerticalSpace(dp = 10)
             PagerView()
+            VerticalSpace(dp = 10)
+            Images()
         }
     }
 
@@ -104,8 +107,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                             this@PagerIndicatorActivity,
                             "index=$index",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }, modifier = M.align(Alignment.Center)) {
                         Text(text = this@Banner.index.toString(), fontSize = 30.sp)
                     }
@@ -148,7 +150,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
         Box(
             modifier = M
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(100.dp)
         ) {
             ComposePager(
                 colors.size,
@@ -200,5 +202,46 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                 orientation = orientation.value,
             )
         }
+    }
+
+    val images = listOf(
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F66b7ce397068c1f4710cafe4e1827ab5f7565180.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065304&t=c45a94bbac62a3bd502dc53e40afc583",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fc0793b2877f09ded49e96e3b3e05781d4f1e2e9e.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065303&t=86940ecb5bf20d1c90b5fb1c1f0afb06",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F79c593c97cb1aef62160a7c6165ea3ecdc60f064.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065301&t=0d840bcfe779bcac4ea65db6d257c417",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F2726b76584c11dc75449024ad6105893be1edd0f.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065300&t=7afae3a8eccb498fb37d54ff54d2016b",
+    )
+
+    @Composable
+    private fun Images() {
+        // TODO by lt 2022/9/6 22:28 指示器位置修改,指示器大小不一致时导致的问题,pager闪动问题,后续将coil库移除,让用户自行加载图片
+        ImageBanner(
+            images = images,
+            indicatorItem = {
+                Spacer(
+                    modifier = M
+                        .size(12.dp, 6.dp)
+                        .background(Color.Gray, CircleShape)
+                )
+            },
+            selectIndicatorItem = {
+                Spacer(
+                    modifier = M
+                        .size(18.dp, 6.dp)
+                        .background(Color(72, 199, 108), CircleShape)
+                )
+            },
+            modifier = M
+                .fillMaxWidth()
+                .height(200.dp),
+            orientation = orientation.value,
+            autoScrollTime = 1500,
+            onItemClick = {
+                Toast.makeText(
+                    this@PagerIndicatorActivity,
+                    "index=$it",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
     }
 }

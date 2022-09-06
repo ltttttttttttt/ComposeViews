@@ -18,4 +18,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lt.compose_views">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>
