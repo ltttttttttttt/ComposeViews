@@ -46,6 +46,7 @@
         <activity android:name=".MenuFabActivity" />
         <activity android:name=".RefreshLayoutActivity" />
         <activity android:name=".BannerIndicatorActivity" />
+        <activity android:name=".ScrollableAppBarActivity" />
     </application>
 
 </manifest>

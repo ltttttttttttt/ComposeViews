@@ -35,6 +35,7 @@ class MainActivity : BaseComposeActivity() {
         "TextField功能" to TextFieldActivity::class.java,
         "MenuFab功能" to MenuFabActivity::class.java,
         "RefreshLayout功能" to RefreshLayoutActivity::class.java,
+        "ScrollableAppBar功能" to ScrollableAppBarActivity::class.java,
     )
 
     override fun getTitleText(): String = "功能列表"
