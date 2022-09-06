@@ -16,6 +16,7 @@
 
 package com.lt.compose_views.banner
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -45,9 +46,9 @@ class BannerState {
     fun getCurrSelectIndex(): Int = composePagerState.getCurrSelectIndex() % pageCount
 
     /**
-     * 获取Banner所在的索引的state对象
+     * 创建Banner当前索引的flow对象
      */
-    fun getCurrSelectIndexState(): Flow<Int> = snapshotFlow {
+    fun createCurrSelectIndexFlow(): Flow<Int> = snapshotFlow {
         composePagerState.getCurrSelectIndexState().value % pageCount
     }
 
@@ -60,6 +61,19 @@ class BannerState {
      * 获取Offset偏移量的state对象
      */
     fun getOffsetState(): State<Float> = composePagerState.getOffsetState()
+
+    /**
+     * 创建子项Offset偏移比例的flow对象
+     */
+    fun createChildOffsetPercentFlow(): Flow<Float> = snapshotFlow {
+        val mainAxisSize = composePagerState.mainAxisSize
+        if (mainAxisSize == 0)
+            0f
+        else {
+            val percent = composePagerState.offsetAnim.value / mainAxisSize
+            0 - (percent + composePagerState.getCurrSelectIndex())
+        }
+    }
 
     /**
      * 切换选中的页数,无动画

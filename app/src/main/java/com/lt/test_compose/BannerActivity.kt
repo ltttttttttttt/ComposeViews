@@ -52,7 +52,7 @@ class BannerActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         val bannerState = rememberBannerState()
-        val itemIndex by remember { bannerState.getCurrSelectIndexState() }
+        val itemIndex by remember { bannerState.createCurrSelectIndexFlow() }
             .collectAsState(initial = 0)
         Column(M.fillMaxSize()) {
             FlowLayout(horizontalMargin = 10.dp) {

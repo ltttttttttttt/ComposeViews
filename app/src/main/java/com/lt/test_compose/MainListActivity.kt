@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
-import com.lt.test_compose.base.rememberMutableStateOf
+import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

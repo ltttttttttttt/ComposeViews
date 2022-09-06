@@ -22,12 +22,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.text_field.GoodTextField
 import com.lt.compose_views.text_field.HintComposeWithTextField
 import com.lt.compose_views.text_field.PasswordTextField
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
-import com.lt.test_compose.base.VerticalSpace
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com

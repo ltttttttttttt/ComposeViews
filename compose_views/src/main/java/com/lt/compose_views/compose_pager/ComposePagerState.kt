@@ -17,9 +17,11 @@
 package com.lt.compose_views.compose_pager
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.runtime.*
 import androidx.compose.ui.geometry.Offset
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 
 /**
  * ComposePager的状态
@@ -40,6 +42,9 @@ class ComposePagerState {
 
     //用于配合滑动和动画
     internal var mOffset by mutableStateOf<Float?>(null)
+
+    //组件的方向信息
+    internal var orientation: Orientation = Orientation.Horizontal
 
     /**
      * 监听用户开始滑动
@@ -70,6 +75,19 @@ class ComposePagerState {
      * 获取Offset偏移量的state对象
      */
     fun getOffsetState(): State<Float> = offsetAnim.asState()
+
+    /**
+     * 创建子项Offset偏移比例的flow对象
+     */
+    fun createChildOffsetPercentFlow(): Flow<Float> = snapshotFlow {
+        val mainAxisSize = mainAxisSize
+        if (mainAxisSize == 0)
+            0f
+        else {
+            val percent = offsetAnim.value / mainAxisSize
+            0 - ( percent +getCurrSelectIndex())
+        }
+    }
 
     /**
      * 切换选中的页数,无动画

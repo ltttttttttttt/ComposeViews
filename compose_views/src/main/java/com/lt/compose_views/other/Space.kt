@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
-package com.lt.test_compose.base
+package com.lt.compose_views.other
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
  * creator: lt  2021/4/13  lt.dygzs@qq.com
- * effect : 简单的常用的控件
+ * effect : 间隔view
  * warning:
  */
 
-/**
- * 间隔view
- */
 @Composable
 fun HorizontalSpace(dp: Int) {
-    Spacer(M.width(dp.dp))
+    Spacer(Modifier.width(dp.dp))
 }
 
 @Composable
 fun VerticalSpace(dp: Int) {
-    Spacer(M.height(dp.dp))
+    Spacer(Modifier.height(dp.dp))
 }
