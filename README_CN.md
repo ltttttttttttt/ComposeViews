@@ -13,7 +13,7 @@
 
 1. ComposePager
 2. Banner
-3. BannerIndicator
+3. PagerIndicator
 4. ImageBanner
 5. RefreshLayout
 6. FlowLayout
@@ -87,10 +87,22 @@ fun ComposePager()
 fun Banner()
 ```
 
-## BannerIndicator
+## PagerIndicator
 
 ```kotlin
-
+/**
+ * 适用于Pager的指示器
+ * [size]指示器数量
+ * [offsetPercentWithSelect]选中的指示器的偏移百分比
+ * [selectIndex]选中的索引
+ * [indicatorItem]未被选中的指示器
+ * [selectIndicatorItem]被选中的指示器
+ * [modifier]修饰
+ * [margin]指示器之间的间距
+ * [orientation]指示器排列方向
+ */
+@Composable
+fun PagerIndicator()
 ```
 
 ## ImageBanner

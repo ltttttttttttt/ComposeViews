@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.banner.Banner
 import com.lt.compose_views.banner.rememberBannerState
-import com.lt.compose_views.banner_indicator.PagerIndicator
+import com.lt.compose_views.pager_indicator.PagerIndicator
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
@@ -44,7 +44,7 @@ import com.lt.test_compose.base.M
  * effect :
  * warning:
  */
-class BannerIndicatorActivity : BaseComposeActivity() {
+class PagerIndicatorActivity : BaseComposeActivity() {
     private val colors = mutableStateListOf(
         Color(150, 105, 61, 255),
         Color(122, 138, 55, 255),
@@ -54,7 +54,7 @@ class BannerIndicatorActivity : BaseComposeActivity() {
     )
     private val orientation = mutableStateOf(Orientation.Horizontal)
 
-    override fun getTitleText(): String = "BannerIndicator"
+    override fun getTitleText(): String = "PagerIndicator"
 
     @Composable
     override fun ComposeContent() {
@@ -101,7 +101,7 @@ class BannerIndicatorActivity : BaseComposeActivity() {
                 ) {
                     Button(onClick = {
                         Toast.makeText(
-                            this@BannerIndicatorActivity,
+                            this@PagerIndicatorActivity,
                             "index=$index",
                             Toast.LENGTH_SHORT
                         )

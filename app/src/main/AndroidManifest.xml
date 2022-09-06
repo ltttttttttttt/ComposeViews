@@ -45,7 +45,7 @@
         <activity android:name=".TextFieldActivity" />
         <activity android:name=".MenuFabActivity" />
         <activity android:name=".RefreshLayoutActivity" />
-        <activity android:name=".BannerIndicatorActivity" />
+        <activity android:name=".PagerIndicatorActivity" />
         <activity android:name=".ScrollableAppBarActivity" />
     </application>
 

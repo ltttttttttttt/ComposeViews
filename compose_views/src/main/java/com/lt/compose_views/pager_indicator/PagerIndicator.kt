@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.banner_indicator
+package com.lt.compose_views.pager_indicator
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
