@@ -17,7 +17,9 @@
 package com.lt.test_compose
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -27,8 +29,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.lt.compose_views.banner.Banner
 import com.lt.compose_views.banner.rememberBannerState
 import com.lt.compose_views.compose_pager.ComposePager
@@ -213,9 +217,19 @@ class PagerIndicatorActivity : BaseComposeActivity() {
 
     @Composable
     private fun Images() {
-        // TODO by lt 2022/9/6 22:28 指示器位置修改,指示器大小不一致时导致的问题,pager闪动问题,后续将coil库移除,让用户自行加载图片
+        // TODO by lt 2022/9/6 22:28 pager闪动问题
         ImageBanner(
-            images = images,
+            imageSize = images.size,
+            imageContent = {
+                Image(
+                    painter = rememberImagePainter(data = images[index]),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable { onItemClick(index) },
+                    contentScale = ContentScale.Crop
+                )
+            },
             indicatorItem = {
                 Spacer(
                     modifier = M
@@ -226,7 +240,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             selectIndicatorItem = {
                 Spacer(
                     modifier = M
-                        .size(18.dp, 6.dp)
+                        .size(12.dp, 6.dp)
                         .background(Color(72, 199, 108), CircleShape)
                 )
             },
@@ -235,13 +249,14 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                 .height(200.dp),
             orientation = orientation.value,
             autoScrollTime = 1500,
-            onItemClick = {
-                Toast.makeText(
-                    this@PagerIndicatorActivity,
-                    "index=$it",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
         )
+    }
+
+    private fun onItemClick(index: Int) {
+        Toast.makeText(
+            this@PagerIndicatorActivity,
+            "index=$index",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

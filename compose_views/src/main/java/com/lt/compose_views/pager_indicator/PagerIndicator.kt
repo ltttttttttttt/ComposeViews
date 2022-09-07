@@ -34,7 +34,7 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 适用于Pager的指示器
- * warning:
+ * warning: 如果方向为横向时,需要指示器的宽度一致,否则会出现ui和滑动逻辑的问题,反之亦然
  * [size]指示器数量
  * [offsetPercentWithSelect]选中的指示器的偏移百分比
  * [selectIndex]选中的索引

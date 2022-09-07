@@ -16,19 +16,19 @@
 
 package com.lt.compose_views.image_banner
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import coil.compose.rememberImagePainter
+import androidx.compose.ui.unit.dp
 import com.lt.compose_views.banner.Banner
+import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.banner.BannerState
 import com.lt.compose_views.banner.rememberBannerState
 import com.lt.compose_views.pager_indicator.PagerIndicator
@@ -37,53 +37,51 @@ import com.lt.compose_views.pager_indicator.PagerIndicator
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 展示图片的Banner
  * warning: 需要引入coil库,如: io.coil-kt:coil-compose:1.4.0
- * [images]图片地址列表
+ * [imageSize]图片数量
+ * [imageContent]放置图片的content
  * [indicatorItem]未被选中的指示器,如果为null则不展示指示器
  * [selectIndicatorItem]被选中的指示器,如果为null则不展示指示器
  * [modifier]修饰
  * [bannerState]Banner的状态
  * [orientation]滑动的方向
  * [autoScrollTime]自动滚动间隔时间
- * [onItemClick]条目的点击事件
  */
 @Composable
 fun ImageBanner(
-    images: List<String>,
+    imageSize: Int,
+    imageContent: @Composable BannerScope.() -> Unit,
     indicatorItem: @Composable ((index: Int) -> Unit)?,
     selectIndicatorItem: @Composable (() -> Unit)?,
     modifier: Modifier = Modifier,
     bannerState: BannerState = rememberBannerState(),
     orientation: Orientation = Orientation.Horizontal,
     autoScrollTime: Long = 3000,
-    onItemClick: (index: Int) -> Unit
 ) {
     Box(modifier = modifier) {
+        //banner部分
         Banner(
-            pageCount = images.size,
+            pageCount = imageSize,
             bannerState = bannerState,
             orientation = orientation,
             autoScrollTime = autoScrollTime,
             modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                painter = rememberImagePainter(data = images[index]),
-                contentDescription = "",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { onItemClick(index) },
-                contentScale = ContentScale.Crop
-            )
+            imageContent()
         }
+        //指示器部分
         if (indicatorItem != null && selectIndicatorItem != null) {
             val offsetPercent by remember(orientation) { bannerState.createChildOffsetPercentFlow() }
                 .collectAsState(initial = 0f)
             PagerIndicator(
-                size = images.size,
+                size = imageSize,
                 offsetPercentWithSelect = offsetPercent,
                 selectIndex = bannerState.getCurrSelectIndex(),
                 indicatorItem = indicatorItem,
                 selectIndicatorItem = selectIndicatorItem,
                 orientation = orientation,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(if (orientation == Orientation.Horizontal) Alignment.BottomCenter else Alignment.CenterEnd)
             )
         }
     }
