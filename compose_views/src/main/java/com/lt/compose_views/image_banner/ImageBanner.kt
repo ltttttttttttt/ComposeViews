@@ -44,6 +44,7 @@ import com.lt.compose_views.pager_indicator.PagerIndicator
  * [modifier]修饰
  * [bannerState]Banner的状态
  * [orientation]滑动的方向
+ * [autoScroll]是否自动滚动
  * [autoScrollTime]自动滚动间隔时间
  */
 @Composable
@@ -55,6 +56,7 @@ fun ImageBanner(
     modifier: Modifier = Modifier,
     bannerState: BannerState = rememberBannerState(),
     orientation: Orientation = Orientation.Horizontal,
+    autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
 ) {
     Box(modifier = modifier) {
@@ -63,6 +65,7 @@ fun ImageBanner(
             pageCount = imageSize,
             bannerState = bannerState,
             orientation = orientation,
+            autoScroll = autoScroll,
             autoScrollTime = autoScrollTime,
             modifier = Modifier.fillMaxSize()
         ) {

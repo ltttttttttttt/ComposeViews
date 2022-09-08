@@ -217,7 +217,6 @@ class PagerIndicatorActivity : BaseComposeActivity() {
 
     @Composable
     private fun Images() {
-        // TODO by lt 2022/9/6 22:28 pager闪动问题,增加左右多页面缓存配置
         ImageBanner(
             imageSize = images.size,
             imageContent = {

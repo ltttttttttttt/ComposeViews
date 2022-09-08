@@ -16,6 +16,8 @@
 
 package com.lt.test_compose
 
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
@@ -23,14 +25,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
@@ -47,7 +49,14 @@ class ComposePagerActivity : BaseComposeActivity() {
         Color(112, 62, 11, 255),
         Color(114, 61, 101, 255),
     )
+    private val images = mutableStateListOf(
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F66b7ce397068c1f4710cafe4e1827ab5f7565180.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065304&t=c45a94bbac62a3bd502dc53e40afc583",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fc0793b2877f09ded49e96e3b3e05781d4f1e2e9e.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065303&t=86940ecb5bf20d1c90b5fb1c1f0afb06",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F79c593c97cb1aef62160a7c6165ea3ecdc60f064.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065301&t=0d840bcfe779bcac4ea65db6d257c417",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F2726b76584c11dc75449024ad6105893be1edd0f.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065300&t=7afae3a8eccb498fb37d54ff54d2016b",
+    )
     private val orientation = mutableStateOf(Orientation.Vertical)
+    private var isImage by mutableStateOf(false)
 
     override fun getTitleText(): String = "ComposePager"
 
@@ -67,38 +76,66 @@ class ComposePagerActivity : BaseComposeActivity() {
                 }
                 Text(text = "当前滑动方向:${orientation.value}")
                 Button(onClick = {
-                    colors.add(Color(Random.nextLong()))
+                    if (isImage)
+                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F66b7ce397068c1f4710cafe4e1827ab5f7565180.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065304&t=c45a94bbac62a3bd502dc53e40afc583")
+                    else
+                        colors.add(Color(Random.nextLong()))
                 }) {
                     Text(text = "增加条目")
                 }
                 Button(onClick = {
-                    colors.removeLastOrNull()
+                    if (isImage)
+                        images.removeLastOrNull()
+                    else
+                        colors.removeLastOrNull()
                 }) {
                     Text(text = "减少条目")
                 }
-                Text("当前条目数量:${colors.size}")
+                Text("条目数量:${if (isImage) images.size else colors.size}")
+                Button(onClick = {
+                    isImage = !isImage
+                }) {
+                    Text(text = "切换")
+                }
             }
 
             ComposePager(
-                colors.size,
+                if (isImage) images.size else colors.size,
                 M.fillMaxSize(),
                 composePagerState = composePagerState,
                 orientation = orientation.value,
             ) {
-                Box(
-                    modifier = M
-                        .fillMaxSize()
-                        .background(colors[index])
-                ) {
-                    Button(composeClick {
-                        composePagerState.setPageIndexWithAnim(
-                            if (index + 1 >= colors.size)
-                                0
-                            else
-                                index + 1
-                        )
-                    }, modifier = M.align(Alignment.Center)) {
-                        Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
+                if (isImage) {
+                    DisposableEffect(key1 = index, effect = {
+
+                        Log.e("lllttt",  ".DisposableEffect 99 : $index ${this@ComposePager}")
+                        onDispose {
+
+                            Log.e("lllttt",  ".onDispose 99 : $index ${this@ComposePager}")
+                        }
+                    })
+                    Image(
+                        painter = rememberImagePainter(data = images[index]),
+                        contentDescription = "",
+                        modifier = M.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Box(
+                        modifier = M
+                            .fillMaxSize()
+                            .background(colors[index])
+                    ) {
+                        Button(composeClick {
+                            composePagerState.setPageIndexWithAnim(
+                                if (index + 1 >= colors.size)
+                                    0
+                                else
+                                    index + 1
+                            )
+                        }, modifier = M.align(Alignment.Center)) {
+                            Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
+                        }
                     }
                 }
             }

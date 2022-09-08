@@ -20,6 +20,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.lt.compose_views.compose_pager.ComposePager
+import com.lt.compose_views.compose_pager.LocalIndexToKey
 import kotlinx.coroutines.delay
 
 /**
@@ -79,14 +80,16 @@ fun Banner(
             }
         })
 
-    //使用ComposePager放置元素
-    ComposePager(
-        pageCount = maxPageCount,
-        modifier = modifier,
-        composePagerState = bannerState.composePagerState,
-        orientation = orientation,
-        userEnable = userEnable,
-    ) {
-        content(BannerScope(index % pageCount))
+    CompositionLocalProvider(LocalIndexToKey provides { it % pageCount }) {
+        //使用ComposePager放置元素
+        ComposePager(
+            pageCount = maxPageCount,
+            modifier = modifier,
+            composePagerState = bannerState.composePagerState,
+            orientation = orientation,
+            userEnable = userEnable,
+        ) {
+            content(BannerScope(index))
+        }
     }
 }
