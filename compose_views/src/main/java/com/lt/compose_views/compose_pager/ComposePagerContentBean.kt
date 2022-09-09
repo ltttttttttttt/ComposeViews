@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
  */
 @Stable
 internal data class ComposePagerContentBean(
+    val key:Int,
     val paramModifier: Modifier,
     val paramScope: ComposePagerScope,
     val function: @Composable (Modifier, ComposePagerScope) -> Unit

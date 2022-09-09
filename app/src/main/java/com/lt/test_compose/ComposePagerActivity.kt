@@ -106,7 +106,7 @@ class ComposePagerActivity : BaseComposeActivity() {
                 orientation = orientation.value,
             ) {
                 if (isImage) {
-                    DisposableEffect(key1 = index, effect = {
+                    DisposableEffect(key1 = Unit, effect = {
 
                         Log.e("lllttt",  ".DisposableEffect 99 : $index ${this@ComposePager}")
                         onDispose {

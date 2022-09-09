@@ -29,7 +29,6 @@ import androidx.compose.ui.layout.layoutId
 import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.util.clipScrollableContainer
 import com.lt.compose_views.util.midOf
-import java.util.*
 import kotlin.math.abs
 
 /**
@@ -54,10 +53,22 @@ fun ComposePager(
     @IntRange(from = 1) pageCache: Int = 1,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
+    Log.e("lllttt", "1111111111111111111111")
     // TODO by lt 2022/9/6 22:28 pager闪动问题 ,   测一下pageCache  []改成@par
     //key和content的缓存位置
-    val contentMap by remember(pageCount) {
-        mutableStateOf(TreeMap<Int, ComposePagerContentBean>())
+    val contentList by remember(key1 = pageCache, key2 = pageCount) {
+        mutableStateOf(ArrayList<ComposePagerContentBean>())
+    }
+    //content最大缓存的数量
+    val maxContent by remember(key1 = pageCache, key2 = pageCount) {
+        mutableStateOf(pageCache * 2 + 1)
+    }
+    //下一个要被替换的content缓存的索引
+    var nextContentReplaceIndex by remember(key1 = pageCache, key2 = pageCount) {
+        mutableStateOf<Int?>(null)
+    }
+    var isNextPage by remember {
+        mutableStateOf<PageChangeAnimFlag>(PageChangeAnimFlag.Reduction)
     }
     //检查索引是否在页数内
     remember(key1 = pageCount) {
@@ -71,54 +82,97 @@ fun ComposePager(
     if (pageCount <= composePagerState.getCurrSelectIndex())
         return
 
+    Log.e("lllttt", "222222222222222222222222222222222")
     val indexToKey = LocalIndexToKey.current
+    //初始化content
+    remember(
+        key1 = pageCount,
+        key2 = pageCache,
+    ) {
+        initContentList(
+            composePagerState,
+            pageCache,
+            indexToKey,
+            contentList,
+            pageCount,
+            content
+        )
+        0
+    }
     //放置的compose元素的content
     remember(
         key1 = pageCount,
-        key2 = composePagerState.currSelectIndex.value,
+        key2 = isNextPage,
         key3 = pageCache,
     ) {
-        //当前索引
-        val selectIndex = composePagerState.currSelectIndex.value
-        //key的集合: key to index
-        val keyMap = (selectIndex - pageCache).rangeTo(selectIndex + pageCache)
-            .associateBy { indexToKey(it) }
-        Log.e("lllttt", "keyMap= : $keyMap")
-        //清除不必要的缓存
-        val keyIterator = contentMap.keys.iterator()
-        while (keyIterator.hasNext()) {
-            val key = keyIterator.next()
-            if (!keyMap.containsKey(key)) {
-                keyIterator.remove()
-            }
+        if (isNextPage is PageChangeAnimFlag.GoToPageNotAnim) {
+            contentList.clear()
+            initContentList(
+                composePagerState,
+                pageCache,
+                indexToKey,
+                contentList,
+                pageCount,
+                content
+            )
         }
-        //创建或修改缓存
-        keyMap.forEach { node ->
-            val key = node.key
-            val contentBean = contentMap[key]
-            Log.e("lllttt", ".ComposePager 99 : $contentBean $key")
-            if (contentBean != null) {
-                contentMap[key] = contentBean.copy(paramModifier = Modifier.layoutId(node.value))
-            } else {
-                contentMap[key] = ComposePagerContentBean(
-                    Modifier.layoutId(node.value),
-                    ComposePagerScope(key)
-                ) { mModifier, mScope ->
-                    Log.e("lllttt", "key= : $key  ${node.value}  pageCount=$pageCount")
-                    if (key < 0 || key >= pageCount)
-                        Box(modifier = Modifier)
-                    else {
-                        Box(modifier = mModifier) {
-                            mScope.content()
-                        }
+
+        if (isNextPage == PageChangeAnimFlag.Next) {
+            val currIndex = nextContentReplaceIndex?.let {
+                if (it >= maxContent - 1)
+                    0
+                else
+                    it + 1
+            } ?: 0
+            val index = composePagerState.getCurrSelectIndex() + pageCache
+            val key = indexToKey(index)
+            contentList[currIndex] = ComposePagerContentBean(
+                key,
+                Modifier.layoutId(index),
+                ComposePagerScope(key)
+            ) { mModifier, mScope ->
+                Log.e("lllttt", "key= : $key  ${index}  pageCount=$pageCount")
+                if (key < 0 || key >= pageCount)
+                    Box(modifier = Modifier)
+                else {
+                    Box(modifier = mModifier) {
+                        mScope.content()
                     }
                 }
             }
+            nextContentReplaceIndex = currIndex
+        } else if (isNextPage == PageChangeAnimFlag.Prev) {
+            val currIndex = nextContentReplaceIndex ?: (maxContent - 1)
+            val index = composePagerState.getCurrSelectIndex() - pageCache
+            val key = indexToKey(index)
+            Log.e(
+                "lllttt",
+                "contentMap= :2222222222     $currIndex    $nextContentReplaceIndex  ${composePagerState.getCurrSelectIndex()}  $index   $key"
+            )
+            contentList[currIndex] = ComposePagerContentBean(
+                key,
+                Modifier.layoutId(index),
+                ComposePagerScope(key)
+            ) { mModifier, mScope ->
+                Log.e("lllttt", "key= : $key  ${index}  pageCount=$pageCount")
+                if (key < 0 || key >= pageCount)
+                    Box(modifier = Modifier)
+                else {
+                    Box(modifier = mModifier) {
+                        mScope.content()
+                    }
+                }
+            }
+            nextContentReplaceIndex = if (currIndex <= 0)
+                maxContent - 1
+            else
+                currIndex - 1
         }
-        contentMap.forEach {
-            Log.e("lllttt", "contentMap= : ${it.key} ${it.value}")
+        contentList.forEach {
+            Log.e("lllttt", "contentMap= : $it")
         }
-        contentMap
+        isNextPage = PageChangeAnimFlag.Reduction
+        0
     }
     //滑动监听
     val draggableState = rememberDraggableState {
@@ -162,7 +216,7 @@ fun ComposePager(
                             composePagerState.offsetAnim.animateTo(-(index - 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
                             composePagerState.currSelectIndex.value = index - 1
-                            composePagerState.mOffset = 0f
+                            isNextPage = PageChangeAnimFlag.Prev
                         }
                     }
                     PageChangeAnimFlag.Next -> {
@@ -173,7 +227,7 @@ fun ComposePager(
                             composePagerState.offsetAnim.animateTo(-(index + 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
                             composePagerState.currSelectIndex.value = index + 1
-                            composePagerState.mOffset = 0f
+                            isNextPage = PageChangeAnimFlag.Next
                         }
                     }
                     PageChangeAnimFlag.Reduction -> {
@@ -182,6 +236,7 @@ fun ComposePager(
                     is PageChangeAnimFlag.GoToPageNotAnim -> {
                         composePagerState.currSelectIndex.value = flag.index
                         composePagerState.offsetAnim.snapTo(-flag.index * composePagerState.mainAxisSize.toFloat())
+                        isNextPage = flag
                     }
                 }
             } finally {
@@ -189,12 +244,16 @@ fun ComposePager(
             }
         })
 
+    Log.e("lllttt", "3333333333333333333333333333333333333333")
     //测量和放置compose元素
     Layout(
         content = {
-
-            Log.e("lllttt", "content 99 : ${contentMap.keys}")
-            contentMap.values.forEach { it.function(it.paramModifier, it.paramScope) }
+            Log.e("lllttt", "44444444444444444444444444444444444444444444")
+            Log.e("lllttt", "content 99 : ${contentList}")
+            contentList.forEach {
+                Log.e("lllttt", "55555555555555555  ${it.paramScope.index}")
+                it.function(it.paramModifier, it.paramScope)
+            }
         },
         modifier = modifier
             .draggable(draggableState, orientation, enabled = userEnable, onDragStarted = {
@@ -250,6 +309,41 @@ fun ComposePager(
                     )
             }
         }
+    }
+    Log.e("lllttt", "66666666666666666666666666666666")
+}
+
+//初始化ContentList
+private fun initContentList(
+    composePagerState: ComposePagerState,
+    pageCache: Int,
+    indexToKey: (index: Int) -> Int,
+    contentList: ArrayList<ComposePagerContentBean>,
+    pageCount: Int,
+    content: @Composable (ComposePagerScope.() -> Unit)
+) {
+    //当前索引
+    val selectIndex = composePagerState.currSelectIndex.value
+    //key的集合: key to index
+    val keyMap = (selectIndex - pageCache).rangeTo(selectIndex + pageCache)
+        .associateBy { indexToKey(it) }
+    //创建或修改缓存
+    keyMap.forEach { node ->
+        val key = node.key
+        contentList.add(ComposePagerContentBean(
+            key,
+            Modifier.layoutId(node.value),
+            ComposePagerScope(key)
+        ) { mModifier, mScope ->
+            Log.e("lllttt", "key= : $key  ${node.value}  pageCount=$pageCount")
+            if (key < 0 || key >= pageCount)
+                Box(modifier = Modifier)
+            else {
+                Box(modifier = mModifier) {
+                    mScope.content()
+                }
+            }
+        })
     }
 }
 
