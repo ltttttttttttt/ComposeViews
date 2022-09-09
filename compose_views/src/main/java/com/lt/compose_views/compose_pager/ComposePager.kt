@@ -16,8 +16,9 @@
 
 package com.lt.compose_views.compose_pager
 
-import android.util.Log
 import androidx.annotation.IntRange
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -27,9 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import com.lt.compose_views.banner.BannerScope
-import com.lt.compose_views.util.clipScrollableContainer
 import com.lt.compose_views.util.midOf
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
@@ -43,6 +44,7 @@ import kotlin.math.abs
  * [pageCache]左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
  * [content]compose内容区域
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComposePager(
     pageCount: Int,
@@ -53,7 +55,6 @@ fun ComposePager(
     @IntRange(from = 1) pageCache: Int = 1,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
-    Log.e("lllttt", "1111111111111111111111")
     // TODO by lt 2022/9/6 22:28 pager闪动问题 ,   测一下pageCache  []改成@par
     //key和content的缓存位置
     val contentList by remember(key1 = pageCache, key2 = pageCount) {
@@ -82,7 +83,6 @@ fun ComposePager(
     if (pageCount <= composePagerState.getCurrSelectIndex())
         return
 
-    Log.e("lllttt", "222222222222222222222222222222222")
     val indexToKey = LocalIndexToKey.current
     //初始化content
     remember(
@@ -116,7 +116,6 @@ fun ComposePager(
                 content
             )
         }
-
         if (isNextPage == PageChangeAnimFlag.Next) {
             val currIndex = nextContentReplaceIndex?.let {
                 if (it >= maxContent - 1)
@@ -131,7 +130,6 @@ fun ComposePager(
                 Modifier.layoutId(index),
                 ComposePagerScope(key)
             ) { mModifier, mScope ->
-                Log.e("lllttt", "key= : $key  ${index}  pageCount=$pageCount")
                 if (key < 0 || key >= pageCount)
                     Box(modifier = Modifier)
                 else {
@@ -145,16 +143,11 @@ fun ComposePager(
             val currIndex = nextContentReplaceIndex ?: (maxContent - 1)
             val index = composePagerState.getCurrSelectIndex() - pageCache
             val key = indexToKey(index)
-            Log.e(
-                "lllttt",
-                "contentMap= :2222222222     $currIndex    $nextContentReplaceIndex  ${composePagerState.getCurrSelectIndex()}  $index   $key"
-            )
             contentList[currIndex] = ComposePagerContentBean(
                 key,
                 Modifier.layoutId(index),
                 ComposePagerScope(key)
             ) { mModifier, mScope ->
-                Log.e("lllttt", "key= : $key  ${index}  pageCount=$pageCount")
                 if (key < 0 || key >= pageCount)
                     Box(modifier = Modifier)
                 else {
@@ -167,9 +160,6 @@ fun ComposePager(
                 maxContent - 1
             else
                 currIndex - 1
-        }
-        contentList.forEach {
-            Log.e("lllttt", "contentMap= : $it")
         }
         isNextPage = PageChangeAnimFlag.Reduction
         0
@@ -244,14 +234,10 @@ fun ComposePager(
             }
         })
 
-    Log.e("lllttt", "3333333333333333333333333333333333333333")
     //测量和放置compose元素
     Layout(
         content = {
-            Log.e("lllttt", "44444444444444444444444444444444444444444444")
-            Log.e("lllttt", "content 99 : ${contentList}")
             contentList.forEach {
-                Log.e("lllttt", "55555555555555555  ${it.paramScope.index}")
                 it.function(it.paramModifier, it.paramScope)
             }
         },
@@ -270,17 +256,17 @@ fun ComposePager(
                 }
                 composePagerState.onUserDragStopped?.invoke(this, it)
             })
-            .clipScrollableContainer(orientation == Orientation.Vertical)
+            .clipScrollableContainer(orientation)
     ) { measurables/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
         val selectIndex = composePagerState.currSelectIndex.value
         var width = 0
         var height = 0
         //测量子元素,并算出他们的最大宽度
-        val placeableMap = measurables
+        val placeableList = measurables
             .filter {
-                //只测量有效的布局,并且是 -1..1
+                //只测量有效的布局
                 val key = it.layoutId
-                key is Int && abs(key - selectIndex) <= 1
+                key is Int && abs(key - selectIndex) <= pageCache
             }
             .map {
                 val key = it.layoutId as Int
@@ -289,12 +275,13 @@ fun ComposePager(
                 height = maxOf(height, placeable.height)
                 key to placeable
             }
+
         composePagerState.mainAxisSize =
             if (orientation == Orientation.Horizontal) width else height
         //设置自身大小,并布局子元素
         layout(width, height) {
-            val animValue = composePagerState.offsetAnim.value.toInt()
-            placeableMap.forEach { (index, placeable) ->
+            val animValue = composePagerState.offsetAnim.value.roundToInt()
+            placeableList.forEach { (index, placeable) ->
                 val offset = index * composePagerState.mainAxisSize + animValue
                 //遍历放置子元素
                 if (orientation == Orientation.Horizontal)
@@ -310,7 +297,6 @@ fun ComposePager(
             }
         }
     }
-    Log.e("lllttt", "66666666666666666666666666666666")
 }
 
 //初始化ContentList
@@ -335,7 +321,6 @@ private fun initContentList(
             Modifier.layoutId(node.value),
             ComposePagerScope(key)
         ) { mModifier, mScope ->
-            Log.e("lllttt", "key= : $key  ${node.value}  pageCount=$pageCount")
             if (key < 0 || key >= pageCount)
                 Box(modifier = Modifier)
             else {

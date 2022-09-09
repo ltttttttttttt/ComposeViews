@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.refresh_layout
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -28,7 +30,6 @@ import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import com.lt.compose_views.util.ComposePosition
-import com.lt.compose_views.util.clipScrollableContainer
 
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
@@ -43,7 +44,7 @@ import com.lt.compose_views.util.clipScrollableContainer
  * [enable]是否可用
  * [content]compose内容区域
  */
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun RefreshLayout(
     refreshContent: @Composable RefreshLayoutState.() -> Unit,
@@ -74,7 +75,7 @@ fun RefreshLayout(
         modifier = modifier
             // TODO by lt 待实现
             .nestedScroll(rememberNestedScrollInteropConnection())
-            .clipScrollableContainer(composePosition.orientation == Orientation.Vertical)
+            .clipScrollableContainer(composePosition.orientation)
     ) { measurables, constraints ->
         val refreshContentPlaceable = measurables[0].measure(Constraints())
         val contentPlaceable = measurables[1].measure(constraints)

@@ -16,7 +16,6 @@
 
 package com.lt.test_compose
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -38,6 +37,7 @@ import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
+import com.lt.test_compose.base.click
 import com.lt.test_compose.base.composeClick
 import kotlin.random.Random
 
@@ -76,9 +76,12 @@ class ComposePagerActivity : BaseComposeActivity() {
                 }
                 Text(text = "当前滑动方向:${orientation.value}")
                 Button(onClick = {
-                    if (isImage)
+                    if (isImage) {
                         images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F66b7ce397068c1f4710cafe4e1827ab5f7565180.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065304&t=c45a94bbac62a3bd502dc53e40afc583")
-                    else
+                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fc0793b2877f09ded49e96e3b3e05781d4f1e2e9e.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065303&t=86940ecb5bf20d1c90b5fb1c1f0afb06")
+                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F79c593c97cb1aef62160a7c6165ea3ecdc60f064.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065301&t=0d840bcfe779bcac4ea65db6d257c417")
+                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F2726b76584c11dc75449024ad6105893be1edd0f.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065300&t=7afae3a8eccb498fb37d54ff54d2016b")
+                    } else
                         colors.add(Color(Random.nextLong()))
                 }) {
                     Text(text = "增加条目")
@@ -106,18 +109,19 @@ class ComposePagerActivity : BaseComposeActivity() {
                 orientation = orientation.value,
             ) {
                 if (isImage) {
-                    DisposableEffect(key1 = Unit, effect = {
-
-                        Log.e("lllttt",  ".DisposableEffect 99 : $index ${this@ComposePager}")
-                        onDispose {
-
-                            Log.e("lllttt",  ".onDispose 99 : $index ${this@ComposePager}")
-                        }
-                    })
                     Image(
                         painter = rememberImagePainter(data = images[index]),
                         contentDescription = "",
-                        modifier = M.fillMaxSize(),
+                        modifier = M
+                            .fillMaxSize()
+                            .click {
+                                composePagerState.setPageIndexWithAnim(
+                                    if (index + 1 >= images.size)
+                                        0
+                                    else
+                                        index + 1
+                                )
+                            },
                         contentScale = ContentScale.Crop
                     )
                 } else {
