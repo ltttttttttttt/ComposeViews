@@ -16,6 +16,7 @@
 
 package com.lt.test_compose
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +47,7 @@ class RefreshLayoutActivity : BaseComposeActivity() {
 
     override fun getTitleText(): String = "RefreshLayout"
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {
         Column(M.fillMaxSize()) {

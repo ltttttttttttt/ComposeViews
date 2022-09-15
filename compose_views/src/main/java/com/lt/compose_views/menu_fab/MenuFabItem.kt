@@ -29,12 +29,12 @@ import androidx.compose.ui.graphics.Color
 /**
  * Fab弹出菜单项
  *
- * [icon]菜单图标
- * [label]菜单提示文本
- * [srcIconColor]图标颜色
- * [labelTextColor]提示文本内容颜色
- * [labelBackgroundColor]提示文本内容区域背景色
- * [fabBackgroundColor]Fab按钮背景色
+ * @param icon 菜单图标
+ * @param label 菜单提示文本
+ * @param srcIconColor 图标颜色
+ * @param labelTextColor 提示文本内容颜色
+ * @param labelBackgroundColor 提示文本内容区域背景色
+ * @param fabBackgroundColor Fab按钮背景色
  */
 class MenuFabItem(
     val icon: @Composable () -> Unit,

@@ -36,13 +36,13 @@ import kotlin.math.roundToInt
  * creator: lt  2022/6/25  lt.dygzs@qq.com
  * effect : 类似于xml中的ViewPager
  * warning:
- * [pageCount]一共有多少页
- * [modifier]修饰
- * [composePagerState]ComposePager的状态
- * [orientation]滑动的方向
- * [userEnable]用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
- * [pageCache]左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
- * [content]compose内容区域
+ * @param pageCount 一共有多少页
+ * @param modifier 修饰
+ * @param composePagerState ComposePager的状态
+ * @param orientation 滑动的方向
+ * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
+ * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
+ * @param content compose内容区域
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -55,7 +55,6 @@ fun ComposePager(
     @IntRange(from = 1) pageCache: Int = 1,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
-    // TODO by lt 2022/9/6 22:28 pager闪动问题 ,   测一下pageCache  []改成@par
     //key和content的缓存位置
     val contentList by remember(key1 = pageCache, key2 = pageCount) {
         mutableStateOf(ArrayList<ComposePagerContentBean>())
@@ -238,7 +237,9 @@ fun ComposePager(
     Layout(
         content = {
             contentList.forEach {
-                it.function(it.paramModifier, it.paramScope)
+                key(it.key) {
+                    it.function(it.paramModifier, it.paramScope)
+                }
             }
         },
         modifier = modifier

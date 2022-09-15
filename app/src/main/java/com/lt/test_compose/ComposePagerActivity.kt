@@ -16,6 +16,7 @@
 
 package com.lt.test_compose
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -107,8 +108,16 @@ class ComposePagerActivity : BaseComposeActivity() {
                 M.fillMaxSize(),
                 composePagerState = composePagerState,
                 orientation = orientation.value,
+                pageCache = 2,
             ) {
                 if (isImage) {
+                    //看日志测试pageCache
+                    DisposableEffect(key1 = index, effect = {
+                        Log.e("lllttt", "ComposePagerActivity.ComposeContent=: $index")
+                        onDispose {
+                            Log.e("lllttt", "ComposePagerActivity.onDispose=: $index")
+                        }
+                    })
                     Image(
                         painter = rememberImagePainter(data = images[index]),
                         contentDescription = "",

@@ -36,16 +36,16 @@ import com.lt.compose_views.pager_indicator.PagerIndicator
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 展示图片的Banner
- * warning: 需要引入coil库,如: io.coil-kt:coil-compose:1.4.0
- * [imageSize]图片数量
- * [imageContent]放置图片的content
- * [indicatorItem]未被选中的指示器,如果为null则不展示指示器
- * [selectIndicatorItem]被选中的指示器,如果为null则不展示指示器
- * [modifier]修饰
- * [bannerState]Banner的状态
- * [orientation]滑动的方向
- * [autoScroll]是否自动滚动
- * [autoScrollTime]自动滚动间隔时间
+ * warning:
+ * @param imageSize 图片数量
+ * @param imageContent 放置图片的content
+ * @param indicatorItem 未被选中的指示器,如果为null则不展示指示器
+ * @param selectIndicatorItem 被选中的指示器,如果为null则不展示指示器
+ * @param modifier 修饰
+ * @param bannerState Banner的状态
+ * @param orientation 滑动的方向
+ * @param autoScroll 是否自动滚动
+ * @param autoScrollTime 自动滚动间隔时间
  */
 @Composable
 fun ImageBanner(

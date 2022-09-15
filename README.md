@@ -53,17 +53,18 @@ dependencies {
 
 ## ComposePager
 
-<div align=center><img src="md_resource/compose_pager.gif" width=30%></div>
+<div align=center><img src="md_resource/compose_pager.gif" width=25%></div>
 
 ```kotlin
 /**
  * 类似于xml中的ViewPager
- * [pageCount]一共有多少页
- * [modifier]修饰
- * [composePagerState]ComposePager的状态
- * [orientation]滑动的方向
- * [userEnable]用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
- * [content]compose内容区域
+ * @param pageCount 一共有多少页
+ * @param modifier 修饰
+ * @param composePagerState ComposePager的状态
+ * @param orientation 滑动的方向
+ * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
+ * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
+ * @param content compose内容区域
  */
 @Composable
 fun ComposePager()
@@ -74,14 +75,14 @@ fun ComposePager()
 ```kotlin
 /**
  * 可以自动循环轮播的ComposePager
- * [pageCount]一共有多少页
- * [modifier]修饰
- * [bannerState]Banner的状态
- * [orientation]滑动的方向
- * [userEnable]用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
- * [autoScroll]是否自动滚动
- * [autoScrollTime]自动滚动间隔时间
- * [content]compose内容区域
+ * @param pageCount 一共有多少页
+ * @param modifier 修饰
+ * @param bannerState Banner的状态
+ * @param orientation 滑动的方向
+ * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
+ * @param autoScroll 是否自动滚动
+ * @param autoScrollTime 自动滚动间隔时间
+ * @param content compose内容区域
  */
 @Composable
 fun Banner()
@@ -89,17 +90,19 @@ fun Banner()
 
 ## PagerIndicator
 
+<div align=center><img src="md_resource/image_banner.gif" width=50%></div>
+
 ```kotlin
 /**
  * 适用于Pager的指示器
- * [size]指示器数量
- * [offsetPercentWithSelect]选中的指示器的偏移百分比
- * [selectIndex]选中的索引
- * [indicatorItem]未被选中的指示器
- * [selectIndicatorItem]被选中的指示器
- * [modifier]修饰
- * [margin]指示器之间的间距
- * [orientation]指示器排列方向
+ * @param size 指示器数量
+ * @param offsetPercentWithSelect 选中的指示器的偏移百分比
+ * @param selectIndex 选中的索引
+ * @param indicatorItem 未被选中的指示器
+ * @param selectIndicatorItem 被选中的指示器
+ * @param modifier 修饰
+ * @param margin 指示器之间的间距
+ * @param orientation 指示器排列方向
  */
 @Composable
 fun PagerIndicator()
@@ -108,7 +111,20 @@ fun PagerIndicator()
 ## ImageBanner
 
 ```kotlin
-
+/**
+ * 展示图片的Banner
+ * @param imageSize 图片数量
+ * @param imageContent 放置图片的content
+ * @param indicatorItem 未被选中的指示器,如果为null则不展示指示器
+ * @param selectIndicatorItem 被选中的指示器,如果为null则不展示指示器
+ * @param modifier 修饰
+ * @param bannerState Banner的状态
+ * @param orientation 滑动的方向
+ * @param autoScroll 是否自动滚动
+ * @param autoScrollTime 自动滚动间隔时间
+ */
+@Composable
+fun ImageBanner()
 ```
 
 ## RefreshLayout
@@ -124,14 +140,14 @@ fun PagerIndicator()
 ```kotlin
 /**
  * 可以自动换行的线性布局
- * [modifier]修饰
- * [orientation]排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
- * [horizontalAlignment]子级在横向上的位置
- * [verticalAlignment]子级在竖向上的位置
- * [horizontalMargin]子级与子级在横向上的间距
- * [verticalMargin]子级与子级在竖向上的间距
- * [maxLines]最多能放多少行(或列)
- * [content]compose内容区域
+ * @param modifier 修饰
+ * @param orientation 排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
+ * @param horizontalAlignment 子级在横向上的位置
+ * @param verticalAlignment 子级在竖向上的位置
+ * @param horizontalMargin 子级与子级在横向上的间距
+ * @param verticalMargin 子级与子级在竖向上的间距
+ * @param maxLines 最多能放多少行(或列)
+ * @param content compose内容区域
  */
 @Composable
 fun FlowLayout()
@@ -144,59 +160,59 @@ fun FlowLayout()
 ```kotlin
 /**
  * 更方便易用的TextField(文本输入框)
- * [value]输入框中的文字
- * [onValueChange]输入框中文字的变化回调
- * [modifier]修饰
- * [hint]输入框没有文字时展示的内容
- * [maxLines]最多能展示多少行文字
- * [fontSize]text和hint的字体大小
- * [fontColor]text的字体颜色
- * [maxLength]最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
- * [contentAlignment]text和hint对其方式
- * [leading]展示在左边的组件
- * [trailing]展示在右边的组件
- * [background]背景
- * [horizontalPadding]横向的内间距
- * [enabled]是否可输入,false无法输入和复制
- * [readOnly]是否可输入,true无法输入,但可复制,获取焦点,移动光标
- * [textStyle]字体样式
- * [keyboardOptions]键盘配置
- * [keyboardActions]键盘回调
- * [visualTransformation]文本展示的转换
- * [onTextLayout]计算新文本布局时执行的回调
- * [interactionSource]状态属性
- * [cursorBrush]光标绘制
+ * @param value 输入框中的文字
+ * @param onValueChange 输入框中文字的变化回调
+ * @param modifier 修饰
+ * @param hint 输入框没有文字时展示的内容
+ * @param maxLines 最多能展示多少行文字
+ * @param fontSize text和hint的字体大小
+ * @param fontColor text的字体颜色
+ * @param maxLength 最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
+ * @param contentAlignment text和hint对其方式
+ * @param leading 展示在左边的组件
+ * @param trailing 展示在右边的组件
+ * @param background 背景
+ * @param horizontalPadding 横向的内间距
+ * @param enabled 是否可输入,false无法输入和复制
+ * @param readOnly 是否可输入,true无法输入,但可复制,获取焦点,移动光标
+ * @param textStyle 字体样式
+ * @param keyboardOptions 键盘配置
+ * @param keyboardActions 键盘回调
+ * @param visualTransformation 文本展示的转换
+ * @param onTextLayout 计算新文本布局时执行的回调
+ * @param interactionSource 状态属性
+ * @param cursorBrush 光标绘制
  */
 @Composable
 fun GoodTextField()
 
 /**
  * 更方便易用的TextField,适用于输入密码的情况
- * [value]输入框中的文字
- * [onValueChange]输入框中文字的变化回调
- * [passwordIsShow]密码是否可见,false为密文状态
- * [onPasswordIsShowChange]密码是否可见状态变化的回调
- * [modifier]修饰
- * [hint]输入框没有文字时展示的内容
- * [maxLines]最多能展示多少行文字
- * [fontSize]text和hint的字体大小
- * [fontColor]text的字体颜色
- * [maxLength]最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
- * [contentAlignment]text和hint对其方式
- * [leading]展示在左边的组件
- * [trailing]展示在右边的组件,默认是可点击的眼睛图标,用于切换密码是否可见
- * [background]背景
- * [horizontalPadding]横向的内间距
- * [enabled]是否可输入,false无法输入和复制
- * [readOnly]是否可输入,true无法输入,但可复制,获取焦点,移动光标
- * [textStyle]字体样式
- * [keyboardOptions]键盘配置
- * [keyboardActions]键盘回调
- * [passwordChar]密码不可见时展示的字符
- * [visualTransformation]文本展示的转换
- * [onTextLayout]计算新文本布局时执行的回调
- * [interactionSource]状态属性
- * [cursorBrush]光标绘制
+ * @param value 输入框中的文字
+ * @param onValueChange 输入框中文字的变化回调
+ * @param passwordIsShow 密码是否可见,false为密文状态
+ * @param onPasswordIsShowChange 密码是否可见状态变化的回调
+ * @param modifier 修饰
+ * @param hint 输入框没有文字时展示的内容
+ * @param maxLines 最多能展示多少行文字
+ * @param fontSize text和hint的字体大小
+ * @param fontColor text的字体颜色
+ * @param maxLength 最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
+ * @param contentAlignment text和hint对其方式
+ * @param leading 展示在左边的组件
+ * @param trailing 展示在右边的组件,默认是可点击的眼睛图标,用于切换密码是否可见
+ * @param background 背景
+ * @param horizontalPadding 横向的内间距
+ * @param enabled 是否可输入,false无法输入和复制
+ * @param readOnly 是否可输入,true无法输入,但可复制,获取焦点,移动光标
+ * @param textStyle 字体样式
+ * @param keyboardOptions 键盘配置
+ * @param keyboardActions 键盘回调
+ * @param passwordChar 密码不可见时展示的字符
+ * @param visualTransformation 文本展示的转换
+ * @param onTextLayout 计算新文本布局时执行的回调
+ * @param interactionSource 状态属性
+ * @param cursorBrush 光标绘制
  */
 @Composable
 fun PasswordTextField()
@@ -209,14 +225,12 @@ fun PasswordTextField()
 ```kotlin
 /**
  * 带菜单的Fab
- *
- * [srcIcon]按钮的图标
- * [items]菜单项
- * [modifier]修饰
- * [srcIconColor]按钮图标的颜色
- * [fabBackgroundColor]按钮区域背景色
- * [showLabels]是否展示菜单项的提示文本
- * [onFabItemClicked]菜单项点击事件
+ * @param icon 菜单图标
+ * @param label 菜单提示文本
+ * @param srcIconColor 图标颜色
+ * @param labelTextColor 提示文本内容颜色
+ * @param labelBackgroundColor 提示文本内容区域背景色
+ * @param fabBackgroundColor Fab按钮背景色
  */
 @Composable
 fun MenuFloatingActionButton()

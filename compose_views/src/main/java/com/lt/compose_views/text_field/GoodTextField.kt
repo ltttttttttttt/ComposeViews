@@ -44,28 +44,28 @@ import com.lt.compose_views.util.Color333
  * creator: lt  2022/7/16  lt.dygzs@qq.com
  * effect : 更方便易用的TextField(文本输入框)
  * warning:
- * [value]输入框中的文字
- * [onValueChange]输入框中文字的变化回调
- * [modifier]修饰
- * [hint]输入框没有文字时展示的内容
- * [maxLines]最多能展示多少行文字
- * [fontSize]text和hint的字体大小
- * [fontColor]text的字体颜色
- * [maxLength]最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
- * [contentAlignment]text和hint对其方式
- * [leading]展示在左边的组件
- * [trailing]展示在右边的组件
- * [background]背景
- * [horizontalPadding]横向的内间距
- * [enabled]是否可输入,false无法输入和复制
- * [readOnly]是否可输入,true无法输入,但可复制,获取焦点,移动光标
- * [textStyle]字体样式
- * [keyboardOptions]键盘配置
- * [keyboardActions]键盘回调
- * [visualTransformation]文本展示的转换
- * [onTextLayout]计算新文本布局时执行的回调
- * [interactionSource]状态属性
- * [cursorBrush]光标绘制
+ * @param value 输入框中的文字
+ * @param onValueChange 输入框中文字的变化回调
+ * @param modifier 修饰
+ * @param hint 输入框没有文字时展示的内容
+ * @param maxLines 最多能展示多少行文字
+ * @param fontSize text和hint的字体大小
+ * @param fontColor text的字体颜色
+ * @param maxLength 最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
+ * @param contentAlignment text和hint对其方式
+ * @param leading 展示在左边的组件
+ * @param trailing 展示在右边的组件
+ * @param background 背景
+ * @param horizontalPadding 横向的内间距
+ * @param enabled 是否可输入,false无法输入和复制
+ * @param readOnly 是否可输入,true无法输入,但可复制,获取焦点,移动光标
+ * @param textStyle 字体样式
+ * @param keyboardOptions 键盘配置
+ * @param keyboardActions 键盘回调
+ * @param visualTransformation 文本展示的转换
+ * @param onTextLayout 计算新文本布局时执行的回调
+ * @param interactionSource 状态属性
+ * @param cursorBrush 光标绘制
  */
 @Composable
 fun GoodTextField(

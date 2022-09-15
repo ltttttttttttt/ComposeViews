@@ -34,15 +34,15 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 适用于Pager的指示器
- * warning: 如果方向为横向时,需要指示器的宽度一致,否则会出现ui和滑动逻辑的问题,反之亦然
- * [size]指示器数量
- * [offsetPercentWithSelect]选中的指示器的偏移百分比
- * [selectIndex]选中的索引
- * [indicatorItem]未被选中的指示器
- * [selectIndicatorItem]被选中的指示器
- * [modifier]修饰
- * [margin]指示器之间的间距
- * [orientation]指示器排列方向
+ * warning: 如果方向为横向时,需要指示器的宽度一致,否则会出现ui和滑动逻辑的问题,反之亦然 todo 后续有时间优化为不需要宽高一致
+ * @param size 指示器数量
+ * @param offsetPercentWithSelect 选中的指示器的偏移百分比
+ * @param selectIndex 选中的索引
+ * @param indicatorItem 未被选中的指示器
+ * @param selectIndicatorItem 被选中的指示器
+ * @param modifier 修饰
+ * @param margin 指示器之间的间距
+ * @param orientation 指示器排列方向
  */
 @Composable
 fun PagerIndicator(

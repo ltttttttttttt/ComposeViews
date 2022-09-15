@@ -26,10 +26,10 @@ import kotlin.coroutines.coroutineContext
  * creator: lt  2022/7/31  lt.dygzs@qq.com
  * effect : 自定义的动画播放器,逻辑更简单
  * warning: 推荐使用系统的动画api
- * [initialValueWithState]动画要改变的状态,起始动画值为其value值
- * [targetValue]要通过动画转化到的目标值
- * [duration]动画的持续时间
- * [animInterpolator]动画差值器
+ * @param initialValueWithState 动画要改变的状态,起始动画值为其value值
+ * @param targetValue 要通过动画转化到的目标值
+ * @param duration 动画的持续时间
+ * @param animInterpolator 动画差值器
  */
 @OptIn(ExperimentalComposeApi::class)
 suspend fun animateWithFloat(

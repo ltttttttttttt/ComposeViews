@@ -35,17 +35,18 @@ import com.lt.compose_views.util.ComposePosition
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 可以上拉加载和下拉刷新的容器
  * warning:
- * [refreshContent]刷新布局内容区域
- * [refreshLayoutState]RefreshLayout的状态
- * [modifier]修饰
- * [refreshContentThreshold]刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
- * [composePosition]设置刷新布局的位置,并且间接指定了滑动方向
- * [childIsMove]内部子组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
- * [enable]是否可用
- * [content]compose内容区域
+ * @param refreshContent 刷新布局内容区域
+ * @param refreshLayoutState RefreshLayout的状态
+ * @param modifier 修饰
+ * @param refreshContentThreshold 刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
+ * @param composePosition 设置刷新布局的位置,并且间接指定了滑动方向
+ * @param childIsMove 内部子组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
+ * @param enable 是否可用
+ * @param content compose内容区域
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
+@ExperimentalFoundationApi//todo by lt 未实现的api
 fun RefreshLayout(
     refreshContent: @Composable RefreshLayoutState.() -> Unit,
     refreshLayoutState: RefreshLayoutState,

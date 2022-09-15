@@ -26,7 +26,7 @@ import com.lt.compose_views.util.ComposePosition
  * creator: lt  2022/9/1  lt.dygzs@qq.com
  * effect : RefreshLayout的状态
  * warning:
- * [onRefreshListener]触发刷新时的回调
+ * @param onRefreshListener 触发刷新时的回调
  */
 class RefreshLayoutState(
     internal val onRefreshListener: () -> Unit

@@ -33,6 +33,7 @@
 package com.lt.compose_views.scrollable_appbar
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -74,6 +75,7 @@ import kotlin.math.roundToInt
  * @param toolbarOffsetHeightPx 顶部导航栏向上偏移量
  */
 @Composable
+@ExperimentalFoundationApi//todo by lt and Vast Gui 待简化api使用方式
 fun ScrollableAppBar(
     modifier: Modifier = Modifier,
     title: String,

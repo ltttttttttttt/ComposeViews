@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.IntOffset
  * effect : 表示不放置
  * warning:
  */
-internal object NotPlace : Placeable() {
+object NotPlace : Placeable() {
     override fun get(alignmentLine: AlignmentLine): Int = Int.MIN_VALUE
 
     override fun placeAt(

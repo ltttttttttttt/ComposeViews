@@ -29,11 +29,17 @@ import androidx.compose.ui.unit.dp
  * warning:
  */
 
+/**
+ * 设置横向间隔dp
+ */
 @Composable
 fun HorizontalSpace(dp: Int) {
     Spacer(Modifier.width(dp.dp))
 }
 
+/**
+ * 设置竖向间隔dp
+ */
 @Composable
 fun VerticalSpace(dp: Int) {
     Spacer(Modifier.height(dp.dp))
