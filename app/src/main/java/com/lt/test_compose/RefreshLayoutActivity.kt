@@ -17,9 +17,14 @@
 package com.lt.test_compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -76,11 +81,27 @@ class RefreshLayoutActivity : BaseComposeActivity() {
             }
 
             RefreshLayout({
-                Text(text = "下拉刷新")
+                Text(text = "下拉刷新", modifier = M.background(Color.Red))
             }, rememberRefreshLayoutState {
 
             }) {
-                Text(text = "内容区域")
+                Column(
+                    modifier = M
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .background(Color.Gray)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(text = "内容区域1")
+                    Text(text = "内容区域2")
+                    Text(text = "内容区域3")
+                    Text(text = "内容区域4")
+                    Text(text = "内容区域5")
+                    Text(text = "内容区域6")
+                    Text(text = "内容区域7")
+                    Text(text = "内容区域8")
+                    Text(text = "内容区域9")
+                }
             }
         }
     }

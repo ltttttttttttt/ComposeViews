@@ -48,12 +48,14 @@ class RefreshLayoutState(
 
     //设置偏移量
     internal fun setOffset(refreshContentOffset: Float, contentOffset: Float) {
-
+        refreshContentOffsetState.value = refreshContentOffset
+        contentOffsetState.value = contentOffset
     }
 
     //增加偏移量
     internal fun offset(refreshContentOffset: Float, contentOffset: Float) {
-
+        refreshContentOffsetState.value += refreshContentOffset
+        contentOffsetState.value += contentOffset
     }
 
     /**
