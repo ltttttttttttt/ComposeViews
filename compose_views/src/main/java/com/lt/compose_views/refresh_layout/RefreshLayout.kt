@@ -21,7 +21,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -63,9 +63,18 @@ fun RefreshLayout(
 ) {
     // TODO by lt 待实现
     val density = LocalDensity.current
+    val coroutineScope = rememberCoroutineScope()
     //更新状态
-    remember(key1 = refreshLayoutState, key2 = composePosition, key3 = refreshContentThreshold) {
+    remember(
+        refreshLayoutState,
+        composePosition,
+        refreshContentThreshold,
+        coroutineScope,
+        childIsMove
+    ) {
         refreshLayoutState.composePositionState.value = composePosition
+        refreshLayoutState.coroutineScope = coroutineScope
+        refreshLayoutState.childIsMove = childIsMove
         if (refreshContentThreshold != null)
             refreshLayoutState.refreshContentThresholdState.value =
                 with(density) { refreshContentThreshold.toPx() }
@@ -107,7 +116,7 @@ fun RefreshLayout(
             override suspend fun onPreFling(available: Velocity): Velocity {
                 // TODO by lt 2022/9/16 17:50 当作手势抬起事件,并处理content不是可滑动组件的下拉效果
                 if (refreshLayoutState.refreshContentOffsetState.value > 0) {
-                    refreshLayoutState.setOffset(0f, 0f)
+                    refreshLayoutState.setOffsetWithAnim(0f, 0f, true)
                     return available
                 }
                 return super.onPreFling(available)
@@ -125,6 +134,7 @@ fun RefreshLayout(
             .nestedScroll(nestedScrollState)
             //.clipScrollableContainer(composePosition.orientation)
             .offset {
+                // TODO by lt 2022/9/16 21:17 这里需要分别控制刷新布局和内容布局
                 IntOffset(0, refreshLayoutState.refreshContentOffsetState.value.roundToInt())
             }
     ) { measurables, constraints ->

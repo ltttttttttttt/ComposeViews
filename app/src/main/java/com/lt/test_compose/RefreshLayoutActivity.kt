@@ -16,9 +16,11 @@
 
 package com.lt.test_compose
 
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,63 +30,64 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.flow_layout.FlowLayout
+import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayout
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
+import com.lt.compose_views.util.ComposePosition
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
-import kotlin.random.Random
 
 class RefreshLayoutActivity : BaseComposeActivity() {
-    private val colors = mutableStateListOf(
-        Color(150, 105, 61, 255),
-        Color(122, 138, 55, 255),
-        Color(50, 134, 74, 255),
-        Color(112, 62, 11, 255),
-        Color(114, 61, 101, 255),
-    )
-    private val orientation = mutableStateOf(Orientation.Vertical)
+    private val composePosition = mutableStateOf(ComposePosition.Top)
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun getTitleText(): String = "RefreshLayout"
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {
+        val refreshState = rememberRefreshLayoutState {
+            runOnUiThread {
+                Toast.makeText(this@RefreshLayoutActivity, "刷新了", Toast.LENGTH_SHORT).show()
+            }
+            handler.postDelayed({
+                setRefreshState(RefreshContentStateEnum.Stop)
+            }, 2000)
+        }
+        LaunchedEffect(key1 = Unit) {
+            refreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
+        }
+
         Column(M.fillMaxSize()) {
             FlowLayout(horizontalMargin = 10.dp) {
                 FpsMonitor(modifier = Modifier)
                 Button(onClick = {
-                    orientation.value = if (orientation.value == Orientation.Horizontal)
-                        Orientation.Vertical
-                    else
-                        Orientation.Horizontal
+                    composePosition.value = when (composePosition.value) {
+                        ComposePosition.Start -> ComposePosition.Top
+                        ComposePosition.Top -> ComposePosition.End
+                        ComposePosition.End -> ComposePosition.Bottom
+                        ComposePosition.Bottom -> ComposePosition.Start
+                    }
                 }) {
-                    Text(text = "改变滑动方向")
+                    Text(text = "改变刷新方向")
                 }
-                Text(text = "当前滑动方向:${orientation.value}")
-                Button(onClick = {
-                    colors.add(Color(Random.nextLong()))
-                }) {
-                    Text(text = "增加条目")
-                }
-                Button(onClick = {
-                    colors.removeLastOrNull()
-                }) {
-                    Text(text = "减少条目")
-                }
-                Text("当前条目数量:${colors.size}")
+                Text(text = "当前刷新方向:${composePosition.value}")
+                Text(text = "当前刷新状态:${refreshState.getRefreshContentState().value}")
             }
 
-            RefreshLayout({
-                Text(text = "下拉刷新", modifier = M.background(Color.Red))
-            }, rememberRefreshLayoutState {
-
-            }) {
+            RefreshLayout(
+                {
+                    Text(text = "下拉刷新", modifier = M.background(Color.Red))
+                },
+                refreshLayoutState = refreshState,
+                composePosition = composePosition.value,
+            ) {
                 Column(
                     modifier = M
                         .fillMaxWidth()
