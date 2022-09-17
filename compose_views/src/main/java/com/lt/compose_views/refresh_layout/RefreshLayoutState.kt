@@ -36,11 +36,8 @@ class RefreshLayoutState(
     //刷新布局内容区域的组件状态
     internal val refreshContentState = mutableStateOf(RefreshContentStateEnum.Stop)
 
-    //刷新布局内容区域的Offset(位移)的状态
+    //刷新布局内容区域的Offset(位移)的状态和子内容区域的Offset(位移)的状态,如果contentIsMove==false,则一直为0,单位px
     internal val refreshContentOffsetState = Animatable(0f)
-
-    //子内容区域的Offset(位移)的状态,如果childIsMove==false,则一直为0,单位px
-    internal val contentOffsetState = Animatable(0f)
 
     //composePosition的状态,参考[RefreshLayout]的参数
     internal val composePositionState = mutableStateOf(ComposePosition.Top)
@@ -50,9 +47,6 @@ class RefreshLayoutState(
 
     //协程作用域
     internal lateinit var coroutineScope: CoroutineScope
-
-    //内部子组件是否在刷新时跟着移动
-    internal var childIsMove: Boolean = true
 
     /**
      * 获取刷新布局内容区域的组件状态
@@ -64,11 +58,6 @@ class RefreshLayoutState(
      */
     fun createRefreshContentOffsetFlow(): Flow<Float> =
         snapshotFlow { refreshContentOffsetState.value }
-
-    /**
-     * 创建子内容区域的Offset(位移)的flow,如果childIsMove==false,则一直为0
-     */
-    fun createContentOffsetSFlow(): Flow<Float> = snapshotFlow { contentOffsetState.value }
 
     /**
      * 获取composePosition的状态,参考[RefreshLayout]的参数
@@ -84,7 +73,6 @@ class RefreshLayoutState(
      * 设置刷新布局的状态
      */
     fun setRefreshState(state: RefreshContentStateEnum) {
-        // TODO by lt 2022/9/1 18:12
         when (state) {
             RefreshContentStateEnum.Stop -> {
                 if (refreshContentState.value == RefreshContentStateEnum.Stop)
@@ -93,9 +81,7 @@ class RefreshLayoutState(
                     throw IllegalStateException("[RefreshLayoutState]还未初始化完成,请在[LaunchedEffect]中或composable至少组合一次后使用此方法")
                 coroutineScope.launch {
                     refreshContentState.value = RefreshContentStateEnum.Stop
-                    // TODO by lt 2022/9/16 21:17 这里可能要拆成两个协程
                     refreshContentOffsetState.animateTo(0f)
-                    contentOffsetState.animateTo(0f)
                 }
             }
             RefreshContentStateEnum.Refreshing -> {
@@ -106,9 +92,7 @@ class RefreshLayoutState(
                 coroutineScope.launch {
                     refreshContentState.value = RefreshContentStateEnum.Refreshing
                     onRefreshListener()
-                    // TODO by lt 2022/9/16 21:17 这里可能要拆成两个协程
                     refreshContentOffsetState.animateTo(refreshContentThresholdState.value)
-                    contentOffsetState.animateTo(refreshContentThresholdState.value)
                 }
             }
             RefreshContentStateEnum.Dragging -> throw IllegalStateException("设置为[RefreshContentStateEnum.Dragging]无意义")
@@ -119,10 +103,8 @@ class RefreshLayoutState(
     //[isCheckIsRefresh]检查是否进入了刷新状态,如果进入了就调用回调
     internal fun setOffsetWithAnim(
         refreshContentOffset: Float,
-        contentOffset: Float,
         isCheckIsRefresh: Boolean = false,
     ) {
-        // TODO by lt 2022/9/16 21:17 这里可能要拆成两个协程
         coroutineScope.launch {
             //检查是否进入了刷新状态
             if (isCheckIsRefresh && abs(refreshContentOffsetState.value) >= refreshContentThresholdState.value) {
@@ -132,23 +114,17 @@ class RefreshLayoutState(
             } else {
                 refreshContentOffsetState.animateTo(refreshContentOffset)
             }
-            contentOffsetState.animateTo(contentOffset)
         }
     }
 
     //增加偏移量
-    internal fun offset(
-        refreshContentOffset: Float,
-        contentOffset: Float
-    ) {
-        // TODO by lt 2022/9/16 21:17 这里可能要拆成两个协程
+    internal fun offset(refreshContentOffset: Float) {
         coroutineScope.launch {
             val targetValue = refreshContentOffsetState.value + refreshContentOffset
             if (refreshContentState.value != RefreshContentStateEnum.Dragging && targetValue != 0f) {
                 refreshContentState.value = RefreshContentStateEnum.Dragging
             }
             refreshContentOffsetState.snapTo(targetValue)
-            contentOffsetState.snapTo(contentOffsetState.value + contentOffset)
         }
     }
 }
