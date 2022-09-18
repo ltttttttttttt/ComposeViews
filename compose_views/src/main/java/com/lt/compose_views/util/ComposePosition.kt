@@ -43,4 +43,11 @@ enum class ComposePosition(val orientation: Orientation) {
      * 在bottom的位置
      */
     Bottom(Orientation.Vertical),
+
+    ;
+
+    /**
+     * 判断方向是否是横向的
+     */
+    fun isHorizontal(): Boolean = orientation == Orientation.Horizontal
 }

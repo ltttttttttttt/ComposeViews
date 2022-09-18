@@ -92,29 +92,34 @@ class RefreshLayoutState(
                 coroutineScope.launch {
                     refreshContentState.value = RefreshContentStateEnum.Refreshing
                     onRefreshListener()
-                    refreshContentOffsetState.animateTo(refreshContentThresholdState.value)
+                    animateToThreshold()
                 }
             }
             RefreshContentStateEnum.Dragging -> throw IllegalStateException("设置为[RefreshContentStateEnum.Dragging]无意义")
         }
     }
 
-    //设置偏移量
-    //[isCheckIsRefresh]检查是否进入了刷新状态,如果进入了就调用回调
-    internal fun setOffsetWithAnim(
-        refreshContentOffset: Float,
-        isCheckIsRefresh: Boolean = false,
-    ) {
+    //偏移量归位,并检查是否超过了刷新阈值,如果超过了执行刷新逻辑
+    internal fun offsetHoming() {
         coroutineScope.launch {
             //检查是否进入了刷新状态
-            if (isCheckIsRefresh && abs(refreshContentOffsetState.value) >= refreshContentThresholdState.value) {
+            if (abs(refreshContentOffsetState.value) >= refreshContentThresholdState.value) {
                 refreshContentState.value = RefreshContentStateEnum.Refreshing
                 onRefreshListener()
-                refreshContentOffsetState.animateTo(refreshContentThresholdState.value)
+                animateToThreshold()
             } else {
-                refreshContentOffsetState.animateTo(refreshContentOffset)
+                refreshContentOffsetState.animateTo(0f)
             }
         }
+    }
+
+    //动画滑动至阈值处
+    private suspend fun animateToThreshold() {
+        val composePosition = composePositionState.value
+        if (composePosition == ComposePosition.Start || composePosition == ComposePosition.Top)
+            refreshContentOffsetState.animateTo(refreshContentThresholdState.value)
+        else
+            refreshContentOffsetState.animateTo(-refreshContentThresholdState.value)
     }
 
     //增加偏移量

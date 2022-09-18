@@ -34,10 +34,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
+import com.lt.compose_views.refresh_layout.RefreshLayout
+import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
+import com.lt.compose_views.util.ComposePosition
+import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
-import com.lt.compose_views.util.rememberMutableStateOf
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -48,8 +51,7 @@ import java.util.*
  * warning:
  */
 class MainListActivity : BaseComposeActivity() {
-    private var array = ArrayList<Int>(IntArray(20) { it * 2 }.asList())
-    private var job: Job? = null
+    private var array = ArrayList(IntArray(20) { it * 2 }.asList())
     private val random = Random()
 
     data class Value(val a: String, val b: String)
@@ -85,48 +87,47 @@ class MainListActivity : BaseComposeActivity() {
         list: MutableList<Int>,
         listChangeListener: (List<Int>) -> Unit
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            content = {
-                stickyHeader {
-                    Text(text = "粘懈标题")
-                }
-                item {
-                    Text(text = "头布局")
-                }
-                stickyHeader {
-                    Text(text = "粘懈标题2")
-                }
-                items(list) {
-                    Text(
-                        text = it.toString(),
-                        M.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-                item {
-                    Text(text = "尾布局,list.size=${list.size}")
-                }
-                // TODO by lt 2022/7/6 11:05 废弃,待重新实现
-                item {
-                    //加载的布局
-                    Text(text = "加载中")
-                    if (job == null) {
-                        job = mainScope.launch {
-                            try {
-                                delay(1000)
-                                Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
-                                    .show()
-                                listChangeListener(IntArray(20) {
-                                    random.nextInt()
-                                }.asList())
-                            } finally {
-                                job = null
-                            }
-                        }
+        val refreshLayoutState = rememberRefreshLayoutState(onRefreshListener = {
+            mainScope.launch {
+                delay(1500)
+                Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
+                    .show()
+                setRefreshState(RefreshContentStateEnum.Stop)
+                listChangeListener(IntArray(20) {
+                    random.nextInt()
+                }.asList())
+            }
+        })
+        RefreshLayout(
+            refreshContent = {
+                Text(text = "加载中")
+            }, refreshLayoutState = refreshLayoutState,
+            composePosition = ComposePosition.Bottom
+        ) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                content = {
+                    stickyHeader {
+                        Text(text = "粘懈标题")
                     }
-                }
-            })
+                    item {
+                        Text(text = "头布局")
+                    }
+                    stickyHeader {
+                        Text(text = "粘懈标题2")
+                    }
+                    items(list) {
+                        Text(
+                            text = it.toString(),
+                            M.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                    item {
+                        Text(text = "尾布局,list.size=${list.size}")
+                    }
+                })
+        }
     }
 
     @Preview
