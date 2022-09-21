@@ -130,8 +130,28 @@ fun ImageBanner()
 
 ## RefreshLayout
 
-```kotlin
+<div align=center><img src="md_resource/refresh_layout.gif" width=30%></div>
 
+```kotlin
+/**
+ * 可以上拉加载和下拉刷新的容器
+ * @param refreshContent 刷新布局内容区域
+ * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
+ * @param modifier 修饰
+ * @param refreshContentThreshold 刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
+ * @param composePosition 设置刷新布局所在的位置,并且间接指定了滑动方向
+ * @param contentIsMove content组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
+ * @param dragEfficiency 拖动的'有效率',比如默认是手指拖动20px,只能拖出10px
+ * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
+ * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
+ * @param content compose内容区域
+ */
+@Composable
+fun RefreshLayout()
+
+更多以RefreshLayout为基础的组件:
+PullToRefresh//下拉刷新
+RefreshableLazyColumn//下拉刷新+上拉加载的LazyColumn
 ```
 
 ## FlowLayout
@@ -235,32 +255,6 @@ fun PasswordTextField()
  */
 @Composable
 fun MenuFloatingActionButton()
-```
-
-## RefreshLayout
-
-<div align=center><img src="md_resource/refresh_layout.gif" width=30%></div>
-
-```kotlin
-/**
- * 可以上拉加载和下拉刷新的容器
- * @param refreshContent 刷新布局内容区域
- * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
- * @param modifier 修饰
- * @param refreshContentThreshold 刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
- * @param composePosition 设置刷新布局所在的位置,并且间接指定了滑动方向
- * @param contentIsMove content组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
- * @param dragEfficiency 拖动的'有效率',比如默认是手指拖动20px,只能拖出10px
- * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
- * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
- * @param content compose内容区域
- */
-@Composable
-fun RefreshLayout()
-
-更多以RefreshLayout为基础的组件:
-PullToRefresh//下拉刷新
-RefreshableLazyColumn//下拉刷新+上拉加载的LazyColumn
 ```
 
 <h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a> for its support to this project<h6>
