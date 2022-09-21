@@ -19,7 +19,6 @@
 6. FlowLayout
 7. GoodTextField and PasswordTextField
 8. MenuFloatingActionButton
-9. RefreshLayout
 
 ## Add to your project
 
