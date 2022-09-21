@@ -96,7 +96,16 @@ fun GoodTextField(
     BasicTextField(
         value = value,
         onValueChange = {
-            onValueChange(if (it.length > maxLength) it.substring(0, maxLength) else it)
+            val text = if (it.length > maxLength) {
+                //使value不超过maxLength
+                it.substring(0, maxLength)
+            } else if (maxLines == 1 && it.contains('\n')) {
+                //处理特殊情况下单行输入框能输入换行符
+                it.replace("\n", "")
+            } else {
+                it
+            }
+            onValueChange(text)
         },
         textStyle = textStyle.copy(color = fontColor, fontSize = fontSize),
         singleLine = maxLines == 1,
