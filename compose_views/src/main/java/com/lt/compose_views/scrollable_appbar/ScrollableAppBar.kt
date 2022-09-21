@@ -43,13 +43,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -80,17 +80,28 @@ fun ScrollableAppBar(
     modifier: Modifier = Modifier,
     title: String,
     navigationIcon: @Composable (() -> Unit) =
-        { Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "ArrowBack",tint = Color.White) },
-    @DrawableRes backgroundImageId:Int,
+        remember {
+            {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "ArrowBack",
+                    tint = Color.White
+                )
+            }
+        },
+    @DrawableRes backgroundImageId: Int,
     background: Color = MaterialTheme.colors.primary,
     scrollableAppBarHeight: Dp,
     toolbarOffsetHeightPx: MutableState<Float>
-){
+) {
 
     // 应用栏最大向上偏移量
-    val maxOffsetHeightPx = with(LocalDensity.current) { scrollableAppBarHeight.roundToPx().toFloat() - toolBarHeight.roundToPx().toFloat() }
+    val maxOffsetHeightPx = with(LocalDensity.current) {
+        scrollableAppBarHeight.roundToPx().toFloat() - toolBarHeight.roundToPx().toFloat()
+    }
     // Title 偏移量参考值
-    val titleOffsetWidthReferenceValue = with(LocalDensity.current) { navigationIconSize.roundToPx().toFloat() }
+    val titleOffsetWidthReferenceValue =
+        with(LocalDensity.current) { navigationIconSize.roundToPx().toFloat() }
 
     Box(modifier = Modifier
         .height(scrollableAppBarHeight)
@@ -99,7 +110,11 @@ fun ScrollableAppBar(
         }
         .fillMaxWidth()
     ) {
-        Image(painter = painterResource(id = backgroundImageId), contentDescription = "background", contentScale = ContentScale.FillBounds)
+        Image(
+            painter = painterResource(id = backgroundImageId),
+            contentDescription = "background",
+            contentScale = ContentScale.FillBounds
+        )
 
         // 自定义应用栏
         Row(
@@ -115,7 +130,7 @@ fun ScrollableAppBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // 导航图标
-            Box(modifier = Modifier.size(navigationIconSize),contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.size(navigationIconSize), contentAlignment = Alignment.Center) {
                 navigationIcon()
             }
         }
@@ -133,12 +148,18 @@ fun ScrollableAppBar(
                 },
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(text = title,color = Color.White,modifier = Modifier.padding(start = 20.dp),fontSize = 20.sp)
+            Text(
+                text = title,
+                color = Color.White,
+                modifier = Modifier.padding(start = 20.dp),
+                fontSize = 20.sp
+            )
         }
     }
 }
 
 // 应用栏高度
 private val toolBarHeight = 56.dp
+
 // 导航图标大小
 private val navigationIconSize = 50.dp

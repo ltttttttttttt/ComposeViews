@@ -20,6 +20,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.*
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.lang.Math.abs
@@ -70,6 +71,11 @@ class RefreshLayoutState(
     fun getRefreshContentThreshold(): Float = refreshContentThresholdState.value
 
     /**
+     * 刷新布局内容区域的Offset的值,单位px
+     */
+    fun getRefreshContentOffset(): Float = refreshContentOffsetState.value
+
+    /**
      * 设置刷新布局的状态
      */
     fun setRefreshState(state: RefreshContentStateEnum) {
@@ -81,6 +87,7 @@ class RefreshLayoutState(
                     throw IllegalStateException("[RefreshLayoutState]还未初始化完成,请在[LaunchedEffect]中或composable至少组合一次后使用此方法")
                 coroutineScope.launch {
                     refreshContentState.value = RefreshContentStateEnum.Stop
+                    delay(300)
                     refreshContentOffsetState.animateTo(0f)
                 }
             }
@@ -109,6 +116,7 @@ class RefreshLayoutState(
                 animateToThreshold()
             } else {
                 refreshContentOffsetState.animateTo(0f)
+                refreshContentState.value = RefreshContentStateEnum.Stop
             }
         }
     }

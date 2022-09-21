@@ -24,7 +24,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -35,9 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
-import com.lt.compose_views.refresh_layout.RefreshLayout
+import com.lt.compose_views.refresh_layout.RefreshableLazyColumn
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
-import com.lt.compose_views.util.ComposePosition
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
@@ -75,9 +73,12 @@ class MainListActivity : BaseComposeActivity() {
                     .clickable { bean = bean.copy(bean.a + "0", bean.b + "1") }
                     .verticalScroll(ScrollState(0))
             )
-            ShowRv(list) {
+            ShowRv(list, {
                 list.addAll(it)
-            }
+            }, {
+                list.clear()
+                list.addAll(array)
+            })
         }
     }
 
@@ -85,9 +86,19 @@ class MainListActivity : BaseComposeActivity() {
     @Composable
     private fun ShowRv(
         list: MutableList<Int>,
-        listChangeListener: (List<Int>) -> Unit
+        listChangeListener: (List<Int>) -> Unit,
+        reSetDataListener: () -> Unit,
     ) {
-        val refreshLayoutState = rememberRefreshLayoutState(onRefreshListener = {
+        val topRefreshLayoutState = rememberRefreshLayoutState(onRefreshListener = {
+            mainScope.launch {
+                delay(1500)
+                Toast.makeText(this@MainListActivity, "刷新完成", Toast.LENGTH_LONG)
+                    .show()
+                setRefreshState(RefreshContentStateEnum.Stop)
+                reSetDataListener()
+            }
+        })
+        val bottomRefreshLayoutState = rememberRefreshLayoutState(onRefreshListener = {
             mainScope.launch {
                 delay(1500)
                 Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
@@ -98,36 +109,31 @@ class MainListActivity : BaseComposeActivity() {
                 }.asList())
             }
         })
-        RefreshLayout(
-            refreshContent = {
-                Text(text = "加载中")
-            }, refreshLayoutState = refreshLayoutState,
-            composePosition = ComposePosition.Bottom
-        ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                content = {
-                    stickyHeader {
-                        Text(text = "粘懈标题")
-                    }
-                    item {
-                        Text(text = "头布局")
-                    }
-                    stickyHeader {
-                        Text(text = "粘懈标题2")
-                    }
-                    items(list) {
-                        Text(
-                            text = it.toString(),
-                            M.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    item {
-                        Text(text = "尾布局,list.size=${list.size}")
-                    }
-                })
-        }
+        RefreshableLazyColumn(
+            topRefreshLayoutState = topRefreshLayoutState,
+            bottomRefreshLayoutState = bottomRefreshLayoutState,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            content = {
+                stickyHeader {
+                    Text(text = "粘懈标题")
+                }
+                item {
+                    Text(text = "头布局")
+                }
+                stickyHeader {
+                    Text(text = "粘懈标题2")
+                }
+                items(list) {
+                    Text(
+                        text = it.toString(),
+                        M.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                item {
+                    Text(text = "尾布局,list.size=${list.size}")
+                }
+            })
     }
 
     @Preview

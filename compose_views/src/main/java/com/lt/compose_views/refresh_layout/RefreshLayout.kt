@@ -36,7 +36,7 @@ import kotlin.math.roundToInt
  * effect : 可以上拉加载和下拉刷新的容器
  * warning:
  * @param refreshContent 刷新布局内容区域
- * @param refreshLayoutState RefreshLayout的状态
+ * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
  * @param modifier 修饰
  * @param refreshContentThreshold 刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
  * @param composePosition 设置刷新布局所在的位置,并且间接指定了滑动方向

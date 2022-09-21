@@ -16,30 +16,31 @@
 
 package com.lt.test_compose
 
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.other.VerticalSpace
-import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
-import com.lt.compose_views.refresh_layout.RefreshLayout
-import com.lt.compose_views.refresh_layout.RefreshLayoutState
-import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
+import com.lt.compose_views.refresh_layout.*
 import com.lt.compose_views.util.ComposePosition
+import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class RefreshLayoutActivity : BaseComposeActivity() {
-    private val handler = Handler(Looper.getMainLooper())
 
     override fun getTitleText(): String = "RefreshLayout"
 
@@ -50,46 +51,106 @@ class RefreshLayoutActivity : BaseComposeActivity() {
         val startRefreshState = createState()
         val endRefreshState = createState()
         LaunchedEffect(key1 = Unit) {
+            delay(3000)
             topRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
             bottomRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
             startRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
             endRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
         }
 
-        Column(
-            M
-                .fillMaxSize()
-                .background(Color.LightGray)
-        ) {
-            FlowLayout(horizontalMargin = 10.dp) {
-                FpsMonitor(modifier = Modifier)
-                Text(text = "Top状态:${topRefreshState.getRefreshContentState().value}")
-                Text(text = "Bottom状态:${bottomRefreshState.getRefreshContentState().value}")
-                Text(text = "Start状态:${startRefreshState.getRefreshContentState().value}")
-                Text(text = "End状态:${endRefreshState.getRefreshContentState().value}")
-            }
+        Row {
+            Column(
+                M
+                    .fillMaxHeight()
+                    .width(260.dp)
+                    .background(Color.LightGray)
+            ) {
+                Column() {
+                    FpsMonitor(modifier = Modifier)
+                    Text(text = "Top状态:${topRefreshState.getRefreshContentState().value}")
+                    Text(text = "Bottom状态:${bottomRefreshState.getRefreshContentState().value}")
+                    Text(text = "Start状态:${startRefreshState.getRefreshContentState().value}")
+                    Text(text = "End状态:${endRefreshState.getRefreshContentState().value}")
+                }
 
-            TopRefreshLayout(topRefreshState)
-            VerticalSpace(dp = 20)
-            BottomRefreshLayout(bottomRefreshState)
-            VerticalSpace(dp = 20)
-            StartRefreshLayout(startRefreshState)
-            VerticalSpace(dp = 20)
-            EndRefreshLayout(endRefreshState)
+                TopRefreshLayout(topRefreshState)
+                VerticalSpace(dp = 20)
+                BottomRefreshLayout(bottomRefreshState)
+                VerticalSpace(dp = 20)
+                StartRefreshLayout(startRefreshState)
+                VerticalSpace(dp = 20)
+                EndRefreshLayout(endRefreshState)
+            }
+            Column(M.fillMaxSize()) {
+                MyPullToRefresh()
+                VerticalSpace(dp = 20)
+                MyRefreshableLazyColumn()
+            }
+        }
+    }
+
+    @Composable
+    private fun MyRefreshableLazyColumn() {
+        var isLoadFinish by rememberMutableStateOf(value = false)
+        RefreshableLazyColumn(
+            //顶部刷新的状态
+            topRefreshLayoutState = createState(),
+            //底部刷新的状态
+            bottomRefreshLayoutState = rememberRefreshLayoutState(onRefreshListener = {
+                if (isLoadFinish) {
+                    setRefreshState(RefreshContentStateEnum.Stop)
+                    return@rememberRefreshLayoutState
+                }
+                mainScope.launch {
+                    Toast.makeText(this@RefreshLayoutActivity, "加载数据了", Toast.LENGTH_SHORT).show()
+                    delay(2000)
+                    setRefreshState(RefreshContentStateEnum.Stop)
+                    isLoadFinish = true
+                }
+            }), modifier = M
+                .fillMaxWidth()
+                .height(300.dp),
+            bottomIsLoadFinish = isLoadFinish
+        ) {
+            repeat(20) {
+                item(key = it) {
+                    Text(text = "内容区域${it + 1}")
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun MyPullToRefresh() {
+        PullToRefresh(refreshLayoutState = createState()) {
+            Column(
+                M
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Text(text = "内容区域1")
+                Text(text = "内容区域2")
+                Text(text = "内容区域3")
+                Text(text = "内容区域4")
+                Text(text = "内容区域5")
+                Text(text = "内容区域6")
+                Text(text = "内容区域7")
+                Text(text = "内容区域8")
+                Text(text = "内容区域9")
+            }
         }
     }
 
     @Composable
     private fun createState() = rememberRefreshLayoutState {
-        runOnUiThread {
+        mainScope.launch {
             Toast.makeText(this@RefreshLayoutActivity, "刷新了", Toast.LENGTH_SHORT).show()
-        }
-        handler.postDelayed({
+            delay(2000)
             setRefreshState(RefreshContentStateEnum.Stop)
-        }, 2000)
+        }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun TopRefreshLayout(refreshState: RefreshLayoutState) {
         RefreshLayout(
@@ -126,7 +187,6 @@ class RefreshLayoutActivity : BaseComposeActivity() {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun BottomRefreshLayout(refreshState: RefreshLayoutState) {
         RefreshLayout(
@@ -163,7 +223,6 @@ class RefreshLayoutActivity : BaseComposeActivity() {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun StartRefreshLayout(refreshState: RefreshLayoutState) {
         RefreshLayout(
@@ -195,7 +254,6 @@ class RefreshLayoutActivity : BaseComposeActivity() {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun EndRefreshLayout(refreshState: RefreshLayoutState) {
         RefreshLayout(

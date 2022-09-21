@@ -18,7 +18,10 @@ package com.lt.compose_views.menu_fab
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +34,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lt.compose_views.other.HorizontalSpace
 
 
 // Author: Vast Gui
@@ -125,7 +129,7 @@ fun MenuFloatingActionButton(
                             .background(color = item.labelBackgroundColor)
                             .padding(start = 6.dp, end = 6.dp, top = 4.dp, bottom = 4.dp)
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    HorizontalSpace(16)
                 }
                 FloatingActionButton(
                     backgroundColor = if (item.fabBackgroundColor == Color.Unspecified) MaterialTheme.colors.primary else item.fabBackgroundColor,

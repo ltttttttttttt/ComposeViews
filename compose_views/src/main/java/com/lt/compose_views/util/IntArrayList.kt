@@ -21,8 +21,8 @@ private typealias BasicsInt = Int
 /**
  * creator: lt  2021/11/10  lt.dygzs@qq.com
  * effect : 性能更好的ArrayList<BasicsInt>,线程不安全
- * warning:[initSize]初始化容量
- * ps:json无法转化成[],但可以调用toString()
+ * warning: json无法转化成[],但可以调用toString()
+ * [initSize]初始化容量
  */
 internal class IntArrayList(initSize: Int = 10) : RandomAccess {
     constructor(intArray: IntArray) : this(intArray.size) {
