@@ -56,8 +56,8 @@ fun ComposePager(
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     //key和content的缓存位置
-    val contentList by remember(key1 = pageCache, key2 = pageCount) {
-        mutableStateOf(ArrayList<ComposePagerContentBean>())
+    val contentList = remember(key1 = pageCache, key2 = pageCount) {
+        mutableStateListOf<ComposePagerContentBean>()
     }
     //content最大缓存的数量
     val maxContent by remember(key1 = pageCache, key2 = pageCount) {
@@ -305,7 +305,7 @@ private fun initContentList(
     composePagerState: ComposePagerState,
     pageCache: Int,
     indexToKey: (index: Int) -> Int,
-    contentList: ArrayList<ComposePagerContentBean>,
+    contentList: MutableList<ComposePagerContentBean>,
     pageCount: Int,
     content: @Composable (ComposePagerScope.() -> Unit)
 ) {
