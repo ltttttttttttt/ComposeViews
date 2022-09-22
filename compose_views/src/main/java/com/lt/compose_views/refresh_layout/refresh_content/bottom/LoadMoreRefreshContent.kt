@@ -66,7 +66,7 @@ fun RefreshLayoutState.LoadMoreRefreshContent(
     ) {
         if (!isLoadFinish) {
             Image(
-                painter = painterResource(id = R.drawable.refresh_layout_loading),
+                painter = painterResource(id = R.drawable.compose_views_refresh_layout_loading),
                 contentDescription = "",
                 modifier = Modifier
                     .size(20.dp)
@@ -76,9 +76,9 @@ fun RefreshLayoutState.LoadMoreRefreshContent(
         }
         Text(
             text = if (isLoadFinish)
-                stringResource(R.string.no_more_data)
+                stringResource(R.string.compose_views_no_more_data)
             else
-                stringResource(R.string.loading),
+                stringResource(R.string.compose_views_loading),
             fontSize = 14.sp,
             color = Color333,
         )

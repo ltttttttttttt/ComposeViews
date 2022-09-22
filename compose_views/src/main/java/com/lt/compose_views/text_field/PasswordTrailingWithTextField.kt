@@ -49,7 +49,7 @@ interface PasswordTrailingWithTextField {
                 onPasswordIsShowChange: (Boolean) -> Unit
             ) {
                 Image(
-                    painter = painterResource(id = if (passwordIsShow) R.drawable.password_show else R.drawable.password_hide),
+                    painter = painterResource(id = if (passwordIsShow) R.drawable.compose_views_password_show else R.drawable.compose_views_password_hide),
                     contentDescription = "",
                     modifier = Modifier
                         .size(22.dp)

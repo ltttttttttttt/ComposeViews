@@ -51,7 +51,6 @@ class RefreshLayoutActivity : BaseComposeActivity() {
         val startRefreshState = createState()
         val endRefreshState = createState()
         LaunchedEffect(key1 = Unit) {
-            delay(3000)
             topRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
             bottomRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)
             startRefreshState.setRefreshState(RefreshContentStateEnum.Refreshing)

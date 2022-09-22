@@ -69,7 +69,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     )
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.refresh_layout_loading),
+                    painter = painterResource(id = R.drawable.compose_views_refresh_layout_loading),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -83,7 +83,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     abs(getRefreshContentOffset()) < getRefreshContentThreshold()
                 val rotate by animateFloatAsState(targetValue = if (isCannotRefresh) 0f else 180f)
                 Image(
-                    painter = painterResource(id = R.drawable.refresh_layout_arrow),
+                    painter = painterResource(id = R.drawable.compose_views_refresh_layout_arrow),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -94,13 +94,13 @@ fun RefreshLayoutState.PullToRefreshContent() {
         }
         Text(
             text = when (refreshContentState) {
-                RefreshContentStateEnum.Stop -> stringResource(id = R.string.refresh_complete)
-                RefreshContentStateEnum.Refreshing -> stringResource(id = R.string.refreshing)
+                RefreshContentStateEnum.Stop -> stringResource(id = R.string.compose_views_refresh_complete)
+                RefreshContentStateEnum.Refreshing -> stringResource(id = R.string.compose_views_refreshing)
                 RefreshContentStateEnum.Dragging -> {
                     if (abs(getRefreshContentOffset()) < getRefreshContentThreshold()) {
-                        stringResource(id = R.string.drop_down_to_refresh)
+                        stringResource(id = R.string.compose_views_drop_down_to_refresh)
                     } else {
-                        stringResource(id = R.string.release_refresh_now)
+                        stringResource(id = R.string.compose_views_release_refresh_now)
                     }
                 }
             },
