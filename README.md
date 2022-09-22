@@ -133,7 +133,7 @@ fun ImageBanner()
 
 ```kotlin
 /**
- * 可以上拉加载和下拉刷新的容器
+ * 可以任意方向拖动刷新的容器
  * @param refreshContent 刷新布局内容区域
  * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
  * @param modifier 修饰
@@ -148,9 +148,35 @@ fun ImageBanner()
 @Composable
 fun RefreshLayout()
 
-更多以RefreshLayout为基础的组件:
-PullToRefresh//下拉刷新
-RefreshableLazyColumn//下拉刷新+上拉加载的LazyColumn
+/**
+ * 下拉刷新
+ * @param refreshLayoutState RefreshLayout的状态
+ * @param modifier 修饰
+ * @param refreshContent 刷新布局内容区域
+ * @param content compose内容区域
+ */
+@Composable
+fun PullToRefresh()
+
+/**
+ * 下拉刷新+上拉加载的LazyColumn
+ * @param topRefreshLayoutState top的刷新布局的state,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
+ * @param bottomRefreshLayoutState bottom的刷新布局的state,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
+ * @param modifier 修饰
+ * @param topRefreshContent top的刷新布局的content,有默认样式,可以传入lambda自定义
+ * @param bottomIsLoadFinish bottom刷新布局是否刷新完成
+ * @param bottomRefreshContent bottom的刷新布局的content,有默认样式,可以传入lambda自定义
+ * @param lazyColumnState lazyColumn的State
+ * @param contentPadding 内部边距设置,可以设置为整体边距或条目间的间距
+ * @param reverseLayout 反转滚动和布局的方向
+ * @param verticalArrangement 竖向对其方式
+ * @param horizontalAlignment 横向对其方式
+ * @param flingBehavior fling
+ * @param userScrollEnabled 用户是否可以滚动
+ * @param content lazyColumn的内容
+ */
+@Composable
+fun RefreshableLazyColumn()
 ```
 
 ## FlowLayout

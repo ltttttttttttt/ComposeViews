@@ -33,7 +33,7 @@ import kotlin.math.roundToInt
 
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
- * effect : 可以上拉加载和下拉刷新的容器
+ * effect : 可以任意方向拖动刷新的容器
  * warning:
  * @param refreshContent 刷新布局内容区域
  * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
