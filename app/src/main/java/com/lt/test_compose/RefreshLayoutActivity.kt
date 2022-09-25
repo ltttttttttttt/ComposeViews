@@ -18,19 +18,19 @@ package com.lt.test_compose
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.refresh_layout.*
 import com.lt.compose_views.util.ComposePosition
@@ -84,6 +84,34 @@ class RefreshLayoutActivity : BaseComposeActivity() {
                 MyPullToRefresh()
                 VerticalSpace(dp = 20)
                 MyRefreshableLazyColumn()
+                VerticalSpace(dp = 20)
+                MyRefreshablePager()
+            }
+        }
+    }
+
+    private val colors = mutableStateListOf(
+        Color(150, 105, 61, 255),
+        Color(122, 138, 55, 255),
+        Color(50, 134, 74, 255),
+        Color(112, 62, 11, 255),
+        Color(114, 61, 101, 255),
+    )
+
+    @Composable
+    private fun MyRefreshablePager() {
+        VerticalRefreshableLayout(
+            topRefreshLayoutState = createState(),
+            bottomRefreshLayoutState = createState()
+        ) {
+            ComposePager(pageCount = colors.size, orientation = Orientation.Vertical) {
+                Box(
+                    modifier = M
+                        .fillMaxSize()
+                        .background(colors[index])
+                ) {
+                    Text(text = index.toString(), modifier = M.align(Alignment.Center))
+                }
             }
         }
     }
@@ -91,7 +119,7 @@ class RefreshLayoutActivity : BaseComposeActivity() {
     @Composable
     private fun MyRefreshableLazyColumn() {
         var isLoadFinish by rememberMutableStateOf(value = false)
-        RefreshableLazyColumn(
+        VerticalRefreshableLayout(
             //顶部刷新的状态
             topRefreshLayoutState = createState(),
             //底部刷新的状态
@@ -111,11 +139,13 @@ class RefreshLayoutActivity : BaseComposeActivity() {
                 .height(300.dp),
             bottomIsLoadFinish = isLoadFinish
         ) {
-            repeat(20) {
-                item(key = it) {
-                    Text(text = "内容区域${it + 1}")
+            LazyColumn(modifier = M.fillMaxSize(), content = {
+                repeat(20) {
+                    item(key = it) {
+                        Text(text = "内容区域${it + 1}")
+                    }
                 }
-            }
+            })
         }
     }
 

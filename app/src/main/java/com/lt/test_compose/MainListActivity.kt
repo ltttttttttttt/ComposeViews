@@ -24,6 +24,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -34,7 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
-import com.lt.compose_views.refresh_layout.RefreshableLazyColumn
+import com.lt.compose_views.refresh_layout.VerticalRefreshableLayout
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
@@ -109,30 +110,32 @@ class MainListActivity : BaseComposeActivity() {
                 }.asList())
             }
         })
-        RefreshableLazyColumn(
+        VerticalRefreshableLayout(
             topRefreshLayoutState = topRefreshLayoutState,
             bottomRefreshLayoutState = bottomRefreshLayoutState,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
             content = {
-                stickyHeader {
-                    Text(text = "粘懈标题")
-                }
-                item {
-                    Text(text = "头布局")
-                }
-                stickyHeader {
-                    Text(text = "粘懈标题2")
-                }
-                items(list) {
-                    Text(
-                        text = it.toString(),
-                        M.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-                item {
-                    Text(text = "尾布局,list.size=${list.size}")
-                }
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp),
+                    content = {
+                        stickyHeader {
+                            Text(text = "粘懈标题")
+                        }
+                        item {
+                            Text(text = "头布局")
+                        }
+                        stickyHeader {
+                            Text(text = "粘懈标题2")
+                        }
+                        items(list) {
+                            Text(
+                                text = it.toString(),
+                                M.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        item {
+                            Text(text = "尾布局,list.size=${list.size}")
+                        }
+                    })
             })
     }
 
