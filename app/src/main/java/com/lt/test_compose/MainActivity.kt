@@ -42,7 +42,9 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     override fun ComposeContent() {
-        //startActivity(Intent(this@MainActivity, buttons[3].second))
+        buttons.getOrNull(BuildConfig.TEST_INDEX)?.second?.let {
+            startActivity(Intent(this@MainActivity, it))
+        }
         LazyColumn {
             items(buttons) {
                 Button(onClick = { startActivity(Intent(this@MainActivity, it.second)) }) {

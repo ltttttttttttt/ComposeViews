@@ -65,6 +65,7 @@ dependencies {
  * @param orientation 滑动的方向
  * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
  * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
+ * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件,使用可以参考[Banner]
  * @param content compose内容区域
  */
 @Composable

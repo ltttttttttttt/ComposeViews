@@ -17,11 +17,16 @@
 package com.lt.compose_views.banner
 
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.interaction.DragInteraction
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.LocalIndexToKey
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
@@ -50,15 +55,26 @@ fun Banner(
     if (pageCount <= 0)
         return
     //是否正在滚动倒计时中
-    val scrolling by remember(autoScroll) {
-        val scrolling = mutableStateOf(autoScroll)
-        bannerState.composePagerState.onUserDragStarted = {
-            scrolling.value = false
+    var scrolling by remember(autoScroll) {
+        mutableStateOf(autoScroll)
+    }
+    val scrollableInteractionSource = remember(autoScroll) {
+        if (!autoScroll)
+            return@remember null
+        object : MutableInteractionSource {
+            override val interactions: Flow<Interaction>
+                get() = flowOf()
+
+            override suspend fun emit(interaction: Interaction) {
+                scrolling = interaction !is DragInteraction.Start
+            }
+
+            override fun tryEmit(interaction: Interaction): Boolean {
+                scrolling = interaction !is DragInteraction.Start
+                return true
+            }
+
         }
-        bannerState.composePagerState.onUserDragStopped = {
-            scrolling.value = autoScroll
-        }
-        scrolling
     }
     //计算总共多少页
     val maxPageCount = remember(pageCount) {
@@ -88,6 +104,7 @@ fun Banner(
             composePagerState = bannerState.composePagerState,
             orientation = orientation,
             userEnable = userEnable,
+            scrollableInteractionSource = scrollableInteractionSource,
         ) {
             content(BannerScope(index))
         }

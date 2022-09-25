@@ -36,6 +36,13 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        def testIndex = "-1"
+        try {
+            testIndex = file("test_index.txt").getText()
+        } catch (ignored) {
+        }
+        buildConfigField("int", "TEST_INDEX", testIndex)
     }
 
     buildTypes {

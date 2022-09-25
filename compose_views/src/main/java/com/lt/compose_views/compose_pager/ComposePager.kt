@@ -19,9 +19,8 @@ package com.lt.compose_views.compose_pager
 import androidx.annotation.IntRange
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -29,6 +28,8 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.util.midOf
+import com.lt.compose_views.util.rememberMutableStateOf
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -42,6 +43,7 @@ import kotlin.math.roundToInt
  * @param orientation 滑动的方向
  * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
  * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
+ * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件,使用可以参考[Banner]
  * @param content compose内容区域
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,6 +55,7 @@ fun ComposePager(
     orientation: Orientation = Orientation.Horizontal,
     userEnable: Boolean = true,
     @IntRange(from = 1) pageCache: Int = 1,
+    scrollableInteractionSource: MutableInteractionSource? = null,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     //key和content的缓存位置
@@ -70,6 +73,8 @@ fun ComposePager(
     var isNextPage by remember {
         mutableStateOf<PageChangeAnimFlag>(PageChangeAnimFlag.Reduction)
     }
+    val isHorizontal by rememberMutableStateOf(value = orientation == Orientation.Horizontal)
+    val coroutineScope = rememberCoroutineScope()
     //检查索引是否在页数内
     remember(key1 = pageCount) {
         if (pageCount <= 0) {
@@ -163,27 +168,35 @@ fun ComposePager(
         isNextPage = PageChangeAnimFlag.Reduction
         0
     }
+    val minOffset = remember(
+        key1 = composePagerState.mainAxisSize,
+        key2 = composePagerState.currSelectIndex.value
+    ) {
+        val currIndex = composePagerState.currSelectIndex.value
+        if (currIndex + 1 >= pageCount)
+            currIndex * -composePagerState.mainAxisSize.toFloat()
+        else
+            (currIndex + 1) * -composePagerState.mainAxisSize.toFloat()
+    }
+    val maxOffset = remember(
+        key1 = composePagerState.mainAxisSize,
+        key2 = composePagerState.currSelectIndex.value,
+        key3 = pageCount
+    ) {
+        composePagerState.mainAxisSize.toFloat() * composePagerState.currSelectIndex.value
+    }
     //滑动监听
-    val draggableState = rememberDraggableState {
+    val scrollableState = rememberScrollableState {
         //停止之前的动画
         composePagerState.pageChangeAnimFlag = null
-        val min = if (composePagerState.currSelectIndex.value + 1 >= pageCount)
-            0f else -composePagerState.mainAxisSize.toFloat()
-        val max = if (composePagerState.currSelectIndex.value <= 0)
-            0f else composePagerState.mainAxisSize.toFloat()
-        composePagerState.mOffset = midOf(min, (composePagerState.mOffset ?: 0f) + it, max)
+        val lastOffset = composePagerState.offsetAnim.value
+        val offset = midOf(minOffset, lastOffset + it, maxOffset)
+        coroutineScope.launch {
+            composePagerState.offsetAnim.snapTo(offset)
+        }
+        offset - lastOffset
     }
 
-    //处理offset
-    LaunchedEffect(
-        key1 = composePagerState.mOffset,
-        key2 = orientation,
-        block = {
-            val offset = composePagerState.mOffset ?: return@LaunchedEffect
-            composePagerState.offsetAnim.snapTo(
-                offset - composePagerState.currSelectIndex.value * composePagerState.mainAxisSize
-            )
-        })
     //处理翻页动画
     LaunchedEffect(
         key1 = composePagerState.pageChangeAnimFlag,
@@ -200,7 +213,6 @@ fun ComposePager(
                     PageChangeAnimFlag.Prev -> {
                         if (index <= 0)
                             return@LaunchedEffect
-                        composePagerState.mOffset = null
                         try {
                             composePagerState.offsetAnim.animateTo(-(index - 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
@@ -211,7 +223,6 @@ fun ComposePager(
                     PageChangeAnimFlag.Next -> {
                         if (index + 1 >= pageCount)
                             return@LaunchedEffect
-                        composePagerState.mOffset = null
                         try {
                             composePagerState.offsetAnim.animateTo(-(index + 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
@@ -243,20 +254,25 @@ fun ComposePager(
             }
         },
         modifier = modifier
-            .draggable(draggableState, orientation, enabled = userEnable, onDragStarted = {
-                composePagerState.mOffset = 0f
-                composePagerState.onUserDragStarted?.invoke(this, it)
-            }, onDragStopped = {
-                val index = composePagerState.currSelectIndex.value
-                if (composePagerState.offsetAnim.value + it > -(index * composePagerState.mainAxisSize - composePagerState.mainAxisSize / 2)) {
-                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
-                } else if (composePagerState.offsetAnim.value + it < -(index * composePagerState.mainAxisSize + composePagerState.mainAxisSize / 2)) {
-                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
-                } else {
-                    composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
-                }
-                composePagerState.onUserDragStopped?.invoke(this, it)
-            })
+            .scrollable(
+                state = scrollableState,
+                orientation = orientation,
+                enabled = userEnable,
+                interactionSource = scrollableInteractionSource,
+                flingBehavior = object : FlingBehavior {
+                    override suspend fun ScrollScope.performFling(initialVelocity: Float): Float {
+                        val index = composePagerState.currSelectIndex.value
+                        if (composePagerState.offsetAnim.value + initialVelocity > -(index * composePagerState.mainAxisSize - composePagerState.mainAxisSize / 2)) {
+                            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
+                        } else if (composePagerState.offsetAnim.value + initialVelocity < -(index * composePagerState.mainAxisSize + composePagerState.mainAxisSize / 2)) {
+                            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
+                        } else {
+                            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
+                        }
+                        return initialVelocity
+                    }
+
+                })
             .clipScrollableContainer(orientation)
     ) { measurables/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
         val selectIndex = composePagerState.currSelectIndex.value
@@ -278,14 +294,14 @@ fun ComposePager(
             }
 
         composePagerState.mainAxisSize =
-            if (orientation == Orientation.Horizontal) width else height
+            if (isHorizontal) width else height
         //设置自身大小,并布局子元素
         layout(width, height) {
             val animValue = composePagerState.offsetAnim.value.roundToInt()
             placeableList.forEach { (index, placeable) ->
                 val offset = index * composePagerState.mainAxisSize + animValue
                 //遍历放置子元素
-                if (orientation == Orientation.Horizontal)
+                if (isHorizontal)
                     placeable.placeRelative(
                         x = offset,
                         y = 0

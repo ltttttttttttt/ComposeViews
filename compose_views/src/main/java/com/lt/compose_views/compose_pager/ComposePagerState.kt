@@ -47,16 +47,6 @@ class ComposePagerState {
     internal var orientation: Orientation = Orientation.Horizontal
 
     /**
-     * 监听用户开始滑动
-     */
-    var onUserDragStarted: (suspend CoroutineScope.(startedPosition: Offset) -> Unit)? = null
-
-    /**
-     * 监听用户结束滑动
-     */
-    var onUserDragStopped: (suspend CoroutineScope.(velocity: Float) -> Unit)? = null
-
-    /**
      * 获取ComposePager当前所在的索引
      */
     fun getCurrSelectIndex(): Int = currSelectIndex.value
