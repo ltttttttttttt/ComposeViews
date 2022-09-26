@@ -18,15 +18,12 @@ package com.lt.compose_views.banner
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.interaction.DragInteraction
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.LocalIndexToKey
+import com.lt.compose_views.util.DragInteractionSource
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
@@ -61,19 +58,8 @@ fun Banner(
     val scrollableInteractionSource = remember(autoScroll) {
         if (!autoScroll)
             return@remember null
-        object : MutableInteractionSource {
-            override val interactions: Flow<Interaction>
-                get() = flowOf()
-
-            override suspend fun emit(interaction: Interaction) {
-                scrolling = interaction !is DragInteraction.Start
-            }
-
-            override fun tryEmit(interaction: Interaction): Boolean {
-                scrolling = interaction !is DragInteraction.Start
-                return true
-            }
-
+        DragInteractionSource { interaction ->
+            scrolling = interaction !is DragInteraction.Start
         }
     }
     //计算总共多少页
@@ -104,6 +90,7 @@ fun Banner(
             composePagerState = bannerState.composePagerState,
             orientation = orientation,
             userEnable = userEnable,
+            pageCache = maxOf(1, (pageCount - 1) / 2),
             scrollableInteractionSource = scrollableInteractionSource,
         ) {
             content(BannerScope(index))

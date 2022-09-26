@@ -20,13 +20,13 @@ import androidx.annotation.IntRange
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.*
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import com.lt.compose_views.banner.BannerScope
+import com.lt.compose_views.util.DragInteractionSource
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ import kotlin.math.roundToInt
  * @param orientation 滑动的方向
  * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
  * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
- * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件,使用可以参考[Banner]
+ * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件
  * @param content compose内容区域
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -55,24 +55,23 @@ fun ComposePager(
     orientation: Orientation = Orientation.Horizontal,
     userEnable: Boolean = true,
     @IntRange(from = 1) pageCache: Int = 1,
-    scrollableInteractionSource: MutableInteractionSource? = null,
+    scrollableInteractionSource: DragInteractionSource? = null,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
+    val indexToKey = LocalIndexToKey.current
     //key和content的缓存位置
-    val contentList = remember(key1 = pageCache, key2 = pageCount) {
+    val contentList = remember {
         mutableStateListOf<ComposePagerContentBean>()
     }
     //content最大缓存的数量
-    val maxContent by remember(key1 = pageCache, key2 = pageCount) {
+    val maxContent by remember(key1 = pageCache) {
         mutableStateOf(pageCache * 2 + 1)
     }
     //下一个要被替换的content缓存的索引
     var nextContentReplaceIndex by remember(key1 = pageCache, key2 = pageCount) {
         mutableStateOf<Int?>(null)
     }
-    var isNextPage by remember {
-        mutableStateOf<PageChangeAnimFlag>(PageChangeAnimFlag.Reduction)
-    }
+    var isNextPage by rememberMutableStateOf<PageChangeAnimFlag>(PageChangeAnimFlag.Reduction)
     val isHorizontal by rememberMutableStateOf(value = orientation == Orientation.Horizontal)
     val coroutineScope = rememberCoroutineScope()
     //检查索引是否在页数内
@@ -87,7 +86,6 @@ fun ComposePager(
     if (pageCount <= composePagerState.getCurrSelectIndex())
         return
 
-    val indexToKey = LocalIndexToKey.current
     //初始化content
     remember(
         key1 = pageCount,
@@ -170,7 +168,8 @@ fun ComposePager(
     }
     val minOffset = remember(
         key1 = composePagerState.mainAxisSize,
-        key2 = composePagerState.currSelectIndex.value
+        key2 = composePagerState.currSelectIndex.value,
+        key3 = pageCount
     ) {
         val currIndex = composePagerState.currSelectIndex.value
         if (currIndex + 1 >= pageCount)
@@ -181,7 +180,6 @@ fun ComposePager(
     val maxOffset = remember(
         key1 = composePagerState.mainAxisSize,
         key2 = composePagerState.currSelectIndex.value,
-        key3 = pageCount
     ) {
         composePagerState.mainAxisSize.toFloat() * composePagerState.currSelectIndex.value
     }
@@ -269,7 +267,7 @@ fun ComposePager(
                         } else {
                             composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
                         }
-                        return initialVelocity
+                        return 0f//返回剩余的速度
                     }
 
                 })

@@ -26,6 +26,7 @@ import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.text_field.GoodTextField
 import com.lt.compose_views.text_field.HintComposeWithTextField
 import com.lt.compose_views.text_field.PasswordTextField
+import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
 
@@ -44,24 +45,12 @@ class TextFieldActivity : BaseComposeActivity() {
                 .padding(20.dp)
                 .width(200.dp)
         ) {
-            val text1 = remember {
-                mutableStateOf("我是账号")
-            }
-            var text2 by remember {
-                mutableStateOf("")
-            }
-            val password = remember {
-                mutableStateOf("password")
-            }
-            val passwordIsShow = remember {
-                mutableStateOf(false)
-            }
-            val password2 = remember {
-                mutableStateOf("123456")
-            }
-            val passwordIsShow2 = remember {
-                mutableStateOf(true)
-            }
+            val text1 = rememberMutableStateOf("我是账号")
+            var text2 by rememberMutableStateOf("")
+            val password = rememberMutableStateOf("password")
+            val passwordIsShow = rememberMutableStateOf(false)
+            val password2 = rememberMutableStateOf("123456")
+            val passwordIsShow2 = rememberMutableStateOf(true)
             GoodTextField(
                 value = text1.value,
                 onValueChange = text1::value::set,

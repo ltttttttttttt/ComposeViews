@@ -26,6 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.MainScope
 
 /**
@@ -56,9 +57,9 @@ abstract class BaseComposeActivity : AppCompatActivity() {
      */
     @Composable
     fun FpsMonitor(modifier: Modifier) {
-        var fpsCount by remember { mutableStateOf(0) }
-        var fps by remember { mutableStateOf(0) }
-        var lastUpdate by remember { mutableStateOf(0L) }
+        var fpsCount by rememberMutableStateOf(0)
+        var fps by rememberMutableStateOf(0)
+        var lastUpdate by rememberMutableStateOf(0L)
         Text(
             text = "Fps: $fps", modifier = modifier
                 .size(60.dp, 30.dp), color = Color.Red, style = MaterialTheme.typography.body1

@@ -40,9 +40,6 @@ class ComposePagerState {
     //记录ComposePager的宽高中的对应方向的值
     internal var mainAxisSize by mutableStateOf(0)
 
-    //用于配合滑动和动画
-    internal var mOffset by mutableStateOf<Float?>(null)
-
     //组件的方向信息
     internal var orientation: Orientation = Orientation.Horizontal
 

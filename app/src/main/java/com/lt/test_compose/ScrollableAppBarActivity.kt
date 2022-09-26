@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.scrollable_appbar.ScrollableAppBar
+import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.MyTheme
 
 // Author: Vast Gui
@@ -62,7 +63,7 @@ class ScrollableAppBarActivity : ComponentActivity() {
                     // ToolBar 最小向上位移量
                     val minUpPx = 0f
                     // 偏移折叠工具栏上移高度
-                    val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
+                    val toolbarOffsetHeightPx = rememberMutableStateOf(0f)
                     // 现在，让我们创建与嵌套滚动系统的连接并聆听子 LazyColumn 中发生的滚动
                     val nestedScrollConnection = remember {
                         object : NestedScrollConnection {
