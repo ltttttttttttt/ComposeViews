@@ -52,12 +52,16 @@ fun Banner(
     if (pageCount <= 0)
         return
     //是否正在滚动倒计时中
-    var scrolling by remember(autoScroll) {
-        mutableStateOf(autoScroll)
+    var scrolling by remember(key1 = autoScroll, key2 = pageCount) {
+        mutableStateOf(autoScroll && pageCount > 1)
     }
-    val scrollableInteractionSource = remember(autoScroll) {
+    val scrollableInteractionSource = remember(key1 = autoScroll, key2 = pageCount) {
         if (!autoScroll)
             return@remember null
+        if (pageCount <= 1) {
+            scrolling = false
+            return@remember null
+        }
         DragInteractionSource { interaction ->
             scrolling = interaction !is DragInteraction.Start
         }
