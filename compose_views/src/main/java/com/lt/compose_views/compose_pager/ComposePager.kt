@@ -274,12 +274,12 @@ fun ComposePager(
 
                 })
             .clipScrollableContainer(orientation)
-    ) { measurables/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
+    ) { measurableList/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
         val selectIndex = composePagerState.currSelectIndex.value
         var width = 0
         var height = 0
         //测量子元素,并算出他们的最大宽度
-        val placeableList = measurables
+        val placeableList = measurableList
             .filter {
                 //只测量有效的布局
                 val key = it.layoutId

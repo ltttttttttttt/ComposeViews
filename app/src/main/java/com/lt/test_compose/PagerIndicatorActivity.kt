@@ -232,7 +232,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             indicatorItem = {
                 Spacer(
                     modifier = M
-                        .size(12.dp, 6.dp)
+                        .size(6.dp, 6.dp)
                         .background(Color.Gray, CircleShape)
                 )
             },

@@ -54,7 +54,7 @@ fun FlowLayout(
 ) {
     val horizontalMarginPx = LocalDensity.current.run { horizontalMargin.roundToPx() }
     val verticalMarginPx = LocalDensity.current.run { verticalMargin.roundToPx() }
-    Layout(content, modifier) { measurables, constraints ->
+    Layout(content, modifier) { measurableList, constraints ->
         val maxWidth = constraints.maxWidth
         val maxHeight = constraints.maxHeight
         val isHorizontal = orientation == Orientation.Horizontal
@@ -69,7 +69,7 @@ fun FlowLayout(
         var lineWidth = 0
         var lineHeight = 0
 
-        val placeables = measurables.map {
+        val placeableList = measurableList.map {
             //如果超过了最大行数限制,后续元素不测量且不放置
             if (linesSize.size >= maxLines) {
                 return@map NotPlace
@@ -164,7 +164,7 @@ fun FlowLayout(
                     }
                 }
                 repeat(lineSize) { lineIndex ->
-                    val placeable = placeables[index]
+                    val placeable = placeableList[index]
                     //这个子元素相对于这一行(列)的对齐方式
                     val xOffset = when {
                         isHorizontal -> 0
