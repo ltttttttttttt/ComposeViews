@@ -26,9 +26,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.Velocity
 import com.lt.compose_views.util.ComposePosition
 import kotlin.math.roundToInt
 
@@ -75,8 +73,24 @@ fun ChainScrollableComponent(
     ) {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                if(scrollPosition){
-
+                val offset = if (orientationIsHorizontal) available.x else available.y
+                val position = scrollPosition
+                if (offset > 0 && position < maxPx) {
+                    //如果可以向max位置滑动
+                    val diff = minOf(maxPx - position, offset)
+                    scrollPosition = position + diff
+                    return Offset(
+                        if (orientationIsHorizontal) diff else 0f,
+                        if (orientationIsHorizontal) 0f else diff
+                    )
+                } else if (offset < 0 && position > minPx) {
+                    //如果可以向min位置滑动
+                    val diff = maxOf(minPx - position, offset)
+                    scrollPosition = position + diff
+                    return Offset(
+                        if (orientationIsHorizontal) diff else 0f,
+                        if (orientationIsHorizontal) 0f else diff
+                    )
                 }
                 return Offset.Zero
             }
@@ -96,49 +110,56 @@ fun ChainScrollableComponent(
             } else {
                 content()
             }
-            chainContent(scrollPosition)
+            // TODO by lt 2022/9/28 22:39 顶部无法带动content
+            Box(
+                if (orientationIsHorizontal)
+                    Modifier.horizontalScroll(rememberScrollState())
+                else
+                    Modifier.verticalScroll(rememberScrollState())
+            ) {
+                chainContent(scrollPosition)
+            }
         },
         modifier = modifier
             .nestedScroll(nestedScrollState)
             .clipScrollableContainer(composePosition.orientation)
     ) { measurableList, constraints ->
-        val contentPlaceable =
-            measurableList[0].measure(constraints.copy(minWidth = 0, minHeight = 0))
-        //宽或高不能超过content(根据方向来定)
-        val refreshContentPlaceable = measurableList[1].measure(
-            Constraints(
-                maxWidth = if (orientationIsHorizontal) Constraints.Infinity else contentPlaceable.width,
-                maxHeight = if (orientationIsHorizontal) contentPlaceable.height else Constraints.Infinity,
-            )
+        val mConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+        val contentPlaceable = measurableList[0].measure(mConstraints)
+        val chainContentPlaceable = measurableList[1].measure(
+            if (orientationIsHorizontal)
+                mConstraints.copy(maxWidth = maxPx)
+            else
+                mConstraints.copy(maxHeight = maxPx)
         )
 
         layout(contentPlaceable.width, contentPlaceable.height) {
-            val offset = refreshLayoutState.refreshContentOffsetState.value.roundToInt()
+            val offset = scrollPosition.roundToInt()
             when (composePosition) {
                 ComposePosition.Start -> {
                     contentPlaceable.placeRelative(offset, 0)
-                    refreshContentPlaceable.placeRelative(
-                        (-refreshContentPlaceable.width) + offset,
+                    chainContentPlaceable.placeRelative(
+                        (-chainContentPlaceable.width) + offset,
                         0
                     )
                 }
                 ComposePosition.End -> {
                     contentPlaceable.placeRelative(offset, 0)
-                    refreshContentPlaceable.placeRelative(
+                    chainContentPlaceable.placeRelative(
                         contentPlaceable.width + offset,
                         0
                     )
                 }
                 ComposePosition.Top -> {
                     contentPlaceable.placeRelative(0, offset)
-                    refreshContentPlaceable.placeRelative(
+                    chainContentPlaceable.placeRelative(
                         0,
-                        (-refreshContentPlaceable.height) + offset
+                        (-chainContentPlaceable.height) + offset
                     )
                 }
                 ComposePosition.Bottom -> {
                     contentPlaceable.placeRelative(0, offset)
-                    refreshContentPlaceable.placeRelative(
+                    chainContentPlaceable.placeRelative(
                         0,
                         contentPlaceable.height + offset
                     )
