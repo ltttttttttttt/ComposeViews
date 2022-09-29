@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.unit.Velocity
 import com.lt.compose_views.util.ComposePosition
 
 /**
@@ -33,12 +34,25 @@ internal class ChainContentFirstNestedScrollConnection(
 ) : NestedScrollConnection {
     private val orientationIsHorizontal = composePosition.isHorizontal()
 
+    override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+        val offset = if (orientationIsHorizontal) consumed.x else consumed.y
+        val position = state.getScrollPositionValue()
+        if (offset > 0 && position < state.maxPx) {
+            //如果可以向max位置滑动
+            return if (orientationIsHorizontal) consumed.copy(y = 0f) else consumed.copy(x = 0f)
+        } else if (offset < 0 && position > state.minPx) {
+            //如果可以向min位置滑动
+            return if (orientationIsHorizontal) consumed.copy(y = 0f) else consumed.copy(x = 0f)
+        }
+        return Velocity.Zero
+    }
+
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-        Log.e("lllttt", "666 ${available.y} $source")
+        //还是fling的值有问题
+        if (source == NestedScrollSource.Fling)
+            return Offset.Zero
+        //Log.e("lllttt", "666 ${available.y} $source")
         val offset = if (orientationIsHorizontal) available.x else available.y
-        //不清楚为什么fling的值是反的,bug?
-        //if (source == NestedScrollSource.Fling)
-        //    offset = -offset
         val position = state.getScrollPositionValue()
         val diff = if (offset > 0 && position < state.maxPx) {
             //如果可以向max位置滑动
@@ -54,6 +68,7 @@ internal class ChainContentFirstNestedScrollConnection(
         } else {
             state.setScrollPosition(position + diff)
         }
+        Log.e("lllttt", "666 $position ${position + diff} $diff $source")
         return Offset(
             if (orientationIsHorizontal) diff else 0f,
             if (orientationIsHorizontal) 0f else diff

@@ -16,8 +16,11 @@
 
 package com.lt.compose_views.scrollable_appbar
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +30,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import com.lt.compose_views.util.ComposePosition
+import com.lt.compose_views.util.NotPlace.height
 import kotlin.math.roundToInt
 
 /**
@@ -39,7 +43,6 @@ import kotlin.math.roundToInt
  * @param modifier 修饰
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
  * @param chainMode 联动方式
- * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
  * @param content compose内容区域
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -98,21 +101,25 @@ fun ChainScrollableComponent(
             } else {
                 content()
             }
-            Box(
-                if (orientationIsHorizontal)
-                    Modifier.horizontalScroll(rememberScrollState())
-                else
-                    Modifier.verticalScroll(rememberScrollState())
-            ) {
+            //Box(
+            //    if (orientationIsHorizontal)
+            //        Modifier.horizontalScroll(rememberScrollState())
+            //    else
+            //        Modifier.verticalScroll(rememberScrollState())
+            //) {
                 chainContent(state)
-            }
+            //}
         },
         modifier = modifier
             .nestedScroll(nestedScrollState)
-            .clipScrollableContainer(composePosition.orientation)
+        .clipScrollableContainer(composePosition.orientation)
     ) { measurableList, constraints ->
         val mConstraints = constraints.copy(minWidth = 0, minHeight = 0)
-        val contentPlaceable = measurableList[0].measure(mConstraints)
+        val contentPlaceable = measurableList[0].measure(if (orientationIsHorizontal)
+            mConstraints.copy(maxWidth = mConstraints.maxWidth-minPx)
+        else
+            mConstraints.copy(maxHeight = mConstraints.maxHeight-minPx)
+        )
         val chainContentPlaceable = measurableList[1].measure(
             if (orientationIsHorizontal)
                 mConstraints.copy(maxWidth = maxPx)
@@ -120,7 +127,15 @@ fun ChainScrollableComponent(
                 mConstraints.copy(maxHeight = maxPx)
         )
 
-        layout(contentPlaceable.width, contentPlaceable.height) {
+        val width = if (orientationIsHorizontal) minPx + contentPlaceable.width else maxOf(
+            contentPlaceable.width,
+            chainContentPlaceable.width
+        )
+        val height = if (orientationIsHorizontal) maxOf(
+            contentPlaceable.height,
+            chainContentPlaceable.height
+        ) else minPx + contentPlaceable.height
+        layout(width, height) {
             val offset = state.getScrollPositionValue().roundToInt()
             when (composePosition) {
                 ComposePosition.Start -> {

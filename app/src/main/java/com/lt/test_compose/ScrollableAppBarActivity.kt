@@ -56,7 +56,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         Column(modifier = Modifier.fillMaxSize()) {
-            AppBar()
+            //AppBar()
             Row {
                 Text(text = "方向:$composePosition")
                 Button(onClick = {
@@ -97,23 +97,30 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                 .fillMaxWidth()
                 .weight(1f),
             composePosition = composePosition,
-            isSupportCanNotScrollCompose = true,
         ) {
+                if (true) {
+                    LazyColumn(modifier = Modifier.fillMaxSize()){
+                        items(100){
+                            Text("item $it")
+                        }
+                    }
+                } else {
             Column {
-                for (i in 0..20) {
-                    Row {
-                        for (j in 0..20) {
-                            Spacer(
-                                modifier = Modifier
-                                    .size(25.dp)
-                                    .background(
-                                        Color(
-                                            red = i * 10,
-                                            green = j * 10,
-                                            blue = minOf(i * j, 255)
+                    for (i in 0..20) {
+                        Row {
+                            for (j in 0..20) {
+                                Spacer(
+                                    modifier = Modifier
+                                        .size(35.dp)
+                                        .background(
+                                            Color(
+                                                red = i * 10,
+                                                green = j * 10,
+                                                blue = minOf(i * j, 255)
+                                            )
                                         )
-                                    )
-                            )
+                                )
+                            }
                         }
                     }
                 }
