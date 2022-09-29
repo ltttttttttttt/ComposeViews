@@ -19,8 +19,6 @@ package com.lt.compose_views.compose_pager
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.runtime.*
-import androidx.compose.ui.geometry.Offset
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -72,7 +70,7 @@ class ComposePagerState {
             0f
         else {
             val percent = offsetAnim.value / mainAxisSize
-            0 - ( percent +getCurrSelectIndex())
+            0 - (percent + getCurrSelectIndex())
         }
     }
 
@@ -86,7 +84,7 @@ class ComposePagerState {
     /**
      * 切换选中的页数,有动画
      */
-    fun setPageIndexWithAnim(index: Int) {
+    fun setPageIndexWithAnimate(index: Int) {
         val currIndex = currSelectIndex.value
         if (index == currIndex - 1) {
             pageChangeAnimFlag = PageChangeAnimFlag.Prev
@@ -95,6 +93,14 @@ class ComposePagerState {
         } else {
             setPageIndex(index)
         }
+    }
+
+    @Deprecated(
+        "请使用[setPageIndexWithAnimate],后续版本将删除",
+        ReplaceWith("setPageIndexWithAnimate(index)")
+    )
+    fun setPageIndexWithAnim(index: Int) {
+        setPageIndexWithAnimate(index)
     }
 }
 

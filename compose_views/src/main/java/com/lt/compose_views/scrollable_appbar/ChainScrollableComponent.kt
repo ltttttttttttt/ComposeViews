@@ -18,11 +18,10 @@ package com.lt.compose_views.scrollable_appbar
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
@@ -39,6 +38,7 @@ import kotlin.math.roundToInt
  * @param chainContent 链式(联动)滚动的compose组件,scrollOffset: 滚动位置(位于最小和最大之间)
  * @param modifier 修饰
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
+ * @param chainMode 联动方式
  * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
  * @param content compose内容区域
  */
@@ -47,9 +47,10 @@ import kotlin.math.roundToInt
 fun ChainScrollableComponent(
     minScrollPosition: Dp,
     maxScrollPosition: Dp,
-    chainContent: @Composable (scrollPosition: Float) -> Unit,
+    chainContent: @Composable (state: ChainScrollableComponentState) -> Unit,
     modifier: Modifier = Modifier,
     composePosition: ComposePosition = ComposePosition.Top,
+    chainMode: ChainMode = ChainMode.ContentFirst,
     isSupportCanNotScrollCompose: Boolean = false,
     content: @Composable () -> Unit,
 ) {
@@ -60,40 +61,27 @@ fun ChainScrollableComponent(
     val maxPx = remember(key1 = maxScrollPosition, key2 = density) {
         density.run { maxScrollPosition.roundToPx() }
     }
-    var scrollPosition by remember(key1 = minPx, key2 = maxPx) {
-        mutableStateOf(maxPx.toFloat())
+    val coroutineScope = rememberCoroutineScope()
+    val state = remember(key1 = minPx, key2 = maxPx, key3 = coroutineScope) {
+        ChainScrollableComponentState(minPx, maxPx, coroutineScope)
     }
     val orientationIsHorizontal = remember(composePosition) {
         composePosition.isHorizontal()
     }
+    //滚动监听,如果当前方向可以被优先使用,则不传手势给content
     val nestedScrollState = remember(
-        key1 = composePosition,
-        key2 = minScrollPosition,
-        key3 = maxScrollPosition
+        composePosition,
+        minScrollPosition,
+        maxScrollPosition,
+        chainMode,
     ) {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                val offset = if (orientationIsHorizontal) available.x else available.y
-                val position = scrollPosition
-                if (offset > 0 && position < maxPx) {
-                    //如果可以向max位置滑动
-                    val diff = minOf(maxPx - position, offset)
-                    scrollPosition = position + diff
-                    return Offset(
-                        if (orientationIsHorizontal) diff else 0f,
-                        if (orientationIsHorizontal) 0f else diff
-                    )
-                } else if (offset < 0 && position > minPx) {
-                    //如果可以向min位置滑动
-                    val diff = maxOf(minPx - position, offset)
-                    scrollPosition = position + diff
-                    return Offset(
-                        if (orientationIsHorizontal) diff else 0f,
-                        if (orientationIsHorizontal) 0f else diff
-                    )
-                }
-                return Offset.Zero
-            }
+        when (chainMode) {
+            ChainMode.ContentFirst -> ChainContentFirstNestedScrollConnection(
+                state,
+                composePosition
+            )
+            ChainMode.ChainContentFirst ->
+                ChainContentFirstNestedScrollConnection(state, composePosition)
         }
     }
     Layout(
@@ -110,14 +98,13 @@ fun ChainScrollableComponent(
             } else {
                 content()
             }
-            // TODO by lt 2022/9/28 22:39 顶部无法带动content
             Box(
                 if (orientationIsHorizontal)
                     Modifier.horizontalScroll(rememberScrollState())
                 else
                     Modifier.verticalScroll(rememberScrollState())
             ) {
-                chainContent(scrollPosition)
+                chainContent(state)
             }
         },
         modifier = modifier
@@ -134,7 +121,7 @@ fun ChainScrollableComponent(
         )
 
         layout(contentPlaceable.width, contentPlaceable.height) {
-            val offset = scrollPosition.roundToInt()
+            val offset = state.getScrollPositionValue().roundToInt()
             when (composePosition) {
                 ComposePosition.Start -> {
                     contentPlaceable.placeRelative(offset, 0)

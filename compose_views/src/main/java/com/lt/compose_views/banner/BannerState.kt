@@ -84,6 +84,21 @@ class BannerState {
     /**
      * 切换选中的页数,有动画
      */
+    fun setPageIndexWithAnimate(index: Int) {
+        val currIndex = getCurrSelectIndex()
+        if (index == currIndex - 1) {
+            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
+        } else if (index == currIndex + 1) {
+            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
+        } else {
+            setPageIndex(index)
+        }
+    }
+
+    @Deprecated(
+        "请使用[setPageIndexWithAnimate],后续版本将删除",
+        ReplaceWith("setPageIndexWithAnimate(index)")
+    )
     fun setPageIndexWithAnim(index: Int) {
         val currIndex = getCurrSelectIndex()
         if (index == currIndex - 1) {

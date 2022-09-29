@@ -82,7 +82,7 @@ fun Banner(
                 if (index + 1 >= maxPageCount)
                     bannerState.composePagerState.setPageIndex(pageCount * bannerState.startMultiple)
                 else
-                    bannerState.composePagerState.setPageIndexWithAnim(index + 1)
+                    bannerState.composePagerState.setPageIndexWithAnimate(index + 1)
             }
         })
 

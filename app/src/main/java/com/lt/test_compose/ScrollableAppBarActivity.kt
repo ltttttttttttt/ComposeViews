@@ -69,6 +69,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                 }) {
                     Text(text = "切换方向")
                 }
+                FpsMonitor(modifier = Modifier)
             }
             ChainScrollable()
         }
@@ -87,7 +88,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                         .background(Color.LightGray)
                 ) {
                     Text(
-                        text = it.toString(),
+                        text = it.getScrollPositionValue().toString(),
                         modifier = Modifier.align(Alignment.BottomCenter)
                     )
                 }
