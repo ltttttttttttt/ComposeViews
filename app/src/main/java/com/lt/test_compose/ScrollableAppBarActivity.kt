@@ -20,18 +20,11 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -39,7 +32,6 @@ import com.lt.compose_views.scrollable_appbar.ChainMode
 import com.lt.compose_views.scrollable_appbar.ChainScrollableComponent
 import com.lt.compose_views.scrollable_appbar.ScrollableAppBar
 import com.lt.compose_views.util.ComposePosition
-import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 import kotlin.math.roundToInt
 
@@ -135,7 +127,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                                 )
                             }
                         }
-                    .background(Color.LightGray)
+                        .background(Color.LightGray)
                 ) {
                     Text(
                         text = "${state.getScrollPositionValue()}  ${state.getScrollPositionPercentage()}",
@@ -209,8 +201,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
             background = painterResource(id = R.drawable.top_bar_bk),
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
-            chainMode = ChainMode.ChainContentFirst
+                .fillMaxWidth()
         ) {
             LazyColumn(
                 contentPadding = PaddingValues(top = maxDp),

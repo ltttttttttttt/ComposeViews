@@ -50,7 +50,7 @@ fun ChainScrollableComponent(
     chainContent: @Composable (state: ChainScrollableComponentState) -> Unit,
     modifier: Modifier = Modifier,
     composePosition: ComposePosition = ComposePosition.Top,
-    chainMode: ChainMode = ChainMode.ContentFirst,
+    chainMode: ChainMode = ChainMode.ChainContentFirst,
     content: @Composable () -> Unit,
 ) {
     val density = LocalDensity.current

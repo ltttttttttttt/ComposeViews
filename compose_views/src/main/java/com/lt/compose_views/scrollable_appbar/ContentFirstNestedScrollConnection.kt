@@ -33,6 +33,8 @@ internal class ContentFirstNestedScrollConnection(
 
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
         // TODO by lt 2022/9/30 处理抬起事件,处理 ContentFirst缺少数据应对向上滑动收起
+        if (true)
+            throw RuntimeException("该模式待完善,请使用[ChainMode.ChainContentFirst]")
         val delta = if (state.orientationIsHorizontal) available.x else available.y
         if (delta < 0) {
             val newOffset = state.getScrollPositionValue() + delta

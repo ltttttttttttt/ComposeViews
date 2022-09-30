@@ -32,7 +32,6 @@
 
 package com.lt.compose_views.scrollable_appbar
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -74,7 +73,6 @@ import kotlin.math.roundToInt
  * @param chainMode 联动方式
  * @param content compose内容区域
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ScrollableAppBar(
     title: String,
@@ -93,7 +91,7 @@ fun ScrollableAppBar(
     minScrollPosition: Dp = 56.dp,
     maxScrollPosition: Dp = 200.dp,
     composePosition: ComposePosition = ComposePosition.Top,
-    chainMode: ChainMode = ChainMode.ContentFirst,
+    chainMode: ChainMode = ChainMode.ChainContentFirst,
     content: @Composable () -> Unit,
 ) {
     val density = LocalDensity.current
@@ -126,9 +124,11 @@ fun ScrollableAppBar(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
-                // 自定义应用栏
-                Row(
-                    modifier = modifier
+                // 导航图标
+                Box(
+                    modifier = Modifier
+                        .width(navigationIconSize)
+                        .height(minScrollPosition)
                         .offset {
                             IntOffset(
                                 x = 0,
@@ -136,23 +136,14 @@ fun ScrollableAppBar(
                                     .getScrollPositionValue()
                                     .roundToInt() //保证应用栏是始终不动的
                             )
-                        }
-                        .height(minScrollPosition)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                        },
+                    contentAlignment = Alignment.Center
                 ) {
-                    // 导航图标
-                    Box(
-                        modifier = Modifier.size(navigationIconSize),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        navigationIcon(state)
-                    }
+                    navigationIcon(state)
                 }
                 Box(
                     modifier = Modifier
                         .height(minScrollPosition) //和ToolBar同高
-                        .fillMaxWidth()
                         .align(Alignment.BottomStart)
                         .offset {
                             IntOffset(
