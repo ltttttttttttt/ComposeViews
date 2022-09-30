@@ -17,8 +17,10 @@
 package com.lt.compose_views.scrollable_appbar
 
 import androidx.compose.animation.core.Animatable
+import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
@@ -26,12 +28,16 @@ import kotlinx.coroutines.launch
  * warning:
  */
 class ChainScrollableComponentState internal constructor(
-    val minPx: Int,
-    val maxPx: Int,
+    val minPx: Float,
+    val maxPx: Float,
+    val composePosition: ComposePosition,
     private val coroutineScope: CoroutineScope,
 ) {
+    val orientationIsHorizontal = composePosition.isHorizontal()
+
     //滚动的位置的动画对象
-    internal val scrollPosition = Animatable(maxPx.toFloat())
+    internal val scrollPosition =
+        Animatable(if (composePosition == ComposePosition.Bottom || composePosition == ComposePosition.End) maxPx else 0f)
 
     /**
      * 获取滚动的位置的值
@@ -41,7 +47,7 @@ class ChainScrollableComponentState internal constructor(
     /**
      * 获取滚动的位置的百分比,0f-1f,min-max
      */
-    fun getScrollPositionPercentage(): Float = TODO()
+    fun getScrollPositionPercentage(): Float = abs(getScrollPositionValue() / (maxPx - minPx))
 
     /**
      * 修改滚动的位置

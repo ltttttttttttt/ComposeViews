@@ -16,6 +16,7 @@
 
 package com.lt.compose_views.scrollable_appbar
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -23,16 +24,26 @@ import com.lt.compose_views.util.midOf
 
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
- * effect : 对应[ChainMode.ChainContentFirst]的[NestedScrollConnection]
+ * effect : 对应[ChainMode.ContentFirst]的[NestedScrollConnection]
  * warning:
  */
-internal class ChainContentFirstNestedScrollConnection(
+internal class ContentFirstNestedScrollConnection(
     val state: ChainScrollableComponentState,
 ) : NestedScrollConnection {
+
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+        // TODO by lt 2022/9/30 处理抬起事件,处理 ContentFirst缺少数据应对向上滑动收起
         val delta = if (state.orientationIsHorizontal) available.x else available.y
-        val newOffset = state.getScrollPositionValue() + delta
-        state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
+        if (delta < 0) {
+            val newOffset = state.getScrollPositionValue() + delta
+            Log.e("lllttt", "pre \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
+            state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
+        } else {
+            val newOffset = state.getScrollPositionValue() + delta
+            Log.e("lllttt", "pre2 \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
+            if (newOffset >= state.maxPx)
+                state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
+        }
         return Offset.Zero
     }
 }

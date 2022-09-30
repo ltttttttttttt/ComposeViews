@@ -16,8 +16,7 @@
 
 package com.lt.test_compose
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
@@ -33,12 +32,16 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.scrollable_appbar.ChainMode
 import com.lt.compose_views.scrollable_appbar.ChainScrollableComponent
 import com.lt.compose_views.scrollable_appbar.ScrollableAppBar
 import com.lt.compose_views.util.ComposePosition
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
+import kotlin.math.roundToInt
 
 // Author: Vast Gui
 // Email: guihy2019@gmail.com
@@ -48,15 +51,19 @@ import com.lt.test_compose.base.BaseComposeActivity
 
 class ScrollableAppBarActivity : BaseComposeActivity() {
     private var composePosition by mutableStateOf(ComposePosition.Top)
+    private var chainMode by mutableStateOf(ChainMode.ChainContentFirst)
+    private val maxDp = 200.dp
+    private val minDp = 56.dp
 
     override fun getTitleText(): String {
         return "ScrollableAppBar"
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {
         Column(modifier = Modifier.fillMaxSize()) {
-            //AppBar()
+            AppBar()
             Row {
                 Text(text = "方向:$composePosition")
                 Button(onClick = {
@@ -67,9 +74,16 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                         ComposePosition.End -> ComposePosition.Top
                     }
                 }) {
-                    Text(text = "切换方向")
+                    Text(text = "切方向")
                 }
                 FpsMonitor(modifier = Modifier)
+                Text(text = "模式:${chainMode.toString().substring(0, 5)}")
+                Button(onClick = {
+                    chainMode =
+                        if (chainMode == ChainMode.ChainContentFirst) ChainMode.ContentFirst else ChainMode.ChainContentFirst
+                }) {
+                    Text(text = "切模式")
+                }
             }
             ChainScrollable()
         }
@@ -78,113 +92,135 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     @Composable
     fun ColumnScope.ChainScrollable() {
         ChainScrollableComponent(
-            minScrollPosition = 56.dp,
-            maxScrollPosition = 200.dp,
-            chainContent = {
+            minScrollPosition = minDp,
+            maxScrollPosition = maxDp,
+            chainContent = { state ->
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .background(Color.LightGray)
+                        .let {
+                            if (composePosition.isHorizontal())
+                                it
+                                    .fillMaxHeight()
+                                    .width(maxDp)
+                            else
+                                it
+                                    .fillMaxWidth()
+                                    .height(maxDp)
+                        }
+                        .offset {
+                            when (composePosition) {
+                                ComposePosition.Start -> IntOffset(
+                                    state
+                                        .getScrollPositionValue()
+                                        .roundToInt(),
+                                    0
+                                )
+                                ComposePosition.End -> IntOffset(
+                                    state
+                                        .getScrollPositionValue()
+                                        .roundToInt(),
+                                    0
+                                )
+                                ComposePosition.Top -> IntOffset(
+                                    0,
+                                    state
+                                        .getScrollPositionValue()
+                                        .roundToInt()
+                                )
+                                ComposePosition.Bottom -> IntOffset(
+                                    0,
+                                    state
+                                        .getScrollPositionValue()
+                                        .roundToInt()
+                                )
+                            }
+                        }
+                    .background(Color.LightGray)
                 ) {
                     Text(
-                        text = it.getScrollPositionValue().toString(),
-                        modifier = Modifier.align(Alignment.BottomCenter)
+                        text = "${state.getScrollPositionValue()}  ${state.getScrollPositionPercentage()}",
+                        modifier = Modifier.align(
+                            when (composePosition) {
+                                ComposePosition.Start -> Alignment.CenterEnd
+                                ComposePosition.End -> Alignment.CenterStart
+                                ComposePosition.Top -> Alignment.BottomCenter
+                                ComposePosition.Bottom -> Alignment.TopCenter
+                            }
+                        )
                     )
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
+            chainMode = chainMode,
             composePosition = composePosition,
         ) {
-                if (true) {
-                    LazyColumn(modifier = Modifier.fillMaxSize()){
-                        items(100){
+            if (false) {
+                LazyColumn(
+                    contentPadding = PaddingValues(top = maxDp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(100) {
+                        Text("item $it")
+                    }
+                }
+            } else {
+                if (composePosition.isHorizontal())
+                    Row(
+                        Modifier
+                            .fillMaxSize()
+                            .horizontalScroll(rememberScrollState())
+                            .padding(
+                                start = if (composePosition == ComposePosition.Start) maxDp else 0.dp,
+                                top = if (composePosition == ComposePosition.Top) maxDp else 0.dp,
+                                end = if (composePosition == ComposePosition.End) maxDp else 0.dp,
+                                bottom = if (composePosition == ComposePosition.Bottom) maxDp else 0.dp,
+                            )
+                    ) {
+                        repeat(100) {
                             Text("item $it")
                         }
                     }
-                } else {
-            Column {
-                    for (i in 0..20) {
-                        Row {
-                            for (j in 0..20) {
-                                Spacer(
-                                    modifier = Modifier
-                                        .size(35.dp)
-                                        .background(
-                                            Color(
-                                                red = i * 10,
-                                                green = j * 10,
-                                                blue = minOf(i * j, 255)
-                                            )
-                                        )
-                                )
-                            }
+                else
+                    Column(
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(
+                                start = if (composePosition == ComposePosition.Start) maxDp else 0.dp,
+                                top = if (composePosition == ComposePosition.Top) maxDp else 0.dp,
+                                end = if (composePosition == ComposePosition.End) maxDp else 0.dp,
+                                bottom = if (composePosition == ComposePosition.Bottom) maxDp else 0.dp,
+                            )
+                    ) {
+                        repeat(100) {
+                            Text("item $it")
                         }
                     }
-                }
             }
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ColumnScope.AppBar() {
-        // A surface container using the 'background' color from the theme
-        Surface(
+        ScrollableAppBar(
+            title = "toolbar",
+            background = painterResource(id = R.drawable.top_bar_bk),
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f), color = MaterialTheme.colors.background
+                .weight(1f)
+                .fillMaxWidth(),
+            chainMode = ChainMode.ChainContentFirst
         ) {
-            // ToolBar 最大向上位移量
-            // 56.dp 参考自 androidx.compose.material AppBar.kt 里面定义的 private val AppBarHeight = 56.dp
-            val maxUpPx = with(LocalDensity.current) {
-                200.dp.roundToPx().toFloat() - 56.dp.roundToPx().toFloat()
-            }
-            // ToolBar 最小向上位移量
-            val minUpPx = 0f
-            // 偏移折叠工具栏上移高度
-            val toolbarOffsetHeightPx = rememberMutableStateOf(0f)
-            // 现在，让我们创建与嵌套滚动系统的连接并聆听子 LazyColumn 中发生的滚动
-            val nestedScrollConnection = remember {
-                object : NestedScrollConnection {
-                    override fun onPreScroll(
-                        available: Offset, source: NestedScrollSource
-                    ): Offset {
-                        // try to consume before LazyColumn to collapse toolbar if needed, hence pre-scroll
-                        val delta = available.y
-                        val newOffset = toolbarOffsetHeightPx.value + delta
-                        toolbarOffsetHeightPx.value = newOffset.coerceIn(-maxUpPx, minUpPx)
-                        // here's the catch: let's pretend we consumed 0 in any case, since we want
-                        // LazyColumn to scroll anyway for good UX
-                        // We're basically watching scroll without taking it
-                        return Offset.Zero
-                    }
-                }
-            }
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    // attach as a parent to the nested scroll system
-                    .nestedScroll(nestedScrollConnection)
+            LazyColumn(
+                contentPadding = PaddingValues(top = maxDp),
+                modifier = Modifier.fillMaxSize()
             ) {
-                // our list with build in nested scroll support that will notify us about its scroll
-                LazyColumn(contentPadding = PaddingValues(top = 200.dp)) {
-                    items(100) { index ->
-                        Text(
-                            "I'm item $index", modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                        )
-                    }
+                items(100) { index ->
+                    Text(
+                        "I'm item $index", modifier = Modifier.padding(16.dp)
+                    )
                 }
-                ScrollableAppBar(
-                    title = "toolbar offset is ${toolbarOffsetHeightPx.value}",
-                    scrollableAppBarHeight = 200.dp,
-                    toolbarOffsetHeightPx = toolbarOffsetHeightPx,
-                    backgroundImageId = R.drawable.top_bar_bk
-                )
             }
         }
     }

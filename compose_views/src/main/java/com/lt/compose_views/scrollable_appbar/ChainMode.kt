@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.scrollable_appbar
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
  * effect : [ChainScrollableComponent]的联动方式
@@ -25,6 +27,7 @@ enum class ChainMode {
     /**
      * 内容区域优先
      */
+    @ExperimentalFoundationApi//todo 暂时有问题,先不放开
     ContentFirst,
 
     /**

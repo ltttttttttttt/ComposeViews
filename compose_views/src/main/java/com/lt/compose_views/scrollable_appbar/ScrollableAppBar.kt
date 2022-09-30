@@ -32,28 +32,26 @@
 
 package com.lt.compose_views.scrollable_appbar
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lt.compose_views.util.ComposePosition
 import kotlin.math.roundToInt
 
 
@@ -66,20 +64,23 @@ import kotlin.math.roundToInt
 /**
  * 可伸缩顶部导航栏
  *
- * @param modifier
  * @param title 顶部导航栏标题
+ * @param background 背景图片
+ * @param modifier 修饰
  * @param navigationIcon 顶部导航栏图标，默认为返回键
- * @param backgroundImageId 顶部导航栏背景图片
- * @param background
- * @param scrollableAppBarHeight 顶部导航栏高度
- * @param toolbarOffsetHeightPx 顶部导航栏向上偏移量
+ * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
+ * @param chainMode 联动方式
+ * @param content compose内容区域
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-@ExperimentalFoundationApi//todo by lt and Vast Gui 待简化api使用方式
 fun ScrollableAppBar(
-    modifier: Modifier = Modifier,
     title: String,
-    navigationIcon: @Composable (() -> Unit) =
+    background: Painter,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable (state: ChainScrollableComponentState) -> Unit =
         remember {
             {
                 Icon(
@@ -89,77 +90,89 @@ fun ScrollableAppBar(
                 )
             }
         },
-    @DrawableRes backgroundImageId: Int,
-    background: Color = MaterialTheme.colors.primary,
-    scrollableAppBarHeight: Dp,
-    toolbarOffsetHeightPx: MutableState<Float>
+    minScrollPosition: Dp = 56.dp,
+    maxScrollPosition: Dp = 200.dp,
+    composePosition: ComposePosition = ComposePosition.Top,
+    chainMode: ChainMode = ChainMode.ContentFirst,
+    content: @Composable () -> Unit,
 ) {
-
-    // 应用栏最大向上偏移量
-    val maxOffsetHeightPx = with(LocalDensity.current) {
-        scrollableAppBarHeight.roundToPx().toFloat() - toolBarHeight.roundToPx().toFloat()
-    }
+    val density = LocalDensity.current
     // Title 偏移量参考值
     val titleOffsetWidthReferenceValue =
-        with(LocalDensity.current) { navigationIconSize.roundToPx().toFloat() }
-
-    Box(modifier = Modifier
-        .height(scrollableAppBarHeight)
-        .offset {
-            IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) //设置偏移量
-        }
-        .fillMaxWidth()
-    ) {
-        Image(
-            painter = painterResource(id = backgroundImageId),
-            contentDescription = "background",
-            contentScale = ContentScale.FillBounds
-        )
-
-        // 自定义应用栏
-        Row(
-            modifier = modifier
-                .offset {
-                    IntOffset(
-                        x = 0,
-                        y = -toolbarOffsetHeightPx.value.roundToInt() //保证应用栏是始终不动的
+        remember { density.run { navigationIconSize.roundToPx().toFloat() } }
+    ChainScrollableComponent(
+        modifier = modifier,
+        minScrollPosition = minScrollPosition,
+        maxScrollPosition = maxScrollPosition,
+        composePosition = composePosition,
+        chainMode = chainMode,
+        chainContent = { state ->
+            Box(
+                modifier = Modifier
+                    .height(maxScrollPosition)
+                    .fillMaxWidth()
+                    .offset {
+                        IntOffset(
+                            0,
+                            state
+                                .getScrollPositionValue()
+                                .roundToInt()
+                        )
+                    }
+            ) {
+                Image(
+                    painter = background,
+                    contentDescription = "background",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                // 自定义应用栏
+                Row(
+                    modifier = modifier
+                        .offset {
+                            IntOffset(
+                                x = 0,
+                                y = -state
+                                    .getScrollPositionValue()
+                                    .roundToInt() //保证应用栏是始终不动的
+                            )
+                        }
+                        .height(minScrollPosition)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // 导航图标
+                    Box(
+                        modifier = Modifier.size(navigationIconSize),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        navigationIcon(state)
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .height(minScrollPosition) //和ToolBar同高
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart)
+                        .offset {
+                            IntOffset(
+                                x = (state.getScrollPositionPercentage() * titleOffsetWidthReferenceValue).roundToInt(),
+                                y = 0
+                            )
+                        },
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Text(
+                        text = title,
+                        color = Color.White,
+                        modifier = Modifier.padding(start = 20.dp),
+                        fontSize = 20.sp
                     )
                 }
-                .height(toolBarHeight)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // 导航图标
-            Box(modifier = Modifier.size(navigationIconSize), contentAlignment = Alignment.Center) {
-                navigationIcon()
             }
-        }
-
-        Box(
-            modifier = Modifier
-                .height(toolBarHeight) //和ToolBar同高
-                .fillMaxWidth()
-                .align(Alignment.BottomStart)
-                .offset {
-                    IntOffset(
-                        x = -((toolbarOffsetHeightPx.value / maxOffsetHeightPx) * titleOffsetWidthReferenceValue).roundToInt(),
-                        y = 0
-                    )
-                },
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Text(
-                text = title,
-                color = Color.White,
-                modifier = Modifier.padding(start = 20.dp),
-                fontSize = 20.sp
-            )
-        }
-    }
+        }, content = content
+    )
 }
-
-// 应用栏高度
-private val toolBarHeight = 56.dp
 
 // 导航图标大小
 private val navigationIconSize = 50.dp
