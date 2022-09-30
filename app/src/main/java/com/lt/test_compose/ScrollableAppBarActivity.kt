@@ -201,7 +201,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
             background = painterResource(id = R.drawable.top_bar_bk),
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             LazyColumn(
                 contentPadding = PaddingValues(top = maxDp),

@@ -66,9 +66,10 @@ import kotlin.math.roundToInt
  * @param title 顶部导航栏标题
  * @param background 背景图片
  * @param modifier 修饰
- * @param navigationIcon 顶部导航栏图标，默认为返回键
+ * @param onScrollStop 停止滚动时回调
  * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
  * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ * @param navigationIcon 顶部导航栏图标，默认为返回键
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
  * @param chainMode 联动方式
  * @param content compose内容区域
@@ -90,6 +91,7 @@ fun ScrollableAppBar(
         },
     minScrollPosition: Dp = 56.dp,
     maxScrollPosition: Dp = 200.dp,
+    onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
     content: @Composable () -> Unit,
@@ -102,6 +104,7 @@ fun ScrollableAppBar(
         modifier = modifier,
         minScrollPosition = minScrollPosition,
         maxScrollPosition = maxScrollPosition,
+        onScrollStop = onScrollStop,
         composePosition = composePosition,
         chainMode = chainMode,
         chainContent = { state ->

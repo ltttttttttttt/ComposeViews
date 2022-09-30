@@ -19,6 +19,7 @@ package com.lt.compose_views.scrollable_appbar
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.unit.Velocity
 import com.lt.compose_views.util.midOf
 
 /**
@@ -34,5 +35,10 @@ internal class ChainContentFirstNestedScrollConnection(
         val newOffset = state.getScrollPositionValue() + delta
         state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
         return Offset.Zero
+    }
+
+    override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+        state.callOnScrollStop()
+        return super.onPostFling(consumed, available)
     }
 }

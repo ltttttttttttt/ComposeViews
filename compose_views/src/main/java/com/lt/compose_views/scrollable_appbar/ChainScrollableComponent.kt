@@ -38,6 +38,7 @@ import com.lt.compose_views.util.ComposePosition
  * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
  * @param chainContent 链式(联动)滚动的compose组件,scrollOffset: 滚动位置(位于最小和最大之间)
  * @param modifier 修饰
+ * @param onScrollStop 停止滚动时回调
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
  * @param chainMode 联动方式
  * @param content compose内容区域
@@ -49,6 +50,7 @@ fun ChainScrollableComponent(
     maxScrollPosition: Dp,
     chainContent: @Composable (state: ChainScrollableComponentState) -> Unit,
     modifier: Modifier = Modifier,
+    onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
     content: @Composable () -> Unit,
@@ -61,19 +63,21 @@ fun ChainScrollableComponent(
         density.run { maxScrollPosition.roundToPx() }
     }
     val coroutineScope = rememberCoroutineScope()
-    val state = remember(minPx, maxPx, composePosition, coroutineScope) {
+    val state = remember(minPx, maxPx, composePosition, coroutineScope, onScrollStop) {
         when (composePosition) {
             ComposePosition.Start, ComposePosition.Top -> ChainScrollableComponentState(
                 (minPx - maxPx).toFloat(),
                 0f,
                 composePosition,
-                coroutineScope
+                coroutineScope,
+                onScrollStop,
             )
             ComposePosition.End, ComposePosition.Bottom -> ChainScrollableComponentState(
                 0f,
                 (maxPx - minPx).toFloat(),
                 composePosition,
-                coroutineScope
+                coroutineScope,
+                onScrollStop,
             )
         }
     }

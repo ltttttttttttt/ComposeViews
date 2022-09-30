@@ -32,6 +32,7 @@ class ChainScrollableComponentState internal constructor(
     val maxPx: Float,
     val composePosition: ComposePosition,
     private val coroutineScope: CoroutineScope,
+    private val onScrollStop: ((state: ChainScrollableComponentState) -> Unit)?,
 ) {
     val orientationIsHorizontal = composePosition.isHorizontal()
 
@@ -65,5 +66,10 @@ class ChainScrollableComponentState internal constructor(
         coroutineScope.launch {
             scrollPosition.animateTo(value)
         }
+    }
+
+    //调用[onScrollStop],触发停止滚动时的回调
+    internal fun callOnScrollStop() {
+        onScrollStop?.invoke(this)
     }
 }
