@@ -48,7 +48,7 @@ version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jit
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.1.5
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.1.6
 }
 ```
 
