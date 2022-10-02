@@ -1,6 +1,6 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">适用于Android,Web,Desktop,Ios的Jetpack Compose View</p>
+<p align="center">适用于Android,Web,Desktop,Ios的Jetpack(jb) Compose View</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
