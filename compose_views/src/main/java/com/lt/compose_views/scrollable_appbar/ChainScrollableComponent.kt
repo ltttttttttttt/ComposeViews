@@ -41,7 +41,7 @@ import com.lt.compose_views.util.ComposePosition
  * @param onScrollStop 停止滚动时回调
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
  * @param chainMode 联动方式
- * @param content compose内容区域
+ * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

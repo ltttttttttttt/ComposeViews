@@ -19,6 +19,8 @@ package com.lt.test_compose
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -30,9 +32,12 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.scrollable_appbar.ChainMode
 import com.lt.compose_views.scrollable_appbar.ChainScrollableComponent
+import com.lt.compose_views.scrollable_appbar.ChainScrollableComponentState
 import com.lt.compose_views.scrollable_appbar.ScrollableAppBar
 import com.lt.compose_views.util.ComposePosition
+import com.lt.compose_views.util.animateWithFloat
 import com.lt.test_compose.base.BaseComposeActivity
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 // Author: Vast Gui
@@ -196,16 +201,19 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
 
     @Composable
     fun ColumnScope.AppBar() {
+        val lazyListState = rememberLazyListState()
         ScrollableAppBar(
             title = "toolbar",
             background = painterResource(id = R.drawable.top_bar_bk),
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
+            //onScrollStop = scrollStop(lazyListState)
         ) {
             LazyColumn(
                 contentPadding = PaddingValues(top = maxDp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                state = lazyListState,
             ) {
                 items(100) { index ->
                     Text(
@@ -215,4 +223,44 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
             }
         }
     }
+
+    //停止拖动时,使appbar归位
+    private fun scrollStop(lazyListState: LazyListState): (ChainScrollableComponentState) -> Unit =
+        function@{ state ->
+            val percentage = state.getScrollPositionPercentage()
+            if (percentage == 1f || percentage == 0f)
+                return@function
+            state.coroutineScope.launch {
+                val startPositionValue = state.getScrollPositionValue()
+                if (percentage > 0.5f) {
+                    var offset = startPositionValue
+                    animateWithFloat(
+                        startPositionValue,
+                        state.minPx,
+                    ) {
+                        launch {
+                            lazyListState.scroll {
+                                scrollBy(offset - it)
+                                offset = it
+                            }
+                            state.snapToScrollPosition(it)
+                        }
+                    }
+                } else {
+                    var offset = state.maxPx
+                    animateWithFloat(
+                        state.maxPx,
+                        state.maxPx - startPositionValue,
+                    ) {
+                        launch {
+                            lazyListState.scroll {
+                                scrollBy(offset - it)
+                                offset = it
+                            }
+                            state.snapToScrollPosition(it + startPositionValue)
+                        }
+                    }
+                }
+            }
+        }
 }
