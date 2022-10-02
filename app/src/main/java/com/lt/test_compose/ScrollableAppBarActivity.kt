@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.lt.compose_views.chain_scrollable_component.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
+import com.lt.compose_views.chain_scrollable_component.scrollable_appbar.ScrollableAppBar
 import com.lt.compose_views.util.ComposePosition
 import com.lt.test_compose.base.BaseComposeActivity
 import kotlinx.coroutines.launch
@@ -85,6 +86,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ColumnScope.ChainScrollable() {
         ChainScrollableComponent(
@@ -198,10 +200,11 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ColumnScope.AppBar() {
         val lazyListState = rememberLazyListState()
-        com.lt.compose_views.chain_scrollable_component.scrollable_appbar.ScrollableAppBar(
+        ScrollableAppBar(
             title = "toolbar",
             background = painterResource(id = R.drawable.top_bar_bk),
             modifier = Modifier
