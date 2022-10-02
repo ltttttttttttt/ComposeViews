@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.scrollable_appbar
+package com.lt.compose_views.chain_scrollable_component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,7 +42,7 @@ import com.lt.compose_views.util.ComposePosition
  * @param chainMode 联动方式
  * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
  */
-@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
 @Composable
 fun ChainScrollableComponent(
     minScrollPosition: Dp,
@@ -53,7 +52,7 @@ fun ChainScrollableComponent(
     onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
-    content: @Composable () -> Unit,
+    content: @Composable (state: ChainScrollableComponentState) -> Unit,
 ) {
     val density = LocalDensity.current
     val minPx = remember(key1 = minScrollPosition, key2 = density) {
@@ -95,7 +94,6 @@ fun ChainScrollableComponent(
     }
     Box(
         modifier
-            .fillMaxSize()
             .nestedScroll(nestedScrollState)
             .clipScrollableContainer(composePosition.orientation),
         contentAlignment = when (composePosition) {
@@ -105,7 +103,7 @@ fun ChainScrollableComponent(
             ComposePosition.Bottom -> Alignment.BottomCenter
         }
     ) {
-        content()
+        content(state)
         chainContent(state)
     }
 }

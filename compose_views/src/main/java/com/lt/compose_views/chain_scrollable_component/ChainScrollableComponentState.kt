@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.scrollable_appbar
+package com.lt.compose_views.chain_scrollable_component
 
 import androidx.compose.animation.core.Animatable
 import com.lt.compose_views.util.ComposePosition

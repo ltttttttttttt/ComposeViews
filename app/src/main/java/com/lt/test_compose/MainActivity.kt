@@ -36,6 +36,7 @@ class MainActivity : BaseComposeActivity() {
         "MenuFab功能" to MenuFabActivity::class.java,
         "RefreshLayout功能" to RefreshLayoutActivity::class.java,
         "ScrollableAppBar功能" to ScrollableAppBarActivity::class.java,
+        "SwipeToDismiss功能" to SwipeToDismissActivity::class.java,
     )
 
     override fun getTitleText(): String = "功能列表"

@@ -17,6 +17,7 @@
 package com.lt.test_compose
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -30,12 +31,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.scrollable_appbar.ChainMode
-import com.lt.compose_views.scrollable_appbar.ChainScrollableComponent
-import com.lt.compose_views.scrollable_appbar.ChainScrollableComponentState
-import com.lt.compose_views.scrollable_appbar.ScrollableAppBar
+import com.lt.compose_views.chain_scrollable_component.ChainMode
+import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
+import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
 import com.lt.compose_views.util.ComposePosition
-import com.lt.compose_views.util.animateWithFloat
 import com.lt.test_compose.base.BaseComposeActivity
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -202,7 +201,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     @Composable
     fun ColumnScope.AppBar() {
         val lazyListState = rememberLazyListState()
-        ScrollableAppBar(
+        com.lt.compose_views.chain_scrollable_component.scrollable_appbar.ScrollableAppBar(
             title = "toolbar",
             background = painterResource(id = R.drawable.top_bar_bk),
             modifier = Modifier
@@ -233,33 +232,11 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
             state.coroutineScope.launch {
                 val startPositionValue = state.getScrollPositionValue()
                 if (percentage > 0.5f) {
-                    var offset = startPositionValue
-                    animateWithFloat(
-                        startPositionValue,
-                        state.minPx,
-                    ) {
-                        launch {
-                            lazyListState.scroll {
-                                scrollBy(offset - it)
-                                offset = it
-                            }
-                            state.snapToScrollPosition(it)
-                        }
-                    }
+                    state.setScrollPositionWithAnimate(state.minPx - state.maxPx)
+                    lazyListState.animateScrollBy(startPositionValue - state.minPx)
                 } else {
-                    var offset = state.maxPx
-                    animateWithFloat(
-                        state.maxPx,
-                        state.maxPx - startPositionValue,
-                    ) {
-                        launch {
-                            lazyListState.scroll {
-                                scrollBy(offset - it)
-                                offset = it
-                            }
-                            state.snapToScrollPosition(it + startPositionValue)
-                        }
-                    }
+                    state.setScrollPositionWithAnimate(0f)
+                    lazyListState.animateScrollBy(startPositionValue)
                 }
             }
         }

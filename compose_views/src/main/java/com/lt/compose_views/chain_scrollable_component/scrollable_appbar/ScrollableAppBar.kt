@@ -14,24 +14,9 @@
  * limitations under the License.
  */
 
-/*
- * Copyright lt 2022
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.lt.compose_views.chain_scrollable_component.scrollable_appbar
 
-package com.lt.compose_views.scrollable_appbar
-
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -50,6 +35,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lt.compose_views.chain_scrollable_component.ChainMode
+import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
+import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
 import com.lt.compose_views.util.ComposePosition
 import kotlin.math.roundToInt
 
@@ -74,6 +62,7 @@ import kotlin.math.roundToInt
  * @param chainMode 联动方式
  * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
  */
+@ExperimentalFoundationApi
 @Composable
 fun ScrollableAppBar(
     title: String,
@@ -94,7 +83,7 @@ fun ScrollableAppBar(
     onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
-    content: @Composable () -> Unit,
+    content: @Composable (state: ChainScrollableComponentState) -> Unit,
 ) {
     val density = LocalDensity.current
     // Title 偏移量参考值
