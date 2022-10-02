@@ -15,10 +15,11 @@
 2. Banner
 3. PagerIndicator
 4. ImageBanner
-5. RefreshLayout
+5. RefreshLayout + PullToRefresh + VerticalRefreshableLayout
 6. FlowLayout
-7. GoodTextField and PasswordTextField
+7. GoodTextField + PasswordTextField
 8. MenuFloatingActionButton
+9. ChainScrollableComponent + ScrollableAppBar + SwipeToDismiss
 
 ## Add to your project
 
@@ -275,6 +276,56 @@ fun PasswordTextField()
  */
 @Composable
 fun MenuFloatingActionButton()
+```
+
+## ChainScrollableComponent
+
+<div align=center><img src="md_resource/scrollable_app_bar.gif" width=40%></div>
+
+<div align=center><img src="md_resource/swipe_to_dismiss.gif" width=20%></div>
+
+```kotlin
+/**
+ * 链式(联动)滚动组件
+ * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ * @param chainContent 链式(联动)滚动的compose组件,scrollOffset: 滚动位置(位于最小和最大之间)
+ * @param modifier 修饰
+ * @param onScrollStop 停止滚动时回调
+ * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
+ * @param chainMode 联动方式
+ * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ */
+@Composable
+fun ChainScrollableComponent()
+
+/**
+ * 可伸缩顶部导航栏
+ * @param title 顶部导航栏标题
+ * @param background 背景图片
+ * @param modifier 修饰
+ * @param onScrollStop 停止滚动时回调
+ * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ * @param navigationIcon 顶部导航栏图标，默认为返回键
+ * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
+ * @param chainMode 联动方式
+ * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ */
+@Composable
+fun ScrollableAppBar()
+
+/**
+ * 滑动删除控件
+ * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ * @param backgroundContent 等待拖出的compose内容区域
+ * @param modifier 修饰
+ * @param contentIsMove compose内容区域是否跟着移动
+ * @param content compose内容区域,需要内容是横向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ */
+@Composable
+fun SwipeToDismiss()
 ```
 
 <h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>

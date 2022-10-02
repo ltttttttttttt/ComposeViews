@@ -168,7 +168,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                         .background(colors.getOrNull(index) ?: Color.Black)
                 ) {
                     Button(onClick = {
-                        pagerState.setPageIndexWithAnim(
+                        pagerState.setPageIndexWithAnimate(
                             if (index + 1 >= colors.size)
                                 0
                             else

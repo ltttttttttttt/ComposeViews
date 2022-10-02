@@ -47,6 +47,7 @@
         <activity android:name=".RefreshLayoutActivity" />
         <activity android:name=".PagerIndicatorActivity" />
         <activity android:name=".ScrollableAppBarActivity" />
+        <activity android:name=".SwipeToDismissActivity" />
     </application>
 
 </manifest>

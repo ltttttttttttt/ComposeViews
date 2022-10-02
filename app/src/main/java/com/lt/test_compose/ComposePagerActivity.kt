@@ -124,7 +124,7 @@ class ComposePagerActivity : BaseComposeActivity() {
                         modifier = M
                             .fillMaxSize()
                             .click {
-                                composePagerState.setPageIndexWithAnim(
+                                composePagerState.setPageIndexWithAnimate(
                                     if (index + 1 >= images.size)
                                         0
                                     else
@@ -140,7 +140,7 @@ class ComposePagerActivity : BaseComposeActivity() {
                             .background(colors[index])
                     ) {
                         Button(composeClick {
-                            composePagerState.setPageIndexWithAnim(
+                            composePagerState.setPageIndexWithAnimate(
                                 if (index + 1 >= colors.size)
                                     0
                                 else

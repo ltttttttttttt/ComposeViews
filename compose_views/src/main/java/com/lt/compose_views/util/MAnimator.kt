@@ -31,14 +31,29 @@ import kotlin.coroutines.coroutineContext
  * @param duration 动画的持续时间
  * @param animInterpolator 动画差值器
  */
-@OptIn(ExperimentalComposeApi::class)
 suspend fun animateWithFloat(
     initialValueWithState: MutableState<Float>,
     targetValue: Float,
     duration: Int = AnimationConstants.DefaultDurationMillis,
     animInterpolator: MAnimInterpolator = DecelerateInterpolator(),
 ) {
-    val startValue = initialValueWithState.value
+    animateWithFloat(
+        initialValueWithState.value,
+        targetValue,
+        duration,
+        animInterpolator,
+        initialValueWithState::value::set
+    )
+}
+
+@OptIn(ExperimentalComposeApi::class)
+suspend inline fun animateWithFloat(
+    startValue: Float,
+    targetValue: Float,
+    duration: Int = AnimationConstants.DefaultDurationMillis,
+    animInterpolator: MAnimInterpolator = DecelerateInterpolator(),
+    crossinline onValueChange: (Float) -> Unit,
+) {
     val valueToBeTransformed = targetValue - startValue
     val startTime = System.nanoTime()
     val duration = duration * 1000000L
@@ -49,7 +64,7 @@ suspend fun animateWithFloat(
                 minOf(it - startTime, duration).toFloat() / duration
             )
             val increase = progress * valueToBeTransformed
-            initialValueWithState.value = startValue + increase
+            onValueChange(startValue + increase)
         }
     }
 }
@@ -77,4 +92,11 @@ class DecelerateInterpolator(private val mFactor: Float = 1.0f) : MAnimInterpola
             (1.0f - Math.pow((1.0f - input).toDouble(), (2 * mFactor).toDouble())).toFloat()
         }
     }
+}
+
+/**
+ * An interpolator where the rate of change is constant
+ */
+class LinearInterpolator() : MAnimInterpolator {
+    override fun getInterpolation(input: Float): Float = input
 }
