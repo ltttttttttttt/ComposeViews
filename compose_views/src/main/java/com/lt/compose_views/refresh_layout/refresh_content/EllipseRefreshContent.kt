@@ -37,12 +37,16 @@ import kotlin.math.abs
  * effect : 刷新组件,一个椭圆
  * warning:
  * @param min 最小宽度或高度
- * @param content 椭圆中可放置的内容
+ * @param color 椭圆的颜色
+ * @param content 自行放置额外的内容
+ * @param innerContent 椭圆中可放置的内容
  */
 @Composable
 fun RefreshLayoutState.EllipseRefreshContent(
     min: Dp = minDp,
-    content: @Composable (BoxScope.(RefreshLayoutState) -> Unit)? = null
+    color: Color = Color.Black,
+    content: @Composable (BoxScope.(RefreshLayoutState) -> Unit)? = null,
+    innerContent: @Composable (BoxScope.(RefreshLayoutState) -> Unit)? = null,
 ) {
     val isHorizontal = getComposePositionState().value.isHorizontal()
     val density = LocalDensity.current
@@ -89,13 +93,14 @@ fun RefreshLayoutState.EllipseRefreshContent(
                 .border(
                     border = BorderStroke(
                         width = 2.dp,
-                        color = Color.Black,
+                        color = color,
                     ), shape = CircleShape
                 )
                 .align(Alignment.Center)
         ) {
-            content?.invoke(this, this@EllipseRefreshContent)
+            innerContent?.invoke(this, this@EllipseRefreshContent)
         }
+        content?.invoke(this, this@EllipseRefreshContent)
     }
 }
 
