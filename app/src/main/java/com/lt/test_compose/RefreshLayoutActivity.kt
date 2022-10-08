@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.refresh_layout.*
+import com.lt.compose_views.refresh_layout.refresh_content.EllipseRefreshContent
 import com.lt.compose_views.util.ComposePosition
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
@@ -220,15 +221,9 @@ class RefreshLayoutActivity : BaseComposeActivity() {
     private fun BottomRefreshLayout(refreshState: RefreshLayoutState) {
         RefreshLayout(
             {
-                Box(M.fillMaxWidth()) {
-                    Text(
-                        text = "下拉刷新",
-                        modifier = M
-                            .background(Color.Red)
-                            .align(Alignment.Center)
-                    )
-                }
+                EllipseRefreshContent()
             },
+            refreshContentThreshold = 30.dp,
             refreshLayoutState = refreshState,
             composePosition = ComposePosition.Bottom,
         ) {
