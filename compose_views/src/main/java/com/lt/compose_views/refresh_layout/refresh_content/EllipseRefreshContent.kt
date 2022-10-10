@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
-import com.lt.compose_views.util.ComposePosition
 import kotlin.math.abs
 
 /**
@@ -53,20 +52,14 @@ fun RefreshLayoutState.EllipseRefreshContent(
     val min_2 = remember(min) { min / 2 }
     val min_4 = remember(min) { min / 4 }
     Box(
-        modifier = when (getComposePositionState().value) {
-            ComposePosition.Start -> Modifier
+        modifier = if (isHorizontal)
+            Modifier
                 .fillMaxHeight()
                 .padding(horizontal = min_4)
-            ComposePosition.End -> Modifier
-                .fillMaxHeight()
-                .padding(horizontal = min_4)
-            ComposePosition.Top -> Modifier
+        else
+            Modifier
                 .fillMaxWidth()
                 .padding(vertical = min_4)
-            ComposePosition.Bottom -> Modifier
-                .fillMaxWidth()
-                .padding(vertical = min_4)
-        }
     ) {
         Box(
             modifier = Modifier

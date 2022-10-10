@@ -18,7 +18,6 @@ package com.lt.compose_views.compose_pager
 
 import androidx.annotation.IntRange
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
@@ -115,6 +114,7 @@ fun ComposePager(
                 pageCount,
                 content
             )
+            nextContentReplaceIndex = null
         }
         if (isNextPage == PageChangeAnimFlag.Next) {
             val currIndex = nextContentReplaceIndex?.let {
@@ -273,7 +273,7 @@ fun ComposePager(
                     }
 
                 })
-            .clipScrollableContainer(orientation)
+        //.clipScrollableContainer(orientation)
     ) { measurableList/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
         val selectIndex = composePagerState.currSelectIndex.value
         var width = 0

@@ -36,10 +36,16 @@ import coil.compose.rememberImagePainter
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
+import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
+import com.lt.compose_views.refresh_layout.RefreshLayoutState
+import com.lt.compose_views.refresh_layout.VerticalRefreshableLayout
+import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.test_compose.base.BaseComposeActivity
 import com.lt.test_compose.base.M
 import com.lt.test_compose.base.click
 import com.lt.test_compose.base.composeClick
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class ComposePagerActivity : BaseComposeActivity() {
@@ -102,57 +108,73 @@ class ComposePagerActivity : BaseComposeActivity() {
                     Text(text = "切换")
                 }
             }
-
-            ComposePager(
-                if (isImage) images.size else colors.size,
-                M.fillMaxSize(),
-                composePagerState = composePagerState,
-                orientation = orientation.value,
-                pageCache = 2,
+            VerticalRefreshableLayout(
+                topRefreshLayoutState = rememberRefreshLayoutState(
+                    onRefreshListener = onRefresh()
+                ), bottomRefreshLayoutState = rememberRefreshLayoutState(
+                    onRefreshListener = onRefresh()
+                )
             ) {
-                if (isImage) {
-                    //看日志测试pageCache
-                    DisposableEffect(key1 = index, effect = {
-                        Log.e("lllttt", "ComposePagerActivity.ComposeContent=: $index")
-                        onDispose {
-                            Log.e("lllttt", "ComposePagerActivity.onDispose=: $index")
-                        }
-                    })
-                    Image(
-                        painter = rememberImagePainter(data = images[index]),
-                        contentDescription = "",
-                        modifier = M
-                            .fillMaxSize()
-                            .click {
+                ComposePager(
+                    if (isImage) images.size else colors.size,
+                    M.fillMaxSize(),
+                    composePagerState = composePagerState,
+                    orientation = orientation.value,
+                    pageCache = 2,
+                ) {
+                    if (isImage) {
+                        //看日志测试pageCache
+                        DisposableEffect(key1 = index, effect = {
+                            Log.e("lllttt", "ComposePagerActivity.ComposeContent=: $index")
+                            onDispose {
+                                Log.e("lllttt", "ComposePagerActivity.onDispose=: $index")
+                            }
+                        })
+                        Image(
+                            painter = rememberImagePainter(data = images[index]),
+                            contentDescription = "",
+                            modifier = M
+                                .fillMaxSize()
+                                .click {
+                                    composePagerState.setPageIndexWithAnimate(
+                                        if (index + 1 >= images.size)
+                                            0
+                                        else
+                                            index + 1
+                                    )
+                                },
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Box(
+                            modifier = M
+                                .fillMaxSize()
+                                .background(colors[index])
+                        ) {
+                            Button(composeClick {
                                 composePagerState.setPageIndexWithAnimate(
-                                    if (index + 1 >= images.size)
+                                    if (index + 1 >= colors.size)
                                         0
                                     else
                                         index + 1
                                 )
-                            },
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    Box(
-                        modifier = M
-                            .fillMaxSize()
-                            .background(colors[index])
-                    ) {
-                        Button(composeClick {
-                            composePagerState.setPageIndexWithAnimate(
-                                if (index + 1 >= colors.size)
-                                    0
-                                else
-                                    index + 1
-                            )
-                        }, modifier = M.align(Alignment.Center)) {
-                            Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
+                            }, modifier = M.align(Alignment.Center)) {
+                                Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+    @Composable
+    private fun onRefresh(): RefreshLayoutState.() -> Unit =
+        {
+            mainScope.launch {
+                delay(2000)
+                setRefreshState(RefreshContentStateEnum.Stop)
+            }
+        }
 
 }
