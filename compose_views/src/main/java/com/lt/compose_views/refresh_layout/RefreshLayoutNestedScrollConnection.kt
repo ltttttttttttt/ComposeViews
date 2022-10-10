@@ -44,27 +44,36 @@ internal class RefreshLayoutNestedScrollConnection(
         if (source == NestedScrollSource.Drag) {
             when (composePosition) {
                 ComposePosition.Start -> {
-                    if (available.x > 0) {
-                        refreshLayoutState.offset(available.x * dragEfficiency)
-                        return Offset(available.x, 0f)
+                    val value = available.x
+                    if (value > 0) {
+                        //过滤误差值(系统bug?)
+                        if (value > 0.01f)
+                            refreshLayoutState.offset(value * dragEfficiency)
+                        return Offset(value, 0f)
                     }
                 }
                 ComposePosition.End -> {
-                    if (available.x < 0) {
-                        refreshLayoutState.offset(available.x * dragEfficiency)
-                        return Offset(available.x, 0f)
+                    val value = available.x
+                    if (value < 0) {
+                        if (value < -0.01f)
+                            refreshLayoutState.offset(value * dragEfficiency)
+                        return Offset(value, 0f)
                     }
                 }
                 ComposePosition.Top -> {
-                    if (available.y > 0) {
-                        refreshLayoutState.offset(available.y * dragEfficiency)
-                        return Offset(0f, available.y)
+                    val value = available.y
+                    if (value > 0) {
+                        if (value > 0.01f)
+                            refreshLayoutState.offset(value * dragEfficiency)
+                        return Offset(0f, value)
                     }
                 }
                 ComposePosition.Bottom -> {
-                    if (available.y < 0) {
-                        refreshLayoutState.offset(available.y * dragEfficiency)
-                        return Offset(0f, available.y)
+                    val value = available.y
+                    if (value < 0) {
+                        if (value < -0.01f)
+                            refreshLayoutState.offset(value * dragEfficiency)
+                        return Offset(0f, value)
                     }
                 }
             }
@@ -85,7 +94,7 @@ internal class RefreshLayoutNestedScrollConnection(
         if (source == NestedScrollSource.Drag) {
             when (composePosition) {
                 ComposePosition.Start -> {
-                    if (available.x < 0 && refreshOffset > 0) {
+                    if (available.x < 0 && refreshOffset < 0) {
                         //消费的手势
                         var consumptive = available.x
                         if (-available.x > refreshOffset) {
@@ -96,7 +105,7 @@ internal class RefreshLayoutNestedScrollConnection(
                     }
                 }
                 ComposePosition.End -> {
-                    if (available.x > 0 && refreshOffset < 0) {
+                    if (available.x > 0 && refreshOffset > 0) {
                         //消费的手势
                         var consumptive = available.x
                         if (-available.x > refreshOffset) {
@@ -107,7 +116,7 @@ internal class RefreshLayoutNestedScrollConnection(
                     }
                 }
                 ComposePosition.Top -> {
-                    if (available.y < 0 && refreshOffset > 0) {
+                    if (available.y < 0 && refreshOffset < 0) {
                         //消费的手势
                         var consumptive = available.y
                         if (-available.y > refreshOffset) {
@@ -118,7 +127,7 @@ internal class RefreshLayoutNestedScrollConnection(
                     }
                 }
                 ComposePosition.Bottom -> {
-                    if (available.y > 0 && refreshOffset < 0) {
+                    if (available.y > 0 && refreshOffset > 0) {
                         //消费的手势
                         var consumptive = available.y
                         if (-available.y < refreshOffset) {
