@@ -95,12 +95,22 @@ class ComposePagerState {
         }
     }
 
-    @Deprecated(
-        "请使用[setPageIndexWithAnimate],后续版本将删除",
-        ReplaceWith("setPageIndexWithAnimate(index)")
-    )
-    fun setPageIndexWithAnim(index: Int) {
-        setPageIndexWithAnimate(index)
+    /**
+     * 设置偏移量
+     */
+    suspend fun setOffset(offset: Float) {
+        offsetAnim.snapTo(offset - mainAxisSize * getCurrSelectIndex())
+    }
+
+    suspend fun setOffsetWithAnimate(offset: Float) {
+        offsetAnim.animateTo(offset - mainAxisSize * getCurrSelectIndex())
+    }
+
+    /**
+     * 设置偏移量百分比
+     */
+    suspend fun setOffsetPercent(percent: Float) {
+        setOffset(percent * mainAxisSize)
     }
 }
 
