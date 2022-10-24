@@ -48,6 +48,7 @@
         <activity android:name=".PagerIndicatorActivity" />
         <activity android:name=".ScrollableAppBarActivity" />
         <activity android:name=".SwipeToDismissActivity" />
+        <activity android:name=".TextPagerIndicatorActivity" />
     </application>
 
 </manifest>

@@ -34,7 +34,6 @@ import com.lt.compose_views.banner.Banner
 import com.lt.compose_views.banner.rememberBannerState
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 import kotlin.random.Random
 
 class BannerActivity : BaseComposeActivity() {
@@ -46,8 +45,6 @@ class BannerActivity : BaseComposeActivity() {
         Color(114, 61, 101, 255),
     )
     private val orientation = mutableStateOf(Orientation.Vertical)
-
-    override fun getTitleText(): String = "Banner"
 
     @Composable
     override fun ComposeContent() {

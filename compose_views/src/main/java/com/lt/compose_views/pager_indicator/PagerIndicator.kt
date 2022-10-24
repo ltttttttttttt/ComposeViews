@@ -18,13 +18,19 @@ package com.lt.compose_views.pager_indicator
 
 import androidx.annotation.IntRange
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.midOf
+import com.lt.compose_views.util.rememberMutableStateOf
 import kotlin.math.roundToInt
 
 /**
@@ -39,6 +45,7 @@ import kotlin.math.roundToInt
  * @param modifier 修饰
  * @param margin 指示器之间的间距(两边也有,保证即使选中的指示器较大,也不容易超出控件区域)
  * @param orientation 指示器排列方向
+ * @param userCanScroll 用户是否可以滚动
  */
 @Composable
 fun PagerIndicator(
@@ -46,10 +53,11 @@ fun PagerIndicator(
     offsetPercentWithSelect: Float,
     selectIndex: Int,
     indicatorItem: @Composable (index: Int) -> Unit,
-    selectIndicatorItem: @Composable () -> Unit,
+    selectIndicatorItem: @Composable () -> Unit,// TODO by lt 2022/10/23 22:58 加一个state,塞入各种需要使用的数据,切换页数时,将指示器拉回当前可以显示的位置,然后封装textxxx
     modifier: Modifier = Modifier,
     margin: Dp = 8.dp,
     orientation: Orientation = Orientation.Horizontal,
+    userCanScroll: Boolean = false,
 ) {
     if (size < 1) return
     val density = LocalDensity.current
@@ -57,7 +65,24 @@ fun PagerIndicator(
     val indicatorItemCenters = remember(size) {
         IntArray(size)
     }
-    Layout(modifier = modifier, content = {
+    //用户滑动的偏移
+    var offset by rememberMutableStateOf(value = 0f)
+    var minOffset by rememberMutableStateOf(value = 0f)
+    val scrollState = remember(userCanScroll) {
+        ScrollableState {
+            val oldOffset = offset
+            val canOffset = midOf(minOffset, it + oldOffset, 0f)
+            offset = canOffset
+            canOffset - oldOffset
+        }
+    }
+
+    Layout(modifier = modifier.let {
+        if (userCanScroll) {
+            it.scrollable(scrollState, orientation)
+        } else
+            it
+    }, content = {
         selectIndicatorItem()
         repeat(size) {
             indicatorItem(it)
@@ -89,8 +114,13 @@ fun PagerIndicator(
             }
             placeable
         }
-        width = maxOf(width, selectPlaceable.width)
-        height = maxOf(height, selectPlaceable.height)
+        minOffset = if (isHorizontal) {
+            -maxOf(width - constraints.maxWidth, 0).toFloat()
+        } else {
+            -maxOf(height - constraints.maxHeight, 0).toFloat()
+        }
+        width = midOf(selectPlaceable.width, width, constraints.maxWidth)
+        height = midOf(selectPlaceable.height, height, constraints.maxHeight)
         layout(width, height) {
             //放置indicatorItem
             var coordinate = 0
@@ -98,10 +128,16 @@ fun PagerIndicator(
                 if (index == 0)
                     coordinate += marginPx
                 coordinate += if (isHorizontal) {
-                    placeable.placeRelative(coordinate, (height - placeable.height) / 2)
+                    placeable.placeRelative(
+                        coordinate + offset.roundToInt(),
+                        (height - placeable.height) / 2
+                    )
                     placeable.width + marginPx
                 } else {
-                    placeable.placeRelative((width - placeable.width) / 2, coordinate)
+                    placeable.placeRelative(
+                        (width - placeable.width) / 2,
+                        coordinate + offset.roundToInt()
+                    )
                     placeable.height + marginPx
                 }
             }
@@ -120,7 +156,7 @@ fun PagerIndicator(
                     if (!isNext)
                         difference = 0 - difference
                     //计算最终的x轴(起始x轴+偏移的x轴)
-                    (startX + difference * offsetPercentWithSelect).roundToInt()
+                    (startX + difference * offsetPercentWithSelect + offset).roundToInt()
                 } else
                     (width - selectPlaceable.width) / 2,
                 y = if (isHorizontal)
@@ -138,7 +174,7 @@ fun PagerIndicator(
                     if (!isNext)
                         difference = 0 - difference
                     //计算最终的x轴(起始x轴+偏移的x轴)
-                    (startY + difference * offsetPercentWithSelect).roundToInt()
+                    (startY + difference * offsetPercentWithSelect + offset).roundToInt()
                 },
             )
         }

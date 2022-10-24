@@ -31,7 +31,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.lt.compose_views.menu_fab.MenuFabItem
 import com.lt.compose_views.menu_fab.MenuFloatingActionButton
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 
 
 // Author: Vast Gui

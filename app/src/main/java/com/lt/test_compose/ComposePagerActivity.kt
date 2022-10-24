@@ -41,7 +41,6 @@ import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.refresh_layout.VerticalRefreshableLayout
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 import com.lt.test_compose.base.click
 import com.lt.test_compose.base.composeClick
 import kotlinx.coroutines.delay
@@ -64,8 +63,6 @@ class ComposePagerActivity : BaseComposeActivity() {
     )
     private val orientation = mutableStateOf(Orientation.Vertical)
     private var isImage by mutableStateOf(false)
-
-    override fun getTitleText(): String = "ComposePager"
 
     @Composable
     override fun ComposeContent() {
