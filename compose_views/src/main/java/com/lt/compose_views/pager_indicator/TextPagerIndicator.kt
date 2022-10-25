@@ -152,7 +152,9 @@ fun TextPagerIndicator(
                     selectIndex,
                     offsetPercentWithSelect,
                     selectFontSize,
-                    fontSize
+                    fontSize,
+                    textColor,
+                    selectTextColor,
                 ) {
                     val percent = abs(selectIndex + offsetPercentWithSelect - index)
                     if (percent > 1f)
