@@ -28,14 +28,21 @@ import com.lt.compose_views.util.ComposePosition
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
  * effect : 下拉刷新+上拉加载,如果内部不支持上下滑动的话,则无法使用(可以给modifier加上[verticalScroll]修饰)
+ *          Pull down and up refresh components
  * warning:
  * @param topRefreshLayoutState top的刷新布局的state,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
+ *                              State of the top of the [RefreshLayout]
  * @param bottomRefreshLayoutState bottom的刷新布局的state,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
+ *                                 State of the bottom of the [RefreshLayout]
  * @param modifier 修饰
  * @param topRefreshContent top的刷新布局的content,有默认样式,可以传入lambda自定义
+ *                          Refreshed content area of top
  * @param bottomIsLoadFinish bottom刷新布局是否刷新完成
+ *                           Bottom is it loaded
  * @param bottomRefreshContent bottom的刷新布局的content,有默认样式,可以传入lambda自定义
+ *                             Refreshed content area of bottom
  * @param content 内容
+ *                Content of compose
  */
 @Composable
 fun VerticalRefreshableLayout(

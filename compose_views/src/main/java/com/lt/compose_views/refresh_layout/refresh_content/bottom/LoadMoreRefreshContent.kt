@@ -36,8 +36,10 @@ import com.lt.compose_views.util.Color333
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
  * effect : 上拉加载的刷新组件
+ *          Pull-up loaded refresh component
  * warning:
  * @param isLoadFinish 是否加载完毕(后面加载不出数据了)
+ *                     Is it loaded
  */
 @Composable
 fun RefreshLayoutState.LoadMoreRefreshContent(

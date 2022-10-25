@@ -59,15 +59,15 @@ dependencies {
 
 ```kotlin
 /**
- * 类似于xml中的ViewPager
- * @param pageCount 一共有多少页
- * @param modifier 修饰
- * @param composePagerState ComposePager的状态
- * @param orientation 滑动的方向
- * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
- * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
- * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件,使用可以参考[Banner]
- * @param content compose内容区域
+ * Equivalent to the ViewPager in android
+ * @param pageCount Sum page count
+ * @param modifier
+ * @param composePagerState ComposePager's state
+ * @param orientation Scroll orientation
+ * @param userEnable Whether the user can scroll
+ * @param pageCache The number of pagers cached on the left and right sides
+ * @param scrollableInteractionSource Scroll state monitor
+ * @param content Content of compose
  */
 @Composable
 fun ComposePager()
@@ -77,15 +77,15 @@ fun ComposePager()
 
 ```kotlin
 /**
- * 可以自动循环轮播的ComposePager
- * @param pageCount 一共有多少页
- * @param modifier 修饰
- * @param bannerState Banner的状态
- * @param orientation 滑动的方向
- * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
- * @param autoScroll 是否自动滚动
- * @param autoScrollTime 自动滚动间隔时间
- * @param content compose内容区域
+ * [ComposePager] that can auto scroll
+ * @param pageCount Sum page count
+ * @param modifier
+ * @param bannerState Banner's state
+ * @param orientation Scroll orientation
+ * @param userEnable Whether the user can scroll
+ * @param autoScroll Whether to scroll automatically
+ * @param autoScrollTime Auto scroll interval
+ * @param content Content of compose
  */
 @Composable
 fun Banner()
@@ -99,34 +99,34 @@ fun Banner()
 
 ```kotlin
 /**
- * 适用于Pager的指示器
- * @param size 指示器数量
- * @param offsetPercentWithSelect 选中的指示器的偏移百分比
- * @param selectIndex 选中的索引
- * @param indicatorItem 未被选中的指示器
- * @param selectIndicatorItem 被选中的指示器
- * @param modifier 修饰
- * @param margin 指示器之间的间距
- * @param orientation 指示器排列方向
- * @param userCanScroll 用户是否可以滚动
+ * Indicator for pager
+ * @param size Number of indicator
+ * @param offsetPercentWithSelect The offset percentage of the selected indicator
+ * @param selectIndex The index of selected indicator
+ * @param indicatorItem The indicator
+ * @param selectIndicatorItem The selected indicator
+ * @param modifier
+ * @param margin Spacing between indicators
+ * @param orientation Orientation of indicators
+ * @param userCanScroll Whether the user can scroll
  */
 @Composable
 fun PagerIndicator()
 
 /**
- * 适用于Pager的文本指示器
- * @param texts 文本列表
- * @param offsetPercentWithSelect 选中的指示器的偏移百分比
- * @param selectIndex 选中的索引
- * @param fontSize 未被选中的文字大小
- * @param selectFontSize 被选中的文字大小
- * @param textColor 未被选中的文字颜色
- * @param selectTextColor 被选中的文字颜色
- * @param selectIndicatorColor 指示器的颜色
- * @param onIndicatorClick 指示器的点击事件
- * @param modifier 修饰
- * @param margin 指示器之间的间距(两边也有,保证即使选中的指示器较大,也不容易超出控件区域)
- * @param userCanScroll 用户是否可以滚动
+ * Text indicator for pager
+ * @param texts The text list
+ * @param offsetPercentWithSelect The offset percentage of the selected indicator
+ * @param selectIndex The index of selected indicator
+ * @param fontSize Font size of the text indicator
+ * @param selectFontSize Font size of the selected text indicator
+ * @param textColor Font color of the text indicator
+ * @param selectTextColor Font color of the selected text indicator
+ * @param selectIndicatorColor Color of the indicator
+ * @param onIndicatorClick Click event of the text indicator
+ * @param modifier
+ * @param margin Spacing between the text indicators
+ * @param userCanScroll Whether the user can scroll
  */
 @Composable
 fun TextPagerIndicator()
@@ -136,16 +136,16 @@ fun TextPagerIndicator()
 
 ```kotlin
 /**
- * 展示图片的Banner
- * @param imageSize 图片数量
- * @param imageContent 放置图片的content
- * @param indicatorItem 未被选中的指示器,如果为null则不展示指示器
- * @param selectIndicatorItem 被选中的指示器,如果为null则不展示指示器
- * @param modifier 修饰
- * @param bannerState Banner的状态
- * @param orientation 滑动的方向
- * @param autoScroll 是否自动滚动
- * @param autoScrollTime 自动滚动间隔时间
+ * [Banner] showing images
+ * @param imageSize Number of images
+ * @param imageContent Content of the images
+ * @param indicatorItem The indicator, if null, do not display indicator
+ * @param selectIndicatorItem The indicator, if null, do not display indicator
+ * @param modifier
+ * @param bannerState Banner's state
+ * @param orientation Orientation of indicators
+ * @param autoScroll Whether to scroll automatically
+ * @param autoScrollTime Auto scroll interval
  */
 @Composable
 fun ImageBanner()
@@ -157,40 +157,40 @@ fun ImageBanner()
 
 ```kotlin
 /**
- * 可以任意方向拖动刷新的容器
- * @param refreshContent 刷新布局内容区域
- * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
- * @param modifier 修饰
- * @param refreshContentThreshold 刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
- * @param composePosition 设置刷新布局所在的位置,并且间接指定了滑动方向
- * @param contentIsMove content组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
- * @param dragEfficiency 拖动的'有效率',比如默认是手指拖动20px,只能拖出10px
- * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
- * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
- * @param content compose内容区域
+ * The refreshed container can be dragged in any direction
+ * @param refreshContent Refreshed content area
+ * @param refreshLayoutState State of the [RefreshLayout]
+ * @param modifier
+ * @param refreshContentThreshold Refresh threshold for layout dragging
+ * @param composePosition Set where the refreshed layout is located
+ * @param contentIsMove Whether the content component moves with it on refresh
+ * @param dragEfficiency The 'efficiency' of dragging
+ * @param isSupportCanNotScrollCompose Whether to support non-scrollable components
+ * @param userEnable Whether the user can drag
+ * @param content Content of compose
  */
 @Composable
 fun RefreshLayout()
 
 /**
- * 下拉刷新
- * @param refreshLayoutState RefreshLayout的状态
- * @param modifier 修饰
- * @param refreshContent 刷新布局内容区域
- * @param content compose内容区域
+ * Pull down to refresh
+ * @param refreshLayoutState State of the [RefreshLayout]
+ * @param modifier
+ * @param refreshContent Refreshed content area
+ * @param content Content of compose
  */
 @Composable
 fun PullToRefresh()
 
 /**
- * 下拉刷新+上拉加载,如果内部不支持上下滑动的话,则无法使用(可以给modifier加上[verticalScroll]修饰)
- * @param topRefreshLayoutState top的刷新布局的state,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
- * @param bottomRefreshLayoutState bottom的刷新布局的state,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
- * @param modifier 修饰
- * @param topRefreshContent top的刷新布局的content,有默认样式,可以传入lambda自定义
- * @param bottomIsLoadFinish bottom刷新布局是否刷新完成
- * @param bottomRefreshContent bottom的刷新布局的content,有默认样式,可以传入lambda自定义
- * @param content 内容
+ * Pull down and up refresh components
+ * @param topRefreshLayoutState State of the top of the [RefreshLayout]
+ * @param bottomRefreshLayoutState State of the bottom of the [RefreshLayout]
+ * @param modifier
+ * @param topRefreshContent Refreshed content area of top
+ * @param bottomIsLoadFinish Bottom is it loaded
+ * @param bottomRefreshContent Refreshed content area of bottom
+ * @param content Content of compose
  */
 @Composable
 fun VerticalRefreshableLayout()

@@ -34,11 +34,16 @@ import kotlin.math.abs
 /**
  * creator: lt  2022/10/8  lt.dygzs@qq.com
  * effect : 刷新组件,一个椭圆
+ *          An ellipse refresh component
  * warning:
  * @param min 最小宽度或高度
+ *            Minimum width or height
  * @param color 椭圆的颜色
+ *              Color of ellipse
  * @param content 自行放置额外的内容
+ *                Put extra content
  * @param innerContent 椭圆中可放置的内容
+ *                     Content in ellipse
  */
 @Composable
 fun RefreshLayoutState.EllipseRefreshContent(

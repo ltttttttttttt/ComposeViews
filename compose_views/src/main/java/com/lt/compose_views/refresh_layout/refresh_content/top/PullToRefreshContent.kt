@@ -40,6 +40,7 @@ import java.lang.Math.abs
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
  * effect : 下拉刷新的刷新组件
+ *          Refresh component for pull down refresh
  * warning:
  */
 @Composable

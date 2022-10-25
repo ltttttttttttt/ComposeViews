@@ -19,12 +19,14 @@ package com.lt.compose_views.pager_indicator
 /**
  * creator: lt  2022/10/24  lt.dygzs@qq.com
  * effect : 指示器的坐标数据
+ *          Location info of the indicators
  * warning: 横向为[start,center,end],竖向为[top,center,bottom]
  */
 @JvmInline
 value class IndicatorsInfo(val data: IntArray) {
     /**
      * 获取相应[index]位置指示器的start坐标
+     * Get start location of the indicators with index
      */
     fun getIndicatorStart(index: Int): Int = data[index * 3]
     inline fun getIndicatorStartOrElse(index: Int, defaultValue: (Int) -> Int): Int =
@@ -32,6 +34,7 @@ value class IndicatorsInfo(val data: IntArray) {
 
     /**
      * 获取相应[index]位置指示器的center坐标
+     * Get center location of the indicators with index
      */
     fun getIndicatorCenter(index: Int): Int = data[index * 3 + 1]
     inline fun getIndicatorCenterOrElse(index: Int, defaultValue: (Int) -> Int): Int =
@@ -39,6 +42,7 @@ value class IndicatorsInfo(val data: IntArray) {
 
     /**
      * 获取相应[index]位置指示器的end坐标
+     * Get end location of the indicators with index
      */
     fun getIndicatorEnd(index: Int): Int = data[index * 3 + 2]
     inline fun getIndicatorEndOrElse(index: Int, defaultValue: (Int) -> Int): Int =
@@ -46,11 +50,13 @@ value class IndicatorsInfo(val data: IntArray) {
 
     /**
      * 获取相应[index]位置指示器的宽或高(根据方向)
+     * Get size of the indicators with index
      */
     fun getIndicatorSize(index: Int): Int = getIndicatorEnd(index) - getIndicatorStart(index)
 
     /**
      * 获取相应[index]位置指示器的坐标数据
+     * Set location info of index position indicators
      */
     fun setData(index: Int, start: Int, end: Int) {
         data[index * 3] = start

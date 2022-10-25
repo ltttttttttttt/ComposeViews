@@ -58,7 +58,7 @@ dependencies {
 
 ```kotlin
 /**
- * 类似于xml中的ViewPager
+ * 类似于安卓中的ViewPager
  * @param pageCount 一共有多少页
  * @param modifier 修饰
  * @param composePagerState ComposePager的状态

@@ -35,16 +35,24 @@ import kotlin.math.roundToInt
 
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
- * effect : 类似于xml中的ViewPager
+ * effect : 类似于安卓中的ViewPager
+ *          Equivalent to the ViewPager in android
  * warning:
  * @param pageCount 一共有多少页
+ *                  Sum page count
  * @param modifier 修饰
  * @param composePagerState ComposePager的状态
+ *                          ComposePager's state
  * @param orientation 滑动的方向
+ *                    Scroll orientation
  * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
+ *                   Whether the user can scroll
  * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
+ *                  The number of pagers cached on the left and right sides
  * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件
+ *                                    Scroll state monitor
  * @param content compose内容区域
+ *                Content of compose
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
