@@ -36,9 +36,11 @@ import com.lt.test_compose.base.BaseComposeActivity
 class TextPagerIndicatorActivity : BaseComposeActivity() {
     private val colors = mutableStateListOf(
         Color(150, 105, 61, 255) to "暴走",
+        Color.DarkGray to "十字斩",
         Color(122, 138, 55, 255) to "崩山击",
         Color(114, 61, 101, 255) to "崩山裂地斩",
-        Color(112, 62, 11, 255) to "大吸",
+        Color.Gray to "怒气爆发",
+        Color(112, 62, 11, 255) to "嗜魂封魔斩",
         Color(50, 134, 74, 255) to "噬魂之手",
     )
     private val texts = colors.map { it.second }

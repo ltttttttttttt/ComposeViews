@@ -20,17 +20,17 @@ import androidx.annotation.IntRange
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.animateWithFloat
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 /**
@@ -61,21 +61,23 @@ fun PagerIndicator(
 ) {
     if (size < 1) return
     val density = LocalDensity.current
-    //indicatorItem的中间位置坐标
-    val indicatorItemCenters = remember(size) {
-        IntArray(size)
+    //indicatorItem的坐标数据
+    val indicatorItemsInfo = remember(size) {
+        IndicatorsInfo(IntArray(size * 3))
     }
     //用户滑动的偏移
-    var offset by rememberMutableStateOf(value = 0f)
+    val offset = rememberMutableStateOf(value = 0f)
     var minOffset by rememberMutableStateOf(value = 0f)
     val scrollState = remember(userCanScroll) {
         ScrollableState {
-            val oldOffset = offset
+            val oldOffset = offset.value
             val canOffset = midOf(minOffset, it + oldOffset, 0f)
-            offset = canOffset
+            offset.value = canOffset
             canOffset - oldOffset
         }
     }
+    val coroutineScope = rememberCoroutineScope()
+    var offsetJob by rememberMutableStateOf<Job?>(null)
 
     Layout(modifier = modifier.let {
         if (userCanScroll) {
@@ -101,14 +103,14 @@ fun PagerIndicator(
                 if (index == 0) {
                     width = marginPx
                 }
-                indicatorItemCenters[i - 1] = width + placeable.width / 2
+                indicatorItemsInfo.setData(i - 1, width, width + placeable.width)
                 width += placeable.width + marginPx
                 height = maxOf(height, placeable.height)
             } else {
                 if (index == 0) {
                     height = marginPx
                 }
-                indicatorItemCenters[i - 1] = height + placeable.height / 2
+                indicatorItemsInfo.setData(i - 1, height, height + placeable.height)
                 width = maxOf(width, placeable.width)
                 height += placeable.height + marginPx
             }
@@ -122,6 +124,7 @@ fun PagerIndicator(
         width = midOf(selectPlaceable.width, width, constraints.maxWidth)
         height = midOf(selectPlaceable.height, height, constraints.maxHeight)
         layout(width, height) {
+            val offsetValue = offset.value
             //放置indicatorItem
             var coordinate = 0
             placeableList.forEachIndexed { index, placeable ->
@@ -129,14 +132,14 @@ fun PagerIndicator(
                     coordinate += marginPx
                 coordinate += if (isHorizontal) {
                     placeable.placeRelative(
-                        coordinate + offset.roundToInt(),
+                        coordinate + offsetValue.roundToInt(),
                         (height - placeable.height) / 2
                     )
                     placeable.width + marginPx
                 } else {
                     placeable.placeRelative(
                         (width - placeable.width) / 2,
-                        coordinate + offset.roundToInt()
+                        coordinate + offsetValue.roundToInt()
                     )
                     placeable.height + marginPx
                 }
@@ -145,36 +148,155 @@ fun PagerIndicator(
             selectPlaceable.placeRelative(
                 x = if (isHorizontal) {
                     //当前索引的中间坐标
-                    val currCenter = indicatorItemCenters[selectIndex]
+                    val currCenter = indicatorItemsInfo.getIndicatorCenter(selectIndex)
                     //是否是往下一页翻
                     val isNext = offsetPercentWithSelect >= 0
                     //起始的x轴
                     val startX = currCenter - selectPlaceable.width / 2
                     //当前索引到下一个索引的差值(偏移量)
                     var difference =
-                        indicatorItemCenters.getOrElse(selectIndex + if (isNext) 1 else -1) { currCenter } - currCenter
+                        indicatorItemsInfo.getIndicatorCenterOrElse(selectIndex + if (isNext) 1 else -1) { currCenter } - currCenter
                     if (!isNext)
                         difference = 0 - difference
+                    //计算如果指示器所要移动的位置在界面外,则位移offset
+                    if (userCanScroll && offsetJob == null) {
+                        if (offsetPercentWithSelect > 0) {
+                            val nextEnd =
+                                indicatorItemsInfo.getIndicatorEndOrElse(selectIndex + 1) {
+                                    indicatorItemsInfo.getIndicatorEnd(selectIndex)
+                                }
+                            val end = width - offsetValue - nextEnd
+                            if (end < 0) {
+                                //靠最右边
+                                offsetJob = coroutineScope.launch {
+                                    animateWithFloat(offset, offsetValue + end, duration = 150)
+                                    offsetJob = null
+                                }
+                            } else {
+                                val thisStart =
+                                    indicatorItemsInfo.getIndicatorStart(selectIndex + 1)
+                                val start = width - offsetValue - thisStart
+                                if (start > width) {
+                                    //靠最左边
+                                    offsetJob = coroutineScope.launch {
+                                        animateWithFloat(
+                                            offset,
+                                            -thisStart.toFloat(),
+                                            duration = 150
+                                        )
+                                        offsetJob = null
+                                    }
+                                }
+                            }
+                        } else if (offsetPercentWithSelect < 0) {
+                            val prevStart =
+                                indicatorItemsInfo.getIndicatorStartOrElse(selectIndex - 1) {
+                                    indicatorItemsInfo.getIndicatorStart(selectIndex)
+                                }
+                            val start = -offsetValue - prevStart
+                            if (start > 0) {
+                                offsetJob = coroutineScope.launch {
+                                    animateWithFloat(offset, offsetValue + start, duration = 150)
+                                    offsetJob = null
+                                }
+                            } else {
+                                val thisEnd =
+                                    indicatorItemsInfo.getIndicatorEnd(selectIndex - 1)
+                                val end = -offsetValue - thisEnd
+                                if (end < -width) {
+                                    //靠最左边
+                                    offsetJob = coroutineScope.launch {
+                                        animateWithFloat(
+                                            offset,
+                                            width.toFloat() - thisEnd,
+                                            duration = 150
+                                        )
+                                        offsetJob = null
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //计算最终的x轴(起始x轴+偏移的x轴)
-                    (startX + difference * offsetPercentWithSelect + offset).roundToInt()
+                    (startX + difference * offsetPercentWithSelect + offsetValue).roundToInt()
                 } else
                     (width - selectPlaceable.width) / 2,
                 y = if (isHorizontal)
                     (height - selectPlaceable.height) / 2
                 else {
                     //当前索引的中间坐标
-                    val currCenter = indicatorItemCenters[selectIndex]
+                    val currCenter = indicatorItemsInfo.getIndicatorCenter(selectIndex)
                     //是否是往下一页翻
                     val isNext = offsetPercentWithSelect >= 0
                     //起始的y轴
                     val startY = currCenter - selectPlaceable.height / 2
                     //当前索引到下一个索引的差值(偏移量)
                     var difference =
-                        indicatorItemCenters.getOrElse(selectIndex + if (isNext) 1 else -1) { currCenter } - currCenter
+                        indicatorItemsInfo.getIndicatorCenterOrElse(selectIndex + if (isNext) 1 else -1) { currCenter } - currCenter
                     if (!isNext)
                         difference = 0 - difference
+
+                    //计算如果指示器所要移动的位置在界面外,则位移offset
+                    if (userCanScroll && offsetJob == null) {
+                        if (offsetPercentWithSelect > 0) {
+                            val nextEnd =
+                                indicatorItemsInfo.getIndicatorEndOrElse(selectIndex + 1) {
+                                    indicatorItemsInfo.getIndicatorEnd(selectIndex)
+                                }
+                            val end = height - offsetValue - nextEnd
+                            if (end < 0) {
+                                //靠最右边
+                                offsetJob = coroutineScope.launch {
+                                    animateWithFloat(offset, offsetValue + end, duration = 150)
+                                    offsetJob = null
+                                }
+                            } else {
+                                val thisStart =
+                                    indicatorItemsInfo.getIndicatorStart(selectIndex + 1)
+                                val start = height - offsetValue - thisStart
+                                if (start > height) {
+                                    //靠最左边
+                                    offsetJob = coroutineScope.launch {
+                                        animateWithFloat(
+                                            offset,
+                                            -thisStart.toFloat(),
+                                            duration = 150
+                                        )
+                                        offsetJob = null
+                                    }
+                                }
+                            }
+                        } else if (offsetPercentWithSelect < 0) {
+                            val prevStart =
+                                indicatorItemsInfo.getIndicatorStartOrElse(selectIndex - 1) {
+                                    indicatorItemsInfo.getIndicatorStart(selectIndex)
+                                }
+                            val start = -offsetValue - prevStart
+                            if (start > 0) {
+                                offsetJob = coroutineScope.launch {
+                                    animateWithFloat(offset, offsetValue + start, duration = 150)
+                                    offsetJob = null
+                                }
+                            } else {
+                                val thisEnd =
+                                    indicatorItemsInfo.getIndicatorEnd(selectIndex - 1)
+                                val end = -offsetValue - thisEnd
+                                if (end < -height) {
+                                    //靠最左边
+                                    offsetJob = coroutineScope.launch {
+                                        animateWithFloat(
+                                            offset,
+                                            height.toFloat() - thisEnd,
+                                            duration = 150
+                                        )
+                                        offsetJob = null
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //计算最终的x轴(起始x轴+偏移的x轴)
-                    (startY + difference * offsetPercentWithSelect + offset).roundToInt()
+                    (startY + difference * offsetPercentWithSelect + offsetValue).roundToInt()
                 },
             )
         }
