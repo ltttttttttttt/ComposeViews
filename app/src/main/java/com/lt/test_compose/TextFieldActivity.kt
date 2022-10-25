@@ -28,7 +28,6 @@ import com.lt.compose_views.text_field.HintComposeWithTextField
 import com.lt.compose_views.text_field.PasswordTextField
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
@@ -36,8 +35,6 @@ import com.lt.test_compose.base.M
  * warning:
  */
 class TextFieldActivity : BaseComposeActivity() {
-    override fun getTitleText(): String = "TextField"
-
     @Composable
     override fun ComposeContent() {
         Column(

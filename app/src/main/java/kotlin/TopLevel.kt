@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.compose_pager
+package kotlin
+
+import androidx.compose.ui.Modifier
 
 /**
- * ComposePager的compose作用域
+ * creator: lt  2022/10/22  lt.dygzs@qq.com
+ * effect : 顶层函数和属性
+ * warning:
  */
-class ComposePagerScope(
-    /**
-     * 当前的ComposePager布局content所在的索引
-     */
-    val index: Int,
-)
+
+typealias M = Modifier

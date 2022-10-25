@@ -32,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 import kotlin.random.Random
 
 /**
@@ -55,8 +54,6 @@ class FlowLayoutActivity : BaseComposeActivity() {
         "9999999999999",
     )
     private val orientation = mutableStateOf(Orientation.Horizontal)
-
-    override fun getTitleText(): String = "FlowLayout"
 
     @Composable
     override fun ComposeContent() {

@@ -67,6 +67,7 @@ suspend inline fun animateWithFloat(
             onValueChange(startValue + increase)
         }
     }
+    onValueChange(targetValue)
 }
 
 /**

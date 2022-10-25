@@ -42,7 +42,6 @@ import com.lt.compose_views.image_banner.ImageBanner
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.pager_indicator.PagerIndicator
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 
 /**
  * creator: lt  2022/9/5  lt.dygzs@qq.com
@@ -58,8 +57,6 @@ class PagerIndicatorActivity : BaseComposeActivity() {
         Color(114, 61, 101, 255),
     )
     private val orientation = mutableStateOf(Orientation.Horizontal)
-
-    override fun getTitleText(): String = "PagerIndicator"
 
     @Composable
     override fun ComposeContent() {

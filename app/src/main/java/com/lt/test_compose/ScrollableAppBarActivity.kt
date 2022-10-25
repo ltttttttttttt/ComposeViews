@@ -52,10 +52,6 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     private val maxDp = 200.dp
     private val minDp = 56.dp
 
-    override fun getTitleText(): String {
-        return "ScrollableAppBar"
-    }
-
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {

@@ -32,6 +32,7 @@ import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.banner.BannerState
 import com.lt.compose_views.banner.rememberBannerState
 import com.lt.compose_views.pager_indicator.PagerIndicator
+import com.lt.compose_views.pager_indicator.PagerIndicatorScope
 
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
@@ -52,7 +53,7 @@ fun ImageBanner(
     imageSize: Int,
     imageContent: @Composable BannerScope.() -> Unit,
     indicatorItem: @Composable ((index: Int) -> Unit)?,
-    selectIndicatorItem: @Composable (() -> Unit)?,
+    selectIndicatorItem: @Composable (PagerIndicatorScope.() -> Unit)?,
     modifier: Modifier = Modifier,
     bannerState: BannerState = rememberBannerState(),
     orientation: Orientation = Orientation.Horizontal,

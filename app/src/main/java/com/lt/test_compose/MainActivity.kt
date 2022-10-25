@@ -17,6 +17,7 @@
 package com.lt.test_compose
 
 import android.content.Intent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -31,6 +32,7 @@ class MainActivity : BaseComposeActivity() {
         "ViewPager功能" to ComposePagerActivity::class.java,
         "Banner功能" to BannerActivity::class.java,
         "PagerIndicator功能" to PagerIndicatorActivity::class.java,
+        "TextPagerIndicator功能" to TextPagerIndicatorActivity::class.java,
         "FlowLayout功能" to FlowLayoutActivity::class.java,
         "TextField功能" to TextFieldActivity::class.java,
         "MenuFab功能" to MenuFabActivity::class.java,
@@ -46,7 +48,7 @@ class MainActivity : BaseComposeActivity() {
         buttons.getOrNull(BuildConfig.TEST_INDEX)?.second?.let {
             startActivity(Intent(this@MainActivity, it))
         }
-        LazyColumn {
+        LazyColumn(modifier = M.fillMaxSize()) {
             items(buttons) {
                 Button(onClick = { startActivity(Intent(this@MainActivity, it.second)) }) {
                     Text(text = it.first)

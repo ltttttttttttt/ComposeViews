@@ -37,7 +37,9 @@ import kotlinx.coroutines.MainScope
 abstract class BaseComposeActivity : AppCompatActivity() {
     val mainScope = MainScope()
 
-    abstract fun getTitleText(): String
+    open fun getTitleText(): String {
+        return this::class.java.simpleName.replace("Activity", "")
+    }
 
     @Composable
     abstract fun ComposeContent()

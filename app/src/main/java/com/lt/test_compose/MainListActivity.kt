@@ -39,7 +39,6 @@ import com.lt.compose_views.refresh_layout.VerticalRefreshableLayout
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*

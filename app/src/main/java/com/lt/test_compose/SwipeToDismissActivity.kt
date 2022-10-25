@@ -39,8 +39,6 @@ class SwipeToDismissActivity : BaseComposeActivity() {
     private val width = 160.dp
     private val height = 80.dp
 
-    override fun getTitleText(): String = "SwipeToDismiss"
-
     @Composable
     override fun ComposeContent() {
         Column(modifier = Modifier.padding(start = 20.dp)) {

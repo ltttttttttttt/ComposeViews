@@ -37,14 +37,10 @@ import com.lt.compose_views.refresh_layout.refresh_content.EllipseRefreshContent
 import com.lt.compose_views.util.ComposePosition
 import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
-import com.lt.test_compose.base.M
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RefreshLayoutActivity : BaseComposeActivity() {
-
-    override fun getTitleText(): String = "RefreshLayout"
-
     @Composable
     override fun ComposeContent() {
         val topRefreshState = createState()

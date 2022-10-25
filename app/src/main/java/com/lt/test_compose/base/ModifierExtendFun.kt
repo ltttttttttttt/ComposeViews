@@ -31,8 +31,6 @@ import com.lt.compose_views.util.rememberMutableStateOf
  * warning:
  */
 
-typealias M = Modifier
-
 const val VIEW_CLICK_INTERVAL_TIME = 800
 
 
