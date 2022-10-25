@@ -95,6 +95,8 @@ fun Banner()
 
 <div align=center><img src="md_resource/image_banner.gif" width=50%></div>
 
+<div align=center><img src="md_resource/text_pager_indicator.gif" width=50%></div>
+
 ```kotlin
 /**
  * 适用于Pager的指示器
@@ -106,9 +108,28 @@ fun Banner()
  * @param modifier 修饰
  * @param margin 指示器之间的间距
  * @param orientation 指示器排列方向
+ * @param userCanScroll 用户是否可以滚动
  */
 @Composable
 fun PagerIndicator()
+
+/**
+ * 适用于Pager的文本指示器
+ * @param texts 文本列表
+ * @param offsetPercentWithSelect 选中的指示器的偏移百分比
+ * @param selectIndex 选中的索引
+ * @param fontSize 未被选中的文字大小
+ * @param selectFontSize 被选中的文字大小
+ * @param textColor 未被选中的文字颜色
+ * @param selectTextColor 被选中的文字颜色
+ * @param selectIndicatorColor 指示器的颜色
+ * @param onIndicatorClick 指示器的点击事件
+ * @param modifier 修饰
+ * @param margin 指示器之间的间距(两边也有,保证即使选中的指示器较大,也不容易超出控件区域)
+ * @param userCanScroll 用户是否可以滚动
+ */
+@Composable
+fun TextPagerIndicator()
 ```
 
 ## ImageBanner

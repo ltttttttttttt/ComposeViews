@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.util
 
+import androidx.compose.ui.graphics.Color
+
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 工具类或扩展方法
@@ -27,3 +29,18 @@ package com.lt.compose_views.util
  */
 internal fun midOf(min: Int, number: Int, max: Int): Int = maxOf(min, minOf(number, max))
 internal fun midOf(min: Float, number: Float, max: Float): Float = maxOf(min, minOf(number, max))
+
+/**
+ * 根据this的百分比(0-1或1-0)来计算start到end对应的值,并返回
+ */
+internal fun Float/*percentage*/.getPercentageValue(startValue: Float, endValue: Float): Float =
+    if (startValue == endValue) startValue
+    else (endValue - startValue) * this + startValue
+
+internal fun Float/*percentage*/.getPercentageValue(startValue: Color, endValue: Color): Color =
+    Color(
+        alpha = getPercentageValue(startValue.alpha, endValue.alpha),
+        red = getPercentageValue(startValue.red, endValue.red),
+        green = getPercentageValue(startValue.green, endValue.green),
+        blue = getPercentageValue(startValue.blue, endValue.blue),
+    )

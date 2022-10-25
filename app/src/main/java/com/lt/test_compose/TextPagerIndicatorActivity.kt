@@ -54,6 +54,7 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
         val offsetPercent by remember { pagerState.createChildOffsetPercentFlow() }
             .collectAsState(initial = 0f)
         Column {
+            FpsMonitor(modifier = M)
             TextPagerIndicator(
                 texts = texts,
                 offsetPercentWithSelect = offsetPercent,
@@ -63,6 +64,9 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
                 textColor = textColor,
                 selectTextColor = selectTextColor,
                 selectIndicatorColor = selectIndicatorColor,
+                onIndicatorClick = {
+                    pagerState.setPageIndexWithAnimate(it)
+                },
                 modifier = M
                     .fillMaxWidth()
                     .height(35.dp),

@@ -53,7 +53,7 @@ fun PagerIndicator(
     offsetPercentWithSelect: Float,
     selectIndex: Int,
     indicatorItem: @Composable (index: Int) -> Unit,
-    selectIndicatorItem: @Composable () -> Unit,// TODO by lt 2022/10/23 22:58 加一个state,塞入各种需要使用的数据,切换页数时,将指示器拉回当前可以显示的位置,然后封装textxxx
+    selectIndicatorItem: @Composable PagerIndicatorScope.() -> Unit,
     modifier: Modifier = Modifier,
     margin: Dp = 8.dp,
     orientation: Orientation = Orientation.Horizontal,
@@ -64,6 +64,9 @@ fun PagerIndicator(
     //indicatorItem的坐标数据
     val indicatorItemsInfo = remember(size) {
         IndicatorsInfo(IntArray(size * 3))
+    }
+    val pagerIndicatorScope = remember(size) {
+        PagerIndicatorScope(indicatorItemsInfo)
     }
     //用户滑动的偏移
     val offset = rememberMutableStateOf(value = 0f)
@@ -85,7 +88,7 @@ fun PagerIndicator(
         } else
             it
     }, content = {
-        selectIndicatorItem()
+        pagerIndicatorScope.selectIndicatorItem()
         repeat(size) {
             indicatorItem(it)
         }

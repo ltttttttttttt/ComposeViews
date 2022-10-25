@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.compose_pager
+package com.lt.compose_views.pager_indicator
 
 /**
- * ComposePager的compose作用域
+ * creator: lt  2022/10/25  lt.dygzs@qq.com
+ * effect : [PagerIndicator]的compose作用域
+ * warning:
  */
-class ComposePagerScope(
+class PagerIndicatorScope(
     /**
-     * 当前的ComposePager布局content所在的索引
+     * 指示器列表的信息
      */
-    val index: Int,
+    val indicatorsInfo: IndicatorsInfo,
 )

@@ -17,6 +17,7 @@
 package com.lt.compose_views.pager_indicator
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -25,12 +26,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.getPercentageValue
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * creator: lt  2022/10/23  lt.dygzs@qq.com
@@ -44,6 +52,7 @@ import androidx.compose.ui.unit.dp
  * @param textColor 未被选中的文字颜色
  * @param selectTextColor 被选中的文字颜色
  * @param selectIndicatorColor 指示器的颜色
+ * @param onIndicatorClick 指示器的点击事件
  * @param modifier 修饰
  * @param margin 指示器之间的间距(两边也有,保证即使选中的指示器较大,也不容易超出控件区域)
  * @param userCanScroll 用户是否可以滚动
@@ -58,10 +67,15 @@ fun TextPagerIndicator(
     textColor: Color,
     selectTextColor: Color,
     selectIndicatorColor: Color,
+    onIndicatorClick: (index: Int) -> Unit,
     modifier: Modifier = Modifier,
     margin: Dp = 8.dp,
     userCanScroll: Boolean = true,
 ) {
+    val density = LocalDensity.current
+    val dp20 = remember {
+        density.run { 20.dp.toPx() }
+    }
     TextPagerIndicator(
         texts = texts,
         offsetPercentWithSelect = offsetPercentWithSelect,
@@ -70,11 +84,27 @@ fun TextPagerIndicator(
         selectFontSize = selectFontSize,
         textColor = textColor,
         selectTextColor = selectTextColor,
+        onIndicatorClick = onIndicatorClick,
         selectIndicatorItem = {
+            val width = remember(texts, offsetPercentWithSelect, selectIndex) {
+                density.run {
+                    //当前选中的指示器宽度
+                    val width =
+                        maxOf(dp20, indicatorsInfo.getIndicatorSize(selectIndex) - dp20)
+                    if (offsetPercentWithSelect == 0f)
+                        return@run width.toDp()
+                    val index = selectIndex + if (offsetPercentWithSelect > 0) 1 else -1
+                    //将要选中的指示器宽度
+                    val toWidth =
+                        maxOf(dp20, indicatorsInfo.getIndicatorSize(index) - dp20)
+                    //通过百分比计算出实际宽度
+                    abs(offsetPercentWithSelect).getPercentageValue(width, toWidth).toDp()
+                }
+            }
             Box(modifier = Modifier.fillMaxHeight()) {
                 Spacer(
                     modifier = Modifier
-                        .size(20.dp, 3.dp)
+                        .size(width, 3.dp)
                         .align(Alignment.BottomCenter)
                         .background(selectIndicatorColor, CircleShape)
                 )
@@ -96,22 +126,46 @@ fun TextPagerIndicator(
     selectFontSize: TextUnit,
     textColor: Color,
     selectTextColor: Color,
-    selectIndicatorItem: @Composable () -> Unit,
+    onIndicatorClick: (index: Int) -> Unit,
+    selectIndicatorItem: @Composable PagerIndicatorScope.() -> Unit,
     modifier: Modifier = Modifier,
     margin: Dp = 8.dp,
     userCanScroll: Boolean = true,
 ) {
+    val density = LocalDensity.current
+    val fontPx by remember(fontSize) {
+        mutableStateOf(density.run { fontSize.toPx() })
+    }
+    val selectFontPx by remember(selectFontSize) {
+        mutableStateOf(density.run { selectFontSize.toPx() })
+    }
     PagerIndicator(
         size = texts.size,
         offsetPercentWithSelect = offsetPercentWithSelect,
         selectIndex = selectIndex,
-        indicatorItem = {
-            Box(modifier = Modifier.fillMaxHeight()) {
+        indicatorItem = { index ->
+            Box(modifier = Modifier
+                .fillMaxHeight()
+                .clickable { onIndicatorClick(index) }) {
+                val (size, color) = remember(
+                    index,
+                    selectIndex,
+                    offsetPercentWithSelect,
+                    selectFontSize,
+                    fontSize
+                ) {
+                    val percent = abs(selectIndex + offsetPercentWithSelect - index)
+                    if (percent > 1f)
+                        return@remember fontSize to textColor
+                    density.run {
+                        percent.getPercentageValue(selectFontPx, fontPx).roundToInt().toSp()
+                    } to percent.getPercentageValue(selectTextColor, textColor)
+                }
                 Text(
-                    text = texts[it],
-                    fontSize = fontSize,
-                    color = textColor,
-                    modifier = Modifier.align(Alignment.Center)
+                    text = texts[index],
+                    fontSize = size,
+                    color = color,
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
         },
