@@ -24,11 +24,13 @@ import com.lt.compose_views.util.Color999
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
  * effect : 用于显示输入框没有内容时的组件
+ *          Content of the [TextField] with if value is Empty
  * warning:
  */
 interface HintComposeWithTextField {
     /**
      * 输入框没有内容时展示
+     * Content of the [TextField] with if value is Empty
      */
     @Composable
     fun Hint(fontSize: TextUnit)
@@ -36,6 +38,7 @@ interface HintComposeWithTextField {
     companion object {
         /**
          * 创建'输入框没有内容时展示一段文字组件'的方法
+         * Text content of the [TextField] with if value is Empty
          */
         fun createTextHintCompose(hint: String) = object : HintComposeWithTextField {
             @Composable

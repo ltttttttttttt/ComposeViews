@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
  * effect : 展示为密码的文本转换器
+ *          Convert text to password
  * warning:
  */
 val PasswordVisualTransformationWithTextField = PasswordVisualTransformation()

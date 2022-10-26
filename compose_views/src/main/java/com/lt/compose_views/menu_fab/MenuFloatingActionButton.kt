@@ -45,14 +45,21 @@ import com.lt.compose_views.other.HorizontalSpace
 
 /**
  * 带菜单的Fab
+ * Floating action button
  *
  * @param srcIcon 按钮的图标
+ *                Menu icon
  * @param items 菜单项
+ *              Menu items
  * @param modifier 修饰
  * @param srcIconColor 按钮图标的颜色
+ *                     Color of button's icon
  * @param fabBackgroundColor 按钮区域背景色
+ *                           Background color of floating action button
  * @param showLabels 是否展示菜单项的提示文本
+ *                   Whether to display items
  * @param onFabItemClicked 菜单项点击事件
+ *                         Click event of items
  */
 @Composable
 fun MenuFloatingActionButton(

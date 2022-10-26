@@ -19,16 +19,19 @@ package com.lt.compose_views.menu_fab
 /**
  * creator: lt  2022/7/24  lt.dygzs@qq.com
  * effect : 菜单的状态的枚举
+ *          Enumeration of [MenuFloatingActionButton]'s status
  * warning:
  */
 enum class MenuFabStateEnum {
     /**
      * 折叠
+     * Collapsed
      */
     Collapsed,
 
     /**
      * 展开
+     * Expanded
      */
     Expanded,
 }

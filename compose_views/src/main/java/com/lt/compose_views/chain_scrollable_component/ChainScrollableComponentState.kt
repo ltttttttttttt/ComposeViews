@@ -24,7 +24,8 @@ import kotlin.math.abs
 
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
- * effect : ChainScrollableComponent的状态
+ * effect : [ChainScrollableComponent]的状态
+ *          State of the [ChainScrollableComponent]
  * warning:
  */
 class ChainScrollableComponentState internal constructor(
@@ -42,16 +43,19 @@ class ChainScrollableComponentState internal constructor(
 
     /**
      * 获取滚动的位置的值
+     * Get number of scroll position
      */
     fun getScrollPositionValue(): Float = scrollPosition.value
 
     /**
      * 获取滚动的位置的百分比,0f-1f,min-max
+     * Get percentage of scroll position
      */
     fun getScrollPositionPercentage(): Float = abs(getScrollPositionValue() / (maxPx - minPx))
 
     /**
      * 修改滚动的位置
+     * Set number of scroll position
      */
     fun setScrollPosition(value: Float) {
         coroutineScope.launch {
@@ -65,6 +69,7 @@ class ChainScrollableComponentState internal constructor(
 
     /**
      * 以动画形式修改滚动的位置
+     * 
      */
     fun setScrollPositionWithAnimate(value: Float) {
         coroutineScope.launch {

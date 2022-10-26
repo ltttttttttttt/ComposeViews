@@ -202,15 +202,15 @@ fun VerticalRefreshableLayout()
 
 ```kotlin
 /**
- * 可以自动换行的线性布局
- * @param modifier 修饰
- * @param orientation 排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
- * @param horizontalAlignment 子级在横向上的位置
- * @param verticalAlignment 子级在竖向上的位置
- * @param horizontalMargin 子级与子级在横向上的间距
- * @param verticalMargin 子级与子级在竖向上的间距
- * @param maxLines 最多能放多少行(或列)
- * @param content compose内容区域
+ * Linear layout with word wrapping
+ * @param modifier
+ * @param orientation Direction of arrangement
+ * @param horizontalAlignment Alignment of horizontal
+ * @param verticalAlignment Alignment of vertical
+ * @param horizontalMargin Margin of horizontal
+ * @param verticalMargin Margin of vertical
+ * @param maxLines How many lines can be placed
+ * @param content Content of compose
  */
 @Composable
 fun FlowLayout()
@@ -222,60 +222,36 @@ fun FlowLayout()
 
 ```kotlin
 /**
- * 更方便易用的TextField(文本输入框)
- * @param value 输入框中的文字
- * @param onValueChange 输入框中文字的变化回调
- * @param modifier 修饰
- * @param hint 输入框没有文字时展示的内容
- * @param maxLines 最多能展示多少行文字
- * @param fontSize text和hint的字体大小
- * @param fontColor text的字体颜色
- * @param maxLength 最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
- * @param contentAlignment text和hint对其方式
- * @param leading 展示在左边的组件
- * @param trailing 展示在右边的组件
- * @param background 背景
- * @param horizontalPadding 横向的内间距
- * @param enabled 是否可输入,false无法输入和复制
- * @param readOnly 是否可输入,true无法输入,但可复制,获取焦点,移动光标
- * @param textStyle 字体样式
- * @param keyboardOptions 键盘配置
- * @param keyboardActions 键盘回调
- * @param visualTransformation 文本展示的转换
- * @param onTextLayout 计算新文本布局时执行的回调
- * @param interactionSource 状态属性
- * @param cursorBrush 光标绘制
+ * More convenient and easy to use the [TextField]
+ * @param value Text of the [TextField]
+ * @param onValueChange Text change of the [TextField]
+ * @param modifier
+ * @param hint Content of the [TextField] with if value is Empty
+ * @param maxLines How many lines of text can be displayed
+ * @param fontSize Font size of text and hint
+ * @param fontColor Color of text
+ * @param maxLength How many texts can be displayed at most
+ * @param contentAlignment Text and hint to the way
+ * @param leading Components displayed on the start
+ * @param trailing Components displayed on the end
+ * @param background The background
+ * @param horizontalPadding Horizontal inner spacing
+ * @param enabled Is it possible to enter
+ * @param readOnly Read-only
+ * @param textStyle The [TextStyle]
+ * @param keyboardOptions Reference the [BasicTextField]
+ * @param keyboardActions Reference the [BasicTextField]
+ * @param visualTransformation Reference the [BasicTextField]
+ * @param onTextLayout Reference the [BasicTextField]
+ * @param interactionSource Reference the [BasicTextField]
+ * @param cursorBrush Reference the [BasicTextField]
  */
 @Composable
 fun GoodTextField()
 
 /**
- * 更方便易用的TextField,适用于输入密码的情况
- * @param value 输入框中的文字
- * @param onValueChange 输入框中文字的变化回调
- * @param passwordIsShow 密码是否可见,false为密文状态
- * @param onPasswordIsShowChange 密码是否可见状态变化的回调
- * @param modifier 修饰
- * @param hint 输入框没有文字时展示的内容
- * @param maxLines 最多能展示多少行文字
- * @param fontSize text和hint的字体大小
- * @param fontColor text的字体颜色
- * @param maxLength 最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
- * @param contentAlignment text和hint对其方式
- * @param leading 展示在左边的组件
- * @param trailing 展示在右边的组件,默认是可点击的眼睛图标,用于切换密码是否可见
- * @param background 背景
- * @param horizontalPadding 横向的内间距
- * @param enabled 是否可输入,false无法输入和复制
- * @param readOnly 是否可输入,true无法输入,但可复制,获取焦点,移动光标
- * @param textStyle 字体样式
- * @param keyboardOptions 键盘配置
- * @param keyboardActions 键盘回调
- * @param passwordChar 密码不可见时展示的字符
- * @param visualTransformation 文本展示的转换
- * @param onTextLayout 计算新文本布局时执行的回调
- * @param interactionSource 状态属性
- * @param cursorBrush 光标绘制
+ * More convenient and easy to use the [TextField], for entering passwords
+ * Api is almost the same as the [GoodTextField]
  */
 @Composable
 fun PasswordTextField()
@@ -287,13 +263,13 @@ fun PasswordTextField()
 
 ```kotlin
 /**
- * 带菜单的Fab
- * @param icon 菜单图标
- * @param label 菜单提示文本
- * @param srcIconColor 图标颜色
- * @param labelTextColor 提示文本内容颜色
- * @param labelBackgroundColor 提示文本内容区域背景色
- * @param fabBackgroundColor Fab按钮背景色
+ * Floating action button
+ * @param icon Menu icon
+ * @param label Menu text
+ * @param srcIconColor Icon color
+ * @param labelTextColor Label text color
+ * @param labelBackgroundColor Background color of label text
+ * @param fabBackgroundColor Background color of floating action button
  */
 @Composable
 fun MenuFloatingActionButton()
@@ -321,29 +297,29 @@ fun MenuFloatingActionButton()
 fun ChainScrollableComponent()
 
 /**
- * 可伸缩顶部导航栏
- * @param title 顶部导航栏标题
- * @param background 背景图片
- * @param modifier 修饰
- * @param onScrollStop 停止滚动时回调
- * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
- * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
- * @param navigationIcon 顶部导航栏图标，默认为返回键
- * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
- * @param chainMode 联动方式
- * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ * Scalable top navigation bar
+ * @param title Title of top bar
+ * @param background Background of top bar
+ * @param modifier
+ * @param onScrollStop Callback of scroll stop event
+ * @param minScrollPosition Minimum scroll position
+ * @param maxScrollPosition Maximum scroll position
+ * @param navigationIcon Icon of top bar
+ * @param composePosition Set the position of the top bar layout
+ * @param chainMode Chain mode
+ * @param content Content of compose
  */
 @Composable
 fun ScrollableAppBar()
 
 /**
- * 滑动删除控件
- * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
- * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
- * @param backgroundContent 等待拖出的compose内容区域
- * @param modifier 修饰
- * @param contentIsMove compose内容区域是否跟着移动
- * @param content compose内容区域,需要内容是横向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ * Swipe to delete controls
+ * @param minScrollPosition Minimum scroll position
+ * @param maxScrollPosition Maximum scroll position
+ * @param backgroundContent Content of background
+ * @param modifier
+ * @param contentIsMove Does content follow
+ * @param content Content of compose
  */
 @Composable
 fun SwipeToDismiss()

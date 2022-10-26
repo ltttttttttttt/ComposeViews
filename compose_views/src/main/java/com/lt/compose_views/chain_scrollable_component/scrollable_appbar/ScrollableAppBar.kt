@@ -50,17 +50,27 @@ import kotlin.math.roundToInt
 
 /**
  * 可伸缩顶部导航栏
+ * Scalable top navigation bar
  *
  * @param title 顶部导航栏标题
+ *              Title of top bar
  * @param background 背景图片
+ *                   Background of top bar
  * @param modifier 修饰
  * @param onScrollStop 停止滚动时回调
+ *                     Callback of scroll stop event
  * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ *                          Minimum scroll position
  * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ *                          Maximum scroll position
  * @param navigationIcon 顶部导航栏图标，默认为返回键
+ *                       Icon of top bar
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
+ *                        Set the position of the top bar layout
  * @param chainMode 联动方式
+ *                  Chain mode
  * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ *                Content of compose
  */
 @ExperimentalFoundationApi
 @Composable

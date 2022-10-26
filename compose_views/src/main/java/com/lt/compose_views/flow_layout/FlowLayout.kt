@@ -31,15 +31,23 @@ import com.lt.compose_views.util.midOf
 /**
  * creator: lt  2022/7/4  lt.dygzs@qq.com
  * effect : 可以自动换行的线性布局
+ *          Linear layout with word wrapping
  * warning:
  * @param modifier 修饰
  * @param orientation 排列的方向,[Orientation.Horizontal]时会先横向排列,一排放不下会换到下一行继续横向排列
+ *                    Direction of arrangement
  * @param horizontalAlignment 子级在横向上的位置
+ *                            Alignment of horizontal
  * @param verticalAlignment 子级在竖向上的位置
+ *                          Alignment of vertical
  * @param horizontalMargin 子级与子级在横向上的间距
+ *                          Margin of horizontal
  * @param verticalMargin 子级与子级在竖向上的间距
+ *                       Margin of vertical
  * @param maxLines 最多能放多少行(或列)
+ *                 How many lines can be placed
  * @param content compose内容区域
+ *                Content of compose
  */
 @Composable
 fun FlowLayout(

@@ -29,11 +29,13 @@ import com.lt.compose_views.R
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
  * effect : 密码输入框右侧的组件,一般用于切换密码是否可见
+ *          The component to the right of the password input box
  * warning:
  */
 interface PasswordTrailingWithTextField {
     /**
      * 在密码输入框右侧展示
+     * The component to the right of the password input box
      */
     @Composable
     fun RowScope.Trailing(passwordIsShow: Boolean, onPasswordIsShowChange: (Boolean) -> Unit)
@@ -41,6 +43,7 @@ interface PasswordTrailingWithTextField {
     companion object {
         /**
          * 默认的眼睛图标,点击后可以切换密码是否可见
+         * default eye icon
          */
         val DEFAULT = object : PasswordTrailingWithTextField {
             @Composable
