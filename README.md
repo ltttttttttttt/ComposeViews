@@ -49,7 +49,7 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.2.2
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.2.5
 }
 ```
 
@@ -214,6 +214,12 @@ fun VerticalRefreshableLayout()
  */
 @Composable
 fun FlowLayout()
+
+/**
+ * [FlowLayout] that can automatically determine the selected state
+ */
+@Composable
+fun LabelsFlowLayout()
 ```
 
 ## GoodTextField and PasswordTextField

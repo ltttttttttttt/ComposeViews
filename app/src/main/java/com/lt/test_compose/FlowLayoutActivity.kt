@@ -16,21 +16,26 @@
 
 package com.lt.test_compose
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.flow_layout.FlowLayout
+import com.lt.compose_views.flow_layout.LabelsFlowLayout
+import com.lt.compose_views.flow_layout.rememberLabelsFlowLayoutState
+import com.lt.compose_views.util.SelectMode
+import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 import kotlin.random.Random
 
@@ -50,8 +55,6 @@ class FlowLayoutActivity : BaseComposeActivity() {
         "5555555\n5555",
         "666",
         "77777777777777777777777777777777777777777777",
-        "8888888888888888888888",
-        "9999999999999",
     )
     private val orientation = mutableStateOf(Orientation.Horizontal)
 
@@ -114,6 +117,49 @@ class FlowLayoutActivity : BaseComposeActivity() {
                         )
                     else
                         Text(text = it)
+                }
+            }
+
+            var selectMode by rememberMutableStateOf<SelectMode>(value = SelectMode.Radio)
+            val state = rememberLabelsFlowLayoutState(size = 10, selectMode = selectMode)
+            Row {
+                Button(onClick = { selectMode = SelectMode.Radio }) {
+                    Text(text = "单选")
+                }
+                Button(onClick = { selectMode = SelectMode.MultipleChoice() }) {
+                    Text(text = "多选")
+                }
+                Button(onClick = { selectMode = SelectMode.MultipleChoice(3) }) {
+                    Text(text = "多选(最多3条)")
+                }
+                Button(onClick = {
+                    Toast.makeText(
+                        this@FlowLayoutActivity,
+                        state.selectData.toList().toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }) {
+                    Text(text = "获取数据")
+                }
+            }
+            LabelsFlowLayout(size = 10, selectMode = selectMode, state = state) {
+                Button(
+                    onClick = {
+                        //设置单选无法取消(也可以不加这个限制)
+                        if (selectMode == SelectMode.Radio) {
+                            setIsSelect(true) {}
+                            return@Button
+                        }
+                        setIsSelect(!getIsSelect()) {
+                            Toast.makeText(this@FlowLayoutActivity, "超过选择上限了", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = if (getIsSelect()) Color.Yellow else MaterialTheme.colors.primary
+                    )
+                ) {
+                    Text("$index")
                 }
             }
         }
