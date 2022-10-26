@@ -48,7 +48,7 @@ version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jit
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.2.2
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.2.5
 }
 ```
 
@@ -213,6 +213,12 @@ fun VerticalRefreshableLayout()
  */
 @Composable
 fun FlowLayout()
+
+/**
+ * 可以自动确定选中状态的[FlowLayout]
+ */
+@Composable
+fun LabelsFlowLayout()
 ```
 
 ## GoodTextField and PasswordTextField
