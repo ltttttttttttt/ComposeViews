@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.IntOffset
 /**
  * creator: lt  2022/7/6  lt.dygzs@qq.com
  * effect : 表示不放置
+ *          Means not to place
  * warning:
  */
 object NotPlace : Placeable() {

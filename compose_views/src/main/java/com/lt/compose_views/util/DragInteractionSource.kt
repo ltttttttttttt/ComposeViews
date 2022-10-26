@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.flowOf
 /**
  * creator: lt  2022/9/26  lt.dygzs@qq.com
  * effect : 监听[DragInteraction]的状态变化
+ *          Listen the [DragInteraction]
  * warning:
  */
 class DragInteractionSource(

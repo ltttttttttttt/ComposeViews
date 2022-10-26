@@ -283,15 +283,15 @@ fun MenuFloatingActionButton()
 
 ```kotlin
 /**
- * 链式(联动)滚动组件
- * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
- * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
- * @param chainContent 链式(联动)滚动的compose组件,scrollOffset: 滚动位置(位于最小和最大之间)
- * @param modifier 修饰
- * @param onScrollStop 停止滚动时回调
- * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
- * @param chainMode 联动方式
- * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ * Chain scrollable component 
+ * @param minScrollPosition Minimum scroll position
+ * @param maxScrollPosition Maximum scroll position
+ * @param chainContent Content of chain
+ * @param modifier
+ * @param onScrollStop Callback of scroll stop event
+ * @param composePosition Set the position of the top bar layout
+ * @param chainMode Chain mode
+ * @param content Content of compose
  */
 @Composable
 fun ChainScrollableComponent()

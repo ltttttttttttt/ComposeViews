@@ -25,11 +25,17 @@ import kotlin.coroutines.coroutineContext
 /**
  * creator: lt  2022/7/31  lt.dygzs@qq.com
  * effect : 自定义的动画播放器,逻辑更简单
+ *          Easier animation usage
  * warning: 推荐使用系统的动画api
+ *          It is recommended to use the system api
  * @param initialValueWithState 动画要改变的状态,起始动画值为其value值
+ *                              The [State] to be changed by the animation
  * @param targetValue 要通过动画转化到的目标值
+ *                    Target value
  * @param duration 动画的持续时间
+ *                 duration
  * @param animInterpolator 动画差值器
+ *                         Animation interpolator
  */
 suspend fun animateWithFloat(
     initialValueWithState: MutableState<Float>,
@@ -72,10 +78,12 @@ suspend inline fun animateWithFloat(
 
 /**
  * 动画差值器
+ * Animation interpolator
  */
 fun interface MAnimInterpolator {
     /**
      * 根据输入的动画进度[input]计算动画进度
+     * Calculate the animation progress based on the input animation progress [input]
      */
     fun getInterpolation(input: Float): Float
 }

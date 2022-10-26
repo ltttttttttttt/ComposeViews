@@ -27,12 +27,18 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/9/6  lt.dygzs@qq.com
  * effect : 偏移自身宽度或高度的百分比
+ *          Offset by a percentage of its own width or height
  * warning:
  * @param xOffsetPercent x轴偏移量百分比
+ *                       Offset percent of x
  * @param yOffsetPercent y轴偏移量百分比
+ *                       Offset percent of y
  * @param pxOffset 正常基于px的偏移量
+ *                 Offset px
  * @param maxOffset 最大偏移量: 百分比 + px
+ *                  max offset
  * @param minOffset 最小偏移量: 百分比 + px
+ *                  min offset
  */
 fun Modifier.offsetPercent(
     xOffsetPercent: Float,

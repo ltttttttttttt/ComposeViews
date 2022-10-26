@@ -69,7 +69,7 @@ class ChainScrollableComponentState internal constructor(
 
     /**
      * 以动画形式修改滚动的位置
-     * 
+     * Set number of scroll position, with animate
      */
     fun setScrollPositionWithAnimate(value: Float) {
         coroutineScope.launch {
