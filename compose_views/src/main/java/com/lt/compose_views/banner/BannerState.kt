@@ -20,12 +20,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
+import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.ComposePagerState
 import com.lt.compose_views.compose_pager.PageChangeAnimFlag
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Banner的compose作用域
+ * Banner的状态
+ * State of the [Banner]
  */
 class BannerState {
     //起始倍数,用于支持用户开始就向左划
@@ -41,11 +43,13 @@ class BannerState {
 
     /**
      * 获取Banner当前所在的索引
+     * Get current index in the [Banner]
      */
     fun getCurrSelectIndex(): Int = composePagerState.getCurrSelectIndex() % pageCount
 
     /**
      * 创建Banner当前索引的flow对象
+     * Create the [Flow] of the current index of the [Banner]
      */
     fun createCurrSelectIndexFlow(): Flow<Int> = snapshotFlow {
         composePagerState.getCurrSelectIndexState().value % pageCount
@@ -53,16 +57,19 @@ class BannerState {
 
     /**
      * 动画是否执行中
+     * Whether animate is running
      */
     fun isAnimRunning(): Boolean = composePagerState.isAnimRunning()
 
     /**
      * 获取Offset偏移量的state对象
+     * Get the [State] of the offset
      */
     fun getOffsetState(): State<Float> = composePagerState.getOffsetState()
 
     /**
      * 创建子项Offset偏移比例的flow对象
+     * Create the [Flow] of the percent of the offset
      */
     fun createChildOffsetPercentFlow(): Flow<Float> = snapshotFlow {
         val mainAxisSize = composePagerState.mainAxisSize
@@ -76,6 +83,7 @@ class BannerState {
 
     /**
      * 切换选中的页数,无动画
+     * Set the current index, no animate
      */
     fun setPageIndex(index: Int) {
         composePagerState.setPageIndex(pageCount * startMultiple + index)
@@ -83,6 +91,7 @@ class BannerState {
 
     /**
      * 切换选中的页数,有动画
+     * Set the current index, with animate
      */
     fun setPageIndexWithAnimate(index: Int) {
         val currIndex = getCurrSelectIndex()
@@ -98,6 +107,7 @@ class BannerState {
 
 /**
  * 创建一个[remember]的[BannerState]
+ * Create the [BannerState] of [remember]
  */
 @Composable
 fun rememberBannerState() = remember { BannerState() }

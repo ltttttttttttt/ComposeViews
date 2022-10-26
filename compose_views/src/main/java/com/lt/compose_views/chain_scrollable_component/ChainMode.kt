@@ -21,17 +21,20 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
  * effect : [ChainScrollableComponent]的联动方式
+ *          Chain mode of the [ChainScrollableComponent]
  * warning:
  */
 enum class ChainMode {
     /**
      * 内容区域优先
+     * Content first
      */
     @ExperimentalFoundationApi//todo 暂时有问题,先不放开
     ContentFirst,
 
     /**
      * 联动区域优先
+     * Chain content first
      */
     ChainContentFirst,
 }

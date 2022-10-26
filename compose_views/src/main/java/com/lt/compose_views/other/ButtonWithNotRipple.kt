@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Shape
 /**
  * creator: lt  2022/10/9  lt.dygzs@qq.com
  * effect : 没有点击效果的Button
+ *          Button without click effect
  * warning:
  */
 @Composable

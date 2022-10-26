@@ -32,15 +32,23 @@ import com.lt.compose_views.util.ComposePosition
 /**
  * creator: lt  2022/9/28  lt.dygzs@qq.com
  * effect : 链式(联动)滚动组件
+ *          Chain scrollable component
  * warning:
  * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ *                          Minimum scroll position
  * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ *                          Maximum scroll position
  * @param chainContent 链式(联动)滚动的compose组件,scrollOffset: 滚动位置(位于最小和最大之间)
+ *                     Content of chain
  * @param modifier 修饰
  * @param onScrollStop 停止滚动时回调
+ *                     Callback of scroll stop event
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
+ *                        Set the position of the top bar layout
  * @param chainMode 联动方式
+ *                  Chain mode
  * @param content compose内容区域,需要内容是在相应方向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ *                Content of compose
  */
 @ExperimentalFoundationApi
 @Composable

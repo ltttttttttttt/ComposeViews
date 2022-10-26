@@ -18,10 +18,12 @@ package com.lt.compose_views.compose_pager
 
 /**
  * ComposePager的compose作用域
+ * Compose scope of the [ComposePager]
  */
 class ComposePagerScope(
     /**
      * 当前的ComposePager布局content所在的索引
+     * Current content index in the [ComposePager]
      */
     val index: Int,
 )

@@ -35,13 +35,19 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/10/2  lt.dygzs@qq.com
  * effect : 滑动删除控件
+ *          Swipe to delete controls
  * warning:
  * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
+ *                          Minimum scroll position
  * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
+ *                          Maximum scroll position
  * @param backgroundContent 等待拖出的compose内容区域
+ *                          Content of background
  * @param modifier 修饰
  * @param contentIsMove compose内容区域是否跟着移动
+ *                      Does content follow
  * @param content compose内容区域,需要内容是横向可滚动的,并且需要自行给内容设置相应方向的PaddingValues或padding
+ *                Content of compose
  */
 @ExperimentalFoundationApi
 @Composable

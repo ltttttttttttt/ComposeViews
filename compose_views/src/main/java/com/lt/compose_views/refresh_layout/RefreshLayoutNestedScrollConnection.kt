@@ -27,6 +27,7 @@ import com.lt.compose_views.util.ComposePosition
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
  * effect : [RefreshLayout]的[NestedScrollConnection]
+ *          [NestedScrollConnection] of the [RefreshLayout]
  * warning:
  */
 internal class RefreshLayoutNestedScrollConnection(

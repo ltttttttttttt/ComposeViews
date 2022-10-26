@@ -26,11 +26,13 @@ import androidx.compose.ui.unit.dp
 /**
  * creator: lt  2021/4/13  lt.dygzs@qq.com
  * effect : 间隔view
+ *          Spacers
  * warning:
  */
 
 /**
  * 设置横向间隔dp
+ * Spacer with horizontal
  */
 @Composable
 fun HorizontalSpace(dp: Int) {
@@ -39,6 +41,7 @@ fun HorizontalSpace(dp: Int) {
 
 /**
  * 设置竖向间隔dp
+ * Spacer with vertical
  */
 @Composable
 fun VerticalSpace(dp: Int) {

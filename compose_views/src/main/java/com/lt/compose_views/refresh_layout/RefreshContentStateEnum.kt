@@ -19,21 +19,25 @@ package com.lt.compose_views.refresh_layout
 /**
  * creator: lt  2022/9/1  lt.dygzs@qq.com
  * effect : 刷新布局内容区域的组件状态
+ *          State of refreshed content area
  * warning:
  */
 enum class RefreshContentStateEnum {
     /**
      * 刷新状态已停止,表示刷新布局已经被收回不可见,此时应该停止重组
+     * State of refresh stop
      */
     Stop,
 
     /**
      * 刷新中,此时可以做刷新的动画
+     * State of refreshing
      */
     Refreshing,
 
     /**
      * 用户拖拽中,刷新布局已经被拽出
+     * The state the user is dragging
      */
     Dragging,
 }

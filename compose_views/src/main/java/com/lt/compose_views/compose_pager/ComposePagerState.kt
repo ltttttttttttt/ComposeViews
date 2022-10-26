@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * ComposePager的状态
+ * State of the [ComposePager]
  */
 class ComposePagerState {
 
@@ -43,26 +44,31 @@ class ComposePagerState {
 
     /**
      * 获取ComposePager当前所在的索引
+     * Get current index in the [ComposePager]
      */
     fun getCurrSelectIndex(): Int = currSelectIndex.value
 
     /**
      * 获取ComposePager所在的索引的state对象
+     * Get the [State] of the current index of the [ComposePager]
      */
     fun getCurrSelectIndexState(): State<Int> = currSelectIndex
 
     /**
      * 动画是否执行中
+     * Whether the [offsetAnim] is running
      */
     fun isAnimRunning(): Boolean = offsetAnim.isRunning
 
     /**
      * 获取Offset偏移量的state对象
+     * Get the [State] of the offset
      */
     fun getOffsetState(): State<Float> = offsetAnim.asState()
 
     /**
      * 创建子项Offset偏移比例的flow对象
+     * Create the [Flow] of the percent of the offset
      */
     fun createChildOffsetPercentFlow(): Flow<Float> = snapshotFlow {
         val mainAxisSize = mainAxisSize
@@ -76,6 +82,7 @@ class ComposePagerState {
 
     /**
      * 切换选中的页数,无动画
+     * Set the current index, no animate
      */
     fun setPageIndex(index: Int) {
         pageChangeAnimFlag = PageChangeAnimFlag.GoToPageNotAnim(index)
@@ -83,6 +90,7 @@ class ComposePagerState {
 
     /**
      * 切换选中的页数,有动画
+     * Set the current index, with animate
      */
     fun setPageIndexWithAnimate(index: Int) {
         val currIndex = currSelectIndex.value
@@ -97,6 +105,7 @@ class ComposePagerState {
 
     /**
      * 设置偏移量
+     * Set the offset
      */
     suspend fun setOffset(offset: Float) {
         offsetAnim.snapTo(offset - mainAxisSize * getCurrSelectIndex())
@@ -108,6 +117,7 @@ class ComposePagerState {
 
     /**
      * 设置偏移量百分比
+     * Set the percent of offset
      */
     suspend fun setOffsetPercent(percent: Float) {
         setOffset(percent * mainAxisSize)
@@ -116,6 +126,7 @@ class ComposePagerState {
 
 /**
  * 创建一个[remember]的[ComposePagerState]
+ * Create the [ComposePagerState] of [remember]
  */
 @Composable
 fun rememberComposePagerState() = remember { ComposePagerState() }

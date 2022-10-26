@@ -34,17 +34,27 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 可以任意方向拖动刷新的容器
+ *          The refreshed container can be dragged in any direction
  * warning:
  * @param refreshContent 刷新布局内容区域
+ *                       Refreshed content area
  * @param refreshLayoutState RefreshLayout的状态,可以调用[rememberRefreshLayoutState]方法创建state并传入一个刷新时触发的回调
+ *                           State of the [RefreshLayout]
  * @param modifier 修饰
  * @param refreshContentThreshold 刷新布局拖动的阈值,拖动超过多少松开才算真的刷新,如果为null,表示为[refreshContent]的宽或高
+ *                                Refresh threshold for layout dragging
  * @param composePosition 设置刷新布局所在的位置,并且间接指定了滑动方向
+ *                        Set where the refreshed layout is located
  * @param contentIsMove content组件是否在刷新时跟着移动,true的效果类似于PullToRefresh,false的效果类似于SwipeRefreshLayout
+ *                      Whether the content component moves with it on refresh
  * @param dragEfficiency 拖动的'有效率',比如默认是手指拖动20px,只能拖出10px
+ *                       The 'efficiency' of dragging
  * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
+ *                                     Whether to support non-scrollable components
  * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
+ *                   Whether the user can drag
  * @param content compose内容区域
+ *                Content of compose
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

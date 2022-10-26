@@ -36,16 +36,25 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 适用于Pager的指示器
+ *          Indicator for pager
  * warning:
  * @param size 指示器数量
+ *             Number of indicator
  * @param offsetPercentWithSelect 选中的指示器的偏移百分比
+ *                                The offset percentage of the selected indicator
  * @param selectIndex 选中的索引
+ *                    The index of selected indicator
  * @param indicatorItem 未被选中的指示器
+ *                      The indicator
  * @param selectIndicatorItem 被选中的指示器
+ *                            The selected indicator
  * @param modifier 修饰
  * @param margin 指示器之间的间距(两边也有,保证即使选中的指示器较大,也不容易超出控件区域)
+ *               Spacing between indicators
  * @param orientation 指示器排列方向
+ *                    Orientation of indicators
  * @param userCanScroll 用户是否可以滚动
+ *                      Whether the user can scroll
  */
 @Composable
 fun PagerIndicator(

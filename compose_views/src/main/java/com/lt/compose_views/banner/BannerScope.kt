@@ -18,10 +18,12 @@ package com.lt.compose_views.banner
 
 /**
  * Banner的compose作用域
+ * Compose scope of the [Banner]
  */
 class BannerScope(
     /**
      * 当前的Banner布局content所在的索引
+     * Current content index in the [Banner]
      */
     val index: Int,
 )

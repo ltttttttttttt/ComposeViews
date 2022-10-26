@@ -58,7 +58,7 @@ dependencies {
 
 ```kotlin
 /**
- * 类似于xml中的ViewPager
+ * 类似于安卓中的ViewPager
  * @param pageCount 一共有多少页
  * @param modifier 修饰
  * @param composePagerState ComposePager的状态
@@ -250,31 +250,7 @@ fun GoodTextField()
 
 /**
  * 更方便易用的TextField,适用于输入密码的情况
- * @param value 输入框中的文字
- * @param onValueChange 输入框中文字的变化回调
- * @param passwordIsShow 密码是否可见,false为密文状态
- * @param onPasswordIsShowChange 密码是否可见状态变化的回调
- * @param modifier 修饰
- * @param hint 输入框没有文字时展示的内容
- * @param maxLines 最多能展示多少行文字
- * @param fontSize text和hint的字体大小
- * @param fontColor text的字体颜色
- * @param maxLength 最多能展示多少个文字,ps:由于会截断文字,会导致截断时重置键盘状态(TextField特性)
- * @param contentAlignment text和hint对其方式
- * @param leading 展示在左边的组件
- * @param trailing 展示在右边的组件,默认是可点击的眼睛图标,用于切换密码是否可见
- * @param background 背景
- * @param horizontalPadding 横向的内间距
- * @param enabled 是否可输入,false无法输入和复制
- * @param readOnly 是否可输入,true无法输入,但可复制,获取焦点,移动光标
- * @param textStyle 字体样式
- * @param keyboardOptions 键盘配置
- * @param keyboardActions 键盘回调
- * @param passwordChar 密码不可见时展示的字符
- * @param visualTransformation 文本展示的转换
- * @param onTextLayout 计算新文本布局时执行的回调
- * @param interactionSource 状态属性
- * @param cursorBrush 光标绘制
+ * api和[GoodTextField]基本一样
  */
 @Composable
 fun PasswordTextField()

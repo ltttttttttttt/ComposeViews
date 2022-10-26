@@ -28,15 +28,23 @@ import kotlinx.coroutines.delay
 /**
  * creator: lt  2022/6/25  lt.dygzs@qq.com
  * effect : 可以自动循环轮播的ComposePager
+ *          [ComposePager] that can auto scroll
  * warning:
  * @param pageCount 一共有多少页
+ *                  Sum page count
  * @param modifier 修饰
  * @param bannerState Banner的状态
+ *                    Banner's state
  * @param orientation 滑动的方向
+ *                    Scroll orientation
  * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
+ *                   Whether the user can scroll
  * @param autoScroll 是否自动滚动
+ *                   Whether to scroll automatically
  * @param autoScrollTime 自动滚动间隔时间
+ *                       Auto scroll interval
  * @param content compose内容区域
+ *                Content of compose
  */
 @Composable
 fun Banner(

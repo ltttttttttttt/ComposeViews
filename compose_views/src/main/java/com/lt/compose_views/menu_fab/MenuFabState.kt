@@ -30,10 +30,12 @@ import androidx.compose.runtime.remember
 
 /**
  * 菜单的状态
+ * State of the [MenuFloatingActionButton]
  */
 class MenuFabState {
     /**
      * 菜单内部的展开折叠状态
+     * State of the [MenuFloatingActionButton]
      */
     val menuFabStateEnum: MutableState<MenuFabStateEnum> =
         mutableStateOf(MenuFabStateEnum.Collapsed)
@@ -41,6 +43,7 @@ class MenuFabState {
 
 /**
  * 创建一个[remember]的[MenuFabState]
+ * Create the [MenuFabState] of [remember]
  */
 @Composable
 fun rememberMenuFabState() = remember { MenuFabState() }

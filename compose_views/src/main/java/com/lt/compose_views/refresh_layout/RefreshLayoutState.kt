@@ -28,8 +28,10 @@ import java.lang.Math.abs
 /**
  * creator: lt  2022/9/1  lt.dygzs@qq.com
  * effect : RefreshLayout的状态
+ *          State of the [RefreshLayout]
  * warning:
  * @param onRefreshListener 触发刷新时的回调(不保证线程)
+ *                          Callback when refresh is triggered
  */
 class RefreshLayoutState(
     internal val onRefreshListener: RefreshLayoutState.() -> Unit
@@ -51,32 +53,38 @@ class RefreshLayoutState(
 
     /**
      * 获取刷新布局内容区域的组件状态
+     * Get the [State] of the refresh content
      */
     fun getRefreshContentState(): State<RefreshContentStateEnum> = refreshContentState
 
     /**
      * 创建刷新布局内容区域的Offset(位移)的flow
+     * Create the [Flow] of the offset
      */
     fun createRefreshContentOffsetFlow(): Flow<Float> =
         snapshotFlow { refreshContentOffsetState.value }
 
     /**
      * 获取composePosition的状态,参考[RefreshLayout]的参数
+     * Get the [State] of the [ComposePosition]
      */
     fun getComposePositionState(): State<ComposePosition> = composePositionState
 
     /**
      * 获取刷新布局拖动的阈值,单位px
+     * Get threshold of the refresh content
      */
     fun getRefreshContentThreshold(): Float = refreshContentThresholdState.value
 
     /**
      * 刷新布局内容区域的Offset的值,单位px
+     * Get the offset of content area
      */
     fun getRefreshContentOffset(): Float = refreshContentOffsetState.value
 
     /**
      * 设置刷新布局的状态
+     * Set the state of refresh content
      */
     fun setRefreshState(state: RefreshContentStateEnum) {
         when (state) {
@@ -144,7 +152,9 @@ class RefreshLayoutState(
 
 /**
  * 创建一个[remember]的[RefreshLayoutState]
- * [onRefreshListener]触发刷新时的回调
+ * Create the [RefreshLayoutState] of [remember]
+ * @param onRefreshListener 触发刷新时的回调
+ *                          Callback when refresh is triggered
  */
 @Composable
 fun rememberRefreshLayoutState(onRefreshListener: RefreshLayoutState.() -> Unit) =

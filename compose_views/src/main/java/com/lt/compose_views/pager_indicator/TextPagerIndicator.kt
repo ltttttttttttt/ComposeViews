@@ -43,19 +43,31 @@ import kotlin.math.roundToInt
 /**
  * creator: lt  2022/10/23  lt.dygzs@qq.com
  * effect : 适用于Pager的文本指示器
+ *          Text indicator for pager
  * warning:
  * @param texts 文本列表
+ *              The text list
  * @param offsetPercentWithSelect 选中的指示器的偏移百分比
+ *                                The offset percentage of the selected indicator
  * @param selectIndex 选中的索引
+ *                    The index of selected indicator
  * @param fontSize 未被选中的文字大小
+ *                  Font size of the text indicator
  * @param selectFontSize 被选中的文字大小
+ *                       Font size of the selected text indicator
  * @param textColor 未被选中的文字颜色
+ *                  Font color of the text indicator
  * @param selectTextColor 被选中的文字颜色
+ *                        Font color of the selected text indicator
  * @param selectIndicatorColor 指示器的颜色
+ *                             Color of the indicator
  * @param onIndicatorClick 指示器的点击事件
+ *                         Click event of the text indicator
  * @param modifier 修饰
  * @param margin 指示器之间的间距(两边也有,保证即使选中的指示器较大,也不容易超出控件区域)
+ *               Spacing between the text indicators
  * @param userCanScroll 用户是否可以滚动
+ *                      Whether the user can scroll
  */
 @Composable
 fun TextPagerIndicator(
@@ -152,7 +164,9 @@ fun TextPagerIndicator(
                     selectIndex,
                     offsetPercentWithSelect,
                     selectFontSize,
-                    fontSize
+                    fontSize,
+                    textColor,
+                    selectTextColor,
                 ) {
                     val percent = abs(selectIndex + offsetPercentWithSelect - index)
                     if (percent > 1f)

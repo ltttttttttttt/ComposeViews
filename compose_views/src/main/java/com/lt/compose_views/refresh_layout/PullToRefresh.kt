@@ -24,11 +24,15 @@ import com.lt.compose_views.refresh_layout.refresh_content.top.PullToRefreshCont
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
  * effect : 下拉刷新
+ *          Pull down to refresh
  * warning:
  * @param refreshLayoutState RefreshLayout的状态
+ *                           State of the [RefreshLayout]
  * @param modifier 修饰
  * @param refreshContent 刷新布局内容区域
+ *                       Refreshed content area
  * @param content compose内容区域
+ *                       Content of compose
  */
 @Composable
 fun PullToRefresh(

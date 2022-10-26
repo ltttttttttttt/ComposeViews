@@ -28,13 +28,20 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * Fab弹出菜单项
+ * Floating action button info
  *
  * @param icon 菜单图标
+ *              Menu icon
  * @param label 菜单提示文本
+ *              Menu text
  * @param srcIconColor 图标颜色
+ *                      Icon color
  * @param labelTextColor 提示文本内容颜色
+ *                       Label text color
  * @param labelBackgroundColor 提示文本内容区域背景色
+ *                             Background color of label text
  * @param fabBackgroundColor Fab按钮背景色
+ *                             Background color of floating action button
  */
 class MenuFabItem(
     val icon: @Composable () -> Unit,

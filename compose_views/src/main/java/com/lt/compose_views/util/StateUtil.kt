@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 
 /**
  * 快捷使用remember { mutableStateOf(T) }
+ * Quick use remember { mutableStateOf(T) }
  */
 @Composable
 fun <T> rememberMutableStateOf(value: T): MutableState<T> = remember { mutableStateOf(value) }

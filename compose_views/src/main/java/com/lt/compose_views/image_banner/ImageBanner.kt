@@ -37,16 +37,25 @@ import com.lt.compose_views.pager_indicator.PagerIndicatorScope
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
  * effect : 展示图片的Banner
+ *          [Banner] showing images
  * warning:
  * @param imageSize 图片数量
+ *                  Number of images
  * @param imageContent 放置图片的content
+ *                     Content of the images
  * @param indicatorItem 未被选中的指示器,如果为null则不展示指示器
+ *                      The indicator, if null, do not display indicator
  * @param selectIndicatorItem 被选中的指示器,如果为null则不展示指示器
+ *                            The indicator, if null, do not display indicator
  * @param modifier 修饰
  * @param bannerState Banner的状态
+ *                    Banner's state
  * @param orientation 滑动的方向
+ *                    Orientation of indicators
  * @param autoScroll 是否自动滚动
+ *                   Whether to scroll automatically
  * @param autoScrollTime 自动滚动间隔时间
+ *                       Auto scroll interval
  */
 @Composable
 fun ImageBanner(
