@@ -113,18 +113,22 @@ fun PagerIndicator(
             val placeable = measurableList[i].measure(mConstraints)
             if (isHorizontal) {
                 if (index == 0) {
-                    width = marginPx
+                    width = marginPx / 2
                 }
                 indicatorItemsInfo.setData(i - 1, width, width + placeable.width)
                 width += placeable.width + marginPx
+                if (index == measurableList.size - 2)
+                    width -= marginPx / 2
                 height = maxOf(height, placeable.height)
             } else {
                 if (index == 0) {
-                    height = marginPx
+                    height = marginPx / 2
                 }
                 indicatorItemsInfo.setData(i - 1, height, height + placeable.height)
                 width = maxOf(width, placeable.width)
                 height += placeable.height + marginPx
+                if (index == measurableList.size - 2)
+                    height -= marginPx / 2
             }
             placeable
         }
@@ -141,7 +145,7 @@ fun PagerIndicator(
             var coordinate = 0
             placeableList.forEachIndexed { index, placeable ->
                 if (index == 0)
-                    coordinate += marginPx
+                    coordinate += marginPx / 2
                 coordinate += if (isHorizontal) {
                     placeable.placeRelative(
                         coordinate + offsetValue.roundToInt(),
