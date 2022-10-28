@@ -118,7 +118,8 @@ fun RefreshLayout(
             }
             .clipScrollableContainer(composePosition.orientation)
     ) { measurableList, constraints ->
-        val contentPlaceable = measurableList[0].measure(constraints.copy(minWidth = 0, minHeight = 0))
+        val contentPlaceable =
+            measurableList[0].measure(constraints.copy(minWidth = 0, minHeight = 0))
         //宽或高不能超过content(根据方向来定)
         val refreshContentPlaceable = measurableList[1].measure(
             Constraints(
@@ -126,8 +127,7 @@ fun RefreshLayout(
                 maxHeight = if (orientationIsHorizontal) contentPlaceable.height else Constraints.Infinity,
             )
         )
-
-        if (refreshContentThreshold == null) {
+        if (refreshContentThreshold == null && refreshLayoutState.refreshContentThresholdState.value == 0f) {
             refreshLayoutState.refreshContentThresholdState.value =
                 if (orientationIsHorizontal) {
                     refreshContentPlaceable.width.toFloat()

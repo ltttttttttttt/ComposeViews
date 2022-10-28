@@ -52,7 +52,8 @@ fun RefreshLayoutState.EllipseRefreshContent(
     content: @Composable (BoxScope.(RefreshLayoutState) -> Unit)? = null,
     innerContent: @Composable (BoxScope.(RefreshLayoutState) -> Unit)? = null,
 ) {
-    val isHorizontal = getComposePositionState().value.isHorizontal()
+    val isHorizontal =
+        remember(getComposePositionState()) { getComposePositionState().value.isHorizontal() }
     val density = LocalDensity.current
     val min_2 = remember(min) { min / 2 }
     val min_4 = remember(min) { min / 4 }
