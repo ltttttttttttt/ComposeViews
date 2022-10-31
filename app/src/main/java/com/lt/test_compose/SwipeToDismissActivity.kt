@@ -16,6 +16,7 @@
 
 package com.lt.test_compose
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,7 +63,11 @@ class SwipeToDismissActivity : BaseComposeActivity() {
     @Composable
     private fun Star() {
         var star by rememberMutableStateOf(value = 0)
-        StarBar(starValue = star, onStarValueChange = { star = it })
+        StarBar(
+            starValue = star,
+            onStarValueChange = { star = it },
+            onTouchUpEvent = remember { { Log.e("lllttt", "star=$star") } },
+        )
     }
 
     @OptIn(ExperimentalFoundationApi::class)
