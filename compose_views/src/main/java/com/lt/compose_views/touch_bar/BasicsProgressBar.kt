@@ -86,9 +86,11 @@ fun BasicsProgressBar(
                 state,
                 orientation,
                 userEnable,
-                interactionSource = if (onTouchUpEvent == null) null else DragInteractionSource {
-                    if (it is DragInteraction.Stop || it is DragInteraction.Cancel)
-                        onTouchUpEvent()
+                interactionSource = remember(onTouchUpEvent) {
+                    if (onTouchUpEvent == null) null else DragInteractionSource {
+                        if (it is DragInteraction.Stop || it is DragInteraction.Cancel)
+                            onTouchUpEvent()
+                    }
                 })
     ) {
         content()
