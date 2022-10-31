@@ -23,11 +23,15 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.chain_scrollable_component.swipe_to_dismiss.SwipeToDismiss
 import com.lt.compose_views.other.VerticalSpace
+import com.lt.compose_views.touch_bar.StarBar
+import com.lt.compose_views.util.rememberMutableStateOf
 import com.lt.test_compose.base.BaseComposeActivity
 
 /**
@@ -49,7 +53,15 @@ class SwipeToDismissActivity : BaseComposeActivity() {
             ComposeViewsSwipeToDismiss(true)
             VerticalSpace(dp = 5)
             ComposeViewsSwipeToDismiss(false)
+            VerticalSpace(dp = 5)
+            Star()
         }
+    }
+
+    @Composable
+    private fun Star() {
+        var star by rememberMutableStateOf(value = 0)
+        StarBar(starValue = star, onStarValueChange = { star = it })
     }
 
     @OptIn(ExperimentalFoundationApi::class)

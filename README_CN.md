@@ -330,4 +330,28 @@ fun ScrollableAppBar()
 fun SwipeToDismiss()
 ```
 
+# 更多
+
+<div align=center><img src="md_resource/star_bar.gif" width=20%></div>
+
+```kotlin
+/**
+ * 没有点击效果的Button
+ */
+@Composable
+fun ButtonWithNotRipple()
+
+/**
+ * 星星选择和展示控件
+ */
+@Composable
+fun StarBar()
+
+/**
+ * 进度条控件
+ */
+@Composable
+fun BasicsProgressBar()
+```
+
 <h6>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对本项目的支持<h6>

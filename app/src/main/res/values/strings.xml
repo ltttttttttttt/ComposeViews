@@ -15,5 +15,5 @@
   -->
 
 <resources>
-    <string name="app_name">test_compose</string>
+    <string name="app_name">ComposeViews</string>
 </resources>
