@@ -331,5 +331,29 @@ fun ScrollableAppBar()
 fun SwipeToDismiss()
 ```
 
+# More
+
+<div align=center><img src="md_resource/star_bar.gif" width=20%></div>
+
+```kotlin
+/**
+ * Button without click effect
+ */
+@Composable
+fun ButtonWithNotRipple()
+
+/**
+ * Star bar
+ */
+@Composable
+fun StarBar()
+
+/**
+ * Progress bar
+ */
+@Composable
+fun BasicsProgressBar()
+```
+
 <h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>
 for its support to this project<h6>
