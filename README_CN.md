@@ -7,7 +7,7 @@
 <img src="https://jitpack.io/v/ltttttttttttt/ComposeViews.svg"/>
 </p>
 
-<div align="center"><a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README.md">us English</a> | cn 简体中文</div>
+<div align="center"><a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README.md">us English</a> | cn 简体中文 | <a href="https://sakurajimamaii.github.io/ComposeViewsDocs/">详细文档(us)</a></div>
 
 ## 目前提供的View
 
