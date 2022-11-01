@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -36,7 +37,12 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun HorizontalSpace(dp: Int) {
-    Spacer(Modifier.width(dp.dp))
+    HorizontalSpace(dp.dp)
+}
+
+@Composable
+fun HorizontalSpace(dp: Dp) {
+    Spacer(Modifier.width(dp))
 }
 
 /**
@@ -45,5 +51,10 @@ fun HorizontalSpace(dp: Int) {
  */
 @Composable
 fun VerticalSpace(dp: Int) {
-    Spacer(Modifier.height(dp.dp))
+    VerticalSpace(dp.dp)
+}
+
+@Composable
+fun VerticalSpace(dp: Dp) {
+    Spacer(Modifier.height(dp))
 }
