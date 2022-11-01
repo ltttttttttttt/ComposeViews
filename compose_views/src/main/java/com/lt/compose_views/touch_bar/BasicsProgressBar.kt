@@ -60,7 +60,7 @@ fun BasicsProgressBar(
 ) {
     var size by rememberMutableStateOf(value = 0)
     val p by rememberUpdatedState(newValue = progress)
-    val state = remember {
+    val state = remember(size, onProgressChange) {
         ScrollableState {
             onProgressChange(
                 midOf(

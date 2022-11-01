@@ -203,6 +203,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         ScrollableAppBar(
             title = "toolbar",
             background = painterResource(id = R.drawable.top_bar_bk),
+            maxScrollPosition = maxDp,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),

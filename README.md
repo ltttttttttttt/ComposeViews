@@ -7,7 +7,7 @@
 <img src="https://jitpack.io/v/ltttttttttttt/ComposeViews.svg"/>
 </p>
 
-<div align="center">us English | <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README_CN.md">cn 简体中文</a></div>
+<div align="center">us English | <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README_CN.md">cn 简体中文</a> | <a href="https://sakurajimamaii.github.io/ComposeViewsDocs/">detailed documentation</a></div>
 
 ## Views:
 
@@ -289,7 +289,7 @@ fun MenuFloatingActionButton()
 
 ```kotlin
 /**
- * Chain scrollable component 
+ * Chain scrollable component
  * @param minScrollPosition Minimum scroll position
  * @param maxScrollPosition Maximum scroll position
  * @param chainContent Content of chain
