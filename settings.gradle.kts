@@ -4,7 +4,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
-        maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 /*
@@ -24,5 +24,25 @@ dependencyResolutionManagement {
  */
 
 //rootProject.name = "test_compose"
-include ':app'
-include ':compose_views'
+// Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
+pluginManagement {
+    repositories {
+        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+
+    plugins {
+        kotlin("multiplatform").version("1.7.20")
+        kotlin("android").version("1.7.20")
+        id("com.android.application").version("7.3.1")
+        id("com.android.library").version("7.3.1")
+        id("org.jetbrains.compose").version("1.2.1")
+    }
+}
+
+//rootProject.name = "kmm"
+
+include(":app", ":compose_views")

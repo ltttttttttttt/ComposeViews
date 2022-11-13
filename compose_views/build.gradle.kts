@@ -25,41 +25,13 @@ group = "com.github.ltttttttttttt"
 version = "1.0.0"
 
 kotlin {
-    metadata {
-        compilations.all {
-            kotlinOptions {
-                freeCompilerArgs = listOf(
-                    "-Xallow-kotlin-package",//设置可以使用kotlin开头的包名
-                    "-opt-in=kotlin.RequiresOptIn",//设置可以使用RequiresOptIn注解(用于提示用户该api有问题)
-                    "-Xbackend-threads=0",//并行编译kotlin
-                    "-Xcontext-receivers",//启用context receiver
-                )
-            }
-        }
-    }
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-                freeCompilerArgs = listOf(
-                    "-Xallow-kotlin-package",//设置可以使用kotlin开头的包名
-                    "-opt-in=kotlin.RequiresOptIn",//设置可以使用RequiresOptIn注解(用于提示用户该api有问题)
-                    "-Xbackend-threads=0",//并行编译kotlin
-                    "-Xcontext-receivers",//启用context receiver
-                )
-            }
-        }
+    android{
+        publishLibraryVariants("release", "debug")
     }
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "11"
-                freeCompilerArgs = listOf(
-                    "-Xallow-kotlin-package",//设置可以使用kotlin开头的包名
-                    "-opt-in=kotlin.RequiresOptIn",//设置可以使用RequiresOptIn注解(用于提示用户该api有问题)
-                    "-Xbackend-threads=0",//并行编译kotlin
-                    "-Xcontext-receivers",//启用context receiver
-                )
             }
         }
     }
@@ -67,19 +39,27 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //跨平台compose
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+                api(compose.runtime)
+                api(compose.foundation)
+                api(compose.material)
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.4.0")
+                api("androidx.activity:activity-compose:1.4.0")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
             }
         }
-        val androidTest by getting
+        val androidTest by getting {
+            dependencies {
+                implementation("junit:junit:4.13")
+            }
+        }
         val desktopMain by getting {
             dependencies {
                 //compose
