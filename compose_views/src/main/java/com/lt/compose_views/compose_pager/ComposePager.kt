@@ -54,6 +54,7 @@ import kotlin.math.roundToInt
  * @param content compose内容区域
  *                Content of compose
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComposePager(
     pageCount: Int,
