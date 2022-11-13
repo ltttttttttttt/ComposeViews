@@ -26,14 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lt.compose_views.R
 import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
+import com.lt.compose_views.res.Res
 import com.lt.compose_views.util.Color333
 import java.lang.Math.abs
 
@@ -70,7 +68,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     )
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.compose_views_refresh_layout_loading),
+                    painter = Res.getRefreshLayoutLoadingPainter(),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -84,7 +82,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     abs(getRefreshContentOffset()) < getRefreshContentThreshold()
                 val rotate by animateFloatAsState(targetValue = if (isCannotRefresh) 0f else 180f)
                 Image(
-                    painter = painterResource(id = R.drawable.compose_views_refresh_layout_arrow),
+                    painter = Res.getRefreshLayoutArrowPainter(),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -95,13 +93,13 @@ fun RefreshLayoutState.PullToRefreshContent() {
         }
         Text(
             text = when (refreshContentState) {
-                RefreshContentStateEnum.Stop -> stringResource(id = R.string.compose_views_refresh_complete)
-                RefreshContentStateEnum.Refreshing -> stringResource(id = R.string.compose_views_refreshing)
+                RefreshContentStateEnum.Stop -> Res.getRefreshCompleteString()
+                RefreshContentStateEnum.Refreshing -> Res.getRefreshingString()
                 RefreshContentStateEnum.Dragging -> {
                     if (abs(getRefreshContentOffset()) < getRefreshContentThreshold()) {
-                        stringResource(id = R.string.compose_views_drop_down_to_refresh)
+                        Res.getDropDownToRefreshString()
                     } else {
-                        stringResource(id = R.string.compose_views_release_refresh_now)
+                        Res.getReleaseRefreshNowString()
                     }
                 }
             },

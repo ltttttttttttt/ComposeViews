@@ -75,7 +75,7 @@ dependencies {
     //implementation ("androidx.compose.ui:ui:${composeVersion}")
     //implementation ("androidx.compose.material:material:${composeVersion}")
     //implementation ("androidx.compose.runtime:runtime-livedata:${composeVersion}")
-    //implementation ("androidx.compose.ui:ui-tooling:${composeVersion}")
+    implementation ("androidx.compose.ui:ui-tooling:${composeVersion}")
 
     implementation ("io.coil-kt:coil-compose:1.4.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")

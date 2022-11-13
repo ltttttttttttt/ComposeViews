@@ -27,10 +27,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.R
+import com.lt.compose_views.res.Res
 import kotlin.math.roundToInt
 
 /**
@@ -66,8 +65,8 @@ fun StarBar(
     onStarValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
     maxStar: Int = 5,
-    starPainter: Painter = painterResource(id = R.drawable.star_bar_star),
-    starSelectPainter: Painter = painterResource(id = R.drawable.star_bar_star_select),
+    starPainter: Painter = Res.getStarPainter(),
+    starSelectPainter: Painter = Res.getStarSelectPainter(),
     starSize: Dp = 16.dp,
     margin: Dp = 3.dp,
     orientation: Orientation = Orientation.Horizontal,

@@ -24,13 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lt.compose_views.R
 import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
+import com.lt.compose_views.res.Res
 import com.lt.compose_views.util.Color333
 
 /**
@@ -68,7 +66,7 @@ fun RefreshLayoutState.LoadMoreRefreshContent(
     ) {
         if (!isLoadFinish) {
             Image(
-                painter = painterResource(id = R.drawable.compose_views_refresh_layout_loading),
+                painter = Res.getRefreshLayoutLoadingPainter(),
                 contentDescription = "",
                 modifier = Modifier
                     .size(20.dp)
@@ -78,9 +76,9 @@ fun RefreshLayoutState.LoadMoreRefreshContent(
         }
         Text(
             text = if (isLoadFinish)
-                stringResource(R.string.compose_views_no_more_data)
+                Res.getNoMoreDataString()
             else
-                stringResource(R.string.compose_views_loading),
+                Res.getLoadingString(),
             fontSize = 14.sp,
             color = Color333,
         )

@@ -22,9 +22,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.R
+import com.lt.compose_views.res.Res
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
@@ -52,7 +51,7 @@ interface PasswordTrailingWithTextField {
                 onPasswordIsShowChange: (Boolean) -> Unit
             ) {
                 Image(
-                    painter = painterResource(id = if (passwordIsShow) R.drawable.compose_views_password_show else R.drawable.compose_views_password_hide),
+                    painter = if (passwordIsShow) Res.getPasswordShowPainter() else Res.getPasswordHidePainter(),
                     contentDescription = "",
                     modifier = Modifier
                         .size(22.dp)
