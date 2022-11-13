@@ -16,7 +16,6 @@
 
 package com.lt.compose_views.chain_scrollable_component
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -38,11 +37,11 @@ internal class ContentFirstNestedScrollConnection(
         val delta = if (state.orientationIsHorizontal) available.x else available.y
         if (delta < 0) {
             val newOffset = state.getScrollPositionValue() + delta
-            Log.e("lllttt", "pre \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
+            //Log.e("lllttt", "pre \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
             state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
         } else {
             val newOffset = state.getScrollPositionValue() + delta
-            Log.e("lllttt", "pre2 \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
+            //Log.e("lllttt", "pre2 \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
             if (newOffset >= state.maxPx)
                 state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
         }

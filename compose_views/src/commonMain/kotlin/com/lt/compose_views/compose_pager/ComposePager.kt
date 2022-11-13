@@ -16,7 +16,6 @@
 
 package com.lt.compose_views.compose_pager
 
-import androidx.annotation.IntRange
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.*
@@ -62,7 +61,7 @@ fun ComposePager(
     composePagerState: ComposePagerState = rememberComposePagerState(),
     orientation: Orientation = Orientation.Horizontal,
     userEnable: Boolean = true,
-    @IntRange(from = 1) pageCache: Int = 1,
+    pageCache: Int = 1,
     scrollableInteractionSource: DragInteractionSource? = null,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
@@ -412,7 +411,7 @@ fun BannerScope.InnerComposePager(
     composePagerState: ComposePagerState = rememberComposePagerState(),
     orientation: Orientation = Orientation.Horizontal,
     userEnable: Boolean = true,
-    @IntRange(from = 1) pageCache: Int = 1,
+    pageCache: Int = 1,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     CompositionLocalProvider(LocalIndexToKey provides { it }) {

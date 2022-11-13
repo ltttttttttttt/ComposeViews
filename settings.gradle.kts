@@ -5,6 +5,7 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://jitpack.io")
     }
 }
 /*
@@ -27,6 +28,7 @@ dependencyResolutionManagement {
 // Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 pluginManagement {
     repositories {
+        maven("https://jitpack.io")
         maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
         google()
         gradlePluginPortal()
@@ -45,4 +47,4 @@ pluginManagement {
 
 //rootProject.name = "kmm"
 
-include(":app", ":compose_views")
+include(":app", ":compose_views", ":desktop")

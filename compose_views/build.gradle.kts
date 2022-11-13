@@ -25,7 +25,7 @@ group = "com.github.ltttttttttttt"
 version = "1.0.0"
 
 kotlin {
-    android{
+    android {
         publishLibraryVariants("release", "debug")
     }
     jvm("desktop") {
@@ -63,7 +63,9 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 //compose
-                implementation(compose.preview)
+                api(compose.preview)
+                //desktop图片加载器
+                api("com.github.ltttttttttttt:load-the-image:1.0.5")
             }
         }
         val desktopTest by getting
@@ -80,6 +82,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    sourceSets["main"].res.srcDir("src/desktopMain/resources")
 }
 
 //publishing {

@@ -16,7 +16,6 @@
 
 package com.lt.compose_views.text_field
 
-import androidx.annotation.IntRange
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
@@ -95,7 +94,7 @@ fun GoodTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     hint: HintComposeWithTextField? = null,
-    @IntRange(from = 1L) maxLines: Int = 1,
+    maxLines: Int = 1,
     fontSize: TextUnit = 16.sp,
     fontColor: Color = Color333,
     maxLength: Int = Int.MAX_VALUE,

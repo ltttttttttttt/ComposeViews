@@ -16,7 +16,6 @@
 
 package com.lt.compose_views.pager_indicator
 
-import androidx.annotation.IntRange
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.scrollable
@@ -58,7 +57,7 @@ import kotlin.math.roundToInt
  */
 @Composable
 fun PagerIndicator(
-    @IntRange(from = 1) size: Int,
+    size: Int,
     offsetPercentWithSelect: Float,
     selectIndex: Int,
     indicatorItem: @Composable (index: Int) -> Unit,
