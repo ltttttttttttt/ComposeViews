@@ -1,6 +1,6 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">Jetpack(jb) Compose Views, in to Android,Web,Desktop,Ios...</p>
+<p align="center">Jetpack(jb) Compose Views, in to Android,Web,Desktop,Ios...(kmp is supported)</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
@@ -41,7 +41,7 @@ allprojects {
 }
 ```
 
-Step 2.Your app dir, build.gradle.kts add:
+Step 2.Your app dir, build.gradle.kts add(If it is kmp, add it in the common):
 
 version
 = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
@@ -49,7 +49,7 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.2.5
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.3.2
 }
 ```
 
