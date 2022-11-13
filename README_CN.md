@@ -1,6 +1,6 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">适用于Android,Web,Desktop,Ios的Jetpack(jb) Compose View</p>
+<p align="center">适用于Android,Web,Desktop,Ios的Jetpack(jb) Compose View(目前已支持kmp)</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
@@ -41,14 +41,14 @@ allprojects {
 }
 ```
 
-Step 2.在app模块目录内的build.gradle.kts内添加:
+Step 2.在app模块目录内的build.gradle.kts内添加(如果是kmp,则在common中添加):
 
 version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
 
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.2.5
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.3.2
 }
 ```
 
