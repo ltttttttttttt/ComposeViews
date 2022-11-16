@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.util
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 
 /**
@@ -23,6 +25,12 @@ import androidx.compose.ui.graphics.Color
  * effect : 工具类或扩展方法
  * warning:
  */
+
+/**
+ * remember一个lambda
+ */
+@Composable
+inline fun <T : Function<*>?> rel(lambda: T): T = remember { lambda }
 
 /**
  * 获取居中的值
