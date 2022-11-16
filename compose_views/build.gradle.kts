@@ -26,7 +26,7 @@ version = "1.0.0"
 
 kotlin {
     android {
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
     jvm("desktop") {
         compilations.all {
@@ -39,9 +39,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //跨平台compose
-                api(compose.runtime)
-                api(compose.foundation)
-                api(compose.material)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
             }
         }
         val commonTest by getting {
@@ -51,8 +51,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.4.0")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+                implementation("androidx.activity:activity-compose:1.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
             }
         }
         val androidTest by getting {
@@ -63,7 +63,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 //compose
-                api(compose.preview)
+                implementation(compose.preview)
                 //desktop图片加载器
                 api("com.github.ltttttttttttt:load-the-image:1.0.5")
             }
