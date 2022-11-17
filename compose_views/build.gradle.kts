@@ -52,7 +52,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+                //协程
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
             }
         }
         val androidTest by getting {
@@ -66,6 +67,8 @@ kotlin {
                 implementation(compose.preview)
                 //desktop图片加载器
                 api("com.github.ltttttttttttt:load-the-image:1.0.5")
+                //协程
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
             }
         }
         val desktopTest by getting
