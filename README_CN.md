@@ -21,6 +21,9 @@
 8. MenuFloatingActionButton
 9. ChainScrollableComponent + ScrollableAppBar + SwipeToDismiss
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/md_resource/compose_views_demo.apk">
+查看demo</a>
+
 ## 快速入门
 
 Step 1.在项目的根目录的build.gradle.kts内添加:
