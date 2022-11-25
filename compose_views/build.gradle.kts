@@ -1,3 +1,6 @@
+import groovy.xml.dom.DOMCategory.attributes
+import kotlinx.serialization.json.Json.Default.configuration
+
 /*
  * Copyright lt 2022
  *
@@ -33,6 +36,14 @@ kotlin {
             kotlinOptions {
                 jvmTarget = "11"
             }
+        }
+    }
+    configurations.all {
+        if (attributes.contains(org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.attribute)) {
+            attributes.attribute(
+                org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.attribute,
+                org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.jvm
+            )
         }
     }
     sourceSets {
