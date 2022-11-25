@@ -88,26 +88,26 @@ android {
     sourceSets["main"].res.srcDir("src/desktopMain/resources")
 }
 
-//publishing {
-//    publications {
-//        create("maven_public", MavenPublication::class) {
-//            groupId = "com.github.ltttttttttttt"
-//            artifactId = "library"
-//            version = "1.0.0"
-//            from(components.getByName("java"))
-//        }
-//    }
-//}
-
-afterEvaluate {
-    publishing {
-        publications {
-            create("maven_public", MavenPublication::class) {
-                groupId = "com.github.ltttttttttttt"
-                artifactId = "library"
-                version = "1.0.0"
-                from(components.getByName("release"))
-            }
+publishing {
+    publications {
+        create("maven_public", MavenPublication::class) {
+            groupId = "com.github.ltttttttttttt"
+            artifactId = "library"
+            version = "1.0.0"
+            from(components.getByName("kotlin"))
         }
     }
 }
+
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            create("maven_public", MavenPublication::class) {
+//                groupId = "com.github.ltttttttttttt"
+//                artifactId = "library"
+//                version = "1.0.0"
+//                from(components.getByName("release"))
+//            }
+//        }
+//    }
+//}
