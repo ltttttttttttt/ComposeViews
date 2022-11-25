@@ -88,6 +88,9 @@ android {
     sourceSets["main"].res.srcDir("src/desktopMain/resources")
 }
 
+compose.desktop {
+}
+
 publishing {
     publications {
         create("maven_public", MavenPublication::class) {
