@@ -1,6 +1,3 @@
-import groovy.xml.dom.DOMCategory.attributes
-import kotlinx.serialization.json.Json.Default.configuration
-
 /*
  * Copyright lt 2022
  *
@@ -84,6 +81,19 @@ kotlin {
         }
         val desktopTest by getting
     }
+
+    val publicationsFromMainHost =
+        listOf("jvm") + "kotlinMultiplatform"
+    publishing {
+        publications {
+            matching { it.name in publicationsFromMainHost }.all {
+                val targetPublication = this@all
+                tasks.withType<AbstractPublishToMaven>()
+                    .matching { it.publication == targetPublication }
+                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+            }
+        }
+    }
 }
 
 android {
@@ -99,26 +109,33 @@ android {
     sourceSets["main"].res.srcDir("src/desktopMain/resources")
 }
 
-publishing {
-    publications {
-        create("maven_public", MavenPublication::class) {
-            groupId = "com.github.ltttttttttttt"
-            artifactId = "library"
-            version = "1.0.0"
-            from(components.getByName("kotlin"))
-        }
-    }
-}
+//publishing {
+//    publications {
+//        create("maven_public", MavenPublication::class) {
+//            groupId = "com.github.ltttttttttttt"
+//            artifactId = "library"
+//            version = "1.0.0"
+//            from(components.getByName("kotlin"))
+//        }
+//    }
+//}
+//
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            create("maven_public_android", MavenPublication::class) {
+//                groupId = "com.github.ltttttttttttt"
+//                artifactId = "library"
+//                version = "1.0.0"
+//                from(components.getByName("release"))
+//            }
+//        }
+//    }
+//}
 
-afterEvaluate {
-    publishing {
-        publications {
-            create("maven_public_android", MavenPublication::class) {
-                groupId = "com.github.ltttttttttttt"
-                artifactId = "library"
-                version = "1.0.0"
-                from(components.getByName("release"))
-            }
+publishing {
+    repositories {
+        maven {
         }
     }
 }
