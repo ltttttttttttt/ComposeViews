@@ -120,18 +120,18 @@ android {
 //    }
 //}
 //
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            create("maven_public_android", MavenPublication::class) {
-//                groupId = "com.github.ltttttttttttt"
-//                artifactId = "library"
-//                version = "1.0.0"
-//                from(components.getByName("release"))
-//            }
-//        }
-//    }
-//}
+afterEvaluate {
+    publishing {
+        publications {
+            create("maven_public_android", MavenPublication::class) {
+                groupId = "com.github.ltttttttttttt"
+                artifactId = "library"
+                version = "1.0.0"
+                from(components.getByName("release"))
+            }
+        }
+    }
+}
 
 publishing {
     repositories {
