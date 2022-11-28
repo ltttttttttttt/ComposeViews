@@ -26,7 +26,7 @@ version = "1.0.0"
 
 kotlin {
     android {
-        publishLibraryVariants("release")
+    //    publishLibraryVariants("release")
     }
     jvm("desktop") {
         compilations.all {
@@ -39,9 +39,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //跨平台compose
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
+                api(compose.runtime)
+                api(compose.foundation)
+                api(compose.material)
             }
         }
         val commonTest by getting {
@@ -64,7 +64,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 //compose
-                implementation(compose.preview)
+                api(compose.preview)
                 //desktop图片加载器
                 api("com.github.ltttttttttttt:load-the-image:1.0.5")
                 //协程
@@ -88,26 +88,26 @@ android {
     sourceSets["main"].res.srcDir("src/desktopMain/resources")
 }
 
-//publishing {
-//    publications {
-//        create("maven_public", MavenPublication::class) {
-//            groupId = "com.github.ltttttttttttt"
-//            artifactId = "library"
-//            version = "1.0.0"
-//            from(components.getByName("java"))
-//        }
-//    }
-//}
-
-afterEvaluate {
-    publishing {
-        publications {
-            create("maven_public", MavenPublication::class) {
-                groupId = "com.github.ltttttttttttt"
-                artifactId = "library"
-                version = "1.0.0"
-                from(components.getByName("release"))
-            }
+publishing {
+    publications {
+        create("maven_public", MavenPublication::class) {
+            groupId = "com.github.ltttttttttttt"
+            artifactId = "library"
+            version = "1.0.0"
+            from(components.getByName("kotlin"))
         }
     }
 }
+
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            create("maven_public", MavenPublication::class) {
+//                groupId = "com.github.ltttttttttttt"
+//                artifactId = "library"
+//                version = "1.0.0"
+//                from(components.getByName("release"))
+//            }
+//        }
+//    }
+//}

@@ -52,7 +52,7 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.3.2
+    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.3.3
 }
 ```
 
