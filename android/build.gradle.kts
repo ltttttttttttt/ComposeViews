@@ -21,7 +21,7 @@ plugins {
 }
 
 group = "com.github.ltttttttttttt"
-version = "1.0.0"
+version = githubVersion
 
 android {
     namespace = "com.lt.android"
@@ -63,7 +63,7 @@ afterEvaluate {
             create("maven_android", MavenPublication::class) {
                 groupId = "com.github.ltttttttttttt"
                 artifactId = "maven_android"
-                version = "1.0.0"
+                version = githubVersion
                 from(components.getByName("release"))
             }
         }

@@ -22,7 +22,7 @@ plugins {
 }
 
 group = "com.github.ltttttttttttt"
-version = "1.0.0"
+version = githubVersion
 
 kotlin {
     android {
@@ -87,16 +87,16 @@ android {
     }
 }
 
-publishing {
-    publications {
-        create("maven_core", MavenPublication::class) {
-            groupId = "com.github.ltttttttttttt"
-            artifactId = "maven_core"
-            version = "1.0.0"
-            from(components.getByName("kotlin"))
-        }
-    }
-}
+//publishing {
+//    publications {
+//        create("maven_core", MavenPublication::class) {
+//            groupId = "com.github.ltttttttttttt"
+//            artifactId = "maven_core"
+//            version = "1.0.0"
+//            from(components.getByName("kotlin"))
+//        }
+//    }
+//}
 
 //afterEvaluate {
 //    publishing {

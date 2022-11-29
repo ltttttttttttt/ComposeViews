@@ -21,7 +21,7 @@ plugins {
 }
 
 group = "com.github.ltttttttttttt"
-version = "1.0.0"
+version = githubVersion
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -35,7 +35,7 @@ publishing {
         create("maven_desktop", MavenPublication::class) {
             groupId = "com.github.ltttttttttttt"
             artifactId = "maven_desktop"
-            version = "1.0.0"
+            version = githubVersion
             from(components.getByName("kotlin"))
         }
     }
