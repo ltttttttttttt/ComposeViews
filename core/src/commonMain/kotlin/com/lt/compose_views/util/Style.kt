@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-const val kotlinVersion = "1.7.20"//kotlin版本
-const val composeVersion = "1.2.1"//compose版本
-const val composeCompilerVersion = "1.3.2"//compose编译版本
-const val coroutinesVersion = "1.6.4"//协程版本
-const val githubVersion = composeVersion//github发布版本
+package com.lt.compose_views.util
+
+import androidx.compose.ui.graphics.Color
+
+/**
+ * creator: lt  2022/7/17  lt.dygzs@qq.com
+ * effect :
+ * warning:
+ */
+internal val Color333 = Color(0xff333333)
+internal val Color999 = Color(0xff999999)
+internal val ColorF5 = Color(0xfff5f5f5)

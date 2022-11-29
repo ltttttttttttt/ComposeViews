@@ -44,7 +44,7 @@ allprojects {
 }
 ```
 
-Step 2.Your app dir, build.gradle.kts add(If it is kmp, add it in the common):
+Step 2.Your app dir, build.gradle.kts add:
 
 version
 = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
@@ -52,7 +52,12 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.3.3
+    //common target
+    implementation("com.github.ltttttttttttt.ComposeViews:core:$version")//this, such as 1.3.4
+    //android target(If it is android project, just use this)
+    implementation("com.github.ltttttttttttt.ComposeViews:maven_android:$version")//this, such as 1.3.4
+    //desktop target
+    implementation("com.github.ltttttttttttt.ComposeViews:maven_desktop:$version")//this, such as 1.3.4
 }
 ```
 

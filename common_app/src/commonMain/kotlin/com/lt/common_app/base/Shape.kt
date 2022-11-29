@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-const val kotlinVersion = "1.7.20"//kotlin版本
-const val composeVersion = "1.2.1"//compose版本
-const val composeCompilerVersion = "1.3.2"//compose编译版本
-const val coroutinesVersion = "1.6.4"//协程版本
-const val githubVersion = composeVersion//github发布版本
+package com.lt.common_app.base
+
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Shapes
+import androidx.compose.ui.unit.dp
+
+val Shapes = Shapes(
+        small = RoundedCornerShape(4.dp),
+        medium = RoundedCornerShape(4.dp),
+        large = RoundedCornerShape(0.dp)
+)

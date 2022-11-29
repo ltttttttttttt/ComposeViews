@@ -14,8 +14,29 @@
  * limitations under the License.
  */
 
-const val kotlinVersion = "1.7.20"//kotlin版本
-const val composeVersion = "1.2.1"//compose版本
-const val composeCompilerVersion = "1.3.2"//compose编译版本
-const val coroutinesVersion = "1.6.4"//协程版本
-const val githubVersion = composeVersion//github发布版本
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+
+/**
+ * creator: lt  2022/10/22  lt.dygzs@qq.com
+ * effect :
+ * warning:
+ */
+
+typealias M = Modifier
+
+/**
+ * 加载网络图片
+ */
+@Composable
+expect fun rememberPainter(data: String?): Painter
+
+/**
+ * 根据图片文件名加载图片
+ */
+@Composable
+expect fun resourcePainter(imageName: String): Painter
+
+//获取测试页面索引
+expect fun getTestIndex(): Int

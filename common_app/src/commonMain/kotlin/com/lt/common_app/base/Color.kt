@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-const val kotlinVersion = "1.7.20"//kotlin版本
-const val composeVersion = "1.2.1"//compose版本
-const val composeCompilerVersion = "1.3.2"//compose编译版本
-const val coroutinesVersion = "1.6.4"//协程版本
-const val githubVersion = composeVersion//github发布版本
+package com.lt.common_app.base
+
+import androidx.compose.ui.graphics.Color
+
+val Purple200 = Color(0xFFBB86FC)
+val Purple500 = Color(0xFF6200EE)
+val Purple700 = Color(0xFF3700B3)
+val Teal200 = Color(0xFF03DAC5)
