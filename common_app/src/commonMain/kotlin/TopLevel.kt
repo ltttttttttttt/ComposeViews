@@ -14,15 +14,29 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.util
-
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 
 /**
- * creator: lt  2022/7/17  lt.dygzs@qq.com
+ * creator: lt  2022/10/22  lt.dygzs@qq.com
  * effect :
  * warning:
  */
-internal val Color333 = Color(0xff333333)
-internal val Color999 = Color(0xff999999)
-internal val ColorF5 = Color(0xfff5f5f5)
+
+typealias M = Modifier
+
+/**
+ * 加载网络图片
+ */
+@Composable
+expect fun rememberPainter(data: String?): Painter
+
+/**
+ * 根据图片文件名加载图片
+ */
+@Composable
+expect fun resourcePainter(imageName: String): Painter
+
+//获取测试页面索引
+expect fun getTestIndex(): Int

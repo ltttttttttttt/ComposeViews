@@ -18,9 +18,6 @@ package com.lt.compose_views.res
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import com.lt.compose_views.R
 
 /**
  * creator: lt  2022/11/13  lt.dygzs@qq.com
@@ -29,47 +26,50 @@ import com.lt.compose_views.R
  */
 internal actual object Res2 {
     @Composable
-    actual fun getRefreshLayoutLoadingPainter(): Painter =
-        painterResource(id = R.drawable.compose_views_refresh_layout_loading)
+    actual fun getRefreshLayoutLoadingPainter(): Painter = null!!
+    //painterResource(id = R.drawable.compose_views_refresh_layout_loading)
 
     @Composable
-    actual fun getNoMoreDataString(): String = stringResource(R.string.compose_views_no_more_data)
+    actual fun getNoMoreDataString(): String = null!!
+    //stringResource(R.string.compose_views_no_more_data)
 
     @Composable
-    actual fun getLoadingString(): String = stringResource(R.string.compose_views_loading)
+    actual fun getLoadingString(): String = null!!
+    //stringResource(R.string.compose_views_loading)
 
     @Composable
-    actual fun getRefreshLayoutArrowPainter(): Painter =
-        painterResource(id = R.drawable.compose_views_refresh_layout_arrow)
+    actual fun getRefreshLayoutArrowPainter(): Painter = null!!
+    //painterResource(id = R.drawable.compose_views_refresh_layout_arrow)
 
     @Composable
-    actual fun getRefreshCompleteString(): String =
-        stringResource(id = R.string.compose_views_refresh_complete)
+    actual fun getRefreshCompleteString(): String = null!!
+    //stringResource(id = R.string.compose_views_refresh_complete)
 
     @Composable
-    actual fun getRefreshingString(): String =
-        stringResource(id = R.string.compose_views_refreshing)
+    actual fun getRefreshingString(): String = null!!
+    //stringResource(id = R.string.compose_views_refreshing)
 
     @Composable
-    actual fun getDropDownToRefreshString(): String =
-        stringResource(id = R.string.compose_views_drop_down_to_refresh)
+    actual fun getDropDownToRefreshString(): String = null!!
+    //stringResource(id = R.string.compose_views_drop_down_to_refresh)
 
     @Composable
-    actual fun getReleaseRefreshNowString(): String =
-        stringResource(id = R.string.compose_views_release_refresh_now)
+    actual fun getReleaseRefreshNowString(): String = null!!
+    //stringResource(id = R.string.compose_views_release_refresh_now)
 
     @Composable
-    actual fun getPasswordShowPainter(): Painter =
-        painterResource(id = R.drawable.compose_views_password_show)
+    actual fun getPasswordShowPainter(): Painter = null!!
+    //painterResource(id = R.drawable.compose_views_password_show)
 
     @Composable
-    actual fun getPasswordHidePainter(): Painter =
-        painterResource(id = R.drawable.compose_views_password_hide)
+    actual fun getPasswordHidePainter(): Painter = null!!
+    //painterResource(id = R.drawable.compose_views_password_hide)
 
     @Composable
-    actual fun getStarSelectPainter(): Painter =
-        painterResource(id = R.drawable.star_bar_star_select)
+    actual fun getStarSelectPainter(): Painter = null!!
+    //painterResource(id = R.drawable.star_bar_star_select)
 
     @Composable
-    actual fun getStarPainter(): Painter = painterResource(id = R.drawable.star_bar_star)
+    actual fun getStarPainter(): Painter = null!!
+    //painterResource(id = R.drawable.star_bar_star)
 }

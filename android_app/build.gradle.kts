@@ -35,13 +35,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        var testIndex = "-1"
-        try {
-            testIndex = File("test_index.txt").readText()
-        } catch (e: Exception) {
-        }
-        buildConfigField("int", "TEST_INDEX", testIndex)
     }
 
     buildTypes {
@@ -67,7 +60,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":common_app"))
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.3.0")

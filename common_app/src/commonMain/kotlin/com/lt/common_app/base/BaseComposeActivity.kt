@@ -14,15 +14,29 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.util
+package com.lt.common_app.base
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.Composable
+import kotlinx.coroutines.CoroutineScope
 
 /**
- * creator: lt  2022/7/17  lt.dygzs@qq.com
+ * creator: lt  2021/5/23  lt.dygzs@qq.com
  * effect :
  * warning:
  */
-internal val Color333 = Color(0xff333333)
-internal val Color999 = Color(0xff999999)
-internal val ColorF5 = Color(0xfff5f5f5)
+expect abstract class BaseComposeActivity() {
+    val mainScope: CoroutineScope
+
+    open fun getTitleText(): String
+
+    open fun mOnCreate()
+
+    @Composable
+    actual abstract fun ComposeContent()
+
+    fun mFinish()
+
+    fun String.showToast()
+
+    fun jump(clazz: Class<out BaseComposeActivity>)
+}

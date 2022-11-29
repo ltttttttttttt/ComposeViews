@@ -26,10 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_compose">
         <activity
-            android:name=".ComposePagerActivity"
+            android:name="com.lt.common_app.ComposePagerActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.lt.common_app.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Test_compose.NoActionBar">
@@ -39,16 +39,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainListActivity" />
-        <activity android:name=".BannerActivity" />
-        <activity android:name=".FlowLayoutActivity" />
-        <activity android:name=".TextFieldActivity" />
-        <activity android:name=".MenuFabActivity" />
-        <activity android:name=".RefreshLayoutActivity" />
-        <activity android:name=".PagerIndicatorActivity" />
-        <activity android:name=".ScrollableAppBarActivity" />
-        <activity android:name=".SwipeToDismissActivity" />
-        <activity android:name=".TextPagerIndicatorActivity" />
+        <activity android:name="com.lt.common_app.MainListActivity" />
+        <activity android:name="com.lt.common_app.BannerActivity" />
+        <activity android:name="com.lt.common_app.FlowLayoutActivity" />
+        <activity android:name="com.lt.common_app.TextFieldActivity" />
+        <activity android:name="com.lt.common_app.MenuFabActivity" />
+        <activity android:name="com.lt.common_app.RefreshLayoutActivity" />
+        <activity android:name="com.lt.common_app.PagerIndicatorActivity" />
+        <activity android:name="com.lt.common_app.ScrollableAppBarActivity" />
+        <activity android:name="com.lt.common_app.SwipeToDismissActivity" />
+        <activity android:name="com.lt.common_app.TextPagerIndicatorActivity" />
     </application>
 
 </manifest>

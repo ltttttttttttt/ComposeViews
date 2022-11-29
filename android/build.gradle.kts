@@ -25,7 +25,8 @@ version = "1.0.0"
 
 android {
     namespace = "com.lt.android"
-    compileSdk = 32
+    compileSdk = 31
+    sourceSets["main"].res.srcDir("../core/src/desktopMain/resources")
 
     defaultConfig {
         minSdk = 21

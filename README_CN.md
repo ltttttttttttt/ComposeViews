@@ -44,14 +44,19 @@ allprojects {
 }
 ```
 
-Step 2.在app模块目录内的build.gradle.kts内添加(如果是kmp,则在common中添加):
+Step 2.在app模块目录内的build.gradle.kts内添加:
 
 version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
 
 ```kotlin
 dependencies {
     ...
-    implementation("com.github.ltttttttttttt:ComposeViews:$version")//this,比如1.3.3
+    //common路径中
+    implementation("com.github.ltttttttttttt.ComposeViews:core:$version")//this,比如1.3.4
+    //android路径中(如果是安卓项目,只需要引入这个)
+    implementation("com.github.ltttttttttttt.ComposeViews:maven_android:$version")//this,比如1.3.4
+    //desktop路径中
+    implementation("com.github.ltttttttttttt.ComposeViews:maven_desktop:$version")//this,比如1.3.4
 }
 ```
 

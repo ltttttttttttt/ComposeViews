@@ -14,19 +14,41 @@
  * limitations under the License.
  */
 
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
-    id("maven-publish")
 }
 
-group = "com.github.ltttttttttttt"
-version = "1.0.0"
+group = "com.lt.ltttttttttttt"
+
+android {
+    compileSdk = 31
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 31
+
+        var testIndex = "-1"
+        try {
+            testIndex = File("test_index.txt").readText()
+        } catch (e: Exception) {
+        }
+        buildConfigField("int", "TEST_INDEX", testIndex)
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
 
 kotlin {
     android {
-    //    publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
     }
     jvm("desktop") {
         compilations.all {
@@ -38,7 +60,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //跨平台compose
+                api(project(":core"))
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
@@ -51,62 +73,23 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                api(project(":android"))
                 implementation("androidx.activity:activity-compose:1.4.0")
-                //协程
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                implementation("androidx.appcompat:appcompat:1.2.0")
+                implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation("junit:junit:4.13")
+                implementation("junit:junit:4.13.2")
             }
         }
         val desktopMain by getting {
             dependencies {
-                //compose
-                implementation(compose.preview)
-                //desktop图片加载器
-                implementation("com.github.ltttttttttttt:load-the-image:1.0.5")
-                //协程
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
+                api(project(":desktop"))
+                api(compose.preview)
             }
         }
         val desktopTest by getting
     }
 }
-
-android {
-    compileSdk = 31
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 31
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
-
-//publishing {
-//    publications {
-//        create("maven_core", MavenPublication::class) {
-//            groupId = "com.github.ltttttttttttt"
-//            artifactId = "maven_core"
-//            version = "1.0.0"
-//            from(components.getByName("kotlin"))
-//        }
-//    }
-//}
-
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            create("maven_public", MavenPublication::class) {
-//                groupId = "com.github.ltttttttttttt"
-//                artifactId = "library"
-//                version = "1.0.0"
-//                from(components.getByName("release"))
-//            }
-//        }
-//    }
-//}
