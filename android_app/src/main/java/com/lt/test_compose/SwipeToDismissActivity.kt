@@ -91,10 +91,12 @@ class SwipeToDismissActivity : BaseComposeActivity() {
                 )
             },
             contentIsMove = contentIsMove,
+            modifier = M.size(width, height)
         ) {
             Text(
                 text = "content", modifier = Modifier
-                    .size(width, height)
+                    .weight(1f)
+                    .fillMaxHeight()
                     .background(Color.LightGray)
             )
         }

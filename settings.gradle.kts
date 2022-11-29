@@ -42,9 +42,16 @@ pluginManagement {
         id("com.android.application").version("7.3.1")
         id("com.android.library").version("7.3.1")
         id("org.jetbrains.compose").version("1.2.1")
+        id("com.android.library") version "7.3.1"
+        id("org.jetbrains.kotlin.android") version "1.7.20"
+        id("org.jetbrains.kotlin.jvm") version "1.7.20"
     }
 }
 
 //rootProject.name = "kmm"
 
-include(":app", ":compose_views", ":desktop")
+include(":android_app")
+include("desktop_app")
+include(":core")
+include(":android")
+include(":desktop")

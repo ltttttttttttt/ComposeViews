@@ -1,41 +1,49 @@
-import org.jetbrains.compose.compose
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+/*
+ * Copyright lt 2022
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose") version composeVersion
+    id("java-library")
+    id("org.jetbrains.kotlin.jvm")
+    id("maven-publish")
 }
 
 group = "com.github.ltttttttttttt"
+version = "1.0.0"
 
-kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-        withJava()
-    }
-    sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation(project(":compose_views"))
-                implementation(compose.desktop.currentOs)
-            }
-        }
-        val jvmTest by getting
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "jvm"
-            packageVersion = "1.0.0"
+publishing {
+    publications {
+        create("maven_public", MavenPublication::class) {
+            groupId = "com.github.ltttttttttttt"
+            artifactId = "library"
+            version = "1.0.0"
+            from(components.getByName("kotlin"))
         }
     }
 }
 
 dependencies {
+    api(project(":core"))
+    //desktop图片加载器
+    api("com.github.ltttttttttttt:load-the-image:1.0.5")
+    //协程
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
+
 }
