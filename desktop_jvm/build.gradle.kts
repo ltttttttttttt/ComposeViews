@@ -34,7 +34,7 @@ publishing {
     publications {
         create("maven_desktop", MavenPublication::class) {
             groupId = "com.github.ltttttttttttt"
-            artifactId = "library"
+            artifactId = "maven_desktop"
             version = "1.0.0"
             from(components.getByName("kotlin"))
         }

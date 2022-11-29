@@ -61,7 +61,7 @@ afterEvaluate {
         publications {
             create("maven_android", MavenPublication::class) {
                 groupId = "com.github.ltttttttttttt"
-                artifactId = "library"
+                artifactId = "maven_android"
                 version = "1.0.0"
                 from(components.getByName("release"))
             }

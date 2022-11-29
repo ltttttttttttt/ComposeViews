@@ -92,7 +92,7 @@ publishing {
     publications {
         create("maven_core", MavenPublication::class) {
             groupId = "com.github.ltttttttttttt"
-            artifactId = "library"
+            artifactId = "maven_core"
             version = "1.0.0"
             from(components.getByName("kotlin"))
         }
