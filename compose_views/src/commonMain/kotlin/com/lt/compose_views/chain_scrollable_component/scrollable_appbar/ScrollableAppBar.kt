@@ -93,7 +93,7 @@ fun ScrollableAppBar(
     onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
-    content: @Composable (state: ChainScrollableComponentState) -> Unit,
+    content: @Composable BoxScope.(state: ChainScrollableComponentState) -> Unit,
 ) {
     val density = LocalDensity.current
     // Title 偏移量参考值

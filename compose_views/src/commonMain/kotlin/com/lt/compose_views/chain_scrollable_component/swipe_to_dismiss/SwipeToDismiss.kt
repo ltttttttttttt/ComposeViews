@@ -84,6 +84,7 @@ fun SwipeToDismiss(
         content = { state ->
             Row(
                 modifier = Modifier
+                    .matchParentSize()
                     .horizontalScroll(scrollState)
                     .let {
                         if (contentIsMove) {

@@ -19,6 +19,7 @@ package com.lt.compose_views.chain_scrollable_component
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,7 +61,7 @@ fun ChainScrollableComponent(
     onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
-    content: @Composable (state: ChainScrollableComponentState) -> Unit,
+    content: @Composable BoxScope.(state: ChainScrollableComponentState) -> Unit,
 ) {
     val density = LocalDensity.current
     val minPx = remember(key1 = minScrollPosition, key2 = density) {
