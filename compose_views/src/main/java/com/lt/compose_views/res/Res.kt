@@ -27,7 +27,7 @@ import com.lt.compose_views.R
  * effect :
  * warning:
  */
-internal actual object Res {
+internal actual object Res2 {
     @Composable
     actual fun getRefreshLayoutLoadingPainter(): Painter =
         painterResource(id = R.drawable.compose_views_refresh_layout_loading)
