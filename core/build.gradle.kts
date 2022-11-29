@@ -79,7 +79,7 @@ android {
     compileSdk = 31
     defaultConfig {
         minSdk = 21
-        targetSdk = 28
+        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
