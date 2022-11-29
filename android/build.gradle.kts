@@ -59,7 +59,7 @@ android {
 afterEvaluate {
     publishing {
         publications {
-            create("maven_public", MavenPublication::class) {
+            create("maven_android", MavenPublication::class) {
                 groupId = "com.github.ltttttttttttt"
                 artifactId = "library"
                 version = "1.0.0"
