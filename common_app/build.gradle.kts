@@ -31,7 +31,7 @@ android {
 
         var testIndex = "-1"
         try {
-            testIndex = File("test_index.txt").readText()
+            testIndex = File(project.rootDir, "test_index.txt").readText()
         } catch (e: Exception) {
         }
         buildConfigField("int", "TEST_INDEX", testIndex)
