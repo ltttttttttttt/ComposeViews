@@ -17,22 +17,26 @@
 package com.lt.compose_views.value_selector
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.util.Color333
 
 /**
@@ -77,22 +81,44 @@ fun ValueSelector(
     remember(defaultSelectIndex, state) {
         state.lazyListState = LazyListState(defaultSelectIndex)
     }
-    LazyColumn(state = state.lazyListState, modifier = modifier) {
-        // TODO by lt 2022/12/3 23:14 怎么搞成只显示n条目的高度
-        if (isLoop) {
-            // TODO by lt 2022/12/3 23:12 使用item(size)的形式,size为values的n倍
-        } else {
-            // TODO by lt 2022/12/3 23:11 上下加入cacheSize个空白条目
-            items(values, key = { it }) { value ->
-                // TODO by lt 2022/12/3 23:16 ui调整,选中状态观察和不同的ui调整
-                Text(
-                    value,
-                    Modifier.padding(vertical = 10.dp),
-                    textAlign = TextAlign.Center,
-                    fontSize = textSize,
-                    color = textColor,
-                )
+    val density = LocalDensity.current
+    val itemHeight = remember(density) { density.run { 40.dp.toPx() } }
+    val scrollStopListener = remember {
+        object : NestedScrollConnection {
+            override suspend fun onPreFling(available: Velocity): Velocity {
+                // TODO by lt 2022/12/5 23:14  使用animateScrollToItem滚动到指定位置
+                available.y / itemHeight
+                return super.onPreFling(available)
             }
+        }
+    }
+    Box(
+        modifier.height(208.dp)
+            .fillMaxWidth()
+            .nestedScroll(scrollStopListener)
+    ) {
+        LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
+            // TODO by lt 2022/12/3 23:14 怎么搞成只显示n条目的高度
+            if (isLoop) {
+                // TODO by lt 2022/12/3 23:12 使用item(size)的形式,size为values的n倍
+            } else {
+                // TODO by lt 2022/12/3 23:11 上下加入cacheSize个空白条目
+                items(values, key = { it }) { value ->
+                    // TODO by lt 2022/12/3 23:16 ui调整,选中状态观察和不同的ui调整
+                    Text(
+                        value,
+                        Modifier.padding(vertical = 12.5.dp).fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontSize = textSize,
+                        color = textColor,
+                    )
+                }
+            }
+        }
+        Column(Modifier.fillMaxWidth().align(Alignment.Center)) {
+            Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
+            VerticalSpace(48)
+            Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
         }
     }
 }
@@ -102,3 +128,4 @@ private val defaultTextSize = 14.sp
 private val defaultSelectedTextSize = 16.sp
 private val defaultTextColor = Color333
 private val defaultSelectedTextColor = Color.Blue
+private val lineColor = Color(0xffe6e6e6)
