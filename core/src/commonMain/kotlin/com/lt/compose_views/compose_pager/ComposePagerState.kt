@@ -99,7 +99,7 @@ class ComposePagerState {
         } else if (index == currIndex + 1) {
             pageChangeAnimFlag = PageChangeAnimFlag.Next
         } else {
-            setPageIndex(index)
+            pageChangeAnimFlag = PageChangeAnimFlag.GoToPageWithAnim(index)
         }
     }
 

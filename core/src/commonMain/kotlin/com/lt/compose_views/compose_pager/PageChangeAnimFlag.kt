@@ -29,4 +29,7 @@ internal sealed class PageChangeAnimFlag {
 
     //跳转到某一页,无动画
     class GoToPageNotAnim(val index: Int) : PageChangeAnimFlag()
+
+    //跳转到某一页,有动画
+    class GoToPageWithAnim(val index: Int) : PageChangeAnimFlag()
 }

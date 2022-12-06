@@ -16,6 +16,7 @@
 
 package com.lt.compose_views.value_selector
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -59,6 +60,7 @@ import com.lt.compose_views.util.Color333
  * @param selectedTextColor 选中的字体颜色
  *                          Text color with selected
  */
+@ExperimentalFoundationApi
 @Composable
 fun ValueSelector(
     values: List<String>,

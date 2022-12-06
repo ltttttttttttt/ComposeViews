@@ -17,6 +17,7 @@
 package com.lt.common_app
 
 import M
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import com.lt.compose_views.value_selector.rememberValueSelectState
  * warning:
  */
 class ValueSelectorA : BaseComposeActivity() {
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {
         Column(M.fillMaxSize()) {

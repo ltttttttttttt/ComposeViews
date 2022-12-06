@@ -20,6 +20,8 @@ import M
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -57,6 +59,12 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
             .collectAsState(initial = 0f)
         Column {
             FpsText(modifier = M)
+            Row {
+                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() + 1) }) { Text("+1") }
+                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() + 2) }) { Text("+2") }
+                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() - 1) }) { Text("-1") }
+                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() - 2) }) { Text("-2") }
+            }
             TextPagerIndicator(
                 texts = texts,
                 offsetPercentWithSelect = offsetPercent,

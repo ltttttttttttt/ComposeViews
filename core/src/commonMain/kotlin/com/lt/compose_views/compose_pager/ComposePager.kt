@@ -113,7 +113,7 @@ fun ComposePager(
         key2 = isNextPage,
         key3 = pageCache,
     ) {
-        if (isNextPage is PageChangeAnimFlag.GoToPageNotAnim) {
+        if (isNextPage is PageChangeAnimFlag.GoToPageNotAnim || isNextPage is PageChangeAnimFlag.GoToPageWithAnim) {
             initContentList(
                 composePagerState,
                 pageCache,
@@ -215,6 +215,7 @@ fun ComposePager(
                     composePagerState.offsetAnim.stop()
                 return@LaunchedEffect
             }
+            var returnPageChangeAnimFlag: PageChangeAnimFlag? = null
             try {
                 val index = composePagerState.currSelectIndex.value
                 when (flag) {
@@ -228,6 +229,7 @@ fun ComposePager(
                             isNextPage = PageChangeAnimFlag.Prev
                         }
                     }
+
                     PageChangeAnimFlag.Next -> {
                         if (index + 1 >= pageCount)
                             return@LaunchedEffect
@@ -238,17 +240,30 @@ fun ComposePager(
                             isNextPage = PageChangeAnimFlag.Next
                         }
                     }
+
                     PageChangeAnimFlag.Reduction -> {
                         composePagerState.offsetAnim.animateTo(-index * composePagerState.mainAxisSize.toFloat())
                     }
+
                     is PageChangeAnimFlag.GoToPageNotAnim -> {
                         composePagerState.currSelectIndex.value = flag.index
                         composePagerState.offsetAnim.snapTo(-flag.index * composePagerState.mainAxisSize.toFloat())
                         isNextPage = flag
                     }
+
+                    is PageChangeAnimFlag.GoToPageWithAnim -> {
+                        val (goToIndex, pageChangeAnimFlag) = if (flag.index > composePagerState.currSelectIndex.value)
+                            flag.index - 1 to PageChangeAnimFlag.Next
+                        else
+                            flag.index + 1 to PageChangeAnimFlag.Prev
+                        composePagerState.currSelectIndex.value = goToIndex
+                        composePagerState.offsetAnim.snapTo(-goToIndex * composePagerState.mainAxisSize.toFloat())
+                        returnPageChangeAnimFlag = pageChangeAnimFlag
+                        isNextPage = flag
+                    }
                 }
             } finally {
-                composePagerState.pageChangeAnimFlag = null
+                composePagerState.pageChangeAnimFlag = returnPageChangeAnimFlag
             }
         })
 
