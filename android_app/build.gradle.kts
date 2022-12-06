@@ -36,9 +36,21 @@ android {
             useSupportLibrary = true
         }
     }
-
+    //签名设置
+    signingConfigs {
+        create("release") {
+            //设置debug时用的签名和密码
+            storeFile = File("${project.rootDir.absolutePath}/composeview.jks")
+            storePassword = "11111111"//签名密码
+            keyAlias = "key"//别名
+            keyPassword = "11111111"//别名密码
+            enableV2Signing = true//启用v2签名
+            enableV1Signing = true//启用v1签名
+        }
+    }
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
