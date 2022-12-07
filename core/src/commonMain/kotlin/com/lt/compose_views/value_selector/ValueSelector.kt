@@ -52,16 +52,14 @@ import kotlinx.coroutines.launch
  *                           Default selected value index
  * @param isLoop 值列表是否可循环
  *               Whether the value list is loop
- * @param textSize1 未选中的字体大小(第一排和第五排)
- *                  Text size(line 1 and 5)
- * @param textSize2 未选中的字体大小(第二排和第四排)
- *                  Text size(line 2 and 4)
+ * @param cacheSize 上下展示多少个额外的值,修改后需要同时修改[textSizes]和[textColors]
+ *                  How many additional values are displayed up and down, After modification, you need to modify both [textSizes] and [textColors]
+ * @param textSizes 未选中的字体大小列表
+ *                  Text size list
  * @param selectedTextSize 选中的字体大小
  *                         Text size with selected
- * @param textColor1 未选中的字体颜色(第一排和第五排)
- *                   Text color(line 1 and 5)
- * @param textColor2 未选中的字体颜色(第二排和第四排)
- *                   Text color(line 2 and 4)
+ * @param textColors 未选中的字体颜色列表
+ *                   Text color list
  * @param selectedTextColor 选中的字体颜色
  *                          Text color with selected
  */
@@ -73,11 +71,10 @@ fun ValueSelector(
     modifier: Modifier = Modifier,
     defaultSelectIndex: Int = 0,
     isLoop: Boolean = false,
-    textSize1: TextUnit = defaultTextSize1,
-    textSize2: TextUnit = defaultTextSize2,
+    cacheSize: Int = 2,
+    textSizes: ArrayList<TextUnit> = remember { arrayListOf(defaultTextSize2, defaultTextSize1) },
     selectedTextSize: TextUnit = defaultSelectedTextSize,
-    textColor1: Color = defaultTextColor,
-    textColor2: Color = defaultTextColor,
+    textColors: ArrayList<Color> = remember { arrayListOf(defaultTextColor, defaultTextColor) },
     selectedTextColor: Color = defaultSelectedTextColor,
 ) {
     remember(defaultSelectIndex, state, values) {
@@ -118,19 +115,28 @@ fun ValueSelector(
         }
     }
     Box(
-        modifier.height(205.dp)
+        modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
             .fillMaxWidth()
             .nestedScroll(scrollStopListener)
     ) {
         LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
+            val defaultTextAttributes = textSizes.last() to textColors.last()
             val itemFun: @Composable (index: Int, value: String) -> Unit = { index, value ->
                 val textAttributes by remember(state.lazyListState.firstVisibleItemIndex) {
-                    when (state.lazyListState.firstVisibleItemIndex) {
-                        index -> mutableStateOf(selectedTextSize to selectedTextColor)
-                        index - 1, index + 1 -> mutableStateOf(textSize2 to textColor2)
-                        index - 2, index + 2 -> mutableStateOf(textSize1 to textColor1)
-                        else -> mutableStateOf(textSize1 to textColor1)
-                    }
+                    val firstIndex = state.lazyListState.firstVisibleItemIndex
+                    //计算text的大小和颜色
+                    mutableStateOf(
+                        if (firstIndex == index)
+                            selectedTextSize to selectedTextColor
+                        else {
+                            //根据索引差值,从list中获取
+                            val diff = Math.abs(firstIndex - index)
+                            if (diff >= cacheSize)
+                                defaultTextAttributes
+                            else
+                                textSizes[diff - 1] to textColors[diff - 1]
+                        }
+                    )
                 }
                 Box(Modifier.fillMaxWidth().height(itemHeightDp)) {
                     Text(
@@ -144,30 +150,23 @@ fun ValueSelector(
             if (isLoop) {
                 val valueSize = values.size
                 items(valueSize * loopMultiple, key = { it }) {
-                    itemFun(it - 2, remember(it) { values[it % valueSize] })
+                    itemFun(it - cacheSize, remember(it) { values[it % valueSize] })
                 }
             } else {
-                item {
-                    VerticalSpace(itemHeightDp)
-                }
-                item {
-                    VerticalSpace(itemHeightDp)
+                repeat(cacheSize) {
+                    item {
+                        VerticalSpace(itemHeightDp)
+                    }
                 }
                 itemsIndexed(values, key = { index, it -> it }) { index, value ->
                     itemFun(index, value)
                 }
-                item {
-                    VerticalSpace(itemHeightDp)
-                }
-                item {
-                    VerticalSpace(itemHeightDp)
+                repeat(cacheSize) {
+                    item {
+                        VerticalSpace(itemHeightDp)
+                    }
                 }
             }
-        }
-        Column(Modifier.fillMaxWidth().align(Alignment.Center)) {
-            Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
-            VerticalSpace(48)
-            Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
         }
     }
 }
@@ -177,6 +176,14 @@ private val defaultTextSize2 = 16.sp
 private val defaultSelectedTextSize = 18.sp
 private val defaultTextColor = Color333
 private val defaultSelectedTextColor = Color(0xff0D8AFF)
-private val lineColor = Color(0xffe6e6e6)
-private val loopMultiple = 10000
+private const val loopMultiple = 10000
 private val itemHeightDp = 41.dp
+
+
+
+//private val lineColor = Color(0xffe6e6e6)
+//Column(Modifier.fillMaxWidth().align(Alignment.Center)) {
+//    Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
+//    VerticalSpace(48)
+//    Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
+//}
