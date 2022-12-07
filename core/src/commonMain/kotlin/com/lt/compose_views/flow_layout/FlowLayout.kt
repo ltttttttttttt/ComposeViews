@@ -24,9 +24,9 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.util.IntArrayList
 import com.lt.compose_views.util.NotPlace
 import com.lt.compose_views.util.midOf
+import com.lt.data_structure.basic_value.IntArrayList
 
 /**
  * creator: lt  2022/7/4  lt.dygzs@qq.com
@@ -161,6 +161,7 @@ fun FlowLayout(
                         Alignment.Start -> lineStartWidth = 0
                         Alignment.CenterHorizontally -> lineStartWidth =
                             (width - lineWidth) / 2
+
                         Alignment.End -> lineStartWidth = width - lineWidth
                     }
                 } else {
@@ -168,6 +169,7 @@ fun FlowLayout(
                         Alignment.Top -> lineStartHeight = 0
                         Alignment.CenterVertically -> lineStartHeight =
                             (height - lineHeight) / 2
+
                         Alignment.Bottom -> lineStartHeight = height - lineHeight
                     }
                 }

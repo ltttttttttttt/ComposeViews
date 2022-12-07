@@ -20,24 +20,23 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.util.Color333
+import kotlinx.coroutines.launch
 
 /**
  * creator: lt  2022/12/3  lt.dygzs@qq.com
@@ -53,14 +52,16 @@ import com.lt.compose_views.util.Color333
  *                           Default selected value index
  * @param isLoop 值列表是否可循环
  *               Whether the value list is loop
- * @param cacheSize 上下展示多少个额外的值
- *                  How many additional values are displayed up and down
- * @param textSize 未选中的字体大小
- *                 Text size
+ * @param textSize1 未选中的字体大小(第一排和第五排)
+ *                  Text size(line 1 and 5)
+ * @param textSize2 未选中的字体大小(第二排和第四排)
+ *                  Text size(line 2 and 4)
  * @param selectedTextSize 选中的字体大小
  *                         Text size with selected
- * @param textColor 未选中的字体颜色
- *                  Text color
+ * @param textColor1 未选中的字体颜色(第一排和第五排)
+ *                   Text color(line 1 and 5)
+ * @param textColor2 未选中的字体颜色(第二排和第四排)
+ *                   Text color(line 2 and 4)
  * @param selectedTextColor 选中的字体颜色
  *                          Text color with selected
  */
@@ -72,46 +73,84 @@ fun ValueSelector(
     modifier: Modifier = Modifier,
     defaultSelectIndex: Int = 0,
     isLoop: Boolean = false,
-    cacheSize: Int = 2,
-    textSize: TextUnit = defaultTextSize,
+    textSize1: TextUnit = defaultTextSize1,
+    textSize2: TextUnit = defaultTextSize2,
     selectedTextSize: TextUnit = defaultSelectedTextSize,
-    textColor: Color = defaultTextColor,
+    textColor1: Color = defaultTextColor,
+    textColor2: Color = defaultTextColor,
     selectedTextColor: Color = defaultSelectedTextColor,
 ) {
     remember(defaultSelectIndex, state) {
         state.lazyListState = LazyListState(defaultSelectIndex)
     }
+    val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
-    val itemHeight = remember(density) { density.run { 40.dp.toPx() } }
+    val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
     val scrollStopListener = remember {
         object : NestedScrollConnection {
             override suspend fun onPreFling(available: Velocity): Velocity {
-                // TODO by lt 2022/12/5 23:14  使用animateScrollToItem滚动到指定位置
-                available.y / itemHeight
-                return super.onPreFling(available)
+                //计算速度大概能滚动多少条目,并执行滚动动画
+                val itemNum = Math.round(Math.abs(available.y.toDouble()) / 4 / itemHeight).toInt()
+                coroutineScope.launch {
+                    if (available.y > 0) {
+                        state.lazyListState.animateScrollToItem(
+                            maxOf(
+                                0,
+                                state.lazyListState.firstVisibleItemIndex - itemNum
+                            )
+                        )
+                    } else {
+                        // TODO by lt 2022/12/7 9:51  处理loop
+                        state.lazyListState.animateScrollToItem(
+                            minOf(
+                                values.size,
+                                state.lazyListState.firstVisibleItemIndex + itemNum
+                            )
+                        )
+                    }
+                }
+                return available
             }
         }
     }
     Box(
-        modifier.height(208.dp)
+        modifier.height(205.dp)
             .fillMaxWidth()
             .nestedScroll(scrollStopListener)
     ) {
         LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
-            // TODO by lt 2022/12/3 23:14 怎么搞成只显示n条目的高度
             if (isLoop) {
                 // TODO by lt 2022/12/3 23:12 使用item(size)的形式,size为values的n倍
             } else {
-                // TODO by lt 2022/12/3 23:11 上下加入cacheSize个空白条目
-                items(values, key = { it }) { value ->
-                    // TODO by lt 2022/12/3 23:16 ui调整,选中状态观察和不同的ui调整
-                    Text(
-                        value,
-                        Modifier.padding(vertical = 12.5.dp).fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        fontSize = textSize,
-                        color = textColor,
-                    )
+                item {
+                    VerticalSpace(35)
+                }
+                item {
+                    VerticalSpace(43)
+                }
+                itemsIndexed(values, key = { index, it -> it }) { index, value ->
+                    val v by remember(state.lazyListState.firstVisibleItemIndex) {
+                        when (state.lazyListState.firstVisibleItemIndex) {
+                            index -> mutableStateOf(selectedTextSize to selectedTextColor)
+                            index - 1, index + 1 -> mutableStateOf(textSize2 to textColor2)
+                            index - 2, index + 2 -> mutableStateOf(textSize1 to textColor1)
+                            else -> mutableStateOf(14.sp to textColor1)
+                        }
+                    }
+                    Box(Modifier.fillMaxWidth().height(41.dp)) {
+                        Text(
+                            value,
+                            Modifier.align(Alignment.Center),
+                            fontSize = v.first,
+                            color = v.second,
+                        )
+                    }
+                }
+                item {
+                    VerticalSpace(43)
+                }
+                item {
+                    VerticalSpace(35)
                 }
             }
         }
@@ -123,9 +162,9 @@ fun ValueSelector(
     }
 }
 
-// TODO by lt 2022/12/3 23:21
-private val defaultTextSize = 14.sp
-private val defaultSelectedTextSize = 16.sp
+private val defaultTextSize1 = 14.sp
+private val defaultTextSize2 = 16.sp
+private val defaultSelectedTextSize = 18.sp
 private val defaultTextColor = Color333
-private val defaultSelectedTextColor = Color.Blue
+private val defaultSelectedTextColor = Color(0xff0D8AFF)
 private val lineColor = Color(0xffe6e6e6)

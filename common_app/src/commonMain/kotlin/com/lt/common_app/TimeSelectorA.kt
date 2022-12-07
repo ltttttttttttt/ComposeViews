@@ -31,7 +31,7 @@ import com.lt.compose_views.value_selector.rememberValueSelectState
  * effect :
  * warning:
  */
-class ValueSelectorA : BaseComposeActivity() {
+class TimeSelectorA : BaseComposeActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {

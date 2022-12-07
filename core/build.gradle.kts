@@ -26,7 +26,7 @@ version = githubVersion
 
 kotlin {
     android {
-    //    publishLibraryVariants("release")
+        //    publishLibraryVariants("release")
     }
     jvm("desktop") {
         compilations.all {
@@ -42,6 +42,7 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
+                api("com.github.ltttttttttttt:DataStructure:1.0.7")
             }
         }
         val commonTest by getting {
