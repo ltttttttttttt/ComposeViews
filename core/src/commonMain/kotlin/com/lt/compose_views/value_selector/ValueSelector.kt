@@ -121,56 +121,58 @@ fun ValueSelector(
             }
         }
     }
-    Box(
-        modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
-            .fillMaxWidth()
-            .nestedScroll(scrollStopListener)
-    ) {
-        LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
-            val defaultTextAttributes = textSizes.last() to textColors.last()
-            val itemFun: @Composable (index: Int, value: String) -> Unit = { index, value ->
-                val textAttributes by remember(state.lazyListState.firstVisibleItemIndex) {
-                    val firstIndex = state.lazyListState.firstVisibleItemIndex
-                    //计算text的大小和颜色
-                    mutableStateOf(
-                        if (firstIndex == index)
-                            selectedTextSize to selectedTextColor
-                        else {
-                            //根据索引差值,从list中获取
-                            val diff = Math.abs(firstIndex - index)
-                            if (diff >= cacheSize)
-                                defaultTextAttributes
-                            else
-                                textSizes[diff - 1] to textColors[diff - 1]
-                        }
-                    )
-                }
-                Box(Modifier.fillMaxWidth().height(itemHeightDp)) {
-                    Text(
-                        value,
-                        Modifier.align(Alignment.Center),
-                        fontSize = textAttributes.first,
-                        color = textAttributes.second,
-                    )
-                }
-            }
-            if (isLoop) {
-                val valueSize = values.size
-                items(valueSize * loopMultiple, key = { it }) {
-                    itemFun(it - cacheSize, remember(it) { values[it % valueSize] })
-                }
-            } else {
-                repeat(cacheSize) {
-                    item {
-                        VerticalSpace(itemHeightDp)
+    ValueSelectorCompositionLocalProvider {
+        Box(
+            modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
+                .fillMaxWidth()
+                .nestedScroll(scrollStopListener)
+        ) {
+            LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
+                val defaultTextAttributes = textSizes.last() to textColors.last()
+                val itemFun: @Composable (index: Int, value: String) -> Unit = { index, value ->
+                    val textAttributes by remember(state.lazyListState.firstVisibleItemIndex) {
+                        val firstIndex = state.lazyListState.firstVisibleItemIndex
+                        //计算text的大小和颜色
+                        mutableStateOf(
+                            if (firstIndex == index)
+                                selectedTextSize to selectedTextColor
+                            else {
+                                //根据索引差值,从list中获取
+                                val diff = Math.abs(firstIndex - index)
+                                if (diff >= cacheSize)
+                                    defaultTextAttributes
+                                else
+                                    textSizes[diff - 1] to textColors[diff - 1]
+                            }
+                        )
+                    }
+                    Box(Modifier.fillMaxWidth().height(itemHeightDp)) {
+                        Text(
+                            value,
+                            Modifier.align(Alignment.Center),
+                            fontSize = textAttributes.first,
+                            color = textAttributes.second,
+                        )
                     }
                 }
-                itemsIndexed(values, key = { index, it -> it }) { index, value ->
-                    itemFun(index, value)
-                }
-                repeat(cacheSize) {
-                    item {
-                        VerticalSpace(itemHeightDp)
+                if (isLoop) {
+                    val valueSize = values.size
+                    items(valueSize * loopMultiple, key = { it }) {
+                        itemFun(it - cacheSize, remember(it) { values[it % valueSize] })
+                    }
+                } else {
+                    repeat(cacheSize) {
+                        item {
+                            VerticalSpace(itemHeightDp)
+                        }
+                    }
+                    itemsIndexed(values, key = { index, it -> it }) { index, value ->
+                        itemFun(index, value)
+                    }
+                    repeat(cacheSize) {
+                        item {
+                            VerticalSpace(itemHeightDp)
+                        }
                     }
                 }
             }
@@ -185,3 +187,6 @@ private val defaultTextColor = Color333
 private val defaultSelectedTextColor = Color(0xff0D8AFF)
 private val itemHeightDp = 41.dp
 private const val loopMultiple = 10000
+
+@Composable
+internal expect fun ValueSelectorCompositionLocalProvider(content: @Composable () -> Unit)
