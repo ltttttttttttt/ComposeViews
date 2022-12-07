@@ -17,7 +17,7 @@
 4. ImageBanner
 5. RefreshLayout + PullToRefresh + VerticalRefreshableLayout
 6. FlowLayout
-7. GoodTextField + PasswordTextField
+7. ValueSelector + DateSelector
 8. MenuFloatingActionButton
 9. ChainScrollableComponent + ScrollableAppBar + SwipeToDismiss
 
@@ -230,45 +230,25 @@ fun FlowLayout()
 fun LabelsFlowLayout()
 ```
 
-## GoodTextField and PasswordTextField
+## ValueSelector and DateSelector
 
-<div align=center><img src="md_resource/text_field.png" width=30%></div>
+<div align=center><img src="md_resource/date_selector.gif" width=30%></div>
 
 ```kotlin
 /**
- * More convenient and easy to use the [TextField]
- * @param value Text of the [TextField]
- * @param onValueChange Text change of the [TextField]
- * @param modifier
- * @param hint Content of the [TextField] with if value is Empty
- * @param maxLines How many lines of text can be displayed
- * @param fontSize Font size of text and hint
- * @param fontColor Color of text
- * @param maxLength How many texts can be displayed at most
- * @param contentAlignment Text and hint to the way
- * @param leading Components displayed on the start
- * @param trailing Components displayed on the end
- * @param background The background
- * @param horizontalPadding Horizontal inner spacing
- * @param enabled Is it possible to enter
- * @param readOnly Read-only
- * @param textStyle The [TextStyle]
- * @param keyboardOptions Reference the [BasicTextField]
- * @param keyboardActions Reference the [BasicTextField]
- * @param visualTransformation Reference the [BasicTextField]
- * @param onTextLayout Reference the [BasicTextField]
- * @param interactionSource Reference the [BasicTextField]
- * @param cursorBrush Reference the [BasicTextField]
+ * Date Selector
+ * @param state DateSelector's state
+ * @param modifier 
+ * @param isLoop Whether the value list is loop
  */
 @Composable
-fun GoodTextField()
+fun DateSelector()
 
 /**
- * More convenient and easy to use the [TextField], for entering passwords
- * Api is almost the same as the [GoodTextField]
+ * Value selector
  */
 @Composable
-fun PasswordTextField()
+fun ValueSelector()
 ```
 
 ## MenuFloatingActionButton
@@ -343,6 +323,8 @@ fun SwipeToDismiss()
 
 <div align=center><img src="md_resource/star_bar.gif" width=20%></div>
 
+<div align=center><img src="md_resource/text_field.png" width=30%></div>
+
 ```kotlin
 /**
  * Button without click effect
@@ -361,6 +343,19 @@ fun StarBar()
  */
 @Composable
 fun BasicsProgressBar()
+
+/**
+ * More convenient and easy to use the [TextField]
+ */
+@Composable
+fun GoodTextField()
+
+/**
+ * More convenient and easy to use the [TextField], for entering passwords
+ * Api is almost the same as the [GoodTextField]
+ */
+@Composable
+fun PasswordTextField()
 ```
 
 <h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>
