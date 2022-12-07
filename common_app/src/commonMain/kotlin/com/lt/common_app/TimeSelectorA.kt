@@ -40,6 +40,7 @@ class TimeSelectorA : BaseComposeActivity() {
                 values = remember { (0 until 60).map(Int::toString) },
                 state = rememberValueSelectState(),
                 defaultSelectIndex = 10,
+                isLoop = true,
             )
         }
     }

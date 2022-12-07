@@ -80,8 +80,13 @@ fun ValueSelector(
     textColor2: Color = defaultTextColor,
     selectedTextColor: Color = defaultSelectedTextColor,
 ) {
-    remember(defaultSelectIndex, state) {
-        state.lazyListState = LazyListState(defaultSelectIndex)
+    remember(defaultSelectIndex, state, values) {
+        state.lazyListState = LazyListState(
+            if (isLoop)
+                values.size * loopMultiple / 2 + defaultSelectIndex
+            else
+                defaultSelectIndex
+        )
     }
     val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
@@ -100,10 +105,9 @@ fun ValueSelector(
                             )
                         )
                     } else {
-                        // TODO by lt 2022/12/7 9:51  处理loop
                         state.lazyListState.animateScrollToItem(
                             minOf(
-                                values.size,
+                                values.size * loopMultiple,
                                 state.lazyListState.firstVisibleItemIndex + itemNum
                             )
                         )
@@ -119,38 +123,44 @@ fun ValueSelector(
             .nestedScroll(scrollStopListener)
     ) {
         LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
+            val itemFun: @Composable (index: Int, value: String) -> Unit = { index, value ->
+                val textAttributes by remember(state.lazyListState.firstVisibleItemIndex) {
+                    when (state.lazyListState.firstVisibleItemIndex) {
+                        index -> mutableStateOf(selectedTextSize to selectedTextColor)
+                        index - 1, index + 1 -> mutableStateOf(textSize2 to textColor2)
+                        index - 2, index + 2 -> mutableStateOf(textSize1 to textColor1)
+                        else -> mutableStateOf(textSize1 to textColor1)
+                    }
+                }
+                Box(Modifier.fillMaxWidth().height(itemHeightDp)) {
+                    Text(
+                        value,
+                        Modifier.align(Alignment.Center),
+                        fontSize = textAttributes.first,
+                        color = textAttributes.second,
+                    )
+                }
+            }
             if (isLoop) {
-                // TODO by lt 2022/12/3 23:12 使用item(size)的形式,size为values的n倍
+                val valueSize = values.size
+                items(valueSize * loopMultiple, key = { it }) {
+                    itemFun(it - 2, remember(it) { values[it % valueSize] })
+                }
             } else {
                 item {
-                    VerticalSpace(35)
+                    VerticalSpace(itemHeightDp)
                 }
                 item {
-                    VerticalSpace(43)
+                    VerticalSpace(itemHeightDp)
                 }
                 itemsIndexed(values, key = { index, it -> it }) { index, value ->
-                    val v by remember(state.lazyListState.firstVisibleItemIndex) {
-                        when (state.lazyListState.firstVisibleItemIndex) {
-                            index -> mutableStateOf(selectedTextSize to selectedTextColor)
-                            index - 1, index + 1 -> mutableStateOf(textSize2 to textColor2)
-                            index - 2, index + 2 -> mutableStateOf(textSize1 to textColor1)
-                            else -> mutableStateOf(14.sp to textColor1)
-                        }
-                    }
-                    Box(Modifier.fillMaxWidth().height(41.dp)) {
-                        Text(
-                            value,
-                            Modifier.align(Alignment.Center),
-                            fontSize = v.first,
-                            color = v.second,
-                        )
-                    }
+                    itemFun(index, value)
                 }
                 item {
-                    VerticalSpace(43)
+                    VerticalSpace(itemHeightDp)
                 }
                 item {
-                    VerticalSpace(35)
+                    VerticalSpace(itemHeightDp)
                 }
             }
         }
@@ -168,3 +178,5 @@ private val defaultSelectedTextSize = 18.sp
 private val defaultTextColor = Color333
 private val defaultSelectedTextColor = Color(0xff0D8AFF)
 private val lineColor = Color(0xffe6e6e6)
+private val loopMultiple = 10000
+private val itemHeightDp = 41.dp
