@@ -29,6 +29,15 @@ import androidx.compose.runtime.remember
 class ValueSelectState {
     lateinit var lazyListState: LazyListState
         internal set
+    internal var cacheSize = 0
+    internal var valueSize = 0
+    internal var isLoop = false
+
+    /**
+     * 获取当前选中的索引
+     * Get current selected index
+     */
+    fun getSelectIndex(): Int = lazyListState.firstVisibleItemIndex % valueSize + (if (isLoop) cacheSize else 0)
 }
 
 /**

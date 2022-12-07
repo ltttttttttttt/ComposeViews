@@ -17,13 +17,18 @@
 package com.lt.compose_views.value_selector
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.util.Color333
-import kotlinx.coroutines.launch
 
 /**
  * creator: lt  2022/12/3  lt.dygzs@qq.com
@@ -66,7 +70,7 @@ import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 @Composable
 fun ValueSelector(
-    values: List<String>,
+    values: ArrayList<String>,
     state: ValueSelectState,
     modifier: Modifier = Modifier,
     defaultSelectIndex: Int = 0,
@@ -77,15 +81,20 @@ fun ValueSelector(
     textColors: ArrayList<Color> = remember { arrayListOf(defaultTextColor, defaultTextColor) },
     selectedTextColor: Color = defaultSelectedTextColor,
 ) {
-    remember(defaultSelectIndex, state, values) {
+    //init
+    remember(defaultSelectIndex, state, values, cacheSize, isLoop, textSizes, textColors) {
         state.lazyListState = LazyListState(
             if (isLoop)
-                values.size * loopMultiple / 2 + defaultSelectIndex
+                values.size * loopMultiple / 2 + defaultSelectIndex - cacheSize
             else
                 defaultSelectIndex
         )
+        state.cacheSize = cacheSize
+        state.valueSize = values.size
+        state.isLoop = isLoop
+        if (textSizes.size != cacheSize || textColors.size != cacheSize)
+            throw IllegalStateException("Size of [textSizes] and [textColors] must equals [cacheSize]")
     }
-    val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
     val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
     val scrollStopListener = remember {
@@ -93,22 +102,20 @@ fun ValueSelector(
             override suspend fun onPreFling(available: Velocity): Velocity {
                 //计算速度大概能滚动多少条目,并执行滚动动画
                 val itemNum = Math.round(Math.abs(available.y.toDouble()) / 4 / itemHeight).toInt()
-                coroutineScope.launch {
-                    if (available.y > 0) {
-                        state.lazyListState.animateScrollToItem(
-                            maxOf(
-                                0,
-                                state.lazyListState.firstVisibleItemIndex - itemNum
-                            )
+                if (available.y > 0) {
+                    state.lazyListState.animateScrollToItem(
+                        maxOf(
+                            0,
+                            state.lazyListState.firstVisibleItemIndex - itemNum
                         )
-                    } else {
-                        state.lazyListState.animateScrollToItem(
-                            minOf(
-                                values.size * loopMultiple,
-                                state.lazyListState.firstVisibleItemIndex + itemNum
-                            )
+                    )
+                } else {
+                    state.lazyListState.animateScrollToItem(
+                        minOf(
+                            values.size * loopMultiple,
+                            state.lazyListState.firstVisibleItemIndex + itemNum
                         )
-                    }
+                    )
                 }
                 return available
             }
@@ -176,14 +183,5 @@ private val defaultTextSize2 = 16.sp
 private val defaultSelectedTextSize = 18.sp
 private val defaultTextColor = Color333
 private val defaultSelectedTextColor = Color(0xff0D8AFF)
-private const val loopMultiple = 10000
 private val itemHeightDp = 41.dp
-
-
-
-//private val lineColor = Color(0xffe6e6e6)
-//Column(Modifier.fillMaxWidth().align(Alignment.Center)) {
-//    Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
-//    VerticalSpace(48)
-//    Divider(Modifier.fillMaxWidth().height(1.dp), lineColor)
-//}
+private const val loopMultiple = 10000

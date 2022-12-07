@@ -19,12 +19,15 @@ package com.lt.common_app
 import M
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
 import com.lt.common_app.base.BaseComposeActivity
+import com.lt.compose_views.value_selector.TimeSelector
+import com.lt.compose_views.value_selector.ValueSelectState
 import com.lt.compose_views.value_selector.ValueSelector
 import com.lt.compose_views.value_selector.rememberValueSelectState
 
@@ -34,23 +37,72 @@ import com.lt.compose_views.value_selector.rememberValueSelectState
  * warning:
  */
 class TimeSelectorA : BaseComposeActivity() {
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {
         Column(M.fillMaxSize()) {
-            ValueSelector(
-                values = remember { (0 until 60).map(Int::toString) },
-                state = rememberValueSelectState(),
-                defaultSelectIndex = 10,
-                //isLoop = true,
-                //cacheSize = 4,
-                //textColors = arrayListOf(
-                //    Color.Black, Color.Red, Color.Green, Color.Blue
-                //),
-                //textSizes = arrayListOf(
-                //    16.sp, 14.sp, 12.sp, 10.sp,
-                //)
+            Value()
+            Time()
+        }
+    }
+
+    @Composable
+    private fun Time() {
+        // TODO by lt 2022/12/7 15:54 默认选择,根据月份重新设置日的数据,选择的监听
+        val values = remember {
+            listOf(
+                ArrayList((1900..2022).map(Int::toString)),
+                ArrayList((1..12).map(Int::toString)),
+                ArrayList((1..31).map(Int::toString)),
             )
+        }
+        val states = remember {
+            listOf(
+                ValueSelectState(),
+                ValueSelectState(),
+                ValueSelectState(),
+            )
+        }
+        TimeSelector(
+            values,
+            states,
+            {
+                Row {
+                    Text("确定", M.weight(1f))
+                    Text("取消")
+                }
+            }
+        )
+        Button({
+            values.mapIndexed { index, strings ->
+                strings[states[index].getSelectIndex()]
+            }.joinToString().showToast()
+        }) {
+            Text("获取当前值")
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun Value() {
+        val values = remember { ArrayList((0 until 60).map(Int::toString)) }
+        val state = rememberValueSelectState()
+        ValueSelector(
+            values = values,
+            state = state,
+            defaultSelectIndex = 10,
+            //isLoop = true,
+            //cacheSize = 4,
+            //textColors = arrayListOf(
+            //    Color.Black, Color.Red, Color.Green, Color.Blue
+            //),
+            //textSizes = arrayListOf(
+            //    16.sp, 14.sp, 12.sp, 10.sp,
+            //)
+        )
+        Button({
+            values[state.getSelectIndex()].showToast()
+        }) {
+            Text("获取当前值")
         }
     }
 }
