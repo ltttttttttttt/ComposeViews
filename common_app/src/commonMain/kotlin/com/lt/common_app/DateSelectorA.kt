@@ -27,9 +27,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.lt.common_app.base.BaseComposeActivity
-import com.lt.compose_views.value_selector.TimeSelector
+import com.lt.compose_views.other.FpsText
+import com.lt.compose_views.value_selector.ValuesSelector
 import com.lt.compose_views.value_selector.ValueSelectState
 import com.lt.compose_views.value_selector.ValueSelector
+import com.lt.compose_views.value_selector.date_selector.DateSelector
+import com.lt.compose_views.value_selector.date_selector.DateSelectorState
 import com.lt.compose_views.value_selector.rememberValueSelectState
 
 /**
@@ -41,15 +44,23 @@ class DateSelectorA : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         Column(M.fillMaxSize().verticalScroll(rememberScrollState())) {
+            FpsText()
             Value()
-            Values()
+//            Values()
             Date()
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun Date() {
-
+        val state = remember { DateSelectorState(2022, 2, 5) }
+        DateSelector(state)
+        Button({
+            "${state.getYear()}.${state.getMonth()}.${state.getDay()}".showToast()
+        }) {
+            Text("获取当前值")
+        }
     }
 
     @OptIn(ExperimentalFoundationApi::class)
@@ -67,7 +78,7 @@ class DateSelectorA : BaseComposeActivity() {
                 ValueSelectState(),
             )
         }
-        TimeSelector(
+        ValuesSelector(
             values,
             states,
         )

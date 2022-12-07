@@ -28,7 +28,7 @@ import com.lt.compose_views.other.VerticalSpace
  */
 @ExperimentalFoundationApi
 @Composable
-fun TimeSelector(
+fun ValuesSelector(
     valuesList: List<ArrayList<String>>,
     states: List<ValueSelectState>,
     modifier: Modifier = Modifier,

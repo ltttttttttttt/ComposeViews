@@ -27,8 +27,9 @@ import androidx.compose.runtime.remember
  * warning:
  */
 class ValueSelectState {
-    lateinit var lazyListState: LazyListState
-        internal set
+    internal var _lazyListState: LazyListState? = null
+    val lazyListState: LazyListState
+        get() = _lazyListState!!
     internal var cacheSize = 0
     internal var valueSize = 0
     internal var isLoop = false

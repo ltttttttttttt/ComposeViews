@@ -83,11 +83,15 @@ fun ValueSelector(
 ) {
     //init
     remember(defaultSelectIndex, state, values, cacheSize, isLoop, textSizes, textColors) {
-        state.lazyListState = LazyListState(
+        val selectIndex = if (state._lazyListState != null)
+            state.getSelectIndex()
+        else
+            defaultSelectIndex
+        state._lazyListState = LazyListState(
             if (isLoop)
-                values.size * loopMultiple / 2 + defaultSelectIndex - cacheSize
+                values.size * loopMultiple / 2 + selectIndex - cacheSize
             else
-                defaultSelectIndex
+                selectIndex
         )
         state.cacheSize = cacheSize
         state.valueSize = values.size
