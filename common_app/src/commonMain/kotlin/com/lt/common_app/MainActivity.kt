@@ -40,7 +40,7 @@ class MainActivity : BaseComposeActivity() {
         "RefreshLayout功能" to RefreshLayoutActivity::class.java,
         "ScrollableAppBar功能" to ScrollableAppBarActivity::class.java,
         "SwipeToDismiss功能" to SwipeToDismissActivity::class.java,
-        "ValueSelector功能" to TimeSelectorA::class.java,
+        "ValueSelector功能" to DateSelectorA::class.java,
     )
 
     override fun getTitleText(): String = "功能列表"

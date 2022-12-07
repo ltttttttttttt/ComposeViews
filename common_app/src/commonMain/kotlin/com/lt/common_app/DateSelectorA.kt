@@ -19,8 +19,9 @@ package com.lt.common_app
 import M
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,28 +37,32 @@ import com.lt.compose_views.value_selector.rememberValueSelectState
  * effect :
  * warning:
  */
-class TimeSelectorA : BaseComposeActivity() {
+class DateSelectorA : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
-        Column(M.fillMaxSize()) {
+        Column(M.fillMaxSize().verticalScroll(rememberScrollState())) {
             Value()
-            Time()
+            Values()
+            Date()
         }
     }
 
     @Composable
-    private fun Time() {
-        // TODO by lt 2022/12/7 15:54 默认选择,根据月份重新设置日的数据,选择的监听
+    private fun Date() {
+
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun Values() {
         val values = remember {
             listOf(
                 ArrayList((1900..2022).map(Int::toString)),
                 ArrayList((1..12).map(Int::toString)),
-                ArrayList((1..31).map(Int::toString)),
             )
         }
         val states = remember {
             listOf(
-                ValueSelectState(),
                 ValueSelectState(),
                 ValueSelectState(),
             )
@@ -65,12 +70,6 @@ class TimeSelectorA : BaseComposeActivity() {
         TimeSelector(
             values,
             states,
-            {
-                Row {
-                    Text("确定", M.weight(1f))
-                    Text("取消")
-                }
-            }
         )
         Button({
             values.mapIndexed { index, strings ->
