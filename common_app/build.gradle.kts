@@ -31,7 +31,7 @@ android {
 
         var testIndex = "-1"
         try {
-            testIndex = File("test_index.txt").readText()
+            testIndex = File(project.rootDir, "test_index.txt").readText()
         } catch (e: Exception) {
         }
         buildConfigField("int", "TEST_INDEX", testIndex)
@@ -39,6 +39,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    lint {
+        checkDependencies = true//开启 lint 性能优化
+        abortOnError = false//忽略Lint检查
+        checkReleaseBuilds = false//压制警告,打包的时候有时候会有莫名其妙的警告
     }
 }
 

@@ -64,10 +64,8 @@ pluginManagement {
     }
 }
 
-//rootProject.name = "kmm"
-
 include(":android_app")
-include("desktop_app")
+//include("desktop_app")
 include(":core")
 include(":android")
 include(":desktop_jvm")
