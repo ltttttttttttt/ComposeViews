@@ -358,5 +358,30 @@ fun GoodTextField()
 fun PasswordTextField()
 ```
 
+## proguard-rules
+
+```
+-keepclassmembers class androidx.compose.ui.graphics.AndroidImageBitmap_androidKt{
+public *** asImageBitmap(...);
+}
+-keepclassmembers class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt{
+public *** getLocalContext(...);
+}
+-keepclassmembers class androidx.compose.foundation.OverscrollConfigurationKt{
+public *** getLocalOverscrollConfiguration(...);
+}
+```
+
+And drawable name:
+
+```
+compose_views_refresh_layout_loading
+compose_views_refresh_layout_arrow
+compose_views_password_show
+compose_views_password_hide
+star_bar_star_select
+star_bar_star
+```
+
 <h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>
 for its support to this project<h6>
