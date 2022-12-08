@@ -35,7 +35,9 @@ kotlin {
         val commonTest by getting
         val desktopMain by getting {
             dependencies {
-                implementation(project(":common_app"))
+                implementation(project(":common_app")) {
+                    exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-android")//剔除安卓协程依赖
+                }
                 implementation(compose.desktop.currentOs)
             }
         }
