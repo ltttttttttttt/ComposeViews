@@ -81,6 +81,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 31
+        sourceSets["main"].res.srcDir("/src/desktopMain/resources")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
