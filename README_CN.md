@@ -357,4 +357,31 @@ fun GoodTextField()
 fun PasswordTextField()
 ```
 
+## 代码混淆:proguard-rules
+
+ps:由于目前的KMP多平台+jitpack有一些打包的问题,所以部分代码使用了反射,所以如果开启了代码混淆,请加入如下代码,且不要混淆掉下面几个图片资源
+
+```
+-keepclassmembers class androidx.compose.ui.graphics.AndroidImageBitmap_androidKt{
+public *** asImageBitmap(...);
+}
+-keepclassmembers class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt{
+public *** getLocalContext(...);
+}
+-keepclassmembers class androidx.compose.foundation.OverscrollConfigurationKt{
+public *** getLocalOverscrollConfiguration(...);
+}
+```
+
+图片资源名(drawable):
+
+```
+compose_views_refresh_layout_loading
+compose_views_refresh_layout_arrow
+compose_views_password_show
+compose_views_password_hide
+star_bar_star_select
+star_bar_star
+```
+
 <h6>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对本项目的支持<h6>
