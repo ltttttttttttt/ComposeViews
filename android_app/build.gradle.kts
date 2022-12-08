@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("org.jetbrains.compose")
+    id("org.jetbrains.compose") version composeVersion
     id("com.android.application")
     kotlin("android")
 }
@@ -50,7 +50,7 @@ android {
     }
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }

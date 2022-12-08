@@ -24,20 +24,24 @@ plugins {
 group = "com.github.ltttttttttttt"
 
 kotlin {
-    jvm {
+    jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
-        withJava()
+//        withJava() //https://issuetracker.google.com/issues/248593403?hl=ko
     }
     sourceSets {
-        val jvmMain by getting {
+        val commonMain by getting
+        val commonTest by getting
+        val desktopMain by getting {
             dependencies {
-                implementation(project(":common_app"))
+                implementation(project(":common_app")) {
+                    exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-android")//剔除安卓协程依赖
+                }
                 implementation(compose.desktop.currentOs)
             }
         }
-        val jvmTest by getting
+        val desktopTest by getting
     }
 }
 
