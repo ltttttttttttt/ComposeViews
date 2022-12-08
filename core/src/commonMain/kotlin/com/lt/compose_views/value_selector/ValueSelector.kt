@@ -25,10 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +37,7 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.VerticalSpace
+import com.lt.compose_views.res.Res
 import com.lt.compose_views.util.Color333
 
 /**
@@ -125,7 +123,7 @@ fun ValueSelector(
             }
         }
     }
-    ValueSelectorCompositionLocalProvider {
+    ValueSelectorCompositionLocalProvider2 {
         Box(
             modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
                 .fillMaxWidth()
@@ -192,5 +190,24 @@ private val defaultSelectedTextColor = Color(0xff0D8AFF)
 private val itemHeightDp = 41.dp
 private const val loopMultiple = 10000
 
+//由于跨平台问题,目前暂时使用反射
 @Composable
 internal expect fun ValueSelectorCompositionLocalProvider(content: @Composable () -> Unit)
+
+private val mLocalOverscrollConfiguration: ProvidableCompositionLocal<Any?> by lazy {
+    Class.forName("androidx.compose.foundation.OverscrollConfigurationKt")
+        .getMethod("getLocalOverscrollConfiguration")
+        .invoke(null) as ProvidableCompositionLocal<Any?>
+}
+
+@Composable
+internal fun ValueSelectorCompositionLocalProvider2(content: @Composable () -> Unit) {
+    if (Res.isAndroid) {
+        CompositionLocalProvider(
+            mLocalOverscrollConfiguration provides null,
+            content = content
+        )
+    } else {
+        content()
+    }
+}

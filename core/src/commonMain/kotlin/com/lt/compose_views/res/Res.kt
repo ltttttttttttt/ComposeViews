@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.painter.Painter
  */
 internal object Res {
     private const val imgFile = "drawable-xxhdpi/%s.png"
-    private val isAndroid = "Dalvik" == System.getProperty("java.vm.name")
+    internal val isAndroid = "Dalvik" == System.getProperty("java.vm.name")
     private val localContext by lazy { getAndroidLocalContext() }
     private val stringClass = String::class.java
 
