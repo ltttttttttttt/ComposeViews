@@ -25,7 +25,7 @@ version = githubVersion
 
 android {
     namespace = "com.lt.android"
-    compileSdk = 31
+    compileSdk = 33
     sourceSets["main"].res.srcDir("../core/src/desktopMain/resources")
 
     defaultConfig {
