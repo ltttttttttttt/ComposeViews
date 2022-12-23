@@ -158,7 +158,10 @@ fun TextPagerIndicator(
         indicatorItem = { index ->
             Box(modifier = Modifier
                 .fillMaxHeight()
-                .clickable { onIndicatorClick(index) }) {
+                .clickable {
+                    if (index != selectIndex)
+                        onIndicatorClick(index)
+                }) {
                 val (size, color) = remember(
                     index,
                     selectIndex,
