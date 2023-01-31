@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.util.Color333
 
 /**
@@ -131,7 +132,7 @@ fun GoodTextField(
         textStyle = textStyle.copy(color = fontColor, fontSize = fontSize),
         singleLine = maxLines == 1,
         maxLines = maxLines,
-        modifier = modifier,
+        modifier = modifier.height(IntrinsicSize.Min),
         enabled = enabled,
         readOnly = readOnly,
         keyboardOptions = keyboardOptions,
@@ -144,7 +145,6 @@ fun GoodTextField(
             //放置背景等布局,并放置基础输入框
             Box(
                 Modifier
-                    .height(IntrinsicSize.Min)
                     .let {
                         background?.setBackground(it) ?: it
                     }
@@ -153,7 +153,7 @@ fun GoodTextField(
                 Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
                     if (leading != null) {
                         leading()
-                        Spacer(Modifier.width(horizontalPadding))
+                        HorizontalSpace(horizontalPadding)
                     }
                     Box(
                         Modifier
@@ -171,7 +171,7 @@ fun GoodTextField(
                         it()
                     }
                     if (trailing != null) {
-                        Spacer(Modifier.width(horizontalPadding))
+                        HorizontalSpace(horizontalPadding)
                         trailing()
                     }
                 }
