@@ -83,19 +83,7 @@ fun main(vararg args: String) {
                     if (activity == null)
                         exitProcess(0)
                     Column {
-                        Row(
-                            M.fillMaxWidth().height(40.dp).background(Color.Gray),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            HorizontalSpace(20)
-                            Text(
-                                "finish",
-                                modifier = M.click { activity?.mFinish() },
-                                fontSize = 14.sp
-                            )
-                            HorizontalSpace(20)
-                            Text(activity?.getTitleText() ?: "", fontSize = 16.sp)
-                        }
+                        activity?.TitleView(activity?.getTitleText() ?: "")
                         activity!!.ComposeContent()
                     }
                     //toast
