@@ -344,14 +344,14 @@ fun StarBar()
 fun BasicsProgressBar()
 
 /**
- * More convenient and easy to use the [TextField]
+ * 更方便易用的TextField(文本输入框)
  */
 @Composable
 fun GoodTextField()
 
 /**
- * More convenient and easy to use the [TextField], for entering passwords
- * Api is almost the same as the [GoodTextField]
+ * 更方便易用的TextField,适用于输入密码的情况 
+ * api和[GoodTextField]基本一样
  */
 @Composable
 fun PasswordTextField()
