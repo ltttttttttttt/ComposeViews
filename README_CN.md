@@ -384,4 +384,10 @@ star_bar_star_select
 star_bar_star
 ```
 
+## 联系方式
+
+Kotlin交流群(QQ): 101786950
+
+## 感谢
+
 <h6>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对本项目的支持<h6>
