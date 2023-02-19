@@ -344,14 +344,14 @@ fun StarBar()
 fun BasicsProgressBar()
 
 /**
- * More convenient and easy to use the [TextField]
+ * 更方便易用的TextField(文本输入框)
  */
 @Composable
 fun GoodTextField()
 
 /**
- * More convenient and easy to use the [TextField], for entering passwords
- * Api is almost the same as the [GoodTextField]
+ * 更方便易用的TextField,适用于输入密码的情况 
+ * api和[GoodTextField]基本一样
  */
 @Composable
 fun PasswordTextField()
@@ -383,5 +383,11 @@ compose_views_password_hide
 star_bar_star_select
 star_bar_star
 ```
+
+## 联系方式
+
+Kotlin交流群(QQ): 101786950
+
+## 感谢
 
 <h6>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对本项目的支持<h6>

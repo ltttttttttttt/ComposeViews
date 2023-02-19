@@ -383,5 +383,11 @@ star_bar_star_select
 star_bar_star
 ```
 
+## contact information
+
+Kotlin Communication Group(QQ): 101786950
+
+## thank
+
 <h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>
 for its support to this project<h6>
