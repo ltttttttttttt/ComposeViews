@@ -8,8 +8,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
+import com.lt.compose_views.value_selector.*
 import com.lt.compose_views.value_selector.CenterLines
-import com.lt.compose_views.value_selector.ValueSelector
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
@@ -29,6 +31,11 @@ fun DateSelector(
     state: DateSelectorState,
     modifier: Modifier = Modifier,
     isLoop: Boolean = false,
+    cacheSize: Int = 2,
+    textSizes: ArrayList<TextUnit> = remember { arrayListOf(valueSelector_defaultTextSize2, valueSelector_defaultTextSize1) },
+    selectedTextSize: TextUnit = valueSelector_defaultSelectedTextSize,
+    textColors: ArrayList<Color> = remember { arrayListOf(valueSelector_defaultTextColor, valueSelector_defaultTextColor) },
+    selectedTextColor: Color = valueSelector_defaultSelectedTextColor,
 ) {
     LaunchedEffect(Unit) {
         //处理每月天数变化
@@ -58,6 +65,11 @@ fun DateSelector(
                     state.years.indexOf(state.defaultYear.toString())
                 },
                 isLoop = isLoop,
+                cacheSize = cacheSize,
+                textSizes = textSizes,
+                selectedTextSize = selectedTextSize,
+                textColors = textColors,
+                selectedTextColor = selectedTextColor,
             )
             ValueSelector(
                 values = state.months,
@@ -67,6 +79,11 @@ fun DateSelector(
                     state.months.indexOf(state.defaultMonth.toString())
                 },
                 isLoop = isLoop,
+                cacheSize = cacheSize,
+                textSizes = textSizes,
+                selectedTextSize = selectedTextSize,
+                textColors = textColors,
+                selectedTextColor = selectedTextColor,
             )
             ValueSelector(
                 values = state.days,
@@ -76,6 +93,11 @@ fun DateSelector(
                     state.days.indexOf(state.defaultDay.toString())
                 },
                 isLoop = isLoop,
+                cacheSize = cacheSize,
+                textSizes = textSizes,
+                selectedTextSize = selectedTextSize,
+                textColors = textColors,
+                selectedTextColor = selectedTextColor,
             )
         }
         CenterLines()

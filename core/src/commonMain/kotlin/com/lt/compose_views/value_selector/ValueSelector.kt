@@ -74,10 +74,10 @@ fun ValueSelector(
     defaultSelectIndex: Int = 0,
     isLoop: Boolean = false,
     cacheSize: Int = 2,
-    textSizes: ArrayList<TextUnit> = remember { arrayListOf(defaultTextSize2, defaultTextSize1) },
-    selectedTextSize: TextUnit = defaultSelectedTextSize,
-    textColors: ArrayList<Color> = remember { arrayListOf(defaultTextColor, defaultTextColor) },
-    selectedTextColor: Color = defaultSelectedTextColor,
+    textSizes: ArrayList<TextUnit> = remember { arrayListOf(valueSelector_defaultTextSize2, valueSelector_defaultTextSize1) },
+    selectedTextSize: TextUnit = valueSelector_defaultSelectedTextSize,
+    textColors: ArrayList<Color> = remember { arrayListOf(valueSelector_defaultTextColor, valueSelector_defaultTextColor) },
+    selectedTextColor: Color = valueSelector_defaultSelectedTextColor,
 ) {
     //init
     remember(defaultSelectIndex, state, values, cacheSize, isLoop, textSizes, textColors) {
@@ -182,11 +182,11 @@ fun ValueSelector(
     }
 }
 
-private val defaultTextSize1 = 14.sp
-private val defaultTextSize2 = 16.sp
-private val defaultSelectedTextSize = 18.sp
-private val defaultTextColor = Color333
-private val defaultSelectedTextColor = Color(0xff0D8AFF)
+internal val valueSelector_defaultTextSize1 = 14.sp
+internal val valueSelector_defaultTextSize2 = 16.sp
+internal val valueSelector_defaultSelectedTextSize = 18.sp
+internal val valueSelector_defaultTextColor = Color333
+internal val valueSelector_defaultSelectedTextColor = Color(0xff0D8AFF)
 private val itemHeightDp = 41.dp
 private const val loopMultiple = 10000
 
