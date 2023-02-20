@@ -25,10 +25,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.util.getPercentageValue
+import com.lt.compose_views.util.rememberMutableStateOf
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -98,8 +96,9 @@ fun TextPagerIndicator(
         selectTextColor = selectTextColor,
         onIndicatorClick = onIndicatorClick,
         selectIndicatorItem = {
-            val width = remember(texts, offsetPercentWithSelect, selectIndex) {
-                density.run {
+            var width by rememberMutableStateOf(0.dp)
+            LaunchedEffect(texts, offsetPercentWithSelect, selectIndex) {
+                width = density.run {
                     //当前选中的指示器宽度
                     val width =
                         maxOf(dp20, indicatorsInfo.getIndicatorSize(selectIndex) - dp20)
