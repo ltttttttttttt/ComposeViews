@@ -83,11 +83,9 @@ fun ImageBanner(
         }
         //指示器部分
         if (indicatorItem != null && selectIndicatorItem != null) {
-            val offsetPercent by remember(orientation) { bannerState.createChildOffsetPercentFlow() }
-                .collectAsState(initial = 0f)
             PagerIndicator(
                 size = imageSize,
-                offsetPercentWithSelect = offsetPercent,
+                offsetPercentWithSelectFlow = remember(orientation) { bannerState.createChildOffsetPercentFlow() },
                 selectIndex = bannerState.getCurrSelectIndex(),
                 indicatorItem = indicatorItem,
                 selectIndicatorItem = selectIndicatorItem,

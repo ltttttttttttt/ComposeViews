@@ -85,8 +85,6 @@ class PagerIndicatorActivity : BaseComposeActivity() {
     @Composable
     private fun BannerView() {
         val bannerState = rememberBannerState()
-        val offsetPercent by remember { bannerState.createChildOffsetPercentFlow() }
-            .collectAsState(initial = 0f)
         Box(
             modifier = M
                 .fillMaxWidth()
@@ -113,7 +111,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             }
             PagerIndicator(
                 size = colors.size,
-                offsetPercentWithSelect = offsetPercent,
+                offsetPercentWithSelectFlow = remember { bannerState.createChildOffsetPercentFlow() },
                 selectIndex = bannerState.getCurrSelectIndex(),
                 indicatorItem = {
                     Spacer(
@@ -143,8 +141,6 @@ class PagerIndicatorActivity : BaseComposeActivity() {
     @Composable
     private fun PagerView() {
         val pagerState = rememberComposePagerState()
-        val offsetPercent by remember { pagerState.createChildOffsetPercentFlow() }
-            .collectAsState(initial = 0f)
         Box(
             modifier = M
                 .fillMaxWidth()
@@ -175,7 +171,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             }
             PagerIndicator(
                 size = colors.size,
-                offsetPercentWithSelect = offsetPercent,
+                offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
                 selectIndex = pagerState.getCurrSelectIndex(),
                 indicatorItem = {
                     Spacer(

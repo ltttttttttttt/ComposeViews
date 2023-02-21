@@ -56,8 +56,6 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
 
     @Composable
     override fun ComposeContent() {
-        val offsetPercent by remember { pagerState.createChildOffsetPercentFlow() }
-            .collectAsState(initial = 0f)
         Column {
             FpsText(modifier = M)
             Row {
@@ -68,7 +66,7 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
             }
             TextPagerIndicator(
                 texts = texts,
-                offsetPercentWithSelect = offsetPercent,
+                offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
                 selectIndex = pagerState.getCurrSelectIndex(),
                 fontSize = 16.sp,
                 selectFontSize = 20.sp,

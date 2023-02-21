@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.util.getPercentageValue
 import com.lt.compose_views.util.rememberMutableStateOf
+import kotlinx.coroutines.flow.Flow
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -45,8 +46,8 @@ import kotlin.math.roundToInt
  * warning:
  * @param texts 文本列表
  *              The text list
- * @param offsetPercentWithSelect 选中的指示器的偏移百分比
- *                                The offset percentage of the selected indicator
+ * @param offsetPercentWithSelectFlow 选中的指示器的偏移百分比
+ *                                     The offset percentage of the selected indicator
  * @param selectIndex 选中的索引
  *                    The index of selected indicator
  * @param fontSize 未被选中的文字大小
@@ -67,6 +68,135 @@ import kotlin.math.roundToInt
  * @param userCanScroll 用户是否可以滚动
  *                      Whether the user can scroll
  */
+@Composable
+fun TextPagerIndicator(
+    texts: List<String>,
+    offsetPercentWithSelectFlow: Flow<Float>,
+    selectIndex: Int,
+    fontSize: TextUnit,
+    selectFontSize: TextUnit,
+    textColor: Color,
+    selectTextColor: Color,
+    selectIndicatorColor: Color,
+    onIndicatorClick: (index: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    margin: Dp = 8.dp,
+    userCanScroll: Boolean = true,
+) {
+    val density = LocalDensity.current
+    val dp20 = remember {
+        density.run { 20.dp.toPx() }
+    }
+    TextPagerIndicator(
+        texts = texts,
+        offsetPercentWithSelectFlow = offsetPercentWithSelectFlow,
+        selectIndex = selectIndex,
+        fontSize = fontSize,
+        selectFontSize = selectFontSize,
+        textColor = textColor,
+        selectTextColor = selectTextColor,
+        onIndicatorClick = onIndicatorClick,
+        selectIndicatorItem = {
+            var width by rememberMutableStateOf(0.dp)
+            val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
+            LaunchedEffect(texts, offsetPercentWithSelect, selectIndex) {
+                width = density.run {
+                    //当前选中的指示器宽度
+                    val width =
+                        maxOf(dp20, indicatorsInfo.getIndicatorSize(selectIndex) - dp20)
+                    if (offsetPercentWithSelect == 0f)
+                        return@run width.toDp()
+                    val index = selectIndex + if (offsetPercentWithSelect > 0) 1 else -1
+                    //将要选中的指示器宽度
+                    val toWidth =
+                        maxOf(dp20, indicatorsInfo.getIndicatorSize(index) - dp20)
+                    //通过百分比计算出实际宽度
+                    abs(offsetPercentWithSelect).getPercentageValue(width, toWidth).toDp()
+                }
+            }
+            Box(modifier = Modifier.fillMaxHeight()) {
+                Spacer(
+                    modifier = Modifier
+                        .size(width, 3.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(selectIndicatorColor, CircleShape)
+                )
+            }
+        },
+        modifier = modifier,
+        margin = margin,
+        userCanScroll = userCanScroll,
+    )
+}
+
+//[selectIndicatorItem] 被选中的指示器
+@Composable
+fun TextPagerIndicator(
+    texts: List<String>,
+    offsetPercentWithSelectFlow: Flow<Float>,
+    selectIndex: Int,
+    fontSize: TextUnit,
+    selectFontSize: TextUnit,
+    textColor: Color,
+    selectTextColor: Color,
+    onIndicatorClick: (index: Int) -> Unit,
+    selectIndicatorItem: @Composable PagerIndicatorScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    margin: Dp = 8.dp,
+    userCanScroll: Boolean = true,
+) {
+    val density = LocalDensity.current
+    val fontPx by remember(fontSize) {
+        mutableStateOf(density.run { fontSize.toPx() })
+    }
+    val selectFontPx by remember(selectFontSize) {
+        mutableStateOf(density.run { selectFontSize.toPx() })
+    }
+    PagerIndicator(
+        size = texts.size,
+        offsetPercentWithSelectFlow = offsetPercentWithSelectFlow,
+        selectIndex = selectIndex,
+        indicatorItem = { index ->
+            Box(modifier = Modifier
+                .fillMaxHeight()
+                .clickable {
+                    if (index != selectIndex)
+                        onIndicatorClick(index)
+                }) {
+                val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
+                val (size, color) = remember(
+                    index,
+                    selectIndex,
+                    offsetPercentWithSelect,
+                    selectFontSize,
+                    fontSize,
+                    textColor,
+                    selectTextColor,
+                ) {
+                    val percent = abs(selectIndex + offsetPercentWithSelect - index)
+                    if (percent > 1f)
+                        return@remember fontSize to textColor
+                    density.run {
+                        percent.getPercentageValue(selectFontPx, fontPx).roundToInt().toSp()
+                    } to percent.getPercentageValue(selectTextColor, textColor)
+                }
+                Text(
+                    text = texts[index],
+                    fontSize = size,
+                    color = color,
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
+        },
+        selectIndicatorItem = selectIndicatorItem,
+        modifier = modifier,
+        margin = margin,
+        orientation = Orientation.Horizontal,
+        userCanScroll = userCanScroll,
+    )
+}
+
+@Deprecated("因为重组的性能原因,请使用其他同名(重载)函数  For performance reasons of reorganization, use other functions with the same name (overloaded)")
 @Composable
 fun TextPagerIndicator(
     texts: List<String>,
@@ -128,6 +258,7 @@ fun TextPagerIndicator(
 }
 
 //[selectIndicatorItem] 被选中的指示器
+@Deprecated("因为重组的性能原因,请使用其他同名(重载)函数  For performance reasons of reorganization, use other functions with the same name (overloaded)")
 @Composable
 fun TextPagerIndicator(
     texts: List<String>,
