@@ -22,3 +22,6 @@ include(":common_app")
 include(":core")
 include(":android")
 include(":desktop_jvm")
+
+
+includeBuild("convention-plugins")

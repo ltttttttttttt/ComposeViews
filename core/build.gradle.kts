@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
+
 /*
  * Copyright lt 2022
  *
@@ -18,7 +20,8 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
-    id("maven-publish")
+    //id("maven-publish")
+    id("convention.publication")
 }
 
 group = "com.github.ltttttttttttt"
