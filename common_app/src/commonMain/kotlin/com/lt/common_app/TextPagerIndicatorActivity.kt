@@ -39,7 +39,8 @@ import com.lt.compose_views.pager_indicator.TextPagerIndicator
  */
 class TextPagerIndicatorActivity : BaseComposeActivity() {
     private val colors = mutableStateListOf(
-        Color(150, 105, 61, 255) to "暴走",
+        Color(150, 105, 61, 255) to "魔狱血刹",
+        Color.Black to "暴走",
         Color.DarkGray to "十字斩",
         Color(122, 138, 55, 255) to "崩山击",
         Color(114, 61, 101, 255) to "崩山裂地斩",
@@ -55,8 +56,6 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
 
     @Composable
     override fun ComposeContent() {
-        val offsetPercent by remember { pagerState.createChildOffsetPercentFlow() }
-            .collectAsState(initial = 0f)
         Column {
             FpsText(modifier = M)
             Row {
@@ -67,7 +66,7 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
             }
             TextPagerIndicator(
                 texts = texts,
-                offsetPercentWithSelect = offsetPercent,
+                offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
                 selectIndex = pagerState.getCurrSelectIndex(),
                 fontSize = 16.sp,
                 selectFontSize = 20.sp,
