@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
-
 /*
  * Copyright lt 2022
  *
@@ -25,11 +23,11 @@ plugins {
 }
 
 group = "io.github.ltttttttttttt"
-version = githubVersion
+version = "1.3.2"
 
 kotlin {
     android {
-        //    publishLibraryVariants("release")
+        publishLibraryVariants("release")
     }
     jvm("desktop") {
         compilations.all {
@@ -45,6 +43,8 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
+                api(compose.animation)
+                api(compose.ui)
                 api("com.github.ltttttttttttt:DataStructure:1.0.7")
             }
         }
@@ -55,9 +55,9 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.4.0")
+                api("androidx.activity:activity-compose:1.4.0")
                 //协程
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
             }
         }
         val androidTest by getting {
@@ -67,12 +67,13 @@ kotlin {
         }
         val desktopMain by getting {
             dependencies {
-                //compose
-                implementation(compose.preview)
+                //api(project(":ComposeViews")) {
+                //    exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-android")//剔除安卓协程依赖
+                //}
                 //desktop图片加载器
-                implementation("com.github.ltttttttttttt:load-the-image:1.0.5")
+                api("com.github.ltttttttttttt:load-the-image:1.0.5")
                 //协程
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
             }
         }
         val desktopTest by getting

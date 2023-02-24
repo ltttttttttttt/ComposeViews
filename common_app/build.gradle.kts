@@ -65,7 +65,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":core"))
+                api(project(":ComposeViews"))
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
@@ -80,7 +80,6 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api(project(":android"))
                 implementation("androidx.activity:activity-compose:1.4.0")
                 implementation("androidx.appcompat:appcompat:1.2.0")
                 implementation("io.coil-kt:coil-compose:1.4.0")
@@ -93,7 +92,6 @@ kotlin {
         }
         val desktopMain by getting {
             dependencies {
-                api(project(":desktop_jvm"))
                 api(compose.preview)
             }
         }

@@ -19,9 +19,7 @@ rootProject.name = "ComposeViews"
 include(":android_app")
 include("desktop_app")
 include(":common_app")
-include(":core")
-include(":android")
-include(":desktop_jvm")
+include(":ComposeViews")
 
 
 includeBuild("convention-plugins")
