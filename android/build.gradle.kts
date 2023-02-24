@@ -17,7 +17,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    id("maven-publish")
+    //id("maven-publish")
 }
 
 group = "com.github.ltttttttttttt"
@@ -57,18 +57,18 @@ android {
     }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create("maven_android", MavenPublication::class) {
-                groupId = "com.github.ltttttttttttt"
-                artifactId = "maven_android"
-                version = githubVersion
-                from(components.getByName("release"))
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            create("maven_android", MavenPublication::class) {
+//                groupId = "com.github.ltttttttttttt"
+//                artifactId = "maven_android"
+//                version = githubVersion
+//                from(components.getByName("release"))
+//            }
+//        }
+//    }
+//}
 
 dependencies {
     api(project(":core"))

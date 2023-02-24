@@ -5,7 +5,7 @@ import org.gradle.kotlin.dsl.signing
 import java.util.*
 
 plugins {
-    'maven-publish'
+    `maven-publish`
     signing
 }
 
@@ -66,7 +66,7 @@ publishing {
 
             licenses {
                 license {
-                    name.set("Apache License 2.0)
+                    name.set("Apache License 2.0")
                     url.set("http://www.apache.org/licenses/")
                 }
             }

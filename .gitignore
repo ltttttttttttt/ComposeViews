@@ -61,4 +61,4 @@ freeline_project_description.json
 .svn/
 
 test_index.txt
-private_key.txt
+private.pgp

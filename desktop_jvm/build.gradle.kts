@@ -17,7 +17,7 @@
 plugins {
     id("java-library")
     kotlin("jvm")
-    id("maven-publish")
+    //id("maven-publish")
 }
 
 group = "com.github.ltttttttttttt"
@@ -30,16 +30,16 @@ java {
     withJavadocJar()//this
 }
 
-publishing {
-    publications {
-        create("maven_desktop", MavenPublication::class) {
-            groupId = "com.github.ltttttttttttt"
-            artifactId = "maven_desktop"
-            version = githubVersion
-            from(components.getByName("kotlin"))
-        }
-    }
-}
+//publishing {
+//    publications {
+//        create("maven_desktop", MavenPublication::class) {
+//            groupId = "com.github.ltttttttttttt"
+//            artifactId = "maven_desktop"
+//            version = githubVersion
+//            from(components.getByName("kotlin"))
+//        }
+//    }
+//}
 
 dependencies {
     api(project(":core")) {

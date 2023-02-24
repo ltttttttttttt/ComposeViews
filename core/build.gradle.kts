@@ -24,7 +24,7 @@ plugins {
     id("convention.publication")
 }
 
-group = "com.github.ltttttttttttt"
+group = "io.github.ltttttttttttt"
 version = githubVersion
 
 kotlin {
