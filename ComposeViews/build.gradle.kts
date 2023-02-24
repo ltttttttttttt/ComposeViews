@@ -23,11 +23,12 @@ plugins {
 }
 
 group = "io.github.ltttttttttttt"
-version = "1.3.2"
+//上传到mavenCenter命令: ./gradlew publishAllPublicationsToSonatypeRepository
+version = "1.3.7.2"
 
 kotlin {
     android {
-        publishLibraryVariants("release")
+        publishLibraryVariants("debug", "release")
     }
     jvm("desktop") {
         compilations.all {
