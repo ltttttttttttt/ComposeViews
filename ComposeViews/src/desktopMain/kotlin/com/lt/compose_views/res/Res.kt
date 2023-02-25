@@ -25,7 +25,7 @@ import com.lt.load_the_image.rememberImagePainter
  * effect :
  * warning:
  */
-internal actual object Res2 {
+internal actual object Res {
     private const val imgFile = "drawable-xxhdpi/%s.png"
 
     @Composable

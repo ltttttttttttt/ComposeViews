@@ -123,7 +123,7 @@ fun ValueSelector(
             }
         }
     }
-    ValueSelectorCompositionLocalProvider2 {
+    ValueSelectorCompositionLocalProvider {
         Box(
             modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
                 .fillMaxWidth()
@@ -190,24 +190,5 @@ internal val valueSelector_defaultSelectedTextColor = Color(0xff0D8AFF)
 private val itemHeightDp = 41.dp
 private const val loopMultiple = 10000
 
-//由于跨平台问题,目前暂时使用反射
 @Composable
 internal expect fun ValueSelectorCompositionLocalProvider(content: @Composable () -> Unit)
-
-private val mLocalOverscrollConfiguration: ProvidableCompositionLocal<Any?> by lazy {
-    Class.forName("androidx.compose.foundation.OverscrollConfigurationKt")
-        .getMethod("getLocalOverscrollConfiguration")
-        .invoke(null) as ProvidableCompositionLocal<Any?>
-}
-
-@Composable
-internal fun ValueSelectorCompositionLocalProvider2(content: @Composable () -> Unit) {
-    if (Res.isAndroid) {
-        CompositionLocalProvider(
-            mLocalOverscrollConfiguration provides null,
-            content = content
-        )
-    } else {
-        content()
-    }
-}

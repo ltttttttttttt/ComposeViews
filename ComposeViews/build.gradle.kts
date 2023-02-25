@@ -24,7 +24,7 @@ plugins {
 
 group = "io.github.ltttttttttttt"
 //上传到mavenCenter命令: ./gradlew publishAllPublicationsToSonatypeRepository
-version = "1.3.7.2"
+version = "1.3.7.3"
 
 kotlin {
     android {
@@ -56,6 +56,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                api(compose.foundation)
                 api("androidx.activity:activity-compose:1.4.0")
                 //协程
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
