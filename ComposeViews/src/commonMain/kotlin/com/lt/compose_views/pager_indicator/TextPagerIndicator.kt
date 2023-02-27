@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,8 +48,8 @@ import kotlin.math.roundToInt
  *              The text list
  * @param offsetPercentWithSelectFlow 选中的指示器的偏移百分比
  *                                     The offset percentage of the selected indicator
- * @param selectIndex 选中的索引
- *                    The index of selected indicator
+ * @param selectIndexFlow 选中的索引
+ *                        The index of selected indicator
  * @param fontSize 未被选中的文字大小
  *                  Font size of the text indicator
  * @param selectFontSize 被选中的文字大小
@@ -72,7 +72,7 @@ import kotlin.math.roundToInt
 fun TextPagerIndicator(
     texts: List<String>,
     offsetPercentWithSelectFlow: Flow<Float>,
-    selectIndex: Int,
+    selectIndexFlow: Flow<Int>,
     fontSize: TextUnit,
     selectFontSize: TextUnit,
     textColor: Color,
@@ -90,7 +90,7 @@ fun TextPagerIndicator(
     TextPagerIndicator(
         texts = texts,
         offsetPercentWithSelectFlow = offsetPercentWithSelectFlow,
-        selectIndex = selectIndex,
+        selectIndexFlow = selectIndexFlow,
         fontSize = fontSize,
         selectFontSize = selectFontSize,
         textColor = textColor,
@@ -99,6 +99,7 @@ fun TextPagerIndicator(
         selectIndicatorItem = {
             var width by rememberMutableStateOf(0.dp)
             val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
+            val selectIndex by selectIndexFlow.collectAsState(0)
             LaunchedEffect(texts, offsetPercentWithSelect, selectIndex) {
                 width = density.run {
                     //当前选中的指示器宽度
@@ -113,6 +114,7 @@ fun TextPagerIndicator(
                     //通过百分比计算出实际宽度
                     abs(offsetPercentWithSelect).getPercentageValue(width, toWidth).toDp()
                 }
+                println("lllttt $width $offsetPercentWithSelect $selectIndex          ${System.currentTimeMillis()}")
             }
             Box(modifier = Modifier.fillMaxHeight()) {
                 Spacer(
@@ -134,7 +136,7 @@ fun TextPagerIndicator(
 fun TextPagerIndicator(
     texts: List<String>,
     offsetPercentWithSelectFlow: Flow<Float>,
-    selectIndex: Int,
+    selectIndexFlow: Flow<Int>,
     fontSize: TextUnit,
     selectFontSize: TextUnit,
     textColor: Color,
@@ -155,8 +157,9 @@ fun TextPagerIndicator(
     PagerIndicator(
         size = texts.size,
         offsetPercentWithSelectFlow = offsetPercentWithSelectFlow,
-        selectIndex = selectIndex,
+        selectIndexFlow = selectIndexFlow,
         indicatorItem = { index ->
+            val selectIndex by selectIndexFlow.collectAsState(0)
             Box(modifier = Modifier
                 .fillMaxHeight()
                 .clickable {

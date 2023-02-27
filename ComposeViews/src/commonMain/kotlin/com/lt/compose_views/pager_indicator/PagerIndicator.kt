@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +42,8 @@ import kotlin.math.roundToInt
  *             Number of indicator
  * @param offsetPercentWithSelectFlow 选中的指示器的偏移百分比
  *                                    The offset percentage of the selected indicator
- * @param selectIndex 选中的索引
- *                    The index of selected indicator
+ * @param selectIndexFlow 选中的索引
+ *                        The index of selected indicator
  * @param indicatorItem 未被选中的指示器
  *                      The indicator
  * @param selectIndicatorItem 被选中的指示器
@@ -60,7 +60,7 @@ import kotlin.math.roundToInt
 fun PagerIndicator(
     size: Int,
     offsetPercentWithSelectFlow: Flow<Float>,
-    selectIndex: Int,
+    selectIndexFlow: Flow<Int>,
     indicatorItem: @Composable (index: Int) -> Unit,
     selectIndicatorItem: @Composable PagerIndicatorScope.() -> Unit,
     modifier: Modifier = Modifier,
@@ -91,6 +91,7 @@ fun PagerIndicator(
     val coroutineScope = rememberCoroutineScope()
     var offsetJob by rememberMutableStateOf<Job?>(null)
     val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
+    val selectIndex by selectIndexFlow.collectAsState(0)
 
     Layout(modifier = modifier.let {
         if (userCanScroll) {

@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,9 +50,15 @@ class ComposePagerState {
 
     /**
      * 获取ComposePager所在的索引的state对象
-     * Get the [State] of the current index of the [ComposePager]
+     * Get the [State] of current index of the [ComposePager]
      */
     fun getCurrSelectIndexState(): State<Int> = currSelectIndex
+
+    /**
+     * 创建ComposePager当前所在的索引的flow对象
+     * Create the [Flow] of current index in the [ComposePager]
+     */
+    fun createCurrSelectIndexFlow(): Flow<Int> = snapshotFlow { currSelectIndex.value }
 
     /**
      * 动画是否执行中
@@ -68,7 +74,7 @@ class ComposePagerState {
 
     /**
      * 创建子项Offset偏移比例的flow对象
-     * Create the [Flow] of the percent of the offset
+     * Create the [Flow] of percent of offset
      */
     fun createChildOffsetPercentFlow(): Flow<Float> = snapshotFlow {
         val mainAxisSize = mainAxisSize

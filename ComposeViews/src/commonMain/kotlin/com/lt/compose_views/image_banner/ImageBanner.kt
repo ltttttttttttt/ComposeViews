@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -86,7 +84,7 @@ fun ImageBanner(
             PagerIndicator(
                 size = imageSize,
                 offsetPercentWithSelectFlow = remember(orientation) { bannerState.createChildOffsetPercentFlow() },
-                selectIndex = bannerState.getCurrSelectIndex(),
+                selectIndexFlow = remember(orientation) { bannerState.createCurrSelectIndexFlow() },
                 indicatorItem = indicatorItem,
                 selectIndicatorItem = selectIndicatorItem,
                 orientation = orientation,

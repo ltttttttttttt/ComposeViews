@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package com.lt.compose_views.compose_pager
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.Box
@@ -53,7 +52,6 @@ import kotlin.math.roundToInt
  * @param content compose内容区域
  *                Content of compose
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComposePager(
     pageCount: Int,
