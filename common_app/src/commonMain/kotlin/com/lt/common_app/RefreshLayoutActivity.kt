@@ -62,13 +62,7 @@ class RefreshLayoutActivity : BaseComposeActivity() {
                     .width(260.dp)
                     .background(Color.LightGray)
             ) {
-                Column() {
-                    FpsText(modifier = Modifier)
-                    Text(text = "Top状态:${topRefreshState.getRefreshContentState().value}")
-                    Text(text = "Bottom状态:${bottomRefreshState.getRefreshContentState().value}")
-                    Text(text = "Start状态:${startRefreshState.getRefreshContentState().value}")
-                    Text(text = "End状态:${endRefreshState.getRefreshContentState().value}")
-                }
+                Menu(topRefreshState, bottomRefreshState, startRefreshState, endRefreshState)
 
                 TopRefreshLayout(topRefreshState)
                 VerticalSpace(dp = 20)
@@ -85,6 +79,22 @@ class RefreshLayoutActivity : BaseComposeActivity() {
                 VerticalSpace(dp = 20)
                 MyRefreshablePager()
             }
+        }
+    }
+
+    @Composable
+    private fun Menu(
+        topRefreshState: RefreshLayoutState,
+        bottomRefreshState: RefreshLayoutState,
+        startRefreshState: RefreshLayoutState,
+        endRefreshState: RefreshLayoutState
+    ) {
+        Column() {
+            FpsText(modifier = Modifier)
+            Text(text = "Top状态:${topRefreshState.getRefreshContentState().value}")
+            Text(text = "Bottom状态:${bottomRefreshState.getRefreshContentState().value}")
+            Text(text = "Start状态:${startRefreshState.getRefreshContentState().value}")
+            Text(text = "End状态:${endRefreshState.getRefreshContentState().value}")
         }
     }
 

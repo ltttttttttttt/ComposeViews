@@ -52,33 +52,38 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     private val maxDp = 200.dp
     private val minDp = 56.dp
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ComposeContent() {
         Column(modifier = Modifier.fillMaxSize()) {
             AppBar()
-            Row {
-                Text(text = "方向:$composePosition")
-                Button(onClick = {
-                    composePosition = when (composePosition) {
-                        ComposePosition.Top -> ComposePosition.Bottom
-                        ComposePosition.Bottom -> ComposePosition.Start
-                        ComposePosition.Start -> ComposePosition.End
-                        ComposePosition.End -> ComposePosition.Top
-                    }
-                }) {
-                    Text(text = "切方向")
-                }
-                FpsText(modifier = Modifier)
-                Text(text = "模式:${chainMode.toString().substring(0, 5)}")
-                Button(onClick = {
-                    chainMode =
-                        if (chainMode == ChainMode.ChainContentFirst) ChainMode.ContentFirst else ChainMode.ChainContentFirst
-                }) {
-                    Text(text = "切模式")
-                }
-            }
+            Menu()
             ChainScrollable()
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun Menu() {
+        Row {
+            Text(text = "方向:$composePosition")
+            Button(onClick = {
+                composePosition = when (composePosition) {
+                    ComposePosition.Top -> ComposePosition.Bottom
+                    ComposePosition.Bottom -> ComposePosition.Start
+                    ComposePosition.Start -> ComposePosition.End
+                    ComposePosition.End -> ComposePosition.Top
+                }
+            }) {
+                Text(text = "切方向")
+            }
+            FpsText(modifier = Modifier)
+            Text(text = "模式:${chainMode.toString().substring(0, 5)}")
+            Button(onClick = {
+                chainMode =
+                    if (chainMode == ChainMode.ChainContentFirst) ChainMode.ContentFirst else ChainMode.ChainContentFirst
+            }) {
+                Text(text = "切模式")
+            }
         }
     }
 

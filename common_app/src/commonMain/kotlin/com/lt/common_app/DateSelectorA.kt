@@ -45,15 +45,15 @@ class DateSelectorA : BaseComposeActivity() {
     override fun ComposeContent() {
         Column(M.fillMaxSize().verticalScroll(rememberScrollState())) {
             FpsText()
-            Value()
-//            Values()
-            Date()
+            ValueSample()
+//            ValuesSample()
+            DateSample()
         }
     }
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun Date() {
+    private fun DateSample() {
         val state = remember { DateSelectorState(2022, 2, 5) }
         DateSelector(state)
         Button({
@@ -65,7 +65,7 @@ class DateSelectorA : BaseComposeActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun Values() {
+    private fun ValuesSample() {
         val values = remember {
             listOf(
                 ArrayList((1900..2022).map(Int::toString)),
@@ -93,7 +93,7 @@ class DateSelectorA : BaseComposeActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun Value() {
+    private fun ValueSample() {
         val values = remember { ArrayList((0 until 60).map(Int::toString)) }
         val state = rememberValueSelectState()
         ValueSelector(

@@ -35,6 +35,7 @@ import com.lt.common_app.base.BaseComposeActivity
 import com.lt.common_app.base.click
 import com.lt.common_app.base.composeClick
 import com.lt.compose_views.compose_pager.ComposePager
+import com.lt.compose_views.compose_pager.ComposePagerState
 import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.other.FpsText
@@ -68,43 +69,7 @@ class ComposePagerActivity : BaseComposeActivity() {
     override fun ComposeContent() {
         val composePagerState = rememberComposePagerState()
         Column(M.fillMaxSize()) {
-            FlowLayout(horizontalMargin = 10.dp) {
-                FpsText()
-                Button(onClick = {
-                    orientation.value = if (orientation.value == Orientation.Horizontal)
-                        Orientation.Vertical
-                    else
-                        Orientation.Horizontal
-                }) {
-                    Text(text = "改变滑动方向")
-                }
-                Text(text = "当前滑动方向:${orientation.value}")
-                Button(onClick = {
-                    if (isImage) {
-                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F66b7ce397068c1f4710cafe4e1827ab5f7565180.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065304&t=c45a94bbac62a3bd502dc53e40afc583")
-                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fc0793b2877f09ded49e96e3b3e05781d4f1e2e9e.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065303&t=86940ecb5bf20d1c90b5fb1c1f0afb06")
-                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F79c593c97cb1aef62160a7c6165ea3ecdc60f064.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065301&t=0d840bcfe779bcac4ea65db6d257c417")
-                        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F2726b76584c11dc75449024ad6105893be1edd0f.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065300&t=7afae3a8eccb498fb37d54ff54d2016b")
-                    } else
-                        colors.add(Color(Random.nextLong()))
-                }) {
-                    Text(text = "增加条目")
-                }
-                Button(onClick = {
-                    if (isImage)
-                        images.removeLastOrNull()
-                    else
-                        colors.removeLastOrNull()
-                }) {
-                    Text(text = "减少条目")
-                }
-                Text("条目数量:${if (isImage) images.size else colors.size}")
-                Button(onClick = {
-                    isImage = !isImage
-                }) {
-                    Text(text = "切换")
-                }
-            }
+            Menu()
             VerticalRefreshableLayout(
                 topRefreshLayoutState = rememberRefreshLayoutState(
                     onRefreshListener = onRefresh()
@@ -112,55 +77,101 @@ class ComposePagerActivity : BaseComposeActivity() {
                     onRefreshListener = onRefresh()
                 )
             ) {
-                ComposePager(
-                    if (isImage) images.size else colors.size,
-                    M.fillMaxSize(),
-                    composePagerState = composePagerState,
-                    orientation = orientation.value,
-                    pageCache = 2,
+                ComposePagerSample(composePagerState)
+            }
+        }
+    }
+
+    @Composable
+    private fun ComposePagerSample(composePagerState: ComposePagerState) {
+        ComposePager(
+            if (isImage) images.size else colors.size,
+            M.fillMaxSize(),
+            composePagerState = composePagerState,
+            orientation = orientation.value,
+            pageCache = 2,
+        ) {
+            if (isImage) {
+                //看日志测试pageCache
+                DisposableEffect(key1 = index, effect = {
+                    println("ComposePagerActivity.ComposeContent=: $index")
+                    onDispose {
+                        println("ComposePagerActivity.onDispose=: $index")
+                    }
+                })
+                Image(
+                    painter = rememberPainter(data = images[index]),
+                    contentDescription = "",
+                    modifier = M
+                        .fillMaxSize()
+                        .click {
+                            composePagerState.setPageIndexWithAnimate(
+                                if (index + 1 >= images.size)
+                                    0
+                                else
+                                    index + 1
+                            )
+                        },
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Box(
+                    modifier = M
+                        .fillMaxSize()
+                        .background(colors[index])
                 ) {
-                    if (isImage) {
-                        //看日志测试pageCache
-                        DisposableEffect(key1 = index, effect = {
-                            println("ComposePagerActivity.ComposeContent=: $index")
-                            onDispose {
-                                println("ComposePagerActivity.onDispose=: $index")
-                            }
-                        })
-                        Image(
-                            painter = rememberPainter(data = images[index]),
-                            contentDescription = "",
-                            modifier = M
-                                .fillMaxSize()
-                                .click {
-                                    composePagerState.setPageIndexWithAnimate(
-                                        if (index + 1 >= images.size)
-                                            0
-                                        else
-                                            index + 1
-                                    )
-                                },
-                            contentScale = ContentScale.Crop
+                    Button(composeClick {
+                        composePagerState.setPageIndexWithAnimate(
+                            if (index + 1 >= colors.size)
+                                0
+                            else
+                                index + 1
                         )
-                    } else {
-                        Box(
-                            modifier = M
-                                .fillMaxSize()
-                                .background(colors[index])
-                        ) {
-                            Button(composeClick {
-                                composePagerState.setPageIndexWithAnimate(
-                                    if (index + 1 >= colors.size)
-                                        0
-                                    else
-                                        index + 1
-                                )
-                            }, modifier = M.align(Alignment.Center)) {
-                                Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
-                            }
-                        }
+                    }, modifier = M.align(Alignment.Center)) {
+                        Text(text = this@ComposePager.index.toString(), fontSize = 30.sp)
                     }
                 }
+            }
+        }
+    }
+
+    @Composable
+    private fun Menu() {
+        FlowLayout(horizontalMargin = 10.dp) {
+            FpsText()
+            Button(onClick = {
+                orientation.value = if (orientation.value == Orientation.Horizontal)
+                    Orientation.Vertical
+                else
+                    Orientation.Horizontal
+            }) {
+                Text(text = "改变滑动方向")
+            }
+            Text(text = "当前滑动方向:${orientation.value}")
+            Button(onClick = {
+                if (isImage) {
+                    images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F66b7ce397068c1f4710cafe4e1827ab5f7565180.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065304&t=c45a94bbac62a3bd502dc53e40afc583")
+                    images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fc0793b2877f09ded49e96e3b3e05781d4f1e2e9e.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065303&t=86940ecb5bf20d1c90b5fb1c1f0afb06")
+                    images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F79c593c97cb1aef62160a7c6165ea3ecdc60f064.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065301&t=0d840bcfe779bcac4ea65db6d257c417")
+                    images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F2726b76584c11dc75449024ad6105893be1edd0f.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665065300&t=7afae3a8eccb498fb37d54ff54d2016b")
+                } else
+                    colors.add(Color(Random.nextLong()))
+            }) {
+                Text(text = "增加条目")
+            }
+            Button(onClick = {
+                if (isImage)
+                    images.removeLastOrNull()
+                else
+                    colors.removeLastOrNull()
+            }) {
+                Text(text = "减少条目")
+            }
+            Text("条目数量:${if (isImage) images.size else colors.size}")
+            Button(onClick = {
+                isImage = !isImage
+            }) {
+                Text(text = "切换")
             }
         }
     }

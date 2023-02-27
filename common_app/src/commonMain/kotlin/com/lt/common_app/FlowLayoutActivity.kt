@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.flow_layout.LabelsFlowLayout
+import com.lt.compose_views.flow_layout.LabelsFlowLayoutState
 import com.lt.compose_views.flow_layout.rememberLabelsFlowLayoutState
 import com.lt.compose_views.util.SelectMode
 import com.lt.compose_views.util.rememberMutableStateOf
@@ -61,101 +62,129 @@ class FlowLayoutActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         Column {
-            FlowLayout {
-                Button(onClick = {
-                    orientation.value = if (orientation.value == Orientation.Horizontal)
-                        Orientation.Vertical
-                    else
-                        Orientation.Horizontal
-                }) {
-                    Text(text = "改变排列方向")
-                }
-                Text(text = "当前排列方向:${orientation.value}")
-                Button(onClick = {
-                    val sb = StringBuilder()
-                    val i = Random.nextInt(20) + 1
-                    repeat(i) {
-                        sb.append(i.toString())
-                    }
-                    items.add(sb.toString())
-                }) {
-                    Text(text = "增加文字条目")
-                }
-                Button(onClick = {
-                    items.add("Image")
-                }) {
-                    Text(text = "增加图片条目")
-                }
-                Button(onClick = {
-                    items.removeFirstOrNull()
-                }) {
-                    Text(text = "删除第一个条目")
-                }
-                Button(onClick = {
-                    items.removeLastOrNull()
-                }) {
-                    Text(text = "删除最后一个条目")
-                }
-            }
+            Menu()
 
-            FlowLayout(
-                modifier = M
-                    .background(Color.Gray)
-                    .padding(10.dp),
-                orientation = orientation.value,
-                //horizontalAlignment = Alignment.CenterHorizontally,
-                //verticalAlignment = Alignment.CenterVertically,
-                horizontalMargin = 10.dp,
-                verticalMargin = 10.dp,
-                maxLines = 8
-            ) {
-                items.forEach {
-                    if (it == "Image")
-                        Image(
-                            painter = resourcePainter("ic_launcher_test"),
-                            contentDescription = ""
-                        )
-                    else
-                        Text(text = it)
-                }
-            }
+            FlowLayoutSample()
 
             var selectMode by rememberMutableStateOf<SelectMode>(value = SelectMode.Radio)
             val state = rememberLabelsFlowLayoutState(size = 10, selectMode = selectMode)
-            Row {
-                Button(onClick = { selectMode = SelectMode.Radio }) {
-                    Text(text = "单选")
-                }
-                Button(onClick = { selectMode = SelectMode.MultipleChoice() }) {
-                    Text(text = "多选")
-                }
-                Button(onClick = { selectMode = SelectMode.MultipleChoice(3) }) {
-                    Text(text = "多选(最多3条)")
-                }
-                Button(onClick = {
-                    state.selectData.toList().toString().showToast()
-                }) {
-                    Text(text = "获取数据")
-                }
+
+            LabelsFlowLayoutMenu({ selectMode = it }, state)
+
+            LabelsFlowLayoutSample(selectMode, state)
+        }
+    }
+
+    @Composable
+    private fun LabelsFlowLayoutSample(
+        selectMode: SelectMode,
+        state: LabelsFlowLayoutState,
+    ) {
+        LabelsFlowLayout(size = 10, selectMode = selectMode, state = state) {
+            Button(
+                onClick = {
+                    //设置单选无法取消(也可以不加这个限制)
+                    if (selectMode == SelectMode.Radio) {
+                        setIsSelect(true) {}
+                        return@Button
+                    }
+                    setIsSelect(!getIsSelect()) {
+                        "超过选择上限了".showToast()
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = if (getIsSelect()) Color.Yellow else MaterialTheme.colors.primary
+                )
+            ) {
+                Text("$index")
             }
-            LabelsFlowLayout(size = 10, selectMode = selectMode, state = state) {
-                Button(
-                    onClick = {
-                        //设置单选无法取消(也可以不加这个限制)
-                        if (selectMode == SelectMode.Radio) {
-                            setIsSelect(true) {}
-                            return@Button
-                        }
-                        setIsSelect(!getIsSelect()) {
-                            "超过选择上限了".showToast()
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = if (getIsSelect()) Color.Yellow else MaterialTheme.colors.primary
+        }
+    }
+
+    @Composable
+    private fun LabelsFlowLayoutMenu(
+        selectModeChange: (SelectMode) -> Unit,
+        state: LabelsFlowLayoutState
+    ) {
+        Row {
+            Button(onClick = { selectModeChange(SelectMode.Radio) }) {
+                Text(text = "单选")
+            }
+            Button(onClick = { selectModeChange(SelectMode.MultipleChoice()) }) {
+                Text(text = "多选")
+            }
+            Button(onClick = { selectModeChange(SelectMode.MultipleChoice(3)) }) {
+                Text(text = "多选(最多3条)")
+            }
+            Button(onClick = {
+                state.selectData.toList().toString().showToast()
+            }) {
+                Text(text = "获取数据")
+            }
+        }
+    }
+
+    @Composable
+    private fun FlowLayoutSample() {
+        FlowLayout(
+            modifier = M
+                .background(Color.Gray)
+                .padding(10.dp),
+            orientation = orientation.value,
+            //horizontalAlignment = Alignment.CenterHorizontally,
+            //verticalAlignment = Alignment.CenterVertically,
+            horizontalMargin = 10.dp,
+            verticalMargin = 10.dp,
+            maxLines = 8
+        ) {
+            items.forEach {
+                if (it == "Image")
+                    Image(
+                        painter = resourcePainter("ic_launcher_test"),
+                        contentDescription = ""
                     )
-                ) {
-                    Text("$index")
+                else
+                    Text(text = it)
+            }
+        }
+    }
+
+    @Composable
+    private fun Menu() {
+        FlowLayout {
+            Button(onClick = {
+                orientation.value = if (orientation.value == Orientation.Horizontal)
+                    Orientation.Vertical
+                else
+                    Orientation.Horizontal
+            }) {
+                Text(text = "改变排列方向")
+            }
+            Text(text = "当前排列方向:${orientation.value}")
+            Button(onClick = {
+                val sb = StringBuilder()
+                val i = Random.nextInt(20) + 1
+                repeat(i) {
+                    sb.append(i.toString())
                 }
+                items.add(sb.toString())
+            }) {
+                Text(text = "增加文字条目")
+            }
+            Button(onClick = {
+                items.add("Image")
+            }) {
+                Text(text = "增加图片条目")
+            }
+            Button(onClick = {
+                items.removeFirstOrNull()
+            }) {
+                Text(text = "删除第一个条目")
+            }
+            Button(onClick = {
+                items.removeLastOrNull()
+            }) {
+                Text(text = "删除最后一个条目")
             }
         }
     }
