@@ -41,6 +41,8 @@ import com.lt.compose_views.util.ComposePosition
  *                           Bottom is it loaded
  * @param bottomRefreshContent bottom的刷新布局的content,有默认样式,可以传入lambda自定义
  *                             Refreshed content area of bottom
+ * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
+ *                   Whether the user can drag
  * @param content 内容
  *                Content of compose
  */
@@ -56,18 +58,22 @@ fun VerticalRefreshableLayout(
     bottomRefreshContent: @Composable RefreshLayoutState.() -> Unit = remember(bottomIsLoadFinish) {
         { LoadMoreRefreshContent(bottomIsLoadFinish) }
     },
+    topUserEnable: Boolean = true,
+    bottomUserEnable: Boolean = true,
     content: @Composable () -> Unit
 ) {
     RefreshLayout(
         modifier = modifier,
         refreshContent = topRefreshContent,
-        refreshLayoutState = topRefreshLayoutState
+        refreshLayoutState = topRefreshLayoutState,
+        userEnable = topUserEnable,
     ) {
         RefreshLayout(
             modifier = Modifier.fillMaxSize(),
             refreshContent = bottomRefreshContent,
             refreshLayoutState = bottomRefreshLayoutState,
             composePosition = ComposePosition.Bottom,
+            userEnable = bottomUserEnable,
             content = content
         )
     }

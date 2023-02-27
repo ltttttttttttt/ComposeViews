@@ -36,7 +36,6 @@ import com.lt.common_app.base.click
 import com.lt.common_app.base.composeClick
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.ComposePagerState
-import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
@@ -67,15 +66,18 @@ class ComposePagerActivity : BaseComposeActivity() {
 
     @Composable
     override fun ComposeContent() {
-        val composePagerState = rememberComposePagerState()
+        val composePagerState = remember(orientation.value) { ComposePagerState() }
         Column(M.fillMaxSize()) {
             Menu()
             VerticalRefreshableLayout(
                 topRefreshLayoutState = rememberRefreshLayoutState(
                     onRefreshListener = onRefresh()
-                ), bottomRefreshLayoutState = rememberRefreshLayoutState(
+                ),
+                bottomRefreshLayoutState = rememberRefreshLayoutState(
                     onRefreshListener = onRefresh()
-                )
+                ),
+                topUserEnable = composePagerState.getCurrSelectIndex() == 0,
+                bottomUserEnable = composePagerState.getCurrSelectIndex() == (if (isImage) images.size else colors.size) - 1,
             ) {
                 ComposePagerSample(composePagerState)
             }

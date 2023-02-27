@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.compose_pager.ComposePager
+import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.refresh_layout.*
@@ -108,11 +109,18 @@ class RefreshLayoutActivity : BaseComposeActivity() {
 
     @Composable
     private fun MyRefreshablePager() {
+        val state = rememberComposePagerState()
         VerticalRefreshableLayout(
             topRefreshLayoutState = createState(),
-            bottomRefreshLayoutState = createState()
+            bottomRefreshLayoutState = createState(),
+            topUserEnable = state.getCurrSelectIndex() == 0,
+            bottomUserEnable = state.getCurrSelectIndex() == colors.size - 1,
         ) {
-            ComposePager(pageCount = colors.size, orientation = Orientation.Vertical) {
+            ComposePager(
+                pageCount = colors.size,
+                orientation = Orientation.Vertical,
+                composePagerState = state,
+            ) {
                 Box(
                     modifier = M
                         .fillMaxSize()
