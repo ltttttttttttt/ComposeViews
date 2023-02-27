@@ -7,12 +7,6 @@
 <img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/>
 </p>
 
-![badge][badge-android]
-![badge][badge-jvm-desktop]
-
-[//]: # (![badge][badge-ios])
-[//]: # (![badge][badge-web-canvas])
-
 <div align="center"><a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README.md">us English</a> | cn 简体中文 | <a href="https://sakurajimamaii.github.io/ComposeViewsDocs/">详细文档(us)</a></div>
 
 ## 目前提供的View
