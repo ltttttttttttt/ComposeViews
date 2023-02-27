@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -112,7 +115,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             PagerIndicator(
                 size = colors.size,
                 offsetPercentWithSelectFlow = remember { bannerState.createChildOffsetPercentFlow() },
-                selectIndex = bannerState.getCurrSelectIndex(),
+                selectIndexFlow = remember { bannerState.createCurrSelectIndexFlow() },
                 indicatorItem = {
                     Spacer(
                         modifier = M
@@ -172,7 +175,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             PagerIndicator(
                 size = colors.size,
                 offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
-                selectIndex = pagerState.getCurrSelectIndex(),
+                selectIndexFlow = remember { pagerState.createCurrSelectIndexFlow() },
                 indicatorItem = {
                     Spacer(
                         modifier = M

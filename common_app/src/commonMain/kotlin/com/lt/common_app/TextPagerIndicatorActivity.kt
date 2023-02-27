@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,7 +69,7 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
             TextPagerIndicator(
                 texts = texts,
                 offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
-                selectIndex = pagerState.getCurrSelectIndex(),
+                selectIndexFlow = remember { pagerState.createCurrSelectIndexFlow() },
                 fontSize = 16.sp,
                 selectFontSize = 20.sp,
                 textColor = textColor,

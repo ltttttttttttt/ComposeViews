@@ -4,8 +4,14 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
-<img src="https://jitpack.io/v/ltttttttttttt/ComposeViews.svg"/>
+<img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/>
 </p>
+
+![badge][badge-android]
+![badge][badge-jvm-desktop]
+
+[//]: # (![badge][badge-ios])
+[//]: # (![badge][badge-web-canvas])
 
 <div align="center">us English | <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README_CN.md">cn 简体中文</a> | <a href="https://sakurajimamaii.github.io/ComposeViewsDocs/">detailed documentation</a></div>
 
@@ -26,38 +32,14 @@ View demo</a>
 
 ## Add to your project
 
-Step 1.Root dir, build.gradle.kts add:
+Your app or common dir, build.gradle.kts add:
 
-```kotlin
-buildscript {
-    repositories {
-        maven("https://jitpack.io")//this
-        ...
-    }
-}
-
-allprojects {
-    repositories {
-        maven("https://jitpack.io")//this
-        ...
-    }
-}
-```
-
-Step 2.Your app dir, build.gradle.kts add:
-
-version
-= [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
+version = [![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)
 
 ```kotlin
 dependencies {
     ...
-    //common target
-    implementation("com.github.ltttttttttttt.ComposeViews:core:$version")//this, such as 1.3.4
-    //android target(If it is android project, just use this)
-    implementation("com.github.ltttttttttttt.ComposeViews:maven_android:$version")//this, such as 1.3.4
-    //desktop target
-    implementation("com.github.ltttttttttttt.ComposeViews:maven_desktop:$version")//this, such as 1.3.4
+    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.3.8
 }
 ```
 
@@ -109,8 +91,8 @@ fun Banner()
 /**
  * Indicator for pager
  * @param size Number of indicator
- * @param offsetPercentWithSelect The offset percentage of the selected indicator
- * @param selectIndex The index of selected indicator
+ * @param offsetPercentWithSelectFlow The offset percentage of the selected indicator
+ * @param selectIndexFlow The index of selected indicator
  * @param indicatorItem The indicator
  * @param selectIndicatorItem The selected indicator
  * @param modifier
@@ -124,8 +106,8 @@ fun PagerIndicator()
 /**
  * Text indicator for pager
  * @param texts The text list
- * @param offsetPercentWithSelect The offset percentage of the selected indicator
- * @param selectIndex The index of selected indicator
+ * @param offsetPercentWithSelectFlow The offset percentage of the selected indicator
+ * @param selectIndexFlow The index of selected indicator
  * @param fontSize Font size of the text indicator
  * @param selectFontSize Font size of the selected text indicator
  * @param textColor Font color of the text indicator
@@ -356,31 +338,6 @@ fun GoodTextField()
  */
 @Composable
 fun PasswordTextField()
-```
-
-## proguard-rules
-
-```
--keepclassmembers class androidx.compose.ui.graphics.AndroidImageBitmap_androidKt{
-public *** asImageBitmap(...);
-}
--keepclassmembers class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt{
-public *** getLocalContext(...);
-}
--keepclassmembers class androidx.compose.foundation.OverscrollConfigurationKt{
-public *** getLocalOverscrollConfiguration(...);
-}
-```
-
-And drawable name:
-
-```
-compose_views_refresh_layout_loading
-compose_views_refresh_layout_arrow
-compose_views_password_show
-compose_views_password_hide
-star_bar_star_select
-star_bar_star
 ```
 
 ## contact information

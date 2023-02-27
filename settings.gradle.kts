@@ -1,5 +1,5 @@
 /*
- * Copyright lt 2022
+ * Copyright lt 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ rootProject.name = "ComposeViews"
 include(":android_app")
 include("desktop_app")
 include(":common_app")
-include(":core")
-include(":android")
-include(":desktop_jvm")
+include(":ComposeViews")
+
+
+includeBuild("convention-plugins")
