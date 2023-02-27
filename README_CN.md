@@ -4,8 +4,14 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
-<img src="https://jitpack.io/v/ltttttttttttt/ComposeViews.svg"/>
+<img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/>
 </p>
+
+![badge][badge-android]
+![badge][badge-jvm-desktop]
+
+[//]: # (![badge][badge-ios])
+[//]: # (![badge][badge-web-canvas])
 
 <div align="center"><a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/README.md">us English</a> | cn 简体中文 | <a href="https://sakurajimamaii.github.io/ComposeViewsDocs/">详细文档(us)</a></div>
 
@@ -26,37 +32,14 @@
 
 ## 快速入门
 
-Step 1.在项目的根目录的build.gradle.kts内添加:
+在app或common模块目录内的build.gradle.kts内添加:
 
-```kotlin
-buildscript {
-    repositories {
-        maven("https://jitpack.io")//this
-        ...
-    }
-}
-
-allprojects {
-    repositories {
-        maven("https://jitpack.io")//this
-        ...
-    }
-}
-```
-
-Step 2.在app模块目录内的build.gradle.kts内添加:
-
-version = [![](https://jitpack.io/v/ltttttttttttt/ComposeViews.svg)](https://jitpack.io/#ltttttttttttt/ComposeViews)
+version = [![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)
 
 ```kotlin
 dependencies {
     ...
-    //common路径中
-    implementation("com.github.ltttttttttttt.ComposeViews:core:$version")//this,比如1.3.4
-    //android路径中(如果是安卓项目,只需要引入这个)
-    implementation("com.github.ltttttttttttt.ComposeViews:maven_android:$version")//this,比如1.3.4
-    //desktop路径中
-    implementation("com.github.ltttttttttttt.ComposeViews:maven_desktop:$version")//this,比如1.3.4
+    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this,比如1.3.8
 }
 ```
 
@@ -108,8 +91,8 @@ fun Banner()
 /**
  * 适用于Pager的指示器
  * @param size 指示器数量
- * @param offsetPercentWithSelect 选中的指示器的偏移百分比
- * @param selectIndex 选中的索引
+ * @param offsetPercentWithSelectFlow 选中的指示器的偏移百分比
+ * @param selectIndexFlow 选中的索引
  * @param indicatorItem 未被选中的指示器
  * @param selectIndicatorItem 被选中的指示器
  * @param modifier 修饰
@@ -123,8 +106,8 @@ fun PagerIndicator()
 /**
  * 适用于Pager的文本指示器
  * @param texts 文本列表
- * @param offsetPercentWithSelect 选中的指示器的偏移百分比
- * @param selectIndex 选中的索引
+ * @param offsetPercentWithSelectFlow 选中的指示器的偏移百分比
+ * @param selectIndexFlow 选中的索引
  * @param fontSize 未被选中的文字大小
  * @param selectFontSize 被选中的文字大小
  * @param textColor 未被选中的文字颜色
