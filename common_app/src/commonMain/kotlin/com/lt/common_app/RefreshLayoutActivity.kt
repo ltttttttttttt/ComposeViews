@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.compose_pager.ComposePager
+import com.lt.compose_views.compose_pager.rememberComposePagerState
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.refresh_layout.*
@@ -62,13 +63,7 @@ class RefreshLayoutActivity : BaseComposeActivity() {
                     .width(260.dp)
                     .background(Color.LightGray)
             ) {
-                Column() {
-                    FpsText(modifier = Modifier)
-                    Text(text = "Top状态:${topRefreshState.getRefreshContentState().value}")
-                    Text(text = "Bottom状态:${bottomRefreshState.getRefreshContentState().value}")
-                    Text(text = "Start状态:${startRefreshState.getRefreshContentState().value}")
-                    Text(text = "End状态:${endRefreshState.getRefreshContentState().value}")
-                }
+                Menu(topRefreshState, bottomRefreshState, startRefreshState, endRefreshState)
 
                 TopRefreshLayout(topRefreshState)
                 VerticalSpace(dp = 20)
@@ -88,6 +83,22 @@ class RefreshLayoutActivity : BaseComposeActivity() {
         }
     }
 
+    @Composable
+    private fun Menu(
+        topRefreshState: RefreshLayoutState,
+        bottomRefreshState: RefreshLayoutState,
+        startRefreshState: RefreshLayoutState,
+        endRefreshState: RefreshLayoutState
+    ) {
+        Column() {
+            FpsText(modifier = Modifier)
+            Text(text = "Top状态:${topRefreshState.getRefreshContentState().value}")
+            Text(text = "Bottom状态:${bottomRefreshState.getRefreshContentState().value}")
+            Text(text = "Start状态:${startRefreshState.getRefreshContentState().value}")
+            Text(text = "End状态:${endRefreshState.getRefreshContentState().value}")
+        }
+    }
+
     private val colors = mutableStateListOf(
         Color(150, 105, 61, 255),
         Color(122, 138, 55, 255),
@@ -98,11 +109,18 @@ class RefreshLayoutActivity : BaseComposeActivity() {
 
     @Composable
     private fun MyRefreshablePager() {
+        val state = rememberComposePagerState()
         VerticalRefreshableLayout(
             topRefreshLayoutState = createState(),
-            bottomRefreshLayoutState = createState()
+            bottomRefreshLayoutState = createState(),
+            topUserEnable = state.getCurrSelectIndex() == 0,
+            bottomUserEnable = state.getCurrSelectIndex() == colors.size - 1,
         ) {
-            ComposePager(pageCount = colors.size, orientation = Orientation.Vertical) {
+            ComposePager(
+                pageCount = colors.size,
+                orientation = Orientation.Vertical,
+                composePagerState = state,
+            ) {
                 Box(
                     modifier = M
                         .fillMaxSize()

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.banner.Banner
+import com.lt.compose_views.banner.BannerState
 import com.lt.compose_views.banner.rememberBannerState
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.other.FpsText
@@ -53,50 +54,60 @@ class BannerActivity : BaseComposeActivity() {
         val itemIndex by remember { bannerState.createCurrSelectIndexFlow() }
             .collectAsState(initial = 0)
         Column(M.fillMaxSize()) {
-            FlowLayout(horizontalMargin = 10.dp) {
-                FpsText(modifier = Modifier)
-                Text(text = "item:$itemIndex")
-                Button(onClick = {
-                    orientation.value = if (orientation.value == Orientation.Horizontal)
-                        Orientation.Vertical
-                    else
-                        Orientation.Horizontal
-                }) {
-                    Text(text = "改变滑动方向")
-                }
-                Text(text = "当前滑动方向:${orientation.value}")
-                Button(onClick = {
-                    colors.add(Color(Random.nextLong()))
-                }) {
-                    Text(text = "增加条目")
-                }
-                Button(onClick = {
-                    colors.removeLastOrNull()
-                }) {
-                    Text(text = "减少条目")
-                }
-                Text("当前条目数量:${colors.size}")
-            }
+            Menu(itemIndex)
 
-            Banner(
-                colors.size,
-                M.fillMaxSize(),
-                bannerState = bannerState,
-                autoScrollTime = 1000,
-                orientation = orientation.value,
+            BannerSample(bannerState)
+        }
+    }
+
+    @Composable
+    private fun BannerSample(bannerState: BannerState) {
+        Banner(
+            colors.size,
+            M.fillMaxSize(),
+            bannerState = bannerState,
+            autoScrollTime = 1000,
+            orientation = orientation.value,
+        ) {
+            Box(
+                modifier = M
+                    .fillMaxSize()
+                    .background(colors.getOrNull(index) ?: Color.Black)
             ) {
-                Box(
-                    modifier = M
-                        .fillMaxSize()
-                        .background(colors.getOrNull(index) ?: Color.Black)
-                ) {
-                    Button(onClick = {
-                        "index=$index".showToast()
-                    }, modifier = M.align(Alignment.Center)) {
-                        Text(text = this@Banner.index.toString(), fontSize = 30.sp)
-                    }
+                Button(onClick = {
+                    "index=$index".showToast()
+                }, modifier = M.align(Alignment.Center)) {
+                    Text(text = this@Banner.index.toString(), fontSize = 30.sp)
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun Menu(itemIndex: Int) {
+        FlowLayout(horizontalMargin = 10.dp) {
+            FpsText(modifier = Modifier)
+            Text(text = "item:$itemIndex")
+            Button(onClick = {
+                orientation.value = if (orientation.value == Orientation.Horizontal)
+                    Orientation.Vertical
+                else
+                    Orientation.Horizontal
+            }) {
+                Text(text = "改变滑动方向")
+            }
+            Text(text = "当前滑动方向:${orientation.value}")
+            Button(onClick = {
+                colors.add(Color(Random.nextLong()))
+            }) {
+                Text(text = "增加条目")
+            }
+            Button(onClick = {
+                colors.removeLastOrNull()
+            }) {
+                Text(text = "减少条目")
+            }
+            Text("当前条目数量:${colors.size}")
         }
     }
 

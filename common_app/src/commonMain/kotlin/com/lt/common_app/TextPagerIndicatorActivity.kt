@@ -59,40 +59,71 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         Column {
-            FpsText(modifier = M)
-            Row {
-                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() + 1) }) { Text("+1") }
-                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() + 2) }) { Text("+2") }
-                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() - 1) }) { Text("-1") }
-                Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() - 2) }) { Text("-2") }
-            }
-            TextPagerIndicator(
-                texts = texts,
-                offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
-                selectIndexFlow = remember { pagerState.createCurrSelectIndexFlow() },
-                fontSize = 16.sp,
-                selectFontSize = 20.sp,
-                textColor = textColor,
-                selectTextColor = selectTextColor,
-                selectIndicatorColor = selectIndicatorColor,
-                onIndicatorClick = {
-                    pagerState.setPageIndexWithAnimate(it)
-                },
+            Menu()
+            MTextPagerIndicator()
+            MComposePager()
+        }
+    }
+
+    @Composable
+    private fun MComposePager() {
+        ComposePager(
+            pageCount = colors.size,
+            modifier = M.fillMaxSize(),
+            composePagerState = pagerState,
+            orientation = Orientation.Horizontal,
+        ) {
+            Box(
                 modifier = M
-                    .fillMaxWidth()
-                    .height(35.dp),
-                margin = 28.dp,
+                    .fillMaxSize()
+                    .background(colors[index].first)
             )
-            ComposePager(
-                pageCount = colors.size,
-                modifier = M.fillMaxSize(),
-                composePagerState = pagerState,
-                orientation = Orientation.Horizontal,
-            ) {
-                Box(
-                    modifier = M
-                        .fillMaxSize()
-                        .background(colors[index].first)
+        }
+    }
+
+    @Composable
+    private fun MTextPagerIndicator() {
+        TextPagerIndicator(
+            texts = texts,
+            offsetPercentWithSelectFlow = remember { pagerState.createChildOffsetPercentFlow() },
+            selectIndexFlow = remember { pagerState.createCurrSelectIndexFlow() },
+            fontSize = 16.sp,
+            selectFontSize = 20.sp,
+            textColor = textColor,
+            selectTextColor = selectTextColor,
+            selectIndicatorColor = selectIndicatorColor,
+            onIndicatorClick = {
+                pagerState.setPageIndexWithAnimate(it)
+            },
+            modifier = M
+                .fillMaxWidth()
+                .height(35.dp),
+            margin = 28.dp,
+        )
+    }
+
+    @Composable
+    private fun Menu() {
+        FpsText(modifier = M)
+        Row {
+            Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() + 1) }) {
+                Text(
+                    "+1"
+                )
+            }
+            Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() + 2) }) {
+                Text(
+                    "+2"
+                )
+            }
+            Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() - 1) }) {
+                Text(
+                    "-1"
+                )
+            }
+            Button({ pagerState.setPageIndexWithAnimate(pagerState.getCurrSelectIndex() - 2) }) {
+                Text(
+                    "-2"
                 )
             }
         }

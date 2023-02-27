@@ -65,23 +65,28 @@ class PagerIndicatorActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         Column(M.fillMaxSize()) {
-            FlowLayout(horizontalMargin = 10.dp) {
-                FpsText(modifier = Modifier)
-                Button(onClick = {
-                    orientation.value = if (orientation.value == Orientation.Horizontal)
-                        Orientation.Vertical
-                    else
-                        Orientation.Horizontal
-                }) {
-                    Text(text = "改变滑动方向")
-                }
-            }
+            Menu()
 
             BannerView()
             VerticalSpace(dp = 10)
             PagerView()
             VerticalSpace(dp = 10)
             Images()
+        }
+    }
+
+    @Composable
+    private fun Menu() {
+        FlowLayout(horizontalMargin = 10.dp) {
+            FpsText(modifier = Modifier)
+            Button(onClick = {
+                orientation.value = if (orientation.value == Orientation.Horizontal)
+                    Orientation.Vertical
+                else
+                    Orientation.Horizontal
+            }) {
+                Text(text = "改变滑动方向")
+            }
         }
     }
 

@@ -218,8 +218,10 @@ fun ComposePager(
                 val index = composePagerState.currSelectIndex.value
                 when (flag) {
                     PageChangeAnimFlag.Prev -> {
-                        if (index <= 0)
+                        if (index <= 0) {
+                            composePagerState.offsetAnim.animateTo(-index * composePagerState.mainAxisSize.toFloat())
                             return@LaunchedEffect
+                        }
                         try {
                             composePagerState.offsetAnim.animateTo(-(index - 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
@@ -229,8 +231,10 @@ fun ComposePager(
                     }
 
                     PageChangeAnimFlag.Next -> {
-                        if (index + 1 >= pageCount)
+                        if (index + 1 >= pageCount) {
+                            composePagerState.offsetAnim.animateTo(-index * composePagerState.mainAxisSize.toFloat())
                             return@LaunchedEffect
+                        }
                         try {
                             composePagerState.offsetAnim.animateTo(-(index + 1) * composePagerState.mainAxisSize.toFloat())
                         } finally {
