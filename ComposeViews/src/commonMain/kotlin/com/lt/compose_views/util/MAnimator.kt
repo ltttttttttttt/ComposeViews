@@ -21,6 +21,7 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.monotonicFrameClock
 import kotlin.coroutines.coroutineContext
+import kotlin.math.pow
 
 /**
  * creator: lt  2022/7/31  lt.dygzs@qq.com
@@ -98,7 +99,7 @@ class DecelerateInterpolator(private val mFactor: Float = 1.0f) : MAnimInterpola
         return if (mFactor == 1.0f) {
             (1.0f - (1.0f - input) * (1.0f - input))
         } else {
-            (1.0f - Math.pow((1.0f - input).toDouble(), (2 * mFactor).toDouble())).toFloat()
+            (1.0f - (1.0f - input).toDouble().pow((2 * mFactor).toDouble())).toFloat()
         }
     }
 }

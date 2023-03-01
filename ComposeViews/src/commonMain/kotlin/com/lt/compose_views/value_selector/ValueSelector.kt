@@ -25,7 +25,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,8 +40,9 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.VerticalSpace
-import com.lt.compose_views.res.Res
 import com.lt.compose_views.util.Color333
+import kotlin.math.abs
+import kotlin.math.round
 
 /**
  * creator: lt  2022/12/3  lt.dygzs@qq.com
@@ -103,7 +107,7 @@ fun ValueSelector(
         object : NestedScrollConnection {
             override suspend fun onPreFling(available: Velocity): Velocity {
                 //计算速度大概能滚动多少条目,并执行滚动动画
-                val itemNum = Math.round(Math.abs(available.y.toDouble()) / 4 / itemHeight).toInt()
+                val itemNum = round(abs(available.y.toDouble()) / 4 / itemHeight).toInt()
                 if (available.y > 0) {
                     state.lazyListState.animateScrollToItem(
                         maxOf(
@@ -140,7 +144,7 @@ fun ValueSelector(
                                 selectedTextSize to selectedTextColor
                             else {
                                 //根据索引差值,从list中获取
-                                val diff = Math.abs(firstIndex - index)
+                                val diff = abs(firstIndex - index)
                                 if (diff >= cacheSize)
                                     defaultTextAttributes
                                 else

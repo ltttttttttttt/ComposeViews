@@ -23,7 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
+import kotlin.math.abs
 
 /**
  * creator: lt  2022/9/1  lt.dygzs@qq.com
