@@ -45,23 +45,23 @@ kotlin {
     iosSimulatorArm64()
 
     js(IR) {
-//        browser()
+        browser()
     }
 
-    macosX64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-            }
-        }
-    }
-    macosArm64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-            }
-        }
-    }
+//    macosX64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
+//    macosArm64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
 
     cocoapods {
         summary = "Jatpack(JetBrains) Compose views"
@@ -129,15 +129,15 @@ kotlin {
             dependsOn(iosTest)
         }
 
-        val macosMain by creating {
-            dependsOn(commonMain)
-        }
-        val macosX64Main by getting {
-            dependsOn(macosMain)
-        }
-        val macosArm64Main by getting {
-            dependsOn(macosMain)
-        }
+//        val macosMain by creating {
+//            dependsOn(commonMain)
+//        }
+//        val macosX64Main by getting {
+//            dependsOn(macosMain)
+//        }
+//        val macosArm64Main by getting {
+//            dependsOn(macosMain)
+//        }
     }
 }
 
@@ -146,6 +146,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 31
+        sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
         sourceSets["main"].res.srcDir("/src/desktopMain/resources")
     }
     compileOptions {

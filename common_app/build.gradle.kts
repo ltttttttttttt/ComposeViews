@@ -68,23 +68,23 @@ kotlin {
     iosSimulatorArm64()
 
     js(IR) {
-//        browser()
+        browser()
     }
 
-    macosX64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-            }
-        }
-    }
-    macosArm64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-            }
-        }
-    }
+//    macosX64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
+//    macosArm64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -101,7 +101,7 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        
+
         val androidMain by getting {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
@@ -131,14 +131,14 @@ kotlin {
             dependsOn(iosTest)
         }
 
-        val macosMain by creating {
-            dependsOn(commonMain)
-        }
-        val macosX64Main by getting {
-            dependsOn(macosMain)
-        }
-        val macosArm64Main by getting {
-            dependsOn(macosMain)
-        }
+//        val macosMain by creating {
+//            dependsOn(commonMain)
+//        }
+//        val macosX64Main by getting {
+//            dependsOn(macosMain)
+//        }
+//        val macosArm64Main by getting {
+//            dependsOn(macosMain)
+//        }
     }
 }
