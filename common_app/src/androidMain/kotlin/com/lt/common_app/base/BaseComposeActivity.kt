@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlin.reflect.KClass
 
 /**
  * creator: lt  2021/5/23  lt.dygzs@qq.com
@@ -64,8 +65,8 @@ actual abstract class BaseComposeActivity : AppCompatActivity() {
         Toast.makeText(this@BaseComposeActivity, this, Toast.LENGTH_SHORT).show()
     }
 
-    actual fun jump(clazz: Class<out BaseComposeActivity>) {
-        startActivity(Intent(this, clazz))
+    actual fun jump(clazz: KClass<out BaseComposeActivity>) {
+        startActivity(Intent(this, clazz.java))
     }
 
     actual open fun mOnCreate() {

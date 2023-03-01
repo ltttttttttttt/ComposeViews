@@ -38,75 +38,75 @@ import kotlin.math.pow
  * @param animInterpolator 动画差值器
  *                         Animation interpolator
  */
-//suspend fun animateWithFloat(
-//    initialValueWithState: MutableState<Float>,
-//    targetValue: Float,
-//    duration: Int = AnimationConstants.DefaultDurationMillis,
-//    animInterpolator: MAnimInterpolator = DecelerateInterpolator(),
-//) {
-//    animateWithFloat(
-//        initialValueWithState.value,
-//        targetValue,
-//        duration,
-//        animInterpolator,
-//        initialValueWithState::value::set
-//    )
-//}
-//
-//@OptIn(ExperimentalComposeApi::class)
-//suspend inline fun animateWithFloat(
-//    startValue: Float,
-//    targetValue: Float,
-//    duration: Int = AnimationConstants.DefaultDurationMillis,
-//    animInterpolator: MAnimInterpolator = DecelerateInterpolator(),
-//    crossinline onValueChange: (Float) -> Unit,
-//) {
-//    val valueToBeTransformed = targetValue - startValue
-//    val startTime = System.nanoTime()
-//    val duration = duration * 1000000L
-//    val frameClock = coroutineContext.monotonicFrameClock
-//    while (System.nanoTime() <= startTime + duration) {
-//        frameClock.withFrameNanos {
-//            val progress = animInterpolator.getInterpolation(
-//                minOf(it - startTime, duration).toFloat() / duration
-//            )
-//            val increase = progress * valueToBeTransformed
-//            onValueChange(startValue + increase)
-//        }
-//    }
-//    onValueChange(targetValue)
-//}
-//
-///**
-// * 动画差值器
-// * Animation interpolator
-// */
-//fun interface MAnimInterpolator {
-//    /**
-//     * 根据输入的动画进度[input]计算动画进度
-//     * Calculate the animation progress based on the input animation progress [input]
-//     */
-//    fun getInterpolation(input: Float): Float
-//}
-//
-///**
-// * An interpolator where the rate of change starts out quickly and and then decelerates.
-// * ps:参考[DecelerateInterpolator],先快后慢
-// * [mFactor]Degree to which the animation should be eased. Setting factor to 1.0f produces an upside-down y=x^2 parabola. Increasing factor above 1.0f exaggerates the ease-out effect (i.e., it starts even faster and ends evens slower).
-// */
-//class DecelerateInterpolator(private val mFactor: Float = 1.0f) : MAnimInterpolator {
-//    override fun getInterpolation(input: Float): Float {
-//        return if (mFactor == 1.0f) {
-//            (1.0f - (1.0f - input) * (1.0f - input))
-//        } else {
-//            (1.0f - (1.0f - input).toDouble().pow((2 * mFactor).toDouble())).toFloat()
-//        }
-//    }
-//}
-//
-///**
-// * An interpolator where the rate of change is constant
-// */
-//class LinearInterpolator() : MAnimInterpolator {
-//    override fun getInterpolation(input: Float): Float = input
-//}
+suspend fun animateWithFloat(
+    initialValueWithState: MutableState<Float>,
+    targetValue: Float,
+    duration: Int = AnimationConstants.DefaultDurationMillis,
+    animInterpolator: MAnimInterpolator = DecelerateInterpolator(),
+) {
+    animateWithFloat(
+        initialValueWithState.value,
+        targetValue,
+        duration,
+        animInterpolator,
+        initialValueWithState::value::set
+    )
+}
+
+@OptIn(ExperimentalComposeApi::class)
+suspend inline fun animateWithFloat(
+    startValue: Float,
+    targetValue: Float,
+    duration: Int = AnimationConstants.DefaultDurationMillis,
+    animInterpolator: MAnimInterpolator = DecelerateInterpolator(),
+    crossinline onValueChange: (Float) -> Unit,
+) {
+    val valueToBeTransformed = targetValue - startValue
+    val startTime = _currentTimeMillis()
+    val duration = duration.toLong()
+    val frameClock = coroutineContext.monotonicFrameClock
+    while (_currentTimeMillis() <= startTime + duration) {
+        frameClock.withFrameNanos {
+            val progress = animInterpolator.getInterpolation(
+                minOf(it - startTime, duration).toFloat() / duration
+            )
+            val increase = progress * valueToBeTransformed
+            onValueChange(startValue + increase)
+        }
+    }
+    onValueChange(targetValue)
+}
+
+/**
+ * 动画差值器
+ * Animation interpolator
+ */
+fun interface MAnimInterpolator {
+    /**
+     * 根据输入的动画进度[input]计算动画进度
+     * Calculate the animation progress based on the input animation progress [input]
+     */
+    fun getInterpolation(input: Float): Float
+}
+
+/**
+ * An interpolator where the rate of change starts out quickly and and then decelerates.
+ * ps:参考[DecelerateInterpolator],先快后慢
+ * [mFactor]Degree to which the animation should be eased. Setting factor to 1.0f produces an upside-down y=x^2 parabola. Increasing factor above 1.0f exaggerates the ease-out effect (i.e., it starts even faster and ends evens slower).
+ */
+class DecelerateInterpolator(private val mFactor: Float = 1.0f) : MAnimInterpolator {
+    override fun getInterpolation(input: Float): Float {
+        return if (mFactor == 1.0f) {
+            (1.0f - (1.0f - input) * (1.0f - input))
+        } else {
+            (1.0f - (1.0f - input).toDouble().pow((2 * mFactor).toDouble())).toFloat()
+        }
+    }
+}
+
+/**
+ * An interpolator where the rate of change is constant
+ */
+class LinearInterpolator() : MAnimInterpolator {
+    override fun getInterpolation(input: Float): Float = input
+}

@@ -38,7 +38,7 @@ import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
+import kotlin.random.Random
 
 /**
  * creator: lt  2021/11/8  lt.dygzs@qq.com
@@ -47,7 +47,6 @@ import java.util.*
  */
 class MainListActivity : BaseComposeActivity() {
     private var array = ArrayList(IntArray(20) { it * 2 }.asList())
-    private val random = Random()
 
     data class Value(val a: String, val b: String)
 
@@ -100,7 +99,7 @@ class MainListActivity : BaseComposeActivity() {
                 "加载完成".showToast()
                 setRefreshState(RefreshContentStateEnum.Stop)
                 listChangeListener(IntArray(20) {
-                    random.nextInt()
+                    Random.nextInt()
                 }.asList())
             }
         })
