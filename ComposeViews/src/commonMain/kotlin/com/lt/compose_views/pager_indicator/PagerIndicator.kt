@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.pager_indicator
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.scrollable
@@ -25,10 +27,8 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.util.animateWithFloat
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -77,19 +77,20 @@ fun PagerIndicator(
     val pagerIndicatorScope = remember(size) {
         PagerIndicatorScope(indicatorItemsInfo)
     }
+    val coroutineScope = rememberCoroutineScope()
     //用户滑动的偏移
-    val offset = rememberMutableStateOf(value = 0f)
+    val offset = remember { Animatable(0f) }
     var minOffset by rememberMutableStateOf(value = 0f)
     val scrollState = remember(userCanScroll) {
         ScrollableState {
             val oldOffset = offset.value
             val canOffset = midOf(minOffset, it + oldOffset, 0f)
-            offset.value = canOffset
+            coroutineScope.launch {
+                offset.snapTo(canOffset)
+            }
             canOffset - oldOffset
         }
     }
-    val coroutineScope = rememberCoroutineScope()
-    var offsetJob by rememberMutableStateOf<Job?>(null)
     val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
     val selectIndex by selectIndexFlow.collectAsState(0)
 
@@ -177,7 +178,7 @@ fun PagerIndicator(
                     if (!isNext)
                         difference = 0 - difference
                     //计算如果指示器所要移动的位置在界面外,则位移offset
-                    if (userCanScroll && offsetJob == null) {
+                    if (userCanScroll && !offset.isRunning) {
                         if (offsetPercentWithSelect > 0) {
                             val nextEnd =
                                 indicatorItemsInfo.getIndicatorEndOrElse(selectIndex + 1) {
@@ -186,9 +187,8 @@ fun PagerIndicator(
                             val end = width - offsetValue - nextEnd
                             if (end < 0) {
                                 //靠最右边
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + end, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + end, TweenSpec(150))
                                 }
                             } else {
                                 val thisStart =
@@ -196,13 +196,8 @@ fun PagerIndicator(
                                 val start = width - offsetValue - thisStart
                                 if (start > width) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            -thisStart.toFloat(),
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(-thisStart.toFloat(), TweenSpec(150))
                                     }
                                 }
                             }
@@ -213,9 +208,8 @@ fun PagerIndicator(
                                 }
                             val start = -offsetValue - prevStart
                             if (start > 0) {
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + start, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + start, TweenSpec(150))
                                 }
                             } else {
                                 val thisEnd =
@@ -223,13 +217,8 @@ fun PagerIndicator(
                                 val end = -offsetValue - thisEnd
                                 if (end < -width) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            width.toFloat() - thisEnd,
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(width.toFloat() - thisEnd, TweenSpec(150))
                                     }
                                 }
                             }
@@ -255,7 +244,7 @@ fun PagerIndicator(
                         difference = 0 - difference
 
                     //计算如果指示器所要移动的位置在界面外,则位移offset
-                    if (userCanScroll && offsetJob == null) {
+                    if (userCanScroll && !offset.isRunning) {
                         if (offsetPercentWithSelect > 0) {
                             val nextEnd =
                                 indicatorItemsInfo.getIndicatorEndOrElse(selectIndex + 1) {
@@ -264,9 +253,8 @@ fun PagerIndicator(
                             val end = height - offsetValue - nextEnd
                             if (end < 0) {
                                 //靠最右边
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + end, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + end, TweenSpec(150))
                                 }
                             } else {
                                 val thisStart =
@@ -274,13 +262,8 @@ fun PagerIndicator(
                                 val start = height - offsetValue - thisStart
                                 if (start > height) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            -thisStart.toFloat(),
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(-thisStart.toFloat(), TweenSpec(150))
                                     }
                                 }
                             }
@@ -291,9 +274,8 @@ fun PagerIndicator(
                                 }
                             val start = -offsetValue - prevStart
                             if (start > 0) {
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + start, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + start, TweenSpec(150))
                                 }
                             } else {
                                 val thisEnd =
@@ -301,13 +283,8 @@ fun PagerIndicator(
                                 val end = -offsetValue - thisEnd
                                 if (end < -height) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            height.toFloat() - thisEnd,
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(height.toFloat() - thisEnd, TweenSpec(150))
                                     }
                                 }
                             }
@@ -343,19 +320,20 @@ fun PagerIndicator(
     val pagerIndicatorScope = remember(size) {
         PagerIndicatorScope(indicatorItemsInfo)
     }
+    val coroutineScope = rememberCoroutineScope()
     //用户滑动的偏移
-    val offset = rememberMutableStateOf(value = 0f)
+    val offset = remember { Animatable(0f) }
     var minOffset by rememberMutableStateOf(value = 0f)
     val scrollState = remember(userCanScroll) {
         ScrollableState {
             val oldOffset = offset.value
             val canOffset = midOf(minOffset, it + oldOffset, 0f)
-            offset.value = canOffset
+            coroutineScope.launch {
+                offset.snapTo(canOffset)
+            }
             canOffset - oldOffset
         }
     }
-    val coroutineScope = rememberCoroutineScope()
-    var offsetJob by rememberMutableStateOf<Job?>(null)
 
     Layout(modifier = modifier.let {
         if (userCanScroll) {
@@ -441,7 +419,7 @@ fun PagerIndicator(
                     if (!isNext)
                         difference = 0 - difference
                     //计算如果指示器所要移动的位置在界面外,则位移offset
-                    if (userCanScroll && offsetJob == null) {
+                    if (userCanScroll && !offset.isRunning) {
                         if (offsetPercentWithSelect > 0) {
                             val nextEnd =
                                 indicatorItemsInfo.getIndicatorEndOrElse(selectIndex + 1) {
@@ -450,9 +428,8 @@ fun PagerIndicator(
                             val end = width - offsetValue - nextEnd
                             if (end < 0) {
                                 //靠最右边
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + end, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + end, TweenSpec(150))
                                 }
                             } else {
                                 val thisStart =
@@ -460,13 +437,8 @@ fun PagerIndicator(
                                 val start = width - offsetValue - thisStart
                                 if (start > width) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            -thisStart.toFloat(),
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(-thisStart.toFloat(), TweenSpec(150))
                                     }
                                 }
                             }
@@ -477,9 +449,8 @@ fun PagerIndicator(
                                 }
                             val start = -offsetValue - prevStart
                             if (start > 0) {
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + start, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + start, TweenSpec(150))
                                 }
                             } else {
                                 val thisEnd =
@@ -487,13 +458,8 @@ fun PagerIndicator(
                                 val end = -offsetValue - thisEnd
                                 if (end < -width) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            width.toFloat() - thisEnd,
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(width.toFloat() - thisEnd, TweenSpec(150))
                                     }
                                 }
                             }
@@ -519,7 +485,7 @@ fun PagerIndicator(
                         difference = 0 - difference
 
                     //计算如果指示器所要移动的位置在界面外,则位移offset
-                    if (userCanScroll && offsetJob == null) {
+                    if (userCanScroll && !offset.isRunning) {
                         if (offsetPercentWithSelect > 0) {
                             val nextEnd =
                                 indicatorItemsInfo.getIndicatorEndOrElse(selectIndex + 1) {
@@ -528,9 +494,8 @@ fun PagerIndicator(
                             val end = height - offsetValue - nextEnd
                             if (end < 0) {
                                 //靠最右边
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + end, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + end, TweenSpec(150))
                                 }
                             } else {
                                 val thisStart =
@@ -538,13 +503,8 @@ fun PagerIndicator(
                                 val start = height - offsetValue - thisStart
                                 if (start > height) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            -thisStart.toFloat(),
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(-thisStart.toFloat(), TweenSpec(150))
                                     }
                                 }
                             }
@@ -555,9 +515,8 @@ fun PagerIndicator(
                                 }
                             val start = -offsetValue - prevStart
                             if (start > 0) {
-                                offsetJob = coroutineScope.launch {
-                                    animateWithFloat(offset, offsetValue + start, duration = 150)
-                                    offsetJob = null
+                                coroutineScope.launch {
+                                    offset.animateTo(offsetValue + start, TweenSpec(150))
                                 }
                             } else {
                                 val thisEnd =
@@ -565,13 +524,8 @@ fun PagerIndicator(
                                 val end = -offsetValue - thisEnd
                                 if (end < -height) {
                                     //靠最左边
-                                    offsetJob = coroutineScope.launch {
-                                        animateWithFloat(
-                                            offset,
-                                            height.toFloat() - thisEnd,
-                                            duration = 150
-                                        )
-                                        offsetJob = null
+                                    coroutineScope.launch {
+                                        offset.animateTo(height.toFloat() - thisEnd, TweenSpec(150))
                                     }
                                 }
                             }
