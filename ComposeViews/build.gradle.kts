@@ -16,6 +16,7 @@
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
     //id("maven-publish")
@@ -31,6 +32,7 @@ kotlin {
     android {
         publishLibraryVariants("debug", "release")
     }
+
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
@@ -38,6 +40,41 @@ kotlin {
             }
         }
     }
+
+    ios()
+    iosSimulatorArm64()
+
+    js(IR) {
+//        browser()
+    }
+
+    macosX64 {
+        binaries {
+            executable {
+                entryPoint = "main"
+            }
+        }
+    }
+    macosArm64 {
+        binaries {
+            executable {
+                entryPoint = "main"
+            }
+        }
+    }
+
+    cocoapods {
+        summary = "Jatpack(JetBrains) Compose views"
+        homepage = "https://github.com/ltttttttttttt/ComposeViews"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../ios_app/Podfile")
+        framework {
+            baseName = "ComposeViews"
+            isStatic = true
+        }
+        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/desktopMain/resources/**', 'src/iosMain/resources/**']"
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -47,7 +84,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-                api("com.github.ltttttttttttt:DataStructure:1.0.7")
+//                api("com.github.ltttttttttttt:DataStructure:1.0.7")
             }
         }
         val commonTest by getting {
@@ -55,6 +92,7 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
         val androidMain by getting {
             dependencies {
                 api(compose.foundation)
@@ -63,11 +101,12 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13")
             }
         }
+
         val desktopMain by getting {
             dependencies {
                 //api(project(":ComposeViews")) {
@@ -80,6 +119,25 @@ kotlin {
             }
         }
         val desktopTest by getting
+
+        val iosMain by getting
+        val iosTest by getting
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
+        }
+
+        val macosMain by creating {
+            dependsOn(commonMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(macosMain)
+        }
+        val macosArm64Main by getting {
+            dependsOn(macosMain)
+        }
     }
 }
 
