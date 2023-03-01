@@ -78,9 +78,19 @@ fun ValueSelector(
     defaultSelectIndex: Int = 0,
     isLoop: Boolean = false,
     cacheSize: Int = 2,
-    textSizes: ArrayList<TextUnit> = remember { arrayListOf(valueSelector_defaultTextSize2, valueSelector_defaultTextSize1) },
+    textSizes: ArrayList<TextUnit> = remember {
+        arrayListOf(
+            valueSelector_defaultTextSize2,
+            valueSelector_defaultTextSize1
+        )
+    },
     selectedTextSize: TextUnit = valueSelector_defaultSelectedTextSize,
-    textColors: ArrayList<Color> = remember { arrayListOf(valueSelector_defaultTextColor, valueSelector_defaultTextColor) },
+    textColors: ArrayList<Color> = remember {
+        arrayListOf(
+            valueSelector_defaultTextColor,
+            valueSelector_defaultTextColor
+        )
+    },
     selectedTextColor: Color = valueSelector_defaultSelectedTextColor,
 ) {
     //init
@@ -103,7 +113,7 @@ fun ValueSelector(
     }
     val density = LocalDensity.current
     val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
-    val scrollStopListener = remember {
+    val scrollStopListener: NestedScrollConnection = remember {
         object : NestedScrollConnection {
             override suspend fun onPreFling(available: Velocity): Velocity {
                 //计算速度大概能滚动多少条目,并执行滚动动画

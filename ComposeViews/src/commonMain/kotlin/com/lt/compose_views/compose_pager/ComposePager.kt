@@ -284,19 +284,20 @@ fun ComposePager(
                 orientation = orientation,
                 enabled = userEnable,
                 interactionSource = scrollableInteractionSource,
-                flingBehavior = object : FlingBehavior {
-                    override suspend fun ScrollScope.performFling(initialVelocity: Float): Float {
-                        val index = composePagerState.currSelectIndex.value
-                        if (composePagerState.offsetAnim.value + initialVelocity > -(index * composePagerState.mainAxisSize - composePagerState.mainAxisSize / 2)) {
-                            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
-                        } else if (composePagerState.offsetAnim.value + initialVelocity < -(index * composePagerState.mainAxisSize + composePagerState.mainAxisSize / 2)) {
-                            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
-                        } else {
-                            composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
+                flingBehavior = remember<FlingBehavior>(orientation) {
+                    object : FlingBehavior {
+                        override suspend fun ScrollScope.performFling(initialVelocity: Float): Float {
+                            val index = composePagerState.currSelectIndex.value
+                            if (composePagerState.offsetAnim.value + initialVelocity > -(index * composePagerState.mainAxisSize - composePagerState.mainAxisSize / 2)) {
+                                composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Prev
+                            } else if (composePagerState.offsetAnim.value + initialVelocity < -(index * composePagerState.mainAxisSize + composePagerState.mainAxisSize / 2)) {
+                                composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Next
+                            } else {
+                                composePagerState.pageChangeAnimFlag = PageChangeAnimFlag.Reduction
+                            }
+                            return 0f//返回剩余的速度
                         }
-                        return 0f//返回剩余的速度
                     }
-
                 })
             .clipScrollableContainer(orientation)
     ) { measurableList/* 可测量的(子控件) */, constraints/* 约束条件 */ ->

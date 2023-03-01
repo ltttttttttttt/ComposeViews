@@ -6,3 +6,7 @@
 #root > .compose-web-column > div {
     position: relative;
 }
+
+#ComposeTarget {
+    background-color: pink;
+}
