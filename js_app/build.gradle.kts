@@ -9,7 +9,7 @@ kotlin {
         binaries.executable()
     }
     sourceSets {
-        val jsMain by getting  {
+        val jsMain by getting {
             dependencies {
                 implementation(project(":common_app"))
             }
@@ -20,4 +20,3 @@ kotlin {
 compose.experimental {
     web.application {}
 }
-

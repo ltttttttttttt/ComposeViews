@@ -19,6 +19,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
+    id("com.google.devtools.ksp") version "$kotlinVersion-1.0.9"
 }
 
 group = "com.lt.ltttttttttttt"
@@ -87,6 +88,7 @@ kotlin {
 //    }
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
             dependencies {
                 api(project(":ComposeViews"))
                 api(compose.runtime)
@@ -141,4 +143,11 @@ kotlin {
 //            dependsOn(macosMain)
 //        }
     }
+    ksp {
+        arg("packageList", "com.lt.common_app")
+    }
+}
+
+dependencies {
+    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.0")
 }
