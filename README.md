@@ -24,7 +24,7 @@
 <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/md_resource/compose_views_demo.apk">
 View demo</a>
 
-[![Star History Chart](https://api.star-history.com/svg?repos=ltttttttttttt/ComposeViews&type=Date)](https://star-history.com/#ltttttttttttt/ComposeViews&Date)
+<div align=center><img src="[md_resource/compose_pager.gif](https://api.star-history.com/svg?repos=ltttttttttttt/ComposeViews&type=Date)" width=50%></div>
 
 ## Add to your project
 
