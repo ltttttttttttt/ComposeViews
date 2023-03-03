@@ -36,7 +36,7 @@ fun main() {
                     if (activity == null)
                         return@Box
                     Column {
-//                        activity?.TitleView(activity?.getTitleText() ?: "")//todo 图片加载
+                        activity?.TitleView(activity?.getTitleText() ?: "")
                         activity!!.ComposeContent()
                     }
                     //toast

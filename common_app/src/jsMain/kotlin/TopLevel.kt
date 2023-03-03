@@ -1,5 +1,10 @@
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
+import org.jetbrains.compose.resources.painterResource
+
+private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
+private const val IMG_FILE_ENDING = ".png"
 
 /**
  * 加载网络图片
@@ -14,7 +19,7 @@ actual fun rememberPainter(data: String?): Painter {
  */
 @Composable
 actual fun resourcePainter(imageName: String): Painter {
-    TODO()
+    return painterResource(remember(imageName) { IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING })
 }
 
 actual fun getTestIndex(): Int {
