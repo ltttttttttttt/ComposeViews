@@ -96,7 +96,6 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
             }
         }
         val commonTest by getting {

@@ -35,6 +35,7 @@ kotlin {
 
     jvm("desktop") {
         compilations.all {
+            defaultSourceSet.resources.srcDir("/resources")
             kotlinOptions {
                 jvmTarget = "11"
             }
@@ -46,6 +47,9 @@ kotlin {
 
     js(IR) {
         browser()
+        compilations.all {
+            defaultSourceSet.resources.srcDir("/resources")
+        }
     }
 
 //    macosX64 {
@@ -72,7 +76,8 @@ kotlin {
             baseName = "ComposeViews"
             isStatic = true
         }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/desktopMain/resources/**', 'src/iosMain/resources/**']"
+        extraSpecAttributes["resources"] =
+            "['src/commonMain/resources/**', 'src/desktopMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     sourceSets {
@@ -129,6 +134,12 @@ kotlin {
             dependsOn(iosTest)
         }
 
+        val jsMain by getting {
+            dependencies {
+                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+            }
+        }
+
 //        val macosMain by creating {
 //            dependsOn(commonMain)
 //        }
@@ -147,7 +158,7 @@ android {
         minSdk = 21
         targetSdk = 31
         sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
-        sourceSets["main"].res.srcDir("/src/desktopMain/resources")
+        sourceSets["main"].res.srcDir("/resources")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
