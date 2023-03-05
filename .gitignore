@@ -60,5 +60,13 @@ freeline_project_description.json
 # svn
 .svn/
 
+# ios
+ios_app/Podfile.lock
+ios_app/Pods
+ios_app/iosApp.xcworkspace/
+ios_app/iosApp.xcodeproj
+!ios_app/iosApp.xcodeproj/project.pbxproj
+ComposeViews/shared.podspec
+
 test_index.txt
 secring.gpg
