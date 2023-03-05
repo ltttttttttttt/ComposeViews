@@ -3,6 +3,6 @@ import androidx.compose.ui.window.Application
 import platform.UIKit.UIViewController
 
 fun ComposeViewController(): UIViewController =
-    Application("Chat") {
+    Application("ComposeView") {
         Text("Hello World! --ios")
     }

@@ -71,7 +71,7 @@ kotlin {
         summary = "Jatpack(JetBrains) Compose views"
         homepage = "https://github.com/ltttttttttttt/ComposeViews"
         ios.deploymentTarget = "14.1"
-        podfile = project.file("../ios_app/Podfile")
+        podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "ComposeViews"
             isStatic = true
@@ -100,7 +100,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api(compose.foundation)
                 api("androidx.activity:activity-compose:1.4.0")
                 //协程
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
