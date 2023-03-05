@@ -3,7 +3,7 @@ import platform.AppKit.NSApp
 import platform.AppKit.NSApplication
 
 fun main() {
-    NSApplication.sharedApplication()
+    NSApplication.ComposeViewsApplication()
     Window("Chat App") {
         ChatAppWithScaffold()
     }

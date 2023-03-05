@@ -158,7 +158,7 @@ android {
         minSdk = 21
         targetSdk = 31
         sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
-        sourceSets["main"].res.srcDir("/resources")
+        sourceSets["main"].res.srcDir("resources")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
