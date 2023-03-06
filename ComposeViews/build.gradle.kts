@@ -89,7 +89,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-//                api("com.github.ltttttttttttt:DataStructure:1.0.7")
+                api("io.github.ltttttttttttt:DataStructure:1.0.12")
             }
         }
         val commonTest by getting {

@@ -86,7 +86,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "ComposeViews"
+            baseName = "ios_shared"
             isStatic = true
         }
         extraSpecAttributes["resources"] =
