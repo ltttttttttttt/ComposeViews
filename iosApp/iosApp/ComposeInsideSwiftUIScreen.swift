@@ -7,7 +7,7 @@ struct ComposeInsideSwiftUIScreen: View {
             TextInputLayer()
         }.onTapGesture {
             // Hide keyboard on tap outside of TextField
-            UIApplication.ComposeViews.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-import ComposeViews
+import shared
 
 public func sendMessage(_ text: String) {
     Main_iosKt.sendMessage(text: text)

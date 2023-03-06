@@ -20,6 +20,7 @@ plugins {
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
     id("com.google.devtools.ksp") version "$kotlinVersion-1.0.9"
+    kotlin("native.cocoapods")
 }
 
 group = "com.lt.ltttttttttttt"
@@ -86,6 +87,19 @@ kotlin {
 //            }
 //        }
 //    }
+    cocoapods {
+        version = "0.0.1"
+        summary = "Jatpack(JetBrains) Compose views"
+        homepage = "https://github.com/ltttttttttttt/ComposeViews"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "ComposeViews"
+            isStatic = true
+        }
+        extraSpecAttributes["resources"] =
+            "['src/commonMain/resources/**', 'src/desktopMain/resources/**', 'src/iosMain/resources/**']"
+    }
     sourceSets {
         val commonMain by getting {
             kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
