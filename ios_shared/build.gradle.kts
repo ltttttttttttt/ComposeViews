@@ -92,7 +92,7 @@ kotlin {
             isStatic = true
         }
         extraSpecAttributes["resources"] =
-            "['src/commonMain/resources/**', 'src/desktopMain/resources/**', 'src/iosMain/resources/**']"
+            "['../ComposeViews/resources/**', '../desktop_app/src/desktopMain/resources/**', 'src/iosMain/resources/**']"
     }
     sourceSets {
         val commonMain by getting {

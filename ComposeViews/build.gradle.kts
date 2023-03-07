@@ -77,7 +77,7 @@ kotlin {
             isStatic = true
         }
         extraSpecAttributes["resources"] =
-            "['src/commonMain/resources/**', 'src/desktopMain/resources/**', 'src/iosMain/resources/**']"
+            "['resources/**']"
     }
 
     sourceSets {
