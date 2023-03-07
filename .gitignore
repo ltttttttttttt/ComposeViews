@@ -66,9 +66,7 @@ iosApp/Pods
 iosApp/iosApp.xcworkspace/
 iosApp/iosApp.xcodeproj
 !iosApp/iosApp.xcodeproj/project.pbxproj
-common_app/common_app.podspec
-ComposeViews/ComposeViews.podspec
-ios_shared/ios_shared.podspec
+*.podspec
 .DS_Store
 
 test_index.txt
