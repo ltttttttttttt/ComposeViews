@@ -124,7 +124,11 @@ kotlin {
         }
         val desktopTest by getting
 
-        val iosMain by getting
+        val iosMain by getting{
+            dependencies {
+                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+            }
+        }
         val iosTest by getting
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)

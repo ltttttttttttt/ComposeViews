@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 /*
  * Copyright lt 2023
  *
@@ -58,8 +60,12 @@ kotlin {
         }
     }
 
-    ios()
-    iosSimulatorArm64()
+    ios{
+        setRes()
+    }
+    iosSimulatorArm64{
+        setRes()
+    }
 
     js(IR) {
         browser()
@@ -132,5 +138,14 @@ kotlin {
 //        val macosArm64Main by getting {
 //            dependsOn(macosMain)
 //        }
+    }
+}
+
+fun KotlinNativeTarget.setRes() {
+    compilations.all {
+        defaultSourceSet.resources.srcDirs(
+            "../ComposeViews/resources",
+            "../desktop_app/src/desktopMain/resources"
+        )
     }
 }
