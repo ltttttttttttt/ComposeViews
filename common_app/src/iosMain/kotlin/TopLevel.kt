@@ -12,7 +12,8 @@ private const val IMG_FILE_ENDING = ".png"
  */
 @Composable
 actual fun rememberPainter(data: String?): Painter {
-    TODO()
+    //暂不处理,显示一个本地图片
+    return resourcePainter("back")
 }
 
 /**
