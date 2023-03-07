@@ -19,6 +19,8 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
+    id("com.google.devtools.ksp") version "$kotlinVersion-1.0.9"
+    kotlin("native.cocoapods")
 }
 
 group = "com.lt.ltttttttttttt"
@@ -55,6 +57,7 @@ kotlin {
             }
         }
     }
+
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
@@ -62,8 +65,44 @@ kotlin {
             }
         }
     }
+
+    ios()
+    iosSimulatorArm64()
+
+    js(IR) {
+        browser()
+    }
+
+//    macosX64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
+//    macosArm64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
+    cocoapods {
+        version = "0.0.1"
+        summary = "Jatpack(JetBrains) Compose views"
+        homepage = "https://github.com/ltttttttttttt/ComposeViews"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "ComposeViews"
+            isStatic = true
+        }
+        extraSpecAttributes["resources"] =
+            "['../ComposeViews/resources/**', '../desktop_app/src/desktopMain/resources/**']"
+    }
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
             dependencies {
                 api(project(":ComposeViews"))
                 api(compose.runtime)
@@ -78,6 +117,7 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
         val androidMain by getting {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
@@ -85,16 +125,43 @@ kotlin {
                 implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13.2")
             }
         }
+
         val desktopMain by getting {
             dependencies {
                 api(compose.preview)
             }
         }
         val desktopTest by getting
+
+        val iosMain by getting
+        val iosTest by getting
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
+        }
+
+//        val macosMain by creating {
+//            dependsOn(commonMain)
+//        }
+//        val macosX64Main by getting {
+//            dependsOn(macosMain)
+//        }
+//        val macosArm64Main by getting {
+//            dependsOn(macosMain)
+//        }
     }
+    ksp {
+        arg("packageList", "com.lt.common_app")
+    }
+}
+
+dependencies {
+    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.0")
 }

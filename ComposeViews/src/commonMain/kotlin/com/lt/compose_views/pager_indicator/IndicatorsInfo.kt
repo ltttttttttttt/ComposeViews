@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.pager_indicator
 
+import kotlin.jvm.JvmInline
+
 /**
  * creator: lt  2022/10/24  lt.dygzs@qq.com
  * effect : 指示器的坐标数据

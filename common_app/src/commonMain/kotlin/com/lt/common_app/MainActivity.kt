@@ -29,18 +29,18 @@ import getTestIndex
 class MainActivity : BaseComposeActivity() {
 
     private val buttons = listOf(
-        "rv的基础功能" to MainListActivity::class.java,
-        "ViewPager功能" to ComposePagerActivity::class.java,
-        "Banner功能" to BannerActivity::class.java,
-        "PagerIndicator功能" to PagerIndicatorActivity::class.java,
-        "TextPagerIndicator功能" to TextPagerIndicatorActivity::class.java,
-        "FlowLayout功能" to FlowLayoutActivity::class.java,
-        "TextField功能" to TextFieldActivity::class.java,
-        "MenuFab功能" to MenuFabActivity::class.java,
-        "RefreshLayout功能" to RefreshLayoutActivity::class.java,
-        "ScrollableAppBar功能" to ScrollableAppBarActivity::class.java,
-        "SwipeToDismiss功能" to SwipeToDismissActivity::class.java,
-        "ValueSelector功能" to DateSelectorA::class.java,
+        "rv的基础功能" to MainListActivity::class,
+        "ViewPager功能" to ComposePagerActivity::class,
+        "Banner功能" to BannerActivity::class,
+        "PagerIndicator功能" to PagerIndicatorActivity::class,
+        "TextPagerIndicator功能" to TextPagerIndicatorActivity::class,
+        "FlowLayout功能" to FlowLayoutActivity::class,
+        "TextField功能" to TextFieldActivity::class,
+        "MenuFab功能" to MenuFabActivity::class,
+        "RefreshLayout功能" to RefreshLayoutActivity::class,
+        "ScrollableAppBar功能" to ScrollableAppBarActivity::class,
+        "SwipeToDismiss功能" to SwipeToDismissActivity::class,
+        "ValueSelector功能" to DateSelectorA::class,
     )
 
     override fun getTitleText(): String = "功能列表"

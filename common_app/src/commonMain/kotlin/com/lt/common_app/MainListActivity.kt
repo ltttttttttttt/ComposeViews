@@ -38,7 +38,7 @@ import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
+import kotlin.random.Random
 
 /**
  * creator: lt  2021/11/8  lt.dygzs@qq.com
@@ -47,7 +47,6 @@ import java.util.*
  */
 class MainListActivity : BaseComposeActivity() {
     private var array = ArrayList(IntArray(20) { it * 2 }.asList())
-    private val random = Random()
 
     data class Value(val a: String, val b: String)
 
@@ -100,7 +99,7 @@ class MainListActivity : BaseComposeActivity() {
                 "加载完成".showToast()
                 setRefreshState(RefreshContentStateEnum.Stop)
                 listChangeListener(IntArray(20) {
-                    random.nextInt()
+                    Random.nextInt()
                 }.asList())
             }
         })
@@ -129,6 +128,25 @@ class MainListActivity : BaseComposeActivity() {
                         item {
                             Text(text = "尾布局,list.size=${list.size}")
                         }
+                        /*item {
+                            //骚操作实现上拉加载,不保证没有问题,原理:滑动到最底部,就会触发最底部的这个item函数,然后执行副作用函数
+                            //加载的布局
+                            Text(text = "加载中")
+                            if (job == null) {
+                                job = mainScope.launch {
+                                    try {
+                                        delay(1000)
+                                        Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
+                                            .show()
+                                        listChangeListener(IntArray(20) {
+                                            random.nextInt()
+                                        }.asList())
+                                    } finally {
+                                        job = null
+                                    }
+                                }
+                            }
+                        }*/
                     })
             })
     }

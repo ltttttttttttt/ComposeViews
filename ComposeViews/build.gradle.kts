@@ -16,6 +16,7 @@
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
     //id("maven-publish")
@@ -31,13 +32,54 @@ kotlin {
     android {
         publishLibraryVariants("debug", "release")
     }
+
     jvm("desktop") {
         compilations.all {
+            defaultSourceSet.resources.srcDir("/resources")
             kotlinOptions {
                 jvmTarget = "11"
             }
         }
     }
+
+    ios()
+    iosSimulatorArm64()
+
+    js(IR) {
+        browser()
+        compilations.all {
+            defaultSourceSet.resources.srcDir("/resources")
+        }
+    }
+
+//    macosX64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
+//    macosArm64 {
+//        binaries {
+//            executable {
+//                entryPoint = "main"
+//            }
+//        }
+//    }
+
+    cocoapods {
+        summary = "Jatpack(JetBrains) Compose views"
+        homepage = "https://github.com/ltttttttttttt/ComposeViews"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "ComposeViews"
+            isStatic = true
+        }
+        extraSpecAttributes["resources"] =
+            "['resources/**']"
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -47,7 +89,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-                api("com.github.ltttttttttttt:DataStructure:1.0.7")
+                api("io.github.ltttttttttttt:DataStructure:1.0.12")
             }
         }
         val commonTest by getting {
@@ -55,19 +97,20 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
         val androidMain by getting {
             dependencies {
-                api(compose.foundation)
                 api("androidx.activity:activity-compose:1.4.0")
                 //协程
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13")
             }
         }
+
         val desktopMain by getting {
             dependencies {
                 //api(project(":ComposeViews")) {
@@ -80,6 +123,35 @@ kotlin {
             }
         }
         val desktopTest by getting
+
+        val iosMain by getting{
+            dependencies {
+                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+            }
+        }
+        val iosTest by getting
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
+        }
+
+        val jsMain by getting {
+            dependencies {
+                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+            }
+        }
+
+//        val macosMain by creating {
+//            dependsOn(commonMain)
+//        }
+//        val macosX64Main by getting {
+//            dependsOn(macosMain)
+//        }
+//        val macosArm64Main by getting {
+//            dependsOn(macosMain)
+//        }
     }
 }
 
@@ -88,7 +160,8 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 31
-        sourceSets["main"].res.srcDir("/src/desktopMain/resources")
+        sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
+        sourceSets["main"].res.srcDir("resources")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

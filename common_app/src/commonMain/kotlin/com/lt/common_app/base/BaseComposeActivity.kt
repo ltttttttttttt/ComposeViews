@@ -18,6 +18,7 @@ package com.lt.common_app.base
 
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.CoroutineScope
+import kotlin.reflect.KClass
 
 /**
  * creator: lt  2021/5/23  lt.dygzs@qq.com
@@ -38,5 +39,5 @@ expect abstract class BaseComposeActivity() {
 
     fun String.showToast()
 
-    fun jump(clazz: Class<out BaseComposeActivity>)
+    fun jump(clazz: KClass<out BaseComposeActivity>)
 }
