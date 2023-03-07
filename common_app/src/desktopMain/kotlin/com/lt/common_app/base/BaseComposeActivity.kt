@@ -27,6 +27,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import newInstance
+import kotlin.reflect.KClass
 
 /**
  * creator: lt  2021/5/23  lt.dygzs@qq.com
@@ -60,7 +62,7 @@ actual abstract class BaseComposeActivity {
         _toastChannel.trySend(Unit)
     }
 
-    actual fun jump(clazz: Class<out BaseComposeActivity>) {
+    actual fun jump(clazz: KClass<out BaseComposeActivity>) {
         _activityStack.add(clazz.newInstance())
     }
 

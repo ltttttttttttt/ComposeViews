@@ -16,10 +16,12 @@
 rootProject.buildFileName = "build.gradle.kts"
 rootProject.name = "ComposeViews"
 
+include(":ComposeViews")
+include(":common_app")
 include(":android_app")
 include("desktop_app")
-include(":common_app")
-include(":ComposeViews")
+include("js_app")
+include("ios_shared")
 
 
 includeBuild("convention-plugins")

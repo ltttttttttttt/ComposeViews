@@ -114,7 +114,6 @@ fun TextPagerIndicator(
                     //通过百分比计算出实际宽度
                     abs(offsetPercentWithSelect).getPercentageValue(width, toWidth).toDp()
                 }
-                println("lllttt $width $offsetPercentWithSelect $selectIndex          ${System.currentTimeMillis()}")
             }
             Box(modifier = Modifier.fillMaxHeight()) {
                 Spacer(

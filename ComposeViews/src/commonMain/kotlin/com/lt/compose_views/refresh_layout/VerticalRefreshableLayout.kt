@@ -73,6 +73,7 @@ fun VerticalRefreshableLayout(
             refreshContent = bottomRefreshContent,
             refreshLayoutState = bottomRefreshLayoutState,
             composePosition = ComposePosition.Bottom,
+            dragEfficiency = 1f,
             userEnable = bottomUserEnable,
             content = content
         )

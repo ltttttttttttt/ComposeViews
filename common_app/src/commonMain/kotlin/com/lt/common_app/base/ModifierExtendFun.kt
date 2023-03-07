@@ -23,6 +23,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import com.lt.compose_views.util._currentTimeMillis
 import com.lt.compose_views.util.rememberMutableStateOf
 
 /**
@@ -49,7 +50,7 @@ inline fun Modifier.click(
 ): Modifier {
     var lastClickTime by rememberMutableStateOf(value = 0L)
     return clickable(interactionSource, indication, enabled, onClickLabel, role) {
-        val currentTimeMillis = System.currentTimeMillis()
+        val currentTimeMillis = _currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {
             onClick()
             lastClickTime = currentTimeMillis
@@ -67,7 +68,7 @@ inline fun composeClick(
 ): () -> Unit {
     var lastClickTime by rememberMutableStateOf(value = 0L)
     return {
-        val currentTimeMillis = System.currentTimeMillis()
+        val currentTimeMillis = _currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {
             onClick()
             lastClickTime = currentTimeMillis

@@ -52,3 +52,8 @@ internal fun Float/*percentage*/.getPercentageValue(startValue: Color, endValue:
         green = getPercentageValue(startValue.green, endValue.green),
         blue = getPercentageValue(startValue.blue, endValue.blue),
     )
+
+/**
+ * 获取当前时间戳(ms)
+ */
+expect fun _currentTimeMillis(): Long

@@ -15,6 +15,7 @@
  */
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
 
 /*
@@ -47,7 +48,7 @@ private const val IMG_FILE = "drawable-xxhdpi/%s.png"
  */
 @Composable
 actual fun resourcePainter(imageName: String): Painter =
-    androidx.compose.ui.res.painterResource(IMG_FILE.format(imageName))
+    androidx.compose.ui.res.painterResource(remember(imageName) { IMG_FILE.format(imageName) })
 
 var _testIndex = 0
 

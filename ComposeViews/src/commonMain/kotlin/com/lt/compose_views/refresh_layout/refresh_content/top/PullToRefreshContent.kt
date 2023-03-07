@@ -33,7 +33,7 @@ import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.res.Res
 import com.lt.compose_views.util.Color333
-import java.lang.Math.abs
+import kotlin.math.abs
 
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
