@@ -60,12 +60,8 @@ kotlin {
         }
     }
 
-    ios{
-        setRes()
-    }
-    iosSimulatorArm64{
-        setRes()
-    }
+    ios()
+    iosSimulatorArm64()
 
     js(IR) {
         browser()
@@ -138,14 +134,5 @@ kotlin {
 //        val macosArm64Main by getting {
 //            dependsOn(macosMain)
 //        }
-    }
-}
-
-fun KotlinNativeTarget.setRes() {
-    compilations.all {
-        defaultSourceSet.resources.srcDirs(
-            "../ComposeViews/resources",
-            "../desktop_app/src/desktopMain/resources"
-        )
     }
 }
