@@ -24,6 +24,13 @@
 <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/md_resource/compose_views_demo.apk">
 查看demo</a>
 
+[![Star History Chart](https://api.star-history.com/svg?repos=ltttttttttttt/ComposeViews&type=Date)](https://star-history.com/#ltttttttttttt/ComposeViews&Date)
+
+## 版本支持
+当前版本所依赖版本        jetpack-compose:1.3.3    compose-multiplatform:1.3.1    kotlin:1.8.10
+ComposeViews:1.3.9.1    jetpack-compose:1.3.3    compose-multiplatform:1.3.0    kotlin:1.8.0
+ComposeViews:1.3.5      jetpack-compose:1.2.1    compose-multiplatform:1.2.1    kotlin:1.7.20
+
 ## 快速入门
 
 在app或common模块目录内的build.gradle.kts内添加:

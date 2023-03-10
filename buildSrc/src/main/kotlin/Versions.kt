@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const val kotlinVersion = "1.8.0"//kotlin版本
-const val composeVersion = "1.3.0"//compose版本
-const val composeCompilerVersion = "1.4.0"//compose编译版本
+const val kotlinVersion = "1.8.10"//kotlin版本
+const val composeVersion = "1.3.1"//compose版本
+const val composeCompilerVersion = "1.4.2"//compose编译版本
 const val coroutinesVersion = "1.6.4"//协程版本
