@@ -27,9 +27,13 @@ View demo</a>
 [![Star History Chart](https://api.star-history.com/svg?repos=ltttttttttttt/ComposeViews&type=Date)](https://star-history.com/#ltttttttttttt/ComposeViews&Date)
 
 ## Version support
-Current version         jetpack-compose:1.3.3    compose-multiplatform:1.3.1    kotlin:1.8.10
-ComposeViews:1.3.9.1    jetpack-compose:1.3.3    compose-multiplatform:1.3.0    kotlin:1.8.0
-ComposeViews:1.3.5      jetpack-compose:1.2.1    compose-multiplatform:1.2.1    kotlin:1.7.20
+
+<table broder="1">
+<tr><td>ComposeViews version</td><td>jetpack compose version</td><td>compose-multiplatform version</td><td>kotlin version</td></tr>
+<tr><td>current</td><td>1.3.3</td><td>1.3.1</td><td>1.8.10</td></tr>
+<tr><td>1.3.9.1</td><td>1.3.3</td><td>1.3.0</td><td>1.8.0</td></tr>
+<tr><td>1.3.5</td><td>1.2.1</td><td>1.2.1</td><td>1.7.20</td></tr>
+</table>
 
 ## Add to your project
 
