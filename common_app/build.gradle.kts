@@ -158,10 +158,10 @@ kotlin {
 //        }
     }
     ksp {
-        arg("packageList", "com.lt.common_app")
+        arg("packageListWithVirtualReflection", "com.lt.common_app")
     }
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.0")
+    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.3")
 }
