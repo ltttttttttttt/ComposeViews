@@ -163,5 +163,5 @@ kotlin {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.3")
+    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.6")
 }
