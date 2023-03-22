@@ -16,6 +16,7 @@
 
 package com.lt.compose_views.compose_pager
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.Box
@@ -59,6 +60,7 @@ import kotlin.math.roundToInt
  * @param content compose内容区域
  *                Content of compose
  */
+@ExperimentalFoundationApi
 @Composable
 fun NestedComposePager(
     pageCount: Int,

@@ -17,6 +17,7 @@
 package com.lt.common_app
 
 import M
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
@@ -56,6 +57,7 @@ class NestedComposePagerActivity : BaseComposeActivity() {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ComposePagerSample(composePagerState: ComposePagerState) {
         NestedComposePager(
