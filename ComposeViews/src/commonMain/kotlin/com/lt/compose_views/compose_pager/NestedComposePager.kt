@@ -61,6 +61,7 @@ import kotlin.math.roundToInt
  *                Content of compose
  */
 @ExperimentalFoundationApi
+@Deprecated("目前还无法使用,未来可能会删除")
 @Composable
 fun NestedComposePager(
     pageCount: Int,

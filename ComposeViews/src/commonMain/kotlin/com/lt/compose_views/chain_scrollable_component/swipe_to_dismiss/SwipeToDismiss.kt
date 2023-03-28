@@ -85,7 +85,6 @@ fun SwipeToDismiss(
             Row(
                 modifier = Modifier
                     .matchParentSize()
-                    .horizontalScroll(scrollState)
                     .let {
                         if (contentIsMove) {
                             it.offset {
@@ -97,6 +96,7 @@ fun SwipeToDismiss(
                         } else
                             it
                     }
+                    .horizontalScroll(scrollState)
             ) {
                 content(state)
             }
