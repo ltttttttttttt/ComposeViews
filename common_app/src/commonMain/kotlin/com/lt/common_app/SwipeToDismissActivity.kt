@@ -19,6 +19,7 @@ package com.lt.common_app
 import M
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -83,11 +84,7 @@ class SwipeToDismissActivity : BaseComposeActivity() {
                         .fillMaxWidth()
                         .height(height)
                         .background(Color.Red)
-                    //.clickable {
-                    //    Toast
-                    //        .makeText(this@SwipeToDismissActivity, "删除", Toast.LENGTH_SHORT)
-                    //        .show()
-                    //}
+                        .clickable { "删除".showToast() }
                 )
             },
             contentIsMove = contentIsMove,
