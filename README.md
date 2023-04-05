@@ -39,7 +39,8 @@ View demo</a>
 
 Your app or common dir, build.gradle.kts add:
 
-version = [![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)
+version
+= [![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)
 
 ```kotlin
 dependencies {
@@ -51,6 +52,9 @@ dependencies {
 ## ComposePager
 
 <div align=center><img src="md_resource/compose_pager.gif" width=25%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/ComposePagerActivity.kt">
+sample</a>
 
 ```kotlin
 /**
@@ -69,6 +73,9 @@ fun ComposePager()
 ```
 
 ## Banner
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/BannerActivity.kt">
+sample</a>
 
 ```kotlin
 /**
@@ -91,6 +98,12 @@ fun Banner()
 <div align=center><img src="md_resource/image_banner.gif" width=50%></div>
 
 <div align=center><img src="md_resource/text_pager_indicator.gif" width=50%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/PagerIndicatorActivity.kt">
+sample</a>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/TextPagerIndicatorActivity.kt">
+sample</a>
 
 ```kotlin
 /**
@@ -129,6 +142,9 @@ fun TextPagerIndicator()
 
 ## ImageBanner
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/PagerIndicatorActivity.kt">
+sample</a>
+
 ```kotlin
 /**
  * [Banner] showing images
@@ -149,6 +165,9 @@ fun ImageBanner()
 ## RefreshLayout
 
 <div align=center><img src="md_resource/refresh_layout.gif" width=30%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/RefreshLayoutActivity.kt">
+sample</a>
 
 ```kotlin
 /**
@@ -195,6 +214,9 @@ fun VerticalRefreshableLayout()
 
 <div align=center><img src="md_resource/flow_layout.png" width=40%></div>
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/FlowLayoutActivity.kt">
+sample</a>
+
 ```kotlin
 /**
  * Linear layout with word wrapping
@@ -221,11 +243,14 @@ fun LabelsFlowLayout()
 
 <div align=center><img src="md_resource/date_selector.gif" width=30%></div>
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/DateSelectorA.kt">
+sample</a>
+
 ```kotlin
 /**
  * Date Selector
  * @param state DateSelector's state
- * @param modifier 
+ * @param modifier
  * @param isLoop Whether the value list is loop
  */
 @Composable
@@ -241,6 +266,9 @@ fun ValueSelector()
 ## MenuFloatingActionButton
 
 <div align=center><img src="md_resource/fab.gif" width=20%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/MenuFabActivity.kt">
+sample</a>
 
 ```kotlin
 /**
@@ -261,6 +289,12 @@ fun MenuFloatingActionButton()
 <div align=center><img src="md_resource/scrollable_app_bar.gif" width=40%></div>
 
 <div align=center><img src="md_resource/swipe_to_dismiss.gif" width=20%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/ScrollableAppBarActivity.kt">
+sample</a>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/SwipeToDismissActivity.kt">
+sample</a>
 
 ```kotlin
 /**

@@ -39,7 +39,8 @@
 
 在app或common模块目录内的build.gradle.kts内添加:
 
-version = [![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)
+version
+= [![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)
 
 ```kotlin
 dependencies {
@@ -51,6 +52,9 @@ dependencies {
 ## ComposePager
 
 <div align=center><img src="md_resource/compose_pager.gif" width=25%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/ComposePagerActivity.kt">
+示例代码</a>
 
 ```kotlin
 /**
@@ -69,6 +73,9 @@ fun ComposePager()
 ```
 
 ## Banner
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/BannerActivity.kt">
+示例代码</a>
 
 ```kotlin
 /**
@@ -91,6 +98,12 @@ fun Banner()
 <div align=center><img src="md_resource/image_banner.gif" width=50%></div>
 
 <div align=center><img src="md_resource/text_pager_indicator.gif" width=50%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/PagerIndicatorActivity.kt">
+示例代码</a>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/TextPagerIndicatorActivity.kt">
+示例代码</a>
 
 ```kotlin
 /**
@@ -129,6 +142,9 @@ fun TextPagerIndicator()
 
 ## ImageBanner
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/PagerIndicatorActivity.kt">
+示例代码</a>
+
 ```kotlin
 /**
  * 展示图片的Banner
@@ -149,6 +165,9 @@ fun ImageBanner()
 ## RefreshLayout
 
 <div align=center><img src="md_resource/refresh_layout.gif" width=30%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/RefreshLayoutActivity.kt">
+示例代码</a>
 
 ```kotlin
 /**
@@ -195,6 +214,9 @@ fun VerticalRefreshableLayout()
 
 <div align=center><img src="md_resource/flow_layout.png" width=40%></div>
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/FlowLayoutActivity.kt">
+示例代码</a>
+
 ```kotlin
 /**
  * 可以自动换行的线性布局
@@ -221,6 +243,9 @@ fun LabelsFlowLayout()
 
 <div align=center><img src="md_resource/date_selector.gif" width=30%></div>
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/DateSelectorA.kt">
+示例代码</a>
+
 ```kotlin
 /**
  * 日期选择器
@@ -242,6 +267,9 @@ fun ValueSelector()
 
 <div align=center><img src="md_resource/fab.gif" width=20%></div>
 
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/MenuFabActivity.kt">
+示例代码</a>
+
 ```kotlin
 /**
  * 带菜单的Fab
@@ -261,6 +289,12 @@ fun MenuFloatingActionButton()
 <div align=center><img src="md_resource/scrollable_app_bar.gif" width=40%></div>
 
 <div align=center><img src="md_resource/swipe_to_dismiss.gif" width=20%></div>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/ScrollableAppBarActivity.kt">
+示例代码</a>
+
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/SwipeToDismissActivity.kt">
+示例代码</a>
 
 ```kotlin
 /**
@@ -338,7 +372,7 @@ fun BasicsProgressBar()
 fun GoodTextField()
 
 /**
- * 更方便易用的TextField,适用于输入密码的情况 
+ * 更方便易用的TextField,适用于输入密码的情况
  * api和[GoodTextField]基本一样
  */
 @Composable
