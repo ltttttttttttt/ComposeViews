@@ -169,6 +169,11 @@ android {
     }
 }
 
+//compose配置
+compose {
+    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompilerVersion")
+}
+
 //publishing {
 //    publications {
 //        create("maven_core", MavenPublication::class) {

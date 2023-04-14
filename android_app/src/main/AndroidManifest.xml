@@ -50,7 +50,6 @@
         <activity android:name="com.lt.common_app.SwipeToDismissActivity" />
         <activity android:name="com.lt.common_app.TextPagerIndicatorActivity" />
         <activity android:name="com.lt.common_app.DateSelectorA" />
-        <activity android:name="com.lt.common_app.NestedComposePagerActivity" />
     </application>
 
 </manifest>

@@ -31,7 +31,6 @@ class MainActivity : BaseComposeActivity() {
     private val buttons = listOf(
         "rv的基础功能" to MainListActivity::class,
         "ViewPager功能" to ComposePagerActivity::class,
-        "NestedComposePager功能" to NestedComposePagerActivity::class,
         "Banner功能" to BannerActivity::class,
         "PagerIndicator功能" to PagerIndicatorActivity::class,
         "TextPagerIndicator功能" to TextPagerIndicatorActivity::class,
