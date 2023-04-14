@@ -30,7 +30,8 @@ View demo</a>
 
 <table broder="1">
 <tr><td>ComposeViews version</td><td>jetpack compose version</td><td>compose-multiplatform version</td><td>kotlin version</td></tr>
-<tr><td>current</td><td>1.3.3</td><td>1.3.1</td><td>1.8.10</td></tr>
+<tr><td>current</td><td>1.4.0</td><td>1.4.0</td><td>1.8.20</td></tr>
+<tr><td>1.3.11</td><td>1.3.3</td><td>1.3.1</td><td>1.8.10</td></tr>
 <tr><td>1.3.9.1</td><td>1.3.3</td><td>1.3.0</td><td>1.8.0</td></tr>
 <tr><td>1.3.5</td><td>1.2.1</td><td>1.2.1</td><td>1.7.20</td></tr>
 </table>
