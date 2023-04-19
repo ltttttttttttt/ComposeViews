@@ -126,7 +126,7 @@ kotlin {
 
         val iosMain by getting{
             dependencies {
-                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
         }
         val iosTest by getting
@@ -139,7 +139,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
         }
 
