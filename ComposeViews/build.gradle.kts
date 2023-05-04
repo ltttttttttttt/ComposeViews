@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.4.0"
+version = "1.4.0.1"
 
 kotlin {
     android {
@@ -89,7 +89,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-                api("io.github.ltttttttttttt:DataStructure:1.0.12")
+                api("io.github.ltttttttttttt:DataStructure:1.0.13")
             }
         }
         val commonTest by getting {
