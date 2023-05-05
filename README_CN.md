@@ -1,6 +1,6 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">适用于Android,Web,Desktop,Ios的Jetpack(jb) Compose View(目前已支持kmp)</p>
+<p align="center">适用于Jetpack(jb) Compose ,支持的目标: Android, iOS, Web, Desktop(Windows, Linux, macOS)</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
@@ -386,4 +386,4 @@ Kotlin交流群(QQ): 101786950
 
 ## 感谢
 
-<h6>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对本项目的支持<h6>
+<h4>最后感谢<a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>对于项目提供的支持！<h4>

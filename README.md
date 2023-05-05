@@ -1,6 +1,6 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">Jetpack(jb) Compose Views, in to Android,Web,Desktop,Ios...(kmp is supported)</p>
+<p align="center">Applicable to Jetpack(jb) Compose, Supported targets: Android, iOS, Web, Desktop(Windows, Linux, macOS)</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
@@ -386,5 +386,5 @@ Kotlin Communication Group(QQ): 101786950
 
 ## thank
 
-<h6>Finally, thank <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>
-for its support to this project<h6>
+<h4>Finally, thanks to <a href="https://www.jetbrains.com/?from=ltviews" target="_blank">JetBrains</a>
+for supporting the project<h4>

@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.3.11"
+version = "1.4.0.2"
 
 kotlin {
     android {
@@ -89,7 +89,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-                api("io.github.ltttttttttttt:DataStructure:1.0.12")
+                api("io.github.ltttttttttttt:DataStructure:1.0.14")
             }
         }
         val commonTest by getting {
@@ -126,7 +126,7 @@ kotlin {
 
         val iosMain by getting{
             dependencies {
-                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
         }
         val iosTest by getting
@@ -139,7 +139,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                api("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
         }
 
