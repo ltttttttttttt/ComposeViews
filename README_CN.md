@@ -3,6 +3,7 @@
 <p align="center">适用于Jetpack(jb) Compose ,支持的目标: Android, iOS, Web, Desktop(Windows, Linux, macOS)</p>
 
 <p align="center">
+<img src="https://img.shields.io/badge/Kotlin-Multiplatform-%237f52ff?logo=kotlin">
 <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?maxAge=2592000">
 <img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/>
 </p>
