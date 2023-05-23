@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.res.Res
+import com.lt.compose_views.res.getLoadingString
+import com.lt.compose_views.res.getNoMoreDataString
 import com.lt.compose_views.util.Color333
 
 /**

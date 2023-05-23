@@ -15,10 +15,4 @@
   -->
 
 <resources>
-    <string name="compose_views_no_more_data">没有更多数据了</string>
-    <string name="compose_views_loading">正在加载中…</string>
-    <string name="compose_views_refresh_complete">刷新完成</string>
-    <string name="compose_views_refreshing">正在刷新…</string>
-    <string name="compose_views_drop_down_to_refresh">下拉可以刷新</string>
-    <string name="compose_views_release_refresh_now">释放立即刷新</string>
 </resources>

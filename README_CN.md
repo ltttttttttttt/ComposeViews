@@ -342,7 +342,7 @@ fun ScrollableAppBar()
 fun SwipeToDismiss()
 ```
 
-# 更多
+## 更多
 
 <div align=center><img src="md_resource/star_bar.gif" width=20%></div>
 
@@ -379,6 +379,13 @@ fun GoodTextField()
  */
 @Composable
 fun PasswordTextField()
+```
+
+## 配置
+
+```kotlin
+//设置多语言,默认获取系统语言
+Res.setLanguage("zh")
 ```
 
 ## 联系方式

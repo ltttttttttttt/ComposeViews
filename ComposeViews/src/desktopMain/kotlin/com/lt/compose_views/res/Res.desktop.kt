@@ -25,47 +25,30 @@ import com.lt.load_the_image.rememberImagePainter
  * effect :
  * warning:
  */
-internal actual object Res {
+actual object Res {
     private const val imgFile = "drawable-xxhdpi/%s.png"
 
     @Composable
-    actual fun getRefreshLayoutLoadingPainter(): Painter =
+    internal actual fun getRefreshLayoutLoadingPainter(): Painter =
         rememberImagePainter(imgFile.format("compose_views_refresh_layout_loading"))
 
     @Composable
-    actual fun getNoMoreDataString(): String = "没有更多数据了"
-
-    @Composable
-    actual fun getLoadingString(): String = "正在加载中…"
-
-    @Composable
-    actual fun getRefreshLayoutArrowPainter(): Painter =
+    internal actual fun getRefreshLayoutArrowPainter(): Painter =
         rememberImagePainter(imgFile.format("compose_views_refresh_layout_arrow"))
 
     @Composable
-    actual fun getRefreshCompleteString(): String = "刷新完成"
-
-    @Composable
-    actual fun getRefreshingString(): String = "正在刷新…"
-
-    @Composable
-    actual fun getDropDownToRefreshString(): String = "下拉可以刷新"
-
-    @Composable
-    actual fun getReleaseRefreshNowString(): String = "释放立即刷新"
-
-    @Composable
-    actual fun getPasswordShowPainter(): Painter =
+    internal actual fun getPasswordShowPainter(): Painter =
         rememberImagePainter(imgFile.format("compose_views_password_show"))
 
     @Composable
-    actual fun getPasswordHidePainter(): Painter =
+    internal actual fun getPasswordHidePainter(): Painter =
         rememberImagePainter(imgFile.format("compose_views_password_hide"))
 
     @Composable
-    actual fun getStarSelectPainter(): Painter =
+    internal actual fun getStarSelectPainter(): Painter =
         rememberImagePainter(imgFile.format("star_bar_star_select"))
 
     @Composable
-    actual fun getStarPainter(): Painter = rememberImagePainter(imgFile.format("star_bar_star"))
+    internal actual fun getStarPainter(): Painter =
+        rememberImagePainter(imgFile.format("star_bar_star"))
 }

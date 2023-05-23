@@ -15,10 +15,4 @@
   -->
 
 <resources>
-    <string name="compose_views_no_more_data">No more data</string>
-    <string name="compose_views_loading">Loading…</string>
-    <string name="compose_views_refresh_complete">Refresh complete</string>
-    <string name="compose_views_refreshing">Refreshing…</string>
-    <string name="compose_views_drop_down_to_refresh">Drop down to refresh</string>
-    <string name="compose_views_release_refresh_now">Release Refresh Now</string>
 </resources>
