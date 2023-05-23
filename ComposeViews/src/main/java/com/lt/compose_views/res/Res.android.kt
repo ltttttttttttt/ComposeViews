@@ -27,49 +27,27 @@ import com.lt.compose_views.R
  * effect :
  * warning:
  */
-internal actual object Res {
+actual object Res {
     @Composable
-    actual fun getRefreshLayoutLoadingPainter(): Painter =
+    internal actual fun getRefreshLayoutLoadingPainter(): Painter =
         painterResource(id = R.drawable.compose_views_refresh_layout_loading)
 
     @Composable
-    actual fun getNoMoreDataString(): String = stringResource(R.string.compose_views_no_more_data)
-
-    @Composable
-    actual fun getLoadingString(): String = stringResource(R.string.compose_views_loading)
-
-    @Composable
-    actual fun getRefreshLayoutArrowPainter(): Painter =
+    internal actual fun getRefreshLayoutArrowPainter(): Painter =
         painterResource(id = R.drawable.compose_views_refresh_layout_arrow)
 
     @Composable
-    actual fun getRefreshCompleteString(): String =
-        stringResource(id = R.string.compose_views_refresh_complete)
-
-    @Composable
-    actual fun getRefreshingString(): String =
-        stringResource(id = R.string.compose_views_refreshing)
-
-    @Composable
-    actual fun getDropDownToRefreshString(): String =
-        stringResource(id = R.string.compose_views_drop_down_to_refresh)
-
-    @Composable
-    actual fun getReleaseRefreshNowString(): String =
-        stringResource(id = R.string.compose_views_release_refresh_now)
-
-    @Composable
-    actual fun getPasswordShowPainter(): Painter =
+    internal actual fun getPasswordShowPainter(): Painter =
         painterResource(id = R.drawable.compose_views_password_show)
 
     @Composable
-    actual fun getPasswordHidePainter(): Painter =
+    internal actual fun getPasswordHidePainter(): Painter =
         painterResource(id = R.drawable.compose_views_password_hide)
 
     @Composable
-    actual fun getStarSelectPainter(): Painter =
+    internal actual fun getStarSelectPainter(): Painter =
         painterResource(id = R.drawable.star_bar_star_select)
 
     @Composable
-    actual fun getStarPainter(): Painter = painterResource(id = R.drawable.star_bar_star)
+    internal actual fun getStarPainter(): Painter = painterResource(id = R.drawable.star_bar_star)
 }

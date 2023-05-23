@@ -32,6 +32,10 @@ import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.res.Res
+import com.lt.compose_views.res.getDropDownToRefreshString
+import com.lt.compose_views.res.getRefreshCompleteString
+import com.lt.compose_views.res.getRefreshingString
+import com.lt.compose_views.res.getReleaseRefreshNowString
 import com.lt.compose_views.util.Color333
 import kotlin.math.abs
 

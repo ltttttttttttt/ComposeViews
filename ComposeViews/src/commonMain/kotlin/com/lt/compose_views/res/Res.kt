@@ -17,51 +17,95 @@
 package com.lt.compose_views.res
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.intl.Locale
 
 /**
  * creator: lt  2022/11/13  lt.dygzs@qq.com
  * effect : 资源
  * warning:
  */
-internal expect object Res {
+expect object Res {
     @Composable
-    fun getRefreshLayoutLoadingPainter(): Painter
+    internal fun getRefreshLayoutLoadingPainter(): Painter
 
     @Composable
-    fun getRefreshLayoutArrowPainter(): Painter
+    internal fun getRefreshLayoutArrowPainter(): Painter
 
     @Composable
-    fun getPasswordShowPainter(): Painter
+    internal fun getPasswordShowPainter(): Painter
 
     @Composable
-    fun getPasswordHidePainter(): Painter
+    internal fun getPasswordHidePainter(): Painter
 
     @Composable
-    fun getStarSelectPainter(): Painter
+    internal fun getStarSelectPainter(): Painter
 
     @Composable
-    fun getStarPainter(): Painter
+    internal fun getStarPainter(): Painter
+}
 
-    @Composable
-    fun getNoMoreDataString(): String
+//用户指定的语言
+private var Res_language: String? = null
 
-    @Composable
-    fun getLoadingString(): String
+//获取当前是什么语言
+private fun Res.getLanguage(): String {
+    Res_language?.let { return it }
+    return Locale.current.language
+}
 
-    @Composable
-    fun getRefreshCompleteString(): String
+/**
+ * 手动设置当前的语言
+ */
+fun Res.setLanguage(language: String) {
+    Res_language = language
+}
 
-    @Composable
-    fun getRefreshingString(): String
 
-    @Composable
-    fun getDropDownToRefreshString(): String
+@Composable
+internal fun Res.getNoMoreDataString(): String {
+    return when (getLanguage()) {
+        "zh" -> "没有更多数据了"
+        else -> "No more data"
+    }
+}
 
-    @Composable
-    fun getReleaseRefreshNowString(): String
+@Composable
+internal fun Res.getLoadingString(): String {
+    return when (getLanguage()) {
+        "zh" -> "正在加载中…"
+        else -> "Loading"
+    }
+}
+
+@Composable
+internal fun Res.getRefreshCompleteString(): String {
+    return when (getLanguage()) {
+        "zh" -> "刷新完成"
+        else -> "Refresh complete"
+    }
+}
+
+@Composable
+internal fun Res.getRefreshingString(): String {
+    return when (getLanguage()) {
+        "zh" -> "正在刷新…"
+        else -> "Refreshing"
+    }
+}
+
+@Composable
+internal fun Res.getDropDownToRefreshString(): String {
+    return when (getLanguage()) {
+        "zh" -> "下拉可以刷新"
+        else -> "Pull to refresh"
+    }
+}
+
+@Composable
+internal fun Res.getReleaseRefreshNowString(): String {
+    return when (getLanguage()) {
+        "zh" -> "释放立即刷新"
+        else -> "Release refresh"
+    }
 }
