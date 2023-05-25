@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.4.0.4"
+version = "1.4.0.5"
 
 kotlin {
     android {
@@ -46,19 +46,22 @@ kotlin {
 
     ios {
         compilations.all {
-            defaultSourceSet.resources.srcDir("/resources")
+            sourceSets.getByName("iosMain").resources.srcDir("/resources")
+            //defaultSourceSet.resources.srcDir("/resources")
         }
     }
     iosSimulatorArm64 {
         compilations.all {
-            defaultSourceSet.resources.srcDir("/resources")
+            sourceSets.getByName("iosMain").resources.srcDir("/resources")
+            //defaultSourceSet.resources.srcDir("/resources")
         }
     }
 
     js(IR) {
         browser()
         compilations.all {
-            defaultSourceSet.resources.srcDir("/resources")
+            sourceSets.getByName("jsMain").resources.srcDir("/resources")
+            //defaultSourceSet.resources.srcDir("/resources")
         }
     }
 
