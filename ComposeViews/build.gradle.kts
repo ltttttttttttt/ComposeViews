@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.4.0.3"
+version = "1.4.0.4"
 
 kotlin {
     android {
@@ -35,15 +35,25 @@ kotlin {
 
     jvm("desktop") {
         compilations.all {
-            defaultSourceSet.resources.srcDir("/resources")
+            //todo 测试下面两种哪种可以附带资源(desktop,js,ios)
+            sourceSets.getByName("desktopMain").resources.srcDir("/resources")
+//            defaultSourceSet.resources.srcDir("/resources")
             kotlinOptions {
                 jvmTarget = "11"
             }
         }
     }
 
-    ios()
-    iosSimulatorArm64()
+    ios {
+        compilations.all {
+            defaultSourceSet.resources.srcDir("/resources")
+        }
+    }
+    iosSimulatorArm64 {
+        compilations.all {
+            defaultSourceSet.resources.srcDir("/resources")
+        }
+    }
 
     js(IR) {
         browser()
@@ -51,21 +61,6 @@ kotlin {
             defaultSourceSet.resources.srcDir("/resources")
         }
     }
-
-//    macosX64 {
-//        binaries {
-//            executable {
-//                entryPoint = "main"
-//            }
-//        }
-//    }
-//    macosArm64 {
-//        binaries {
-//            executable {
-//                entryPoint = "main"
-//            }
-//        }
-//    }
 
     cocoapods {
         summary = "Jatpack(JetBrains) Compose views"
@@ -124,7 +119,7 @@ kotlin {
         }
         val desktopTest by getting
 
-        val iosMain by getting{
+        val iosMain by getting {
             dependencies {
                 api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
@@ -142,16 +137,6 @@ kotlin {
                 api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
         }
-
-//        val macosMain by creating {
-//            dependsOn(commonMain)
-//        }
-//        val macosX64Main by getting {
-//            dependsOn(macosMain)
-//        }
-//        val macosArm64Main by getting {
-//            dependsOn(macosMain)
-//        }
     }
 }
 
@@ -173,27 +158,3 @@ android {
 compose {
     kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompilerVersion")
 }
-
-//publishing {
-//    publications {
-//        create("maven_core", MavenPublication::class) {
-//            groupId = "com.github.ltttttttttttt"
-//            artifactId = "maven_core"
-//            version = "1.0.0"
-//            from(components.getByName("kotlin"))
-//        }
-//    }
-//}
-
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            create("maven_public", MavenPublication::class) {
-//                groupId = "com.github.ltttttttttttt"
-//                artifactId = "library"
-//                version = "1.0.0"
-//                from(components.getByName("release"))
-//            }
-//        }
-//    }
-//}
