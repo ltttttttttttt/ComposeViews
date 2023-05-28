@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import newInstance
 import kotlin.reflect.KClass
 
 /**
@@ -63,7 +62,7 @@ actual abstract class BaseComposeActivity {
     }
 
     actual fun jump(clazz: KClass<out BaseComposeActivity>) {
-        _activityStack.add(clazz.newInstance())
+        _activityStack.add(clazz.java.newInstance())
     }
 
     companion object {

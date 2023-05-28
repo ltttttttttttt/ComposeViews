@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.4.0.5"
+version = "1.4.0.7"
 
 kotlin {
     android {
@@ -35,9 +35,7 @@ kotlin {
 
     jvm("desktop") {
         compilations.all {
-            //todo 测试下面两种哪种可以附带资源(desktop,js,ios)
-            sourceSets.getByName("desktopMain").resources.srcDir("/resources")
-//            defaultSourceSet.resources.srcDir("/resources")
+            defaultSourceSet.resources.srcDir("resources")
             kotlinOptions {
                 jvmTarget = "11"
             }
@@ -46,22 +44,19 @@ kotlin {
 
     ios {
         compilations.all {
-            sourceSets.getByName("iosMain").resources.srcDir("/resources")
-            //defaultSourceSet.resources.srcDir("/resources")
+            defaultSourceSet.resources.srcDir("resources")
         }
     }
     iosSimulatorArm64 {
         compilations.all {
-            sourceSets.getByName("iosMain").resources.srcDir("/resources")
-            //defaultSourceSet.resources.srcDir("/resources")
+            defaultSourceSet.resources.srcDir("resources")
         }
     }
 
     js(IR) {
         browser()
         compilations.all {
-            sourceSets.getByName("jsMain").resources.srcDir("/resources")
-            //defaultSourceSet.resources.srcDir("/resources")
+            defaultSourceSet.resources.srcDir("resources")
         }
     }
 
