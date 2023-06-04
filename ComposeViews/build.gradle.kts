@@ -109,8 +109,6 @@ kotlin {
                 //api(project(":ComposeViews")) {
                 //    exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-android")//剔除安卓协程依赖
                 //}
-                //desktop图片加载器
-                api("com.github.ltttttttttttt:load-the-image:1.0.5")
                 //协程
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
             }
