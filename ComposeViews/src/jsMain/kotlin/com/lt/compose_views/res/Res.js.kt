@@ -29,7 +29,7 @@ import org.jetbrains.compose.resources.painterResource
  */
 actual object Res {
     private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
-    private const val IMG_FILE_ENDING = ".png"
+    private const val IMG_FILE_ENDING = ".webp"
 
     /**
      * 根据图片文件名加载图片

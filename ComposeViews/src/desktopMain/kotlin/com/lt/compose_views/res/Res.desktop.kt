@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
  * warning:
  */
 actual object Res {
-    private const val imgFile = "drawable-xxhdpi/%s.png"
+    private const val imgFile = "drawable-xxhdpi/%s.webp"
 
     @Composable
     internal actual fun getRefreshLayoutLoadingPainter(): Painter =

@@ -29,7 +29,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
-private const val IMG_FILE_ENDING = ".png"
+private const val IMG_FILE_ENDING = ".webp"
 
 /**
  * 加载网络图片

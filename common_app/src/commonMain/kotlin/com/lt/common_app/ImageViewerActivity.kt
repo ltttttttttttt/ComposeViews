@@ -45,7 +45,7 @@ class ImageViewerActivity : BaseComposeActivity() {
             ImageViewer(
                 resourcePainter("top_bar_bk"),
                 M.fillMaxSize().background(Color.Black),
-                canRotation = true,
+                userCanRotation = true,
             )
             Image(
                 Icons.Filled.Close,
