@@ -16,10 +16,13 @@
 
 package com.lt.compose_views.banner
 
+import androidx.compose.runtime.Stable
+
 /**
  * Banner的compose作用域
  * Compose scope of the [Banner]
  */
+@Stable
 class BannerScope(
     /**
      * 当前的Banner布局content所在的索引

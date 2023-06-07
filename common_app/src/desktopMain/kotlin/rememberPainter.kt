@@ -41,7 +41,7 @@ import androidx.compose.ui.graphics.painter.Painter
 actual fun rememberPainter(data: String?): Painter =
     com.lt.load_the_image.rememberImagePainter(url = data ?: "")
 
-private const val IMG_FILE = "drawable-xxhdpi/%s.png"
+private const val IMG_FILE = "drawable-xxhdpi/%s.webp"
 
 /**
  * 根据图片文件名加载图片

@@ -17,6 +17,7 @@
 package com.lt.compose_views.chain_scrollable_component
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.runtime.Stable
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ import kotlin.math.abs
  *          State of the [ChainScrollableComponent]
  * warning:
  */
+@Stable
 class ChainScrollableComponentState internal constructor(
     val minPx: Float,
     val maxPx: Float,

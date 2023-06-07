@@ -134,6 +134,8 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 api(compose.preview)
+                //desktop图片加载器
+                api("com.github.ltttttttttttt:load-the-image:1.0.5")
             }
         }
         val desktopTest by getting

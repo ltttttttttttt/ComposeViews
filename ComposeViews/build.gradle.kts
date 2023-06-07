@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.4.0.8"
+version = "1.4.0.9"
 
 kotlin {
     android {
@@ -109,8 +109,6 @@ kotlin {
                 //api(project(":ComposeViews")) {
                 //    exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-android")//剔除安卓协程依赖
                 //}
-                //desktop图片加载器
-                api("com.github.ltttttttttttt:load-the-image:1.0.5")
                 //协程
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
             }

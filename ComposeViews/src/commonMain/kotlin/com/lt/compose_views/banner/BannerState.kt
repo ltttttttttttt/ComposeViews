@@ -17,6 +17,7 @@
 package com.lt.compose_views.banner
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
  * Banner的状态
  * State of the [Banner]
  */
+@Stable
 class BannerState {
     //起始倍数,用于支持用户开始就向左划
     internal val startMultiple = 50

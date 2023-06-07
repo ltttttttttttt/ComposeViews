@@ -18,6 +18,7 @@ package com.lt.compose_views.value_selector
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 
 /**
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
  *          State of the [ValueSelect]
  * warning:
  */
+@Stable
 class ValueSelectState {
     internal var _lazyListState: LazyListState? = null
     val lazyListState: LazyListState

@@ -16,10 +16,13 @@
 
 package com.lt.compose_views.compose_pager
 
+import androidx.compose.runtime.Stable
+
 /**
  * ComposePager的compose作用域
  * Compose scope of the [ComposePager]
  */
+@Stable
 class ComposePagerScope(
     /**
      * 当前的ComposePager布局content所在的索引
