@@ -33,6 +33,7 @@ import kotlin.math.abs
  * @param onRefreshListener 触发刷新时的回调(不保证线程)
  *                          Callback when refresh is triggered
  */
+@Stable
 class RefreshLayoutState(
     internal val onRefreshListener: RefreshLayoutState.() -> Unit
 ) {

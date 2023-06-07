@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.Flow
  * ComposePager的状态
  * State of the [ComposePager]
  */
+@Stable
 class ComposePagerState {
 
     //当前ComposePager所在的索引

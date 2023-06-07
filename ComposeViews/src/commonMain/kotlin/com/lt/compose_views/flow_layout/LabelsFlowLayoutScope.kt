@@ -16,12 +16,15 @@
 
 package com.lt.compose_views.flow_layout
 
+import androidx.compose.runtime.Stable
+
 /**
  * creator: lt  2022/10/26  lt.dygzs@qq.com
  * effect : LabelsFlowLayout的compose作用域
  *          Compose scope of the [LabelsFlowLayout]
  * warning:
  */
+@Stable
 class LabelsFlowLayoutScope(
     private val state: LabelsFlowLayoutState,
     val index: Int,

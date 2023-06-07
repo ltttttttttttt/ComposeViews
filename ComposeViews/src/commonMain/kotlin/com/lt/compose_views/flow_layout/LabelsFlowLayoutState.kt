@@ -17,6 +17,7 @@
 package com.lt.compose_views.flow_layout
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import com.lt.compose_views.util.SelectMode
@@ -27,6 +28,7 @@ import com.lt.compose_views.util.SelectMode
  *          State of the [LabelsFlowLayout]
  * warning:
  */
+@Stable
 class LabelsFlowLayoutState {
 
     constructor(size: Int, selectMode: SelectMode) {

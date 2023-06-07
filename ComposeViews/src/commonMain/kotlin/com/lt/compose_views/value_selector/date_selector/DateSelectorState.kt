@@ -16,6 +16,7 @@
 
 package com.lt.compose_views.value_selector.date_selector
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -33,6 +34,7 @@ import com.lt.compose_views.value_selector.ValueSelectState
  * @param maxXxx 最大可选择日期
  *                Maximum selected date
  */
+@Stable
 class DateSelectorState(
     internal val defaultYear: Int,
     internal val defaultMonth: Int,

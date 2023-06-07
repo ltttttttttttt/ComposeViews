@@ -14,38 +14,46 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.menu_fab
+package com.lt.compose_views.image_viewer
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-
-
-// Author: Vast Gui
-// Email: guihy2019@gmail.com
-// Date: 2022/7/23 15:41
-// Description: 
-// Documentation:
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
 
 /**
- * 菜单的状态
- * State of the [MenuFloatingActionButton]
+ * creator: lt  2023/6/6  lt.dygzs@qq.com
+ * effect : [ImageViewer]的状态
+ *          State of the [ImageViewer]
+ * warning:
  */
 @Stable
-class MenuFabState {
+class ImageViewerState {
     /**
-     * 菜单内部的展开折叠状态
-     * State of the [MenuFloatingActionButton]
+     * 图片的缩放
+     * Image zoom
      */
-    val menuFabStateEnum: MutableState<MenuFabStateEnum> =
-        mutableStateOf(MenuFabStateEnum.Collapsed)
+    var zoom by mutableStateOf(1f)
+
+    /**
+     * 图片的位移
+     * Image offset
+     */
+    var offset by mutableStateOf(Offset.Zero)
+
+    /**
+     * 图片的旋转
+     * Image rotation
+     */
+    var rotation by mutableStateOf(0f)
 }
 
 /**
- * 创建一个[remember]的[MenuFabState]
- * Create the [MenuFabState] of [remember]
+ * 创建一个[remember]的[ImageViewerState]
+ * Create the [ImageViewerState] of [remember]
  */
 @Composable
-fun rememberMenuFabState() = remember { MenuFabState() }
+fun rememberImageViewerState() = remember { ImageViewerState() }

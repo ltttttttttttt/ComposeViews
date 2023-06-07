@@ -16,12 +16,15 @@
 
 package com.lt.compose_views.pager_indicator
 
+import androidx.compose.runtime.Stable
+
 /**
  * creator: lt  2022/10/25  lt.dygzs@qq.com
  * effect : [PagerIndicator]的compose作用域
  *          Compose scope of the [PagerIndicator]
  * warning:
  */
+@Stable
 class PagerIndicatorScope(
     /**
      * 指示器列表的信息

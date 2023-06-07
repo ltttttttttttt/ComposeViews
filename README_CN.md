@@ -350,6 +350,12 @@ fun SwipeToDismiss()
 
 ```kotlin
 /**
+ * 图片预览
+ */
+@Composable
+fun ImageViewer()
+
+/**
  * 没有点击效果的Button
  */
 @Composable
@@ -379,6 +385,11 @@ fun GoodTextField()
  */
 @Composable
 fun PasswordTextField()
+
+/**
+ * 偏移自身宽度或高度的百分比
+ */
+fun Modifier.offsetPercent()
 ```
 
 ## 配置

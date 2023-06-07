@@ -41,6 +41,7 @@ class MainActivity : BaseComposeActivity() {
         "ScrollableAppBar功能" to ScrollableAppBarActivity::class,
         "SwipeToDismiss功能" to SwipeToDismissActivity::class,
         "ValueSelector功能" to DateSelectorA::class,
+        "ImageViewer功能" to ImageViewerActivity::class,
     )
 
     override fun getTitleText(): String = "功能列表"
