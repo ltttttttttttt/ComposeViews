@@ -51,6 +51,7 @@
         <activity android:name="com.lt.common_app.TextPagerIndicatorActivity" />
         <activity android:name="com.lt.common_app.DateSelectorA" />
         <activity android:name="com.lt.common_app.ImageViewerActivity" />
+        <activity android:name="com.lt.common_app.NavA" />
     </application>
 
 </manifest>

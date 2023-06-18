@@ -42,6 +42,7 @@ class MainActivity : BaseComposeActivity() {
         "SwipeToDismiss功能" to SwipeToDismissActivity::class,
         "ValueSelector功能" to DateSelectorA::class,
         "ImageViewer功能" to ImageViewerActivity::class,
+        "Nav功能" to NavA::class,
     )
 
     override fun getTitleText(): String = "功能列表"

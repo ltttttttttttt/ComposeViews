@@ -17,9 +17,23 @@
 package com.lt.compose_views.compose_pager
 
 import androidx.compose.foundation.clipScrollableContainer
-import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.ScrollScope
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
@@ -193,6 +207,7 @@ fun ComposePager(
     }
     //滑动监听
     val scrollableState = rememberScrollableState {
+        if (!userEnable) return@rememberScrollableState it//fix desktop bug
         //停止之前的动画
         composePagerState.pageChangeAnimFlag = null
         val lastOffset = composePagerState.offsetAnim.value

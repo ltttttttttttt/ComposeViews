@@ -22,7 +22,7 @@ import androidx.compose.runtime.*
 import kotlinx.coroutines.flow.Flow
 
 /**
- * ComposePager的状态
+ * [ComposePager]的状态
  * State of the [ComposePager]
  */
 @Stable

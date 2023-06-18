@@ -390,6 +390,16 @@ fun PasswordTextField()
  * 偏移自身宽度或高度的百分比
  */
 fun Modifier.offsetPercent()
+
+/**
+ * 以Pager为基础的导航
+ * 相对于jetpack的导航:
+ * 1.使用更简单,功能更单一
+ * 2.可保存每个页面的所有状态
+ * 3.无动画
+ */
+@Composable
+fun PagerNav()
 ```
 
 ## 配置

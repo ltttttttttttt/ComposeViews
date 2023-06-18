@@ -390,6 +390,16 @@ fun PasswordTextField()
  * Offset by a percentage of its own width or height
  */
 fun Modifier.offsetPercent()
+
+/**
+ * Pager-based navigation
+ * Navigation relative to jetpack:
+ * 1.Easier to use and more single function
+ * 2.All state of each page can be saved
+ * 3.no animation
+ */
+@Composable
+fun PagerNav()
 ```
 
 ## Config
