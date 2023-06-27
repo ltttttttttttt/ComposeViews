@@ -393,10 +393,11 @@ private fun initContentList(
             })
         }
     } else if (keyMapSize == 2) {
+        val cacheList = ArrayList<ComposePagerContentBean>(4)
         repeat(2) {
             keyMap.forEach { node ->
                 val key = node.key
-                contentList.add(ComposePagerContentBean(
+                cacheList.add(ComposePagerContentBean(
                     key,
                     Modifier.layoutId((node.value - it * 2)),
                     ComposePagerScope(key)
@@ -411,7 +412,7 @@ private fun initContentList(
                 })
             }
         }
-        contentList.reverse()
+        contentList.addAll(cacheList.reversed())
     } else {
         //创建或修改缓存
         keyMap.forEach { node ->
