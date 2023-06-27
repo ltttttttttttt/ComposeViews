@@ -40,9 +40,6 @@ class ComposePagerState {
     //记录ComposePager的宽高中的对应方向的值
     internal var mainAxisSize by mutableStateOf(0)
 
-    //组件的方向信息
-    internal var orientation: Orientation = Orientation.Horizontal
-
     /**
      * 获取ComposePager当前所在的索引
      * Get current index in the [ComposePager]
