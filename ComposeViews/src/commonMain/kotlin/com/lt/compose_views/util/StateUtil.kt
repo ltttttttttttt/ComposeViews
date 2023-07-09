@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 /**
  * creator: lt  2021/4/14  lt.dygzs@qq.com
@@ -45,3 +46,6 @@ fun <T> rememberMutableStateOf(key1: Any?, key2: Any?, value: T): MutableState<T
 @Composable
 fun <T> rememberMutableStateOf(key1: Any?, key2: Any?, key3: Any?, value: T): MutableState<T> =
     remember(key1 = key1, key2 = key2, key3 = key3) { mutableStateOf(value) }
+
+@Composable
+fun <T> rememberMutableStateListOf(): SnapshotStateList<T> = remember { SnapshotStateList() }
