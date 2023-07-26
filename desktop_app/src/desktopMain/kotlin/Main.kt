@@ -40,9 +40,6 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.common_app.base.MyTheme
-import com.lt.common_app.base.click
-import com.lt.compose_views.other.HorizontalSpace
-import com.lt.compose_views.util.rel
 import kotlin.system.exitProcess
 
 /**

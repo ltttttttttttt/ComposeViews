@@ -143,43 +143,21 @@ fun GoodTextField(
         interactionSource = interactionSource,
         cursorBrush = cursorBrush,
         decorationBox = {
-            //放置背景等布局,并放置基础输入框
-            Box(
-                Modifier
-                    .let {
-                        background?.setBackground(it) ?: it
-                    }
-                    .padding(horizontal = horizontalPadding),
-            ) {
-                Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-                    if (leading != null) {
-                        leading()
-                        HorizontalSpace(horizontalPadding)
-                    }
-                    Box(
-                        Modifier
-                            .weight(1f)
-                            .align(contentAlignment)
-                            .let {
-                                if (contentAlignment != Alignment.CenterVertically)
-                                    it.padding(vertical = horizontalPadding / 2)
-                                else
-                                    it
-                            }
-                    ) {
-                        if (value.isEmpty() && hint != null)
-                            hint.Hint(fontSize = fontSize)
-                        it()
-                    }
-                    if (trailing != null) {
-                        HorizontalSpace(horizontalPadding)
-                        trailing()
-                    }
-                }
-            }
+            GoodTextFieldContent(
+                background,
+                horizontalPadding,
+                leading,
+                contentAlignment,
+                { value.isEmpty() },
+                hint,
+                fontSize,
+                it,
+                trailing
+            )
         }
     )
 }
+
 /**
  * 更方便易用的TextField(文本输入框)
  * More convenient and easy to use the [TextField]
@@ -257,12 +235,16 @@ fun GoodTextField(
     BasicTextField(
         value = value,
         onValueChange = {
-            val text = if (it.text.length > maxLength) {
+            val text: TextFieldValue = if (it.annotatedString.length > maxLength) {
                 //使value不超过maxLength
-                it.text.substring(0, maxLength)
-            } else if (maxLines == 1 && it.contains('\n')) {
+                it.copy(
+                    it.annotatedString.substring(0, maxLength)
+                )
+            } else if (maxLines == 1 && it.annotatedString.contains('\n')) {
                 //处理特殊情况下单行输入框能输入换行符
-                it.replace("\n", "")
+                it.copy(
+                    it.annotatedString.replace(Regex("\n"), "")
+                )
             } else {
                 it
             }
@@ -281,40 +263,65 @@ fun GoodTextField(
         interactionSource = interactionSource,
         cursorBrush = cursorBrush,
         decorationBox = {
-            //放置背景等布局,并放置基础输入框
-            Box(
-                Modifier
-                    .let {
-                        background?.setBackground(it) ?: it
-                    }
-                    .padding(horizontal = horizontalPadding),
-            ) {
-                Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-                    if (leading != null) {
-                        leading()
-                        HorizontalSpace(horizontalPadding)
-                    }
-                    Box(
-                        Modifier
-                            .weight(1f)
-                            .align(contentAlignment)
-                            .let {
-                                if (contentAlignment != Alignment.CenterVertically)
-                                    it.padding(vertical = horizontalPadding / 2)
-                                else
-                                    it
-                            }
-                    ) {
-                        if (value.isEmpty() && hint != null)
-                            hint.Hint(fontSize = fontSize)
-                        it()
-                    }
-                    if (trailing != null) {
-                        HorizontalSpace(horizontalPadding)
-                        trailing()
-                    }
-                }
-            }
+            GoodTextFieldContent(
+                background,
+                horizontalPadding,
+                leading,
+                contentAlignment,
+                { value.annotatedString.isEmpty() },
+                hint,
+                fontSize,
+                it,
+                trailing
+            )
         }
     )
+}
+
+//放置背景等布局,并放置基础输入框
+@Composable
+private inline fun GoodTextFieldContent(
+    background: BackgroundComposeWithTextField?,
+    horizontalPadding: Dp,
+    noinline leading: @Composable (RowScope.() -> Unit)?,
+    contentAlignment: Alignment.Vertical,
+    valueIsEmpty: () -> Boolean,
+    hint: HintComposeWithTextField?,
+    fontSize: TextUnit,
+    it: @Composable () -> Unit,
+    noinline trailing: @Composable (RowScope.() -> Unit)?
+) {
+    Box(
+        Modifier
+            .let {
+                background?.setBackground(it) ?: it
+            }
+            .padding(horizontal = horizontalPadding),
+    ) {
+        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            if (leading != null) {
+                leading()
+                HorizontalSpace(horizontalPadding)
+            }
+            Box(
+                Modifier
+                    .weight(1f)
+                    .align(contentAlignment)
+                    .let {
+                        if (contentAlignment != Alignment.CenterVertically)
+                            it.padding(vertical = horizontalPadding / 2)
+                        else
+                            it
+                    }
+            ) {
+                if (valueIsEmpty() && hint != null)
+                    hint.Hint(fontSize = fontSize)
+                it()
+            }
+            if (trailing != null) {
+                HorizontalSpace(horizontalPadding)
+                trailing()
+            }
+        }
+    }
 }

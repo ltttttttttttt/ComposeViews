@@ -34,7 +34,6 @@ import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.chain_scrollable_component.swipe_to_dismiss.SwipeToDismiss
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.touch_bar.StarBar
-import com.lt.compose_views.util.rel
 import com.lt.compose_views.util.rememberMutableStateOf
 
 /**
