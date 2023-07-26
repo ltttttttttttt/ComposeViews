@@ -60,7 +60,7 @@ fun main(vararg args: String) {
                 width = 400.dp,
                 height = 600.dp
             )
-        }, title = "ComposeViews", onKeyEvent = rel {
+        }, title = "ComposeViews", onKeyEvent = {
             if (
                 it.key == Key.Escape
                 && it.type == KeyEventType.KeyDown

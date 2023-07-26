@@ -67,7 +67,7 @@ class SwipeToDismissActivity : BaseComposeActivity() {
         StarBar(
             starValue = star,
             onStarValueChange = { star = it },
-            onTouchUpEvent = rel { println("star=$star") },
+            onTouchUpEvent = { println("star=$star") },
         )
     }
 

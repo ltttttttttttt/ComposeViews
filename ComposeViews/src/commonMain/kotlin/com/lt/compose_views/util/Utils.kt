@@ -27,12 +27,6 @@ import androidx.compose.ui.graphics.Color
  */
 
 /**
- * remember一个lambda
- */
-@Composable
-inline fun <T : Function<*>?> rel(lambda: T): T = remember { lambda }
-
-/**
  * 获取居中的值
  */
 internal fun midOf(min: Int, number: Int, max: Int): Int = maxOf(min, minOf(number, max))
