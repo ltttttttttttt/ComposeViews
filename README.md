@@ -183,6 +183,7 @@ sample</a>
  * @param dragEfficiency The 'efficiency' of dragging
  * @param isSupportCanNotScrollCompose Whether to support non-scrollable components
  * @param userEnable Whether the user can drag
+ * @param refreshingCanScroll Can I scroll during refresh
  * @param content Content of compose
  */
 @Composable
