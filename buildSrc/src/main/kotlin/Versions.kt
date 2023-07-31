@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-const val kotlinVersion = "1.8.20"//kotlin版本
-const val composeVersion = "1.4.0"//compose版本
-const val composeCompilerVersion = "1.4.5"//compose编译版本
-const val coroutinesVersion = "1.6.4"//协程版本
+const val kotlinVersion = "1.9.0"//kotlin版本
+const val composeVersion = "1.4.3"//compose版本
+const val composeCompilerVersion = "1.5.1"//compose编译版本
+const val coroutinesVersion = "1.7.3"//协程版本
+const val kspVersion = "$kotlinVersion-1.0.12"//ksp版本

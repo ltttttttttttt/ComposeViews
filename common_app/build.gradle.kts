@@ -19,7 +19,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version composeVersion
     id("com.android.library")
-    id("com.google.devtools.ksp") version "$kotlinVersion-1.0.10"
+    id("com.google.devtools.ksp") version kspVersion
     kotlin("native.cocoapods")
 }
 
