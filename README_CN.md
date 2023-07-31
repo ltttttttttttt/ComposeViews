@@ -183,6 +183,7 @@ fun ImageBanner()
  * @param dragEfficiency 拖动的'有效率',比如默认是手指拖动20px,只能拖出10px
  * @param isSupportCanNotScrollCompose 是否需要支持无法滚动的组件,为true的话内部会套一层可滚动组件
  * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
+ * @param refreshingCanScroll 刷新中是否可以滚动
  * @param content compose内容区域
  */
 @Composable
