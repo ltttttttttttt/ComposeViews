@@ -34,7 +34,8 @@ internal class RefreshLayoutNestedScrollConnection(
     private val composePosition: ComposePosition,
     private val refreshLayoutState: RefreshLayoutState,
     private val dragEfficiency: Float,
-    private val orientationIsHorizontal: Boolean
+    private val orientationIsHorizontal: Boolean,
+    private val refreshingCanScroll: Boolean = false,
 ) : NestedScrollConnection {
     //处理子组件用不完的手势,返回消费的手势
     override fun onPostScroll(
@@ -84,8 +85,8 @@ internal class RefreshLayoutNestedScrollConnection(
 
     //预先处理手势,返回消费的手势
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-        //如果是刷新中状态,就拒绝对刷新区域和上下区域滚动
-        if (refreshLayoutState.refreshContentState.value == RefreshContentStateEnum.Refreshing) {
+        //如果是刷新中状态,并且刷新中不允许滚动,就拒绝对刷新区域和上下区域滚动
+        if (!refreshingCanScroll && refreshLayoutState.refreshContentState.value == RefreshContentStateEnum.Refreshing) {
             return if (orientationIsHorizontal)
                 Offset(available.x, 0f)
             else
@@ -145,8 +146,8 @@ internal class RefreshLayoutNestedScrollConnection(
 
     //手势惯性滑动前回调,返回消费的速度,可以当做action_up
     override suspend fun onPreFling(available: Velocity): Velocity {
-        //如果是刷新中状态,就拒绝对刷新区域和上下区域滚动
-        if (refreshLayoutState.refreshContentState.value == RefreshContentStateEnum.Refreshing) {
+        //如果是刷新中状态,并且刷新中不允许滚动,就拒绝对刷新区域和上下区域滚动
+        if (!refreshingCanScroll && refreshLayoutState.refreshContentState.value == RefreshContentStateEnum.Refreshing) {
             return available
         }
         if (refreshLayoutState.refreshContentOffsetState.value != 0f) {
@@ -162,9 +163,10 @@ internal fun rememberRefreshLayoutNestedScrollConnection(
     composePosition: ComposePosition,
     refreshLayoutState: RefreshLayoutState,
     dragEfficiency: Float,
-    orientationIsHorizontal: Boolean
+    orientationIsHorizontal: Boolean,
+    refreshingCanScroll: Boolean = false,
 ) = remember(composePosition) {
     RefreshLayoutNestedScrollConnection(
-        composePosition, refreshLayoutState, dragEfficiency, orientationIsHorizontal
+        composePosition, refreshLayoutState, dragEfficiency, orientationIsHorizontal, refreshingCanScroll
     )
 }
