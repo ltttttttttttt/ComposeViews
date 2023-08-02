@@ -30,7 +30,7 @@ value class IndicatorsInfo(val data: IntArray) {
      * 获取相应[index]位置指示器的start坐标
      * Get start location of the indicators with index
      */
-    fun getIndicatorStart(index: Int): Int = data[index * 3]
+    fun getIndicatorStart(index: Int): Int = getIndicatorStartOrElse(index) { 0 }
     inline fun getIndicatorStartOrElse(index: Int, defaultValue: (Int) -> Int): Int =
         data.getOrElse(index * 3, defaultValue)
 
@@ -38,7 +38,7 @@ value class IndicatorsInfo(val data: IntArray) {
      * 获取相应[index]位置指示器的center坐标
      * Get center location of the indicators with index
      */
-    fun getIndicatorCenter(index: Int): Int = data[index * 3 + 1]
+    fun getIndicatorCenter(index: Int): Int = getIndicatorCenterOrElse(index) { 0 }
     inline fun getIndicatorCenterOrElse(index: Int, defaultValue: (Int) -> Int): Int =
         data.getOrElse(index * 3 + 1, defaultValue)
 
@@ -46,7 +46,7 @@ value class IndicatorsInfo(val data: IntArray) {
      * 获取相应[index]位置指示器的end坐标
      * Get end location of the indicators with index
      */
-    fun getIndicatorEnd(index: Int): Int = data[index * 3 + 2]
+    fun getIndicatorEnd(index: Int): Int = getIndicatorEndOrElse(index) { 0 }
     inline fun getIndicatorEndOrElse(index: Int, defaultValue: (Int) -> Int): Int =
         data.getOrElse(index * 3 + 2, defaultValue)
 
@@ -61,6 +61,7 @@ value class IndicatorsInfo(val data: IntArray) {
      * Set location info of index position indicators
      */
     fun setData(index: Int, start: Int, end: Int) {
+        if (index >= data.size) return
         data[index * 3] = start
         data[index * 3 + 1] = (start + end) / 2
         data[index * 3 + 2] = end

@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
@@ -53,7 +54,32 @@ fun ImageViewer(
     imageViewerState: ImageViewerState = rememberImageViewerState(),
     userCanRotation: Boolean = false,
 ) {
-    Box(modifier) {
+    Box(modifier.clipToBounds()
+        .pointerInput(imageViewerState) {
+            //监听位移,缩放和旋转手势
+            detectTransformGestures(true) { centroid, pan, zoom, rotation ->
+                val newZoom = imageViewerState.zoom * zoom
+                imageViewerState.zoom = midOf(0.25f, newZoom, 4f)
+                imageViewerState.offset += (pan / imageViewerState.zoom)
+                if (userCanRotation) {
+                    imageViewerState.rotation += rotation
+                }
+            }
+        }.pointerInput(imageViewerState) {
+            //双击时设置缩放大小
+            detectTapGestures(onDoubleTap = {
+                imageViewerState.zoom = when {
+                    imageViewerState.zoom < 1f || imageViewerState.zoom == 4f -> {
+                        imageViewerState.offset = Offset.Zero
+                        1f
+                    }
+
+                    imageViewerState.zoom in 1f..2.49f -> 2.5f
+                    else -> 4f
+                }
+            })
+        }
+    ) {
         Image(
             painter,
             "Image viewer",
@@ -71,29 +97,6 @@ fun ImageViewer(
                         imageViewerState.offset.y.roundToInt()
                     )
                 }
-                .pointerInput(imageViewerState) {
-                    //监听位移,缩放和旋转手势
-                    detectTransformGestures(true) { centroid, pan, zoom, rotation ->
-                        imageViewerState.offset += pan
-                        val newZoom = imageViewerState.zoom * zoom
-                        imageViewerState.zoom = midOf(0.25f, newZoom, 4f)
-                        if (userCanRotation) {
-                            imageViewerState.rotation += rotation
-                        }
-                    }
-                }.pointerInput(imageViewerState) {
-                    //双击时设置缩放大小
-                    detectTapGestures(onDoubleTap = {
-                        imageViewerState.zoom = when {
-                            imageViewerState.zoom < 1f || imageViewerState.zoom == 4f -> {
-                                imageViewerState.offset = Offset.Zero
-                                1f
-                            }
-
-                            imageViewerState.zoom in 1f..2.49f -> 2.5f
-                            else -> 4f
-                        }
-                    })
-                })
+        )
     }
 }

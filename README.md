@@ -183,6 +183,7 @@ sample</a>
  * @param dragEfficiency The 'efficiency' of dragging
  * @param isSupportCanNotScrollCompose Whether to support non-scrollable components
  * @param userEnable Whether the user can drag
+ * @param refreshingCanScroll Can I scroll during refresh
  * @param content Content of compose
  */
 @Composable
@@ -390,6 +391,16 @@ fun PasswordTextField()
  * Offset by a percentage of its own width or height
  */
 fun Modifier.offsetPercent()
+
+/**
+ * Pager-based navigation
+ * Navigation relative to jetpack:
+ * 1.Easier to use and more single function
+ * 2.All state of each page can be saved
+ * 3.no animation
+ */
+@Composable
+fun PagerNav()
 ```
 
 ## Config

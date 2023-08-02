@@ -21,10 +21,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.other.VerticalSpace
@@ -39,6 +48,7 @@ import com.lt.compose_views.util.rememberMutableStateOf
  * warning:
  */
 class TextFieldActivity : BaseComposeActivity() {
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun ComposeContent() {
         Column(
@@ -46,6 +56,14 @@ class TextFieldActivity : BaseComposeActivity() {
                 .padding(20.dp)
                 .width(200.dp)
         ) {
+            //进入页面的时候自动弹出键盘
+            val keyboardController = LocalSoftwareKeyboardController.current//软键盘控制器
+            val focusRequester = FocusRequester()//焦点控制器
+            LaunchedEffect(key1 = Unit, block = {
+                focusRequester.requestFocus()//使其获取焦点
+                keyboardController?.show()//弹出软键盘
+            })
+
             val text1 = rememberMutableStateOf("我是账号")
             var text2 by rememberMutableStateOf("")
             val password = rememberMutableStateOf("password")
@@ -80,6 +98,32 @@ class TextFieldActivity : BaseComposeActivity() {
                 onValueChange = { password2.value = it },
                 passwordIsShow = passwordIsShow2.value,
                 onPasswordIsShowChange = { passwordIsShow2.value = it },
+                modifier = M.height(40.dp)
+            )
+            VerticalSpace(dp = 16)
+            Divider()
+            VerticalSpace(dp = 16)
+            Text("TextFieldValue")
+            VerticalSpace(dp = 16)
+            val fieldText = rememberMutableStateOf(
+                TextFieldValue("我是账号", TextRange(4))
+            )
+            val fieldPassword = rememberMutableStateOf(TextFieldValue("password", TextRange(6)))
+            val fieldPasswordIsShow = rememberMutableStateOf(false)
+            GoodTextField(
+                value = fieldText.value,
+                onValueChange = fieldText::value::set,
+                hint = remember {
+                    HintComposeWithTextField.createTextHintCompose("请输入账号")
+                },
+                modifier = M.height(40.dp).focusRequester(focusRequester)
+            )
+            VerticalSpace(dp = 16)
+            PasswordTextField(
+                value = fieldPassword.value,
+                onValueChange = { fieldPassword.value = it },
+                passwordIsShow = fieldPasswordIsShow.value,
+                onPasswordIsShowChange = { fieldPasswordIsShow.value = it },
                 modifier = M.height(40.dp)
             )
         }

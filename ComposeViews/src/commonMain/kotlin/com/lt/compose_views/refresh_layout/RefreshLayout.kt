@@ -53,6 +53,8 @@ import kotlin.math.roundToInt
  *                                     Whether to support non-scrollable components
  * @param userEnable 用户是否可以拖动,等于false时用户拖动无反应,但代码可以修改刷新状态
  *                   Whether the user can drag
+ * @param refreshingCanScroll 刷新中是否可以滚动
+ *                            Can I scroll during refresh
  * @param content compose内容区域
  *                Content of compose
  */
@@ -67,6 +69,7 @@ fun RefreshLayout(
     dragEfficiency: Float = 0.5f,
     isSupportCanNotScrollCompose: Boolean = false,
     userEnable: Boolean = true,
+    refreshingCanScroll: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val density = LocalDensity.current
@@ -89,7 +92,8 @@ fun RefreshLayout(
         composePosition,
         refreshLayoutState,
         dragEfficiency,
-        orientationIsHorizontal
+        orientationIsHorizontal,
+        refreshingCanScroll
     )
 
     Layout(

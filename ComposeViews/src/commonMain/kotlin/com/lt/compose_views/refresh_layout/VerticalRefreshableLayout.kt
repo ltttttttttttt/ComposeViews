@@ -74,6 +74,7 @@ fun VerticalRefreshableLayout(
             refreshLayoutState = bottomRefreshLayoutState,
             composePosition = ComposePosition.Bottom,
             userEnable = bottomUserEnable,
+            refreshingCanScroll = true,
             content = content
         )
     }

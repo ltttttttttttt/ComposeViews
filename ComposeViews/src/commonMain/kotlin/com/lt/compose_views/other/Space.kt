@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun HorizontalSpace(dp: Int) {
-    HorizontalSpace(dp.dp)
+    Spacer(Modifier.width(dp.dp))
 }
 
 @Composable
@@ -51,7 +51,7 @@ fun HorizontalSpace(dp: Dp) {
  */
 @Composable
 fun VerticalSpace(dp: Int) {
-    VerticalSpace(dp.dp)
+    Spacer(Modifier.height(dp.dp))
 }
 
 @Composable
