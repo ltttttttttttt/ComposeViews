@@ -18,7 +18,14 @@ package com.lt.compose_views.chain_scrollable_component.scrollable_appbar
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -98,7 +105,7 @@ fun ScrollableAppBar(
     val density = LocalDensity.current
     // Title 偏移量参考值
     val titleOffsetWidthReferenceValue =
-        remember { density.run { navigationIconSize.roundToPx().toFloat() } }
+        remember(density) { density.run { navigationIconSize.roundToPx().toFloat() } }
     ChainScrollableComponent(
         modifier = modifier,
         minScrollPosition = minScrollPosition,
