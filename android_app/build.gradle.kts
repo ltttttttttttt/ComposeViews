@@ -15,13 +15,13 @@
  */
 
 plugins {
-    id("org.jetbrains.compose") version composeVersion
+    id("org.jetbrains.compose")
     id("com.android.application")
     kotlin("android")
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     buildToolsVersion = "30.0.3"
 
     defaultConfig {

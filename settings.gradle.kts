@@ -25,3 +25,43 @@ include("ios_shared")
 
 
 includeBuild("convention-plugins")
+
+pluginManagement {
+    repositories {
+        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://jitpack.io")
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+
+    plugins {
+        val kotlinVersion = extra["kotlin.version"] as String
+        val composeVersion = extra["compose.version"] as String
+        val kspVersion = extra["ksp.version"] as String
+        val agpVersion = "7.4.2"
+
+        kotlin("jvm").version(kotlinVersion)
+        kotlin("multiplatform").version(kotlinVersion)
+        kotlin("android").version(kotlinVersion)
+
+        id("com.android.application").version(agpVersion)
+        id("com.android.library").version(agpVersion)
+
+        id("org.jetbrains.compose").version(composeVersion)
+
+        id("com.google.devtools.ksp").version(kspVersion)
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://jitpack.io")
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
