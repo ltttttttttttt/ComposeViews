@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
+
 /*
  * Copyright lt 2023
  *
@@ -13,36 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-buildscript {
-    repositories {
-        maven("https://jitpack.io")
-        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.2.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    }
+plugins {
+    // this is necessary to avoid the plugins to be loaded multiple times
+    // in each subproject's classloader
+    kotlin("multiplatform").apply(false)
+    id("com.android.application").apply(false)
+    id("com.android.library").apply(false)
+    id("org.jetbrains.compose").apply(false)
+    id("com.google.devtools.ksp").apply(false)
 }
 
 group = "com.github.ltttttttttttt"
 version = "1.0.0"
-
-allprojects {
-    repositories {
-        maven("https://jitpack.io")
-        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
-}
-
-//tasks.register<Delete>("clean") {
-//    delete(rootProject.buildDir)
-//}
