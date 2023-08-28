@@ -84,7 +84,7 @@ fun TextPagerIndicator(
     userCanScroll: Boolean = true,
 ) {
     val density = LocalDensity.current
-    val dp20 = remember {
+    val dp20 = remember(density) {
         density.run { 20.dp.toPx() }
     }
     TextPagerIndicator(
@@ -147,10 +147,10 @@ fun TextPagerIndicator(
     userCanScroll: Boolean = true,
 ) {
     val density = LocalDensity.current
-    val fontPx by remember(fontSize) {
+    val fontPx by remember(fontSize, density) {
         mutableStateOf(density.run { fontSize.toPx() })
     }
-    val selectFontPx by remember(selectFontSize) {
+    val selectFontPx by remember(selectFontSize, density) {
         mutableStateOf(density.run { selectFontSize.toPx() })
     }
     PagerIndicator(
@@ -215,7 +215,7 @@ fun TextPagerIndicator(
     userCanScroll: Boolean = true,
 ) {
     val density = LocalDensity.current
-    val dp20 = remember {
+    val dp20 = remember(density) {
         density.run { 20.dp.toPx() }
     }
     TextPagerIndicator(

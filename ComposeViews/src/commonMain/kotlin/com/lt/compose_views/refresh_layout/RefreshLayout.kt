@@ -16,8 +16,11 @@
 
 package com.lt.compose_views.refresh_layout
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.clipScrollableContainer
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,7 +31,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import com.lt.compose_views.util.ComposePosition
-import com.lt.compose_views.util.ComposePosition.*
+import com.lt.compose_views.util.ComposePosition.Bottom
+import com.lt.compose_views.util.ComposePosition.End
+import com.lt.compose_views.util.ComposePosition.Start
+import com.lt.compose_views.util.ComposePosition.Top
 import kotlin.math.roundToInt
 
 /**
@@ -80,6 +86,7 @@ fun RefreshLayout(
         composePosition,
         refreshContentThreshold,
         coroutineScope,
+        density,
     ) {
         refreshLayoutState.composePositionState.value = composePosition
         refreshLayoutState.coroutineScope = coroutineScope
@@ -149,6 +156,7 @@ fun RefreshLayout(
                         0
                     )
                 }
+
                 End -> {
                     contentPlaceable.placeRelative(if (contentIsMove) offset else 0, 0)
                     refreshContentPlaceable.placeRelative(
@@ -156,6 +164,7 @@ fun RefreshLayout(
                         0
                     )
                 }
+
                 Top -> {
                     contentPlaceable.placeRelative(0, if (contentIsMove) offset else 0)
                     refreshContentPlaceable.placeRelative(
@@ -163,6 +172,7 @@ fun RefreshLayout(
                         (-refreshContentPlaceable.height) + offset
                     )
                 }
+
                 Bottom -> {
                     contentPlaceable.placeRelative(0, if (contentIsMove) offset else 0)
                     refreshContentPlaceable.placeRelative(

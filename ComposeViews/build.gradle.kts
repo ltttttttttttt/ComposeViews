@@ -17,7 +17,7 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    id("org.jetbrains.compose") version composeVersion
+    id("org.jetbrains.compose")
     id("com.android.library")
     //id("maven-publish")
     id("convention.publication")
@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "1.4.0.13"
+version = "1.4.0.14"
 
 kotlin {
     android {
@@ -69,8 +69,8 @@ kotlin {
             baseName = "ComposeViews"
             isStatic = true
         }
-        extraSpecAttributes["resources"] =
-            "['resources/**']"
+//        extraSpecAttributes["resources"] =
+//            "['resources/**']"
     }
 
     sourceSets {
