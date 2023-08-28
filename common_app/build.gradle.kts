@@ -17,9 +17,9 @@
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version composeVersion
+    id("org.jetbrains.compose")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "$kotlinVersion-1.0.10"
+    id("com.google.devtools.ksp")
     kotlin("native.cocoapods")
 }
 
@@ -97,8 +97,8 @@ kotlin {
             baseName = "ComposeViews"
             isStatic = true
         }
-        extraSpecAttributes["resources"] =
-            "['../ComposeViews/resources/**', '../desktop_app/src/desktopMain/resources/**']"
+//        extraSpecAttributes["resources"] =
+//            "['../ComposeViews/resources/**', '../desktop_app/src/desktopMain/resources/**']"
     }
     sourceSets {
         val commonMain by getting {

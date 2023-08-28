@@ -33,7 +33,7 @@ expect abstract class BaseComposeActivity() {
     open fun mOnCreate()
 
     @Composable
-    actual abstract fun ComposeContent()
+    abstract fun ComposeContent()
 
     fun mFinish()
 

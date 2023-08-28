@@ -17,7 +17,7 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    id("org.jetbrains.compose") version composeVersion
+    id("org.jetbrains.compose")
     id("com.android.library")
     //id("maven-publish")
     id("convention.publication")
@@ -69,8 +69,8 @@ kotlin {
             baseName = "ComposeViews"
             isStatic = true
         }
-        extraSpecAttributes["resources"] =
-            "['resources/**']"
+//        extraSpecAttributes["resources"] =
+//            "['resources/**']"
     }
 
     sourceSets {
