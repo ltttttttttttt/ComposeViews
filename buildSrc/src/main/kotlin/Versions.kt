@@ -19,5 +19,5 @@ import org.gradle.kotlin.dsl.extra
 //compose版本
 val Project.composeVersion: String
     get() = extra["compose.version"] as String
-const val composeCompilerVersion = "1.5.1"//compose编译版本
+const val composeCompilerVersion = "1.5.2"//compose编译版本
 const val coroutinesVersion = "1.7.3"//协程版本

@@ -35,14 +35,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Application
-import com.lt.common_app.MainActivity
+import androidx.compose.ui.window.ComposeUIViewController
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.common_app.base.MyTheme
 import platform.UIKit.UIViewController
 
 fun ComposeViewController(): UIViewController =
-    Application("ComposeView") {
+    ComposeUIViewController {
         MyTheme {
             Box(M.fillMaxSize()) {
                 //activity
