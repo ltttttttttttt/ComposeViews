@@ -140,10 +140,6 @@ class RefreshLayoutActivity : BaseComposeActivity() {
             topRefreshLayoutState = createState(),
             //底部刷新的状态
             bottomRefreshLayoutState = rememberRefreshLayoutState(onRefreshListener = {
-                if (isLoadFinish) {
-                    setRefreshState(RefreshContentStateEnum.Stop)
-                    return@rememberRefreshLayoutState
-                }
                 mainScope.launch {
                     "加载数据了".showToast()
                     delay(2000)

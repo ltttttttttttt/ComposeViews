@@ -19,6 +19,7 @@ package com.lt.compose_views.refresh_layout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.lt.compose_views.refresh_layout.refresh_content.bottom.LoadMoreRefreshContent
@@ -62,6 +63,9 @@ fun VerticalRefreshableLayout(
     bottomUserEnable: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    LaunchedEffect(bottomIsLoadFinish) {
+        bottomRefreshLayoutState.canCallRefreshListener = !bottomIsLoadFinish
+    }
     RefreshLayout(
         modifier = modifier,
         refreshContent = topRefreshContent,

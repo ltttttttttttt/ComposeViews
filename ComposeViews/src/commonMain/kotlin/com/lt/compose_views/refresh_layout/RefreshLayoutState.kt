@@ -17,7 +17,12 @@
 package com.lt.compose_views.refresh_layout
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -51,6 +56,9 @@ class RefreshLayoutState(
 
     //协程作用域
     internal lateinit var coroutineScope: CoroutineScope
+
+    //是否可以触发[onRefreshListener]
+    var canCallRefreshListener = true
 
     /**
      * 获取刷新布局内容区域的组件状态
@@ -100,6 +108,7 @@ class RefreshLayoutState(
                     refreshContentOffsetState.animateTo(0f)
                 }
             }
+
             RefreshContentStateEnum.Refreshing -> {
                 if (refreshContentState.value == RefreshContentStateEnum.Refreshing)
                     return
@@ -107,10 +116,14 @@ class RefreshLayoutState(
                     throw IllegalStateException("[RefreshLayoutState]还未初始化完成,请在[LaunchedEffect]中或composable至少组合一次后使用此方法")
                 coroutineScope.launch {
                     refreshContentState.value = RefreshContentStateEnum.Refreshing
-                    onRefreshListener()
+                    if (canCallRefreshListener)
+                        onRefreshListener()
+                    else
+                        setRefreshState(RefreshContentStateEnum.Stop)
                     animateToThreshold()
                 }
             }
+
             RefreshContentStateEnum.Dragging -> throw IllegalStateException("设置为[RefreshContentStateEnum.Dragging]无意义")
         }
     }
@@ -121,7 +134,10 @@ class RefreshLayoutState(
             //检查是否进入了刷新状态
             if (abs(refreshContentOffsetState.value) >= refreshContentThresholdState.value) {
                 refreshContentState.value = RefreshContentStateEnum.Refreshing
-                onRefreshListener()
+                if (canCallRefreshListener)
+                    onRefreshListener()
+                else
+                    setRefreshState(RefreshContentStateEnum.Stop)
                 animateToThreshold()
             } else {
                 refreshContentOffsetState.animateTo(0f)
