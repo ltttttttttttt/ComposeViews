@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.image_viewer
+package com.lt.compose_views.zoom
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -26,34 +26,34 @@ import androidx.compose.ui.geometry.Offset
 
 /**
  * creator: lt  2023/6/6  lt.dygzs@qq.com
- * effect : [ImageViewer]的状态
- *          State of the [ImageViewer]
+ * effect : [ZoomLayout]的状态
+ *          State of the [ZoomLayout]
  * warning:
  */
 @Stable
-class ImageViewerState {
+class ZoomState {
     /**
-     * 图片的缩放
-     * Image zoom
+     * 缩放
+     * Zoom
      */
     var zoom by mutableStateOf(1f)
 
     /**
-     * 图片的位移
-     * Image offset
+     * 位移
+     * Offset
      */
     var offset by mutableStateOf(Offset.Zero)
 
     /**
-     * 图片的旋转
-     * Image rotation
+     * 旋转
+     * Rotation
      */
     var rotation by mutableStateOf(0f)
 }
 
 /**
- * 创建一个[remember]的[ImageViewerState]
- * Create the [ImageViewerState] of [remember]
+ * 创建一个[remember]的[ZoomState]
+ * Create the [ZoomState] of [remember]
  */
 @Composable
-fun rememberImageViewerState() = remember { ImageViewerState() }
+fun rememberZoomState() = remember { ZoomState() }

@@ -30,8 +30,13 @@ import com.lt.compose_views.util.midOf
 internal class ChainContentFirstNestedScrollConnection(
     val state: ChainScrollableComponentState,
 ) : NestedScrollConnection {
-    override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-        val delta = if (state.orientationIsHorizontal) available.x else available.y
+
+    override fun onPostScroll(
+        consumed: Offset,
+        available: Offset,
+        source: NestedScrollSource
+    ): Offset {
+        val delta = if (state.orientationIsHorizontal) consumed.x else consumed.y
         val newOffset = state.getScrollPositionValue() + delta
         state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
         return Offset.Zero
