@@ -351,6 +351,8 @@ fun SwipeToDismiss()
 
 <div align=center><img src="md_resource/text_field.png" width=30%></div>
 
+<div align=center><img src="md_resource/image_viewer.gif" width=30%></div>
+
 ```kotlin
 /**
  * 图片预览
