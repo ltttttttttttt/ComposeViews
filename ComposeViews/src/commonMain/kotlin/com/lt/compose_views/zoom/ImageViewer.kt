@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.image_viewer
+package com.lt.compose_views.zoom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -42,8 +42,8 @@ import kotlin.math.roundToInt
  * @param painter 要绘制的图像
  *                Painter to draw
  * @param modifier 修饰
- * @param imageViewerState ImageViewer的状态
- *                         ImageViewer's state
+ * @param zoomState [ZoomLayout]的状态
+ *                   ZoomLayout's state
  * @param userCanRotation 用户是否可以旋转
  *                        Whether the user can rotate
  */
@@ -51,30 +51,30 @@ import kotlin.math.roundToInt
 fun ImageViewer(
     painter: Painter,
     modifier: Modifier = Modifier,
-    imageViewerState: ImageViewerState = rememberImageViewerState(),
+    zoomState: ZoomState = rememberZoomState(),
     userCanRotation: Boolean = false,
 ) {
     Box(modifier.clipToBounds()
-        .pointerInput(imageViewerState) {
+        .pointerInput(zoomState) {
             //监听位移,缩放和旋转手势
             detectTransformGestures(true) { centroid, pan, zoom, rotation ->
-                val newZoom = imageViewerState.zoom * zoom
-                imageViewerState.zoom = midOf(0.25f, newZoom, 4f)
-                imageViewerState.offset += (pan / imageViewerState.zoom)
+                val newZoom = zoomState.zoom * zoom
+                zoomState.zoom = midOf(0.25f, newZoom, 4f)
+                zoomState.offset += (pan / zoomState.zoom)
                 if (userCanRotation) {
-                    imageViewerState.rotation += rotation
+                    zoomState.rotation += rotation
                 }
             }
-        }.pointerInput(imageViewerState) {
+        }.pointerInput(zoomState) {
             //双击时设置缩放大小
             detectTapGestures(onDoubleTap = {
-                imageViewerState.zoom = when {
-                    imageViewerState.zoom < 1f || imageViewerState.zoom == 4f -> {
-                        imageViewerState.offset = Offset.Zero
+                zoomState.zoom = when {
+                    zoomState.zoom < 1f || zoomState.zoom == 4f -> {
+                        zoomState.offset = Offset.Zero
                         1f
                     }
 
-                    imageViewerState.zoom in 1f..2.49f -> 2.5f
+                    zoomState.zoom in 1f..2.49f -> 2.5f
                     else -> 4f
                 }
             })
@@ -86,15 +86,15 @@ fun ImageViewer(
             modifier = Modifier.fillMaxSize()
                 .let {
                     if (userCanRotation)
-                        it.rotate(imageViewerState.rotation)
+                        it.rotate(zoomState.rotation)
                     else
                         it
                 }
-                .scale(imageViewerState.zoom)
+                .scale(zoomState.zoom)
                 .offset {
                     IntOffset(
-                        imageViewerState.offset.x.roundToInt(),
-                        imageViewerState.offset.y.roundToInt()
+                        zoomState.offset.x.roundToInt(),
+                        zoomState.offset.y.roundToInt()
                     )
                 }
         )

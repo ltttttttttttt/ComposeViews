@@ -20,8 +20,13 @@ import M
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
@@ -30,7 +35,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.common_app.base.click
-import com.lt.compose_views.image_viewer.ImageViewer
+import com.lt.compose_views.zoom.ImageViewer
+import com.lt.compose_views.zoom.ZoomLayout
 import resourcePainter
 
 /**
@@ -41,20 +47,34 @@ import resourcePainter
 class ImageViewerActivity : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
-        Box {
-            ImageViewer(
-                resourcePainter("top_bar_bk"),
-                M.fillMaxSize().background(Color.Black),
-                userCanRotation = true,
-            )
-            Image(
-                Icons.Filled.Close,
-                "close",
-                M.padding(10.dp)
-                    .click { mFinish() }
-                    .padding(10.dp),
-                colorFilter = ColorFilter.tint(Color.White),
-            )
+        Column(M.fillMaxSize()) {
+            Box(M.weight(1f)) {
+                ImageViewer(
+                    resourcePainter("top_bar_bk"),
+                    M.fillMaxSize().background(Color.Black),
+                    userCanRotation = true,
+                )
+                Image(
+                    Icons.Filled.Close,
+                    "close",
+                    M.padding(10.dp)
+                        .click { mFinish() }
+                        .padding(10.dp),
+                    colorFilter = ColorFilter.tint(Color.White),
+                )
+            }
+            ZoomLayout(M.weight(1f).fillMaxWidth()) {
+                Column {
+                    Row {
+                        repeat(10) {
+                            Text(it.toString(), M.size(50.dp))
+                        }
+                    }
+                    repeat(20) {
+                        Text(it.toString(), M.size(50.dp))
+                    }
+                }
+            }
         }
     }
 }

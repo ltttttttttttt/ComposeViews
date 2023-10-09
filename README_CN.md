@@ -359,6 +359,12 @@ fun SwipeToDismiss()
 fun ImageViewer()
 
 /**
+ * 可以缩放的布局
+ */
+@Composable
+fun ZoomLayout()
+
+/**
  * 没有点击效果的Button
  */
 @Composable

@@ -359,6 +359,12 @@ fun SwipeToDismiss()
 fun ImageViewer()
 
 /**
+ * Zoom layout
+ */
+@Composable
+fun ZoomLayout()
+
+/**
  * Button without click effect
  */
 @Composable
