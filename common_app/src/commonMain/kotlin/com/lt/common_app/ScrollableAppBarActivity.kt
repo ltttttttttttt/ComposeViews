@@ -15,7 +15,6 @@
  */
 
 package com.lt.common_app
-import resourcePainter
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.*
@@ -38,6 +37,7 @@ import com.lt.compose_views.chain_scrollable_component.scrollable_appbar.Scrolla
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.launch
+import resourcePainter
 import kotlin.math.roundToInt
 
 // Author: Vast Gui
@@ -67,12 +67,18 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         Row {
             Text(text = "方向:$composePosition")
             Button(onClick = {
-                composePosition = when (composePosition) {
-                    ComposePosition.Top -> ComposePosition.Bottom
-                    ComposePosition.Bottom -> ComposePosition.Start
-                    ComposePosition.Start -> ComposePosition.End
-                    ComposePosition.End -> ComposePosition.Top
-                }
+                composePosition = if (chainMode == ChainMode.ChainContentFirst)
+                    when (composePosition) {
+                        ComposePosition.Top -> ComposePosition.Bottom
+                        ComposePosition.Bottom -> ComposePosition.Start
+                        ComposePosition.Start -> ComposePosition.End
+                        ComposePosition.End -> ComposePosition.Top
+                    }
+                else
+                    when (composePosition) {
+                        ComposePosition.Top, ComposePosition.Bottom -> ComposePosition.Start
+                        ComposePosition.Start, ComposePosition.End -> ComposePosition.Top
+                    }
             }) {
                 Text(text = "切方向")
             }
@@ -80,7 +86,11 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
             Text(text = "模式:${chainMode.toString().substring(0, 5)}")
             Button(onClick = {
                 chainMode =
-                    if (chainMode == ChainMode.ChainContentFirst) ChainMode.ContentFirst else ChainMode.ChainContentFirst
+                    if (chainMode == ChainMode.ChainContentFirst) {
+                        composePosition = ComposePosition.Top
+                        ChainMode.ContentFirst
+                    } else
+                        ChainMode.ChainContentFirst
             }) {
                 Text(text = "切模式")
             }
@@ -177,7 +187,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                                 bottom = if (composePosition == ComposePosition.Bottom) maxDp else 0.dp,
                             )
                     ) {
-                        repeat(100) {
+                        repeat(30) {
                             Text("item $it")
                         }
                     }
@@ -219,7 +229,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
             ) {
-                items(100) { index ->
+                items(30) { index ->
                     Text(
                         "I'm item $index", modifier = Modifier.padding(16.dp)
                     )

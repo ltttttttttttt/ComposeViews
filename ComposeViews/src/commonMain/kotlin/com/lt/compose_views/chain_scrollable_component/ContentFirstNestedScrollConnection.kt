@@ -19,6 +19,8 @@ package com.lt.compose_views.chain_scrollable_component
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.unit.Velocity
+import com.lt.compose_views.util.ComposePosition
 import com.lt.compose_views.util.midOf
 
 /**
@@ -29,22 +31,43 @@ import com.lt.compose_views.util.midOf
 internal class ContentFirstNestedScrollConnection(
     val state: ChainScrollableComponentState,
 ) : NestedScrollConnection {
+    private var scrollSum = 0f
 
-    override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-        // TODO by lt 2022/9/30 处理抬起事件,处理 ContentFirst缺少数据应对向上滑动收起
-        if (true)
-            throw RuntimeException("该模式待完善,请使用[ChainMode.ChainContentFirst]")
+    init {
+        if (state.composePosition == ComposePosition.End || state.composePosition == ComposePosition.Bottom)
+            throw IllegalStateException("[ChainMode.ContentFirst] not support [ComposePosition.Bottom] and [ComposePosition.End]")
+    }
+
+    override fun onPostScroll(
+        consumed: Offset,
+        available: Offset,
+        source: NestedScrollSource
+    ): Offset {
         val delta = if (state.orientationIsHorizontal) available.x else available.y
-        if (delta < 0) {
+        //content先滚动完,底部跟着滚动
+        if (delta < 0f) {
             val newOffset = state.getScrollPositionValue() + delta
-            //Log.e("lllttt", "pre \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
             state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
-        } else {
-            val newOffset = state.getScrollPositionValue() + delta
-            //Log.e("lllttt", "pre2 \t $delta\t ${state.minPx}\t ${state.maxPx}\t $newOffset")
-            if (newOffset >= state.maxPx)
+        }
+        val delta2 = if (state.orientationIsHorizontal) consumed.x else consumed.y
+        scrollSum += delta2
+        //顶部计算如果剩余位置位于max和min之间,则跟着滚动
+        if (delta2 > 0f) {
+            if (scrollSum < state.maxPx && scrollSum > state.minPx) {
+                val newOffset = state.getScrollPositionValue() + delta2
                 state.setScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
+            }
         }
         return Offset.Zero
+    }
+
+    override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+        val delta = if (state.orientationIsHorizontal) available.x else available.y
+        val newOffset = state.getScrollPositionValue() + delta
+        if (delta < 0f) {
+            state.animateToScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
+        }
+        state.callOnScrollStop()
+        return super.onPostFling(consumed, available)
     }
 }
