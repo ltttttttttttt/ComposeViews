@@ -30,6 +30,8 @@ import kotlin.math.roundToInt
  *                   ZoomLayout's state
  * @param userCanRotation 用户是否可以旋转
  *                        Whether the user can rotate
+ * @param whetherToLimitSize 是否限制内容大小
+ *                           Whether to limit size
  * @param content compose内容区域
  *                Content of compose
  */
@@ -40,6 +42,7 @@ fun ZoomLayout(
     zoomRange: ClosedFloatingPointRange<Float> = 0.25f..4f,
     zoomState: ZoomState = rememberZoomState(),
     userCanRotation: Boolean = false,
+    whetherToLimitSize: Boolean = false,
     //todo 增加边界功能:无限制,至少有一点在屏幕内,宽高至少一半在屏幕内,不允许出屏幕
     content: @Composable () -> Unit,
 ) {
@@ -73,8 +76,9 @@ fun ZoomLayout(
             }) { measurableList, constraints ->
             var maxWidth = 0
             var maxHeight = 0
+            val mConstraints = if (whetherToLimitSize) constraints else Constraints()
             val placeableList = measurableList.map {
-                val placeable = it.measure(Constraints())
+                val placeable = it.measure(mConstraints)
                 maxWidth = maxOf(maxWidth, placeable.width)
                 maxHeight = maxOf(maxHeight, placeable.height)
                 placeable

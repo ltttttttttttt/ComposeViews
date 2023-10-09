@@ -18,21 +18,12 @@ package com.lt.compose_views.zoom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.IntOffset
-import com.lt.compose_views.util.midOf
-import kotlin.math.roundToInt
 
 /**
  * creator: lt  2023/6/6  lt.dygzs@qq.com
@@ -54,18 +45,8 @@ fun ImageViewer(
     zoomState: ZoomState = rememberZoomState(),
     userCanRotation: Boolean = false,
 ) {
-    Box(modifier.clipToBounds()
-        .pointerInput(zoomState) {
-            //监听位移,缩放和旋转手势
-            detectTransformGestures(true) { centroid, pan, zoom, rotation ->
-                val newZoom = zoomState.zoom * zoom
-                zoomState.zoom = midOf(0.25f, newZoom, 4f)
-                zoomState.offset += (pan / zoomState.zoom)
-                if (userCanRotation) {
-                    zoomState.rotation += rotation
-                }
-            }
-        }.pointerInput(zoomState) {
+    ZoomLayout(
+        modifier.pointerInput(zoomState) {
             //双击时设置缩放大小
             detectTapGestures(onDoubleTap = {
                 zoomState.zoom = when {
@@ -78,25 +59,15 @@ fun ImageViewer(
                     else -> 4f
                 }
             })
-        }
+        },
+        Alignment.Center,
+        zoomState = zoomState,
+        userCanRotation = userCanRotation,
+        whetherToLimitSize = true,
     ) {
         Image(
             painter,
             "Image viewer",
-            modifier = Modifier.fillMaxSize()
-                .let {
-                    if (userCanRotation)
-                        it.rotate(zoomState.rotation)
-                    else
-                        it
-                }
-                .scale(zoomState.zoom)
-                .offset {
-                    IntOffset(
-                        zoomState.offset.x.roundToInt(),
-                        zoomState.offset.y.roundToInt()
-                    )
-                }
         )
     }
 }
