@@ -31,7 +31,7 @@ View demo</a>
 
 <table broder="1">
 <tr><td>ComposeViews version</td><td>jetpack compose version</td><td>compose-multiplatform version</td><td>kotlin version</td></tr>
-<tr><td>current</td><td>1.5.0</td><td>1.5.1</td><td>1.9.0</td></tr>
+<tr><td>[![](https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews)](https://repo1.maven.org/maven2/io/github/ltttttttttttt/ComposeViews/)</td><td>1.5.0</td><td>1.5.1</td><td>1.9.0</td></tr>
 <tr><td>1.5.0.3</td><td>1.5.0</td><td>1.5.0</td><td>1.9.0</td></tr>
 <tr><td>1.4.0.14</td><td>1.4.0</td><td>1.4.0</td><td>1.8.20</td></tr>
 <tr><td>1.3.11</td><td>1.3.3</td><td>1.3.1</td><td>1.8.10</td></tr>
