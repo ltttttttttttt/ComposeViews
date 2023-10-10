@@ -99,6 +99,7 @@ fun ChainScrollableComponent(
         when (chainMode) {
             ChainMode.ContentFirst -> ContentFirstNestedScrollConnection(state)
             ChainMode.ChainContentFirst -> ChainContentFirstNestedScrollConnection(state)
+            ChainMode.ChainFollowsContent -> ChainFollowsContentNestedScrollConnection(state)
         }
     }
     Box(

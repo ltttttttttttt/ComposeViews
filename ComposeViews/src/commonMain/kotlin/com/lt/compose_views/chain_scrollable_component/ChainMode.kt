@@ -29,7 +29,6 @@ enum class ChainMode {
      * 内容区域优先
      * Content first
      */
-    @ExperimentalFoundationApi//todo 暂时有问题,先不放开
     ContentFirst,
 
     /**
@@ -37,4 +36,10 @@ enum class ChainMode {
      * Chain content first
      */
     ChainContentFirst,
+
+    /**
+     * 联动区域跟随内容区域
+     * Chain follows content
+     */
+    ChainFollowsContent,
 }
