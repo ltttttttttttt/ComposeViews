@@ -15,6 +15,7 @@
  */
 
 package com.lt.common_app
+import M
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.*
@@ -30,14 +31,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
-import com.lt.compose_views.chain_scrollable_component.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.scrollable_appbar.ScrollableAppBar
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.launch
 import resourcePainter
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 // Author: Vast Gui
@@ -67,30 +69,34 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         Row {
             Text(text = "方向:$composePosition")
             Button(onClick = {
-                composePosition = if (chainMode == ChainMode.ChainContentFirst)
-                    when (composePosition) {
+                composePosition = when (chainMode) {
+                    ChainMode.ChainContentFirst, ChainMode.ChainAfterContent -> when (composePosition) {
                         ComposePosition.Top -> ComposePosition.Bottom
                         ComposePosition.Bottom -> ComposePosition.Start
                         ComposePosition.Start -> ComposePosition.End
                         ComposePosition.End -> ComposePosition.Top
                     }
-                else
-                    when (composePosition) {
+
+                    ChainMode.ContentFirst -> when (composePosition) {
                         ComposePosition.Top, ComposePosition.Bottom -> ComposePosition.Start
                         ComposePosition.Start, ComposePosition.End -> ComposePosition.Top
                     }
+                }
             }) {
                 Text(text = "切方向")
             }
             FpsText(modifier = Modifier)
-            Text(text = "模式:${chainMode.toString().substring(0, 5)}")
+            Text(text = "模式:$chainMode", M.width(80.dp))
             Button(onClick = {
-                chainMode =
-                    if (chainMode == ChainMode.ChainContentFirst) {
+                chainMode = when (chainMode) {
+                    ChainMode.ChainContentFirst -> {
                         composePosition = ComposePosition.Top
                         ChainMode.ContentFirst
-                    } else
-                        ChainMode.ChainContentFirst
+                    }
+
+                    ChainMode.ContentFirst -> ChainMode.ChainAfterContent
+                    ChainMode.ChainAfterContent -> ChainMode.ChainContentFirst
+                }
             }) {
                 Text(text = "切模式")
             }
@@ -239,13 +245,14 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     }
 
     //停止拖动时,使appbar归位
-    private fun scrollStop(lazyListState: LazyListState): (ChainScrollableComponentState) -> Unit =
-        function@{ state ->
+    private fun scrollStop(lazyListState: LazyListState): (ChainScrollableComponentState, Float) -> Boolean =
+        function@{ state, delta ->
             val percentage = state.getScrollPositionPercentage()
             if (percentage == 1f || percentage == 0f)
-                return@function
+                return@function true
             state.coroutineScope.launch {
-                val startPositionValue = state.getScrollPositionValue()
+                val startPositionValue =
+                    abs((state.getScrollPositionValue() + delta) / (state.maxPx - state.minPx))
                 if (percentage > 0.5f) {
                     state.setScrollPositionWithAnimate(state.minPx - state.maxPx)
                     lazyListState.animateScrollBy(startPositionValue - state.minPx)
@@ -254,5 +261,6 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                     lazyListState.animateScrollBy(startPositionValue)
                 }
             }
+            true
         }
 }

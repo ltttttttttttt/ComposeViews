@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.chain_scrollable_component
-
-import androidx.compose.foundation.ExperimentalFoundationApi
+package com.lt.compose_views.chain_scrollable_component.mode
 
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
@@ -29,7 +27,6 @@ enum class ChainMode {
      * 内容区域优先
      * Content first
      */
-    @ExperimentalFoundationApi//todo 暂时有问题,先不放开
     ContentFirst,
 
     /**
@@ -37,4 +34,10 @@ enum class ChainMode {
      * Chain content first
      */
     ChainContentFirst,
+
+    /**
+     * 内容区域无法滑动后联动区域再滑动
+     * Chain after content
+     */
+    ChainAfterContent,
 }

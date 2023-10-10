@@ -20,7 +20,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,8 +34,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
@@ -81,6 +89,7 @@ fun SwipeToDismiss(
         modifier = modifier.height(IntrinsicSize.Min),
         onScrollStop = scrollStop(scrollState),
         composePosition = ComposePosition.End,
+        chainMode = ChainMode.ChainAfterContent,
         content = { state ->
             Row(
                 modifier = Modifier
@@ -105,13 +114,14 @@ fun SwipeToDismiss(
 }
 
 //停止拖动时,使appbar归位
-private fun scrollStop(scrollState: ScrollState): (ChainScrollableComponentState) -> Unit =
-    function@{ state ->
+private fun scrollStop(scrollState: ScrollState): (ChainScrollableComponentState, Float) -> Boolean =
+    function@{ state, delta ->
         val percentage = state.getScrollPositionPercentage()
         if (percentage == 1f || percentage == 0f)
-            return@function
+            return@function true
         state.coroutineScope.launch {
-            val startPositionValue = state.getScrollPositionValue()
+            val startPositionValue =
+                abs((state.getScrollPositionValue() + delta) / (state.maxPx - state.minPx))
             if (percentage > 0.5f) {
                 state.setScrollPositionWithAnimate(state.maxPx)
                 scrollState.animateScrollBy(startPositionValue - state.minPx)
@@ -120,4 +130,5 @@ private fun scrollStop(scrollState: ScrollState): (ChainScrollableComponentState
                 scrollState.animateScrollBy(startPositionValue)
             }
         }
+        true
     }
