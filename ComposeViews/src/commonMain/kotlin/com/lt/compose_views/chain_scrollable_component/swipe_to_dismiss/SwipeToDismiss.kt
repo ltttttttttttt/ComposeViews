@@ -32,7 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
-import com.lt.compose_views.chain_scrollable_component.ChainMode
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
 import com.lt.compose_views.util.ComposePosition
@@ -88,7 +88,7 @@ fun SwipeToDismiss(
         modifier = modifier.height(IntrinsicSize.Min),
         onScrollStop = scrollStop(scrollState),
         composePosition = ComposePosition.End,
-        chainMode = ChainMode.ChainFollowsContent,
+        chainMode = ChainMode.ChainAfterContent,
         content = { state ->
             Row(
                 modifier = Modifier

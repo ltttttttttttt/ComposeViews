@@ -15,6 +15,7 @@
  */
 
 package com.lt.common_app
+import M
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.*
@@ -30,7 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
-import com.lt.compose_views.chain_scrollable_component.ChainMode
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
 import com.lt.compose_views.chain_scrollable_component.scrollable_appbar.ScrollableAppBar
@@ -67,30 +68,34 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         Row {
             Text(text = "方向:$composePosition")
             Button(onClick = {
-                composePosition = if (chainMode == ChainMode.ChainContentFirst)
-                    when (composePosition) {
+                composePosition = when (chainMode) {
+                    ChainMode.ChainContentFirst, ChainMode.ChainAfterContent -> when (composePosition) {
                         ComposePosition.Top -> ComposePosition.Bottom
                         ComposePosition.Bottom -> ComposePosition.Start
                         ComposePosition.Start -> ComposePosition.End
                         ComposePosition.End -> ComposePosition.Top
                     }
-                else
-                    when (composePosition) {
+
+                    ChainMode.ContentFirst -> when (composePosition) {
                         ComposePosition.Top, ComposePosition.Bottom -> ComposePosition.Start
                         ComposePosition.Start, ComposePosition.End -> ComposePosition.Top
                     }
+                }
             }) {
                 Text(text = "切方向")
             }
             FpsText(modifier = Modifier)
-            Text(text = "模式:${chainMode.toString().substring(0, 5)}")
+            Text(text = "模式:$chainMode", M.width(80.dp))
             Button(onClick = {
-                chainMode =
-                    if (chainMode == ChainMode.ChainContentFirst) {
+                chainMode = when (chainMode) {
+                    ChainMode.ChainContentFirst -> {
                         composePosition = ComposePosition.Top
                         ChainMode.ContentFirst
-                    } else
-                        ChainMode.ChainContentFirst
+                    }
+
+                    ChainMode.ContentFirst -> ChainMode.ChainAfterContent
+                    ChainMode.ChainAfterContent -> ChainMode.ChainContentFirst
+                }
             }) {
                 Text(text = "切模式")
             }

@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.chain_scrollable_component
+package com.lt.compose_views.chain_scrollable_component.mode
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.unit.Velocity
+import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
 import com.lt.compose_views.util.midOf
 
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
- * effect : 对应[ChainMode.ChainFollowsContent]的[NestedScrollConnection]
+ * effect : 对应[ChainMode.ChainAfterContent]的[NestedScrollConnection]
  * warning:
  */
-internal class ChainFollowsContentNestedScrollConnection(
+internal class ChainAfterContentNestedScrollConnection(
     val state: ChainScrollableComponentState,
 ) : NestedScrollConnection {
 
@@ -43,6 +44,9 @@ internal class ChainFollowsContentNestedScrollConnection(
     }
 
     override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+        val delta = if (state.orientationIsHorizontal) available.x else available.y
+        val newOffset = state.getScrollPositionValue() + delta
+        state.animateToScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
         state.callOnScrollStop()
         return super.onPostFling(consumed, available)
     }

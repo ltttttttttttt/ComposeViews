@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.chain_scrollable_component
-
-import androidx.compose.foundation.ExperimentalFoundationApi
+package com.lt.compose_views.chain_scrollable_component.mode
 
 /**
  * creator: lt  2022/9/29  lt.dygzs@qq.com
@@ -38,8 +36,8 @@ enum class ChainMode {
     ChainContentFirst,
 
     /**
-     * 联动区域跟随内容区域
-     * Chain follows content
+     * 内容区域无法滑动后联动区域再滑动
+     * Chain after content
      */
-    ChainFollowsContent,
+    ChainAfterContent,
 }

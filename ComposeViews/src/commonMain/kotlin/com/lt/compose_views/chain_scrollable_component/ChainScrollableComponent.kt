@@ -28,6 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import com.lt.compose_views.chain_scrollable_component.mode.ChainAfterContentNestedScrollConnection
+import com.lt.compose_views.chain_scrollable_component.mode.ChainContentFirstNestedScrollConnection
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
+import com.lt.compose_views.chain_scrollable_component.mode.ContentFirstNestedScrollConnection
 import com.lt.compose_views.util.ComposePosition
 
 /**
@@ -99,7 +103,7 @@ fun ChainScrollableComponent(
         when (chainMode) {
             ChainMode.ContentFirst -> ContentFirstNestedScrollConnection(state)
             ChainMode.ChainContentFirst -> ChainContentFirstNestedScrollConnection(state)
-            ChainMode.ChainFollowsContent -> ChainFollowsContentNestedScrollConnection(state)
+            ChainMode.ChainAfterContent -> ChainAfterContentNestedScrollConnection(state)
         }
     }
     Box(
