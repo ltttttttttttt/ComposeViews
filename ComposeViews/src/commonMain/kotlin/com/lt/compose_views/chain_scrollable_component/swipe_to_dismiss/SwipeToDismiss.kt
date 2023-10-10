@@ -32,11 +32,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
-import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
@@ -113,13 +114,14 @@ fun SwipeToDismiss(
 }
 
 //停止拖动时,使appbar归位
-private fun scrollStop(scrollState: ScrollState): (ChainScrollableComponentState) -> Unit =
-    function@{ state ->
+private fun scrollStop(scrollState: ScrollState): (ChainScrollableComponentState, Float) -> Boolean =
+    function@{ state, delta ->
         val percentage = state.getScrollPositionPercentage()
         if (percentage == 1f || percentage == 0f)
-            return@function
+            return@function true
         state.coroutineScope.launch {
-            val startPositionValue = state.getScrollPositionValue()
+            val startPositionValue =
+                abs((state.getScrollPositionValue() + delta) / (state.maxPx - state.minPx))
             if (percentage > 0.5f) {
                 state.setScrollPositionWithAnimate(state.maxPx)
                 scrollState.animateScrollBy(startPositionValue - state.minPx)
@@ -128,4 +130,5 @@ private fun scrollStop(scrollState: ScrollState): (ChainScrollableComponentState
                 scrollState.animateScrollBy(startPositionValue)
             }
         }
+        true
     }

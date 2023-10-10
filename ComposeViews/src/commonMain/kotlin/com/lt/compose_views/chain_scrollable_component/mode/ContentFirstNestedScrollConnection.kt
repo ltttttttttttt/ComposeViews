@@ -64,11 +64,11 @@ internal class ContentFirstNestedScrollConnection(
 
     override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
         val delta = if (state.orientationIsHorizontal) available.x else available.y
+        if (state.callOnScrollStop(delta)) return super.onPostFling(consumed, available)
         val newOffset = state.getScrollPositionValue() + delta
         if (delta < 0f) {
             state.animateToScrollPosition(midOf(state.minPx, newOffset, state.maxPx))
         }
-        state.callOnScrollStop()
         return super.onPostFling(consumed, available)
     }
 }

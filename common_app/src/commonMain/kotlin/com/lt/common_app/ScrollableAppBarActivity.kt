@@ -31,14 +31,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
-import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.scrollable_appbar.ScrollableAppBar
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.util.ComposePosition
 import kotlinx.coroutines.launch
 import resourcePainter
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 // Author: Vast Gui
@@ -244,13 +245,14 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
     }
 
     //停止拖动时,使appbar归位
-    private fun scrollStop(lazyListState: LazyListState): (ChainScrollableComponentState) -> Unit =
-        function@{ state ->
+    private fun scrollStop(lazyListState: LazyListState): (ChainScrollableComponentState, Float) -> Boolean =
+        function@{ state, delta ->
             val percentage = state.getScrollPositionPercentage()
             if (percentage == 1f || percentage == 0f)
-                return@function
+                return@function true
             state.coroutineScope.launch {
-                val startPositionValue = state.getScrollPositionValue()
+                val startPositionValue =
+                    abs((state.getScrollPositionValue() + delta) / (state.maxPx - state.minPx))
                 if (percentage > 0.5f) {
                     state.setScrollPositionWithAnimate(state.minPx - state.maxPx)
                     lazyListState.animateScrollBy(startPositionValue - state.minPx)
@@ -259,5 +261,6 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                     lazyListState.animateScrollBy(startPositionValue)
                 }
             }
+            true
         }
 }

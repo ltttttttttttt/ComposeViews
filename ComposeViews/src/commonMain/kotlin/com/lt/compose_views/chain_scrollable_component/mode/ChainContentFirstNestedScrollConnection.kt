@@ -44,7 +44,8 @@ internal class ChainContentFirstNestedScrollConnection(
     }
 
     override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-        state.callOnScrollStop()
+        val delta = if (state.orientationIsHorizontal) available.x else available.y
+        state.callOnScrollStop(delta)
         return super.onPostFling(consumed, available)
     }
 }

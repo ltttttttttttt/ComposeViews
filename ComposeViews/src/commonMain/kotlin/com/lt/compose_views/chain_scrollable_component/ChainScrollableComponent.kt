@@ -46,8 +46,8 @@ import com.lt.compose_views.util.ComposePosition
  * @param chainContent 链式(联动)滚动的compose组件,scrollOffset: 滚动位置(位于最小和最大之间)
  *                     Content of chain
  * @param modifier 修饰
- * @param onScrollStop 停止滚动时回调
- *                     Callback of scroll stop event
+ * @param onScrollStop 停止滚动时回调,返回true会拦截后续fling操作
+ *                     Callback of scroll stop event, return true will intercept subsequent flying operations
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
  *                        Set the position of the top bar layout
  * @param chainMode 联动方式
@@ -62,7 +62,7 @@ fun ChainScrollableComponent(
     maxScrollPosition: Dp,
     chainContent: @Composable (state: ChainScrollableComponentState) -> Unit,
     modifier: Modifier = Modifier,
-    onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
+    onScrollStop: ((state: ChainScrollableComponentState, delta: Float) -> Boolean)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
     content: @Composable BoxScope.(state: ChainScrollableComponentState) -> Unit,

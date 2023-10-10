@@ -42,9 +42,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
+import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.util.ComposePosition
 import kotlin.math.roundToInt
 
@@ -64,14 +64,14 @@ import kotlin.math.roundToInt
  * @param background 背景图片
  *                   Background of top bar
  * @param modifier 修饰
- * @param onScrollStop 停止滚动时回调
- *                     Callback of scroll stop event
+ * @param navigationIcon 顶部导航栏图标，默认为返回键
+ *                       Icon of top bar
  * @param minScrollPosition 最小滚动位置(距离指定方向的顶点)
  *                          Minimum scroll position
  * @param maxScrollPosition 最大滚动位置(距离指定方向的顶点)
  *                          Maximum scroll position
- * @param navigationIcon 顶部导航栏图标，默认为返回键
- *                       Icon of top bar
+ * @param onScrollStop 停止滚动时回调,返回true会拦截后续fling操作
+ *                     Callback of scroll stop event, return true will intercept subsequent flying operations
  * @param composePosition 设置bar布局所在的位置,并且间接指定了滑动方向
  *                        Set the position of the top bar layout
  * @param chainMode 联动方式
@@ -97,7 +97,7 @@ fun ScrollableAppBar(
         },
     minScrollPosition: Dp = 56.dp,
     maxScrollPosition: Dp = 200.dp,
-    onScrollStop: ((state: ChainScrollableComponentState) -> Unit)? = null,
+    onScrollStop: ((state: ChainScrollableComponentState, delta: Float) -> Boolean)? = null,
     composePosition: ComposePosition = ComposePosition.Top,
     chainMode: ChainMode = ChainMode.ChainContentFirst,
     content: @Composable BoxScope.(state: ChainScrollableComponentState) -> Unit,
