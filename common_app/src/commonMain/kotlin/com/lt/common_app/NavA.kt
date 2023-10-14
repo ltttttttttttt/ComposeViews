@@ -15,14 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.compose_pager.ComposePager
-//import com.lt.compose_views.nav.PagerNav
-//import com.lt.compose_views.nav.PagerNavState
+import com.lt.compose_views.compose_pager.ComposePagerScope
+import com.lt.compose_views.nav.NavContent
+import com.lt.compose_views.nav.PagerNav
+import com.lt.compose_views.nav.PagerNavState
 import com.lt.compose_views.text_field.GoodTextField
+import com.lt.compose_views.util.rememberMutableStateOf
 
 /**
  * creator: lt  2023/6/18  lt.dygzs@qq.com
@@ -30,59 +34,76 @@ import com.lt.compose_views.text_field.GoodTextField
  * warning:
  */
 class NavA : BaseComposeActivity() {
-    //private val state = PagerNavState(
-    //    listOf(
-    //        "a" to { A() },
-    //        "b" to { B() },
-    //        "c" to { C() },
-    //        "d" to { D() },
-    //    )
-    //)
+    private val state = PagerNavState(
+        listOf(
+            A(),
+            B(),
+            C(),
+            D(),
+        )
+    )
 
     @Composable
     override fun ComposeContent() {
-        //val currRoute by remember { state.createCurrRouteFlow() }.collectAsState(state.routeAndContents.first().first)
-        //Column {
-        //    PagerNav(state, Modifier.fillMaxWidth().weight(1f))
-        //    Row(Modifier.fillMaxWidth().height(45.dp)) {
-        //        state.routeAndContents.forEach {
-        //            Button(
-        //                { state.nav(it.first) },
-        //                Modifier.weight(1f).fillMaxHeight(),
-        //                colors = ButtonDefaults.buttonColors(backgroundColor = if (currRoute == it.first) Color.Blue else Color.Gray)
-        //            ) {
-        //                Text(it.first)
-        //            }
-        //        }
-        //    }
-        //}
-    }
-
-    @Composable
-    private fun A() {
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(100) {
-                Text(it.toString())
+        val currRoute by remember { state.createCurrRouteFlow() }.collectAsState(state.navContents.first().route)
+        Column {
+            PagerNav(state, Modifier.fillMaxWidth().weight(1f))
+            Row(Modifier.fillMaxWidth().height(45.dp)) {
+                state.navContents.forEach {
+                    Button(
+                        { state.nav(it.route) },
+                        Modifier.weight(1f).fillMaxHeight(),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (currRoute == it.route) Color.Blue else Color.Gray)
+                    ) {
+                        Text(it.route)
+                    }
+                }
             }
         }
     }
 
-    @Composable
-    private fun B() {
-        ComposePager(5, Modifier.fillMaxSize()) {
-            Text(index.toString())
+    class A : NavContent {
+        override val route: String = "a"
+
+        @Composable
+        override fun Content(scope: ComposePagerScope) {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(100) {
+                    Text(it.toString())
+                }
+            }
         }
     }
 
-    @Composable
-    private fun C() {
-        ComposePager(5, Modifier.fillMaxSize(), orientation = Orientation.Vertical) {
-            Text(index.toString())
+    class B : NavContent {
+        override val route: String = "b"
+
+        @Composable
+        override fun Content(scope: ComposePagerScope) {
+            ComposePager(5, Modifier.fillMaxSize()) {
+                Text(index.toString())
+            }
         }
     }
 
-    @Composable
-    private fun D() {
-        GoodTextField("d", {})
+    class C : NavContent {
+        override val route: String = "c"
+
+        @Composable
+        override fun Content(scope: ComposePagerScope) {
+            ComposePager(5, Modifier.fillMaxSize(), orientation = Orientation.Vertical) {
+                Text(index.toString())
+            }
+        }
+    }
+
+    class D : NavContent {
+        override val route: String = "d"
+
+        @Composable
+        override fun Content(scope: ComposePagerScope) {
+            var text by rememberMutableStateOf("d")
+            GoodTextField(text, { text = it })
+        }
     }
 }
