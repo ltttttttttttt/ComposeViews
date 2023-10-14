@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.compose_pager.ComposePager
-//import com.lt.compose_views.nav.PagerNav
-//import com.lt.compose_views.nav.PagerNavState
+import com.lt.compose_views.nav.PagerNav
+import com.lt.compose_views.nav.PagerNavState
 import com.lt.compose_views.text_field.GoodTextField
 
 /**
@@ -30,32 +30,32 @@ import com.lt.compose_views.text_field.GoodTextField
  * warning:
  */
 class NavA : BaseComposeActivity() {
-    //private val state = PagerNavState(
-    //    listOf(
-    //        "a" to { A() },
-    //        "b" to { B() },
-    //        "c" to { C() },
-    //        "d" to { D() },
-    //    )
-    //)
+    private val state = PagerNavState(
+        listOf(
+            "a" to { A() },
+            "b" to { B() },
+            "c" to { C() },
+            "d" to { D() },
+        )
+    )
 
     @Composable
     override fun ComposeContent() {
-        //val currRoute by remember { state.createCurrRouteFlow() }.collectAsState(state.routeAndContents.first().first)
-        //Column {
-        //    PagerNav(state, Modifier.fillMaxWidth().weight(1f))
-        //    Row(Modifier.fillMaxWidth().height(45.dp)) {
-        //        state.routeAndContents.forEach {
-        //            Button(
-        //                { state.nav(it.first) },
-        //                Modifier.weight(1f).fillMaxHeight(),
-        //                colors = ButtonDefaults.buttonColors(backgroundColor = if (currRoute == it.first) Color.Blue else Color.Gray)
-        //            ) {
-        //                Text(it.first)
-        //            }
-        //        }
-        //    }
-        //}
+        val currRoute by remember { state.createCurrRouteFlow() }.collectAsState(state.routeAndContents.first().first)
+        Column {
+            PagerNav(state, Modifier.fillMaxWidth().weight(1f))
+            Row(Modifier.fillMaxWidth().height(45.dp)) {
+                state.routeAndContents.forEach {
+                    Button(
+                        { state.nav(it.first) },
+                        Modifier.weight(1f).fillMaxHeight(),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (currRoute == it.first) Color.Blue else Color.Gray)
+                    ) {
+                        Text(it.first)
+                    }
+                }
+            }
+        }
     }
 
     @Composable
