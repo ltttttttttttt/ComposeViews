@@ -49,12 +49,12 @@ internal fun Float/*percentage*/.getPercentageValue(startValue: Color, endValue:
     )
 
 /**
- * 如果[boolean]为true则返回[block]的返回值,否则返回this
+ * 如果[userBlock]为true则返回[block]的返回值,否则返回this
  */
 @OptIn(ExperimentalContracts::class)
-internal inline fun <T> T.applyIf(boolean: Boolean, block: T.() -> T): T {
+internal inline fun <T> T.applyIf(userBlock: Boolean, block: T.() -> T): T {
     contract {
         callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
-    return if (boolean) block(this) else this
+    return if (userBlock) block(this) else this
 }
