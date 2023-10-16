@@ -24,12 +24,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.res.Res
+import com.lt.compose_views.util.applyIf
 import kotlin.math.roundToInt
 
 /**
@@ -101,14 +107,11 @@ fun StarBar(
                     contentDescription = "star",
                     modifier = Modifier
                         .size(starSize)
-                        .let {
-                            if (userEnable)
-                                it.clickable(remember { MutableInteractionSource() }, null) {
-                                    onStarValueChange(index + 1)
-                                    onTouchUpEvent?.invoke()
-                                }
-                            else
-                                it
+                        .applyIf(userEnable) {
+                            clickable(remember { MutableInteractionSource() }, null) {
+                                onStarValueChange(index + 1)
+                                onTouchUpEvent?.invoke()
+                            }
                         },
                 )
                 if (index < maxStar - 1)

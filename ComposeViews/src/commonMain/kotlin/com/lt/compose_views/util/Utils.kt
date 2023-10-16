@@ -16,9 +16,10 @@
 
 package com.lt.compose_views.util
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
  * creator: lt  2022/6/27  lt.dygzs@qq.com
@@ -46,3 +47,14 @@ internal fun Float/*percentage*/.getPercentageValue(startValue: Color, endValue:
         green = getPercentageValue(startValue.green, endValue.green),
         blue = getPercentageValue(startValue.blue, endValue.blue),
     )
+
+/**
+ * 如果[boolean]为true则返回[block]的返回值,否则返回this
+ */
+@OptIn(ExperimentalContracts::class)
+internal inline fun <T> T.applyIf(boolean: Boolean, block: T.() -> T): T {
+    contract {
+        callsInPlace(block, InvocationKind.AT_MOST_ONCE)
+    }
+    return if (boolean) block(this) else this
+}

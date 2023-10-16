@@ -36,6 +36,7 @@ import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponent
 import com.lt.compose_views.chain_scrollable_component.ChainScrollableComponentState
 import com.lt.compose_views.chain_scrollable_component.mode.ChainMode
 import com.lt.compose_views.util.ComposePosition
+import com.lt.compose_views.util.applyIf
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -94,16 +95,13 @@ fun SwipeToDismiss(
             Row(
                 modifier = Modifier
                     .matchParentSize()
-                    .let {
-                        if (contentIsMove) {
-                            it.offset {
-                                IntOffset(
-                                    (state.getScrollPositionValue() - state.maxPx).roundToInt(),
-                                    0
-                                )
-                            }
-                        } else
-                            it
+                    .applyIf(contentIsMove) {
+                        offset {
+                            IntOffset(
+                                (state.getScrollPositionValue() - state.maxPx).roundToInt(),
+                                0
+                            )
+                        }
                     }
                     .horizontalScroll(scrollState)
             ) {
