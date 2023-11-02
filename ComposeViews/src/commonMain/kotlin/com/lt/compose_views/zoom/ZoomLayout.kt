@@ -13,6 +13,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
+import com.lt.compose_views.util.applyIf
 import com.lt.compose_views.util.midOf
 import kotlin.math.roundToInt
 
@@ -61,18 +62,15 @@ fun ZoomLayout(
     ) {
         //不限制宽高,且多个控件叠加展示
         Layout(content, Modifier.align(alignment)
-            .let {
-                if (userCanRotation)
-                    it.rotate(zoomState.rotation)
-                else
-                    it
-            }
             .scale(zoomState.zoom)
             .offset {
                 IntOffset(
                     zoomState.offset.x.roundToInt(),
                     zoomState.offset.y.roundToInt()
                 )
+            }
+            .applyIf(userCanRotation) {
+                rotate(zoomState.rotation)
             }) { measurableList, constraints ->
             var maxWidth = 0
             var maxHeight = 0
