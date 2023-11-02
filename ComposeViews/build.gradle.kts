@@ -152,5 +152,5 @@ android {
 
 //compose配置
 compose {
-    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompilerVersion")
+    //kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompilerVersion")
 }
