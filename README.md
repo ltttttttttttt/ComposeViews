@@ -404,7 +404,7 @@ fun PasswordTextField()
 fun Modifier.offsetPercent()
 
 /**
- * Pager-based navigation
+ * ComposePager-based navigation
  * Navigation relative to jetpack:
  * 1.Easier to use and more single function
  * 2.All state of each page can be saved
