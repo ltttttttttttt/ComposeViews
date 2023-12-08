@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onSizeChanged
 import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.util.DragInteractionSource
 import com.lt.compose_views.util.midOf
@@ -315,6 +316,12 @@ fun ComposePager(
                     }
                 })
             .clipScrollableContainer(orientation)
+            .onSizeChanged {
+                //大小变更时,滚动到正确的位置
+                coroutineScope.launch {
+                    composePagerState.setOffset(0f)
+                }
+            }
     ) { measurableList/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
         val selectIndex = composePagerState.currSelectIndex.value
         var width = 0
