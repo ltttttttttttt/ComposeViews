@@ -103,6 +103,8 @@ fun PagerIndicator(
             indicatorItem(it)
         }
     }, measurePolicy = { measurableList, constraints ->
+        if (measurableList.isEmpty())
+            return@Layout layout(0, 0) {}
         val marginPx = density.run { margin.roundToPx() }
         val mConstraints = constraints.copy(minWidth = 0, minHeight = 0)
         val selectPlaceable = measurableList.first().measure(mConstraints)
