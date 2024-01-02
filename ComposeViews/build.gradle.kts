@@ -21,6 +21,7 @@ plugins {
     id("com.android.library")
     //id("maven-publish")
     id("convention.publication")
+    id("com.vk.vkompose")
 }
 
 group = "io.github.ltttttttttttt"
@@ -134,6 +135,24 @@ kotlin {
             }
         }
     }
+}
+
+//compose静态代码检查
+vkompose {
+    skippabilityCheck = true//函数可跳过性检查
+
+    recompose {//重组检查
+        isHighlighterEnabled = true
+        isLoggerEnabled = true
+    }
+
+    testTag {
+        isApplierEnabled = true
+        isDrawerEnabled = false
+        isCleanerEnabled = false
+    }
+
+    sourceInformationClean = true
 }
 
 android {

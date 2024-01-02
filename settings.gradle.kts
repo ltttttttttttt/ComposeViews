@@ -42,16 +42,18 @@ pluginManagement {
         val kspVersion = extra["ksp.version"] as String
         val agpVersion = "7.4.2"
 
-        kotlin("jvm").version(kotlinVersion)
-        kotlin("multiplatform").version(kotlinVersion)
-        kotlin("android").version(kotlinVersion)
+        kotlin("jvm") version kotlinVersion
+        kotlin("multiplatform") version kotlinVersion
+        kotlin("android") version kotlinVersion
 
-        id("com.android.application").version(agpVersion)
-        id("com.android.library").version(agpVersion)
+        id("com.android.application") version agpVersion
+        id("com.android.library") version agpVersion
 
-        id("org.jetbrains.compose").version(composeVersion)
+        id("org.jetbrains.compose") version composeVersion
 
-        id("com.google.devtools.ksp").version(kspVersion)
+        id("com.google.devtools.ksp") version kspVersion
+
+        id("com.vk.vkompose") version "0.3.1"//https://github.com/VKCOM/vkompose
     }
 }
 
