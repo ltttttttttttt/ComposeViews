@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.util.Color333
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.round
 
@@ -113,25 +115,28 @@ fun ValueSelector(
     }
     val density = LocalDensity.current
     val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
+    val scope = rememberCoroutineScope()
     val scrollStopListener: NestedScrollConnection = remember {
         object : NestedScrollConnection {
             override suspend fun onPreFling(available: Velocity): Velocity {
                 //计算速度大概能滚动多少条目,并执行滚动动画
                 val itemNum = round(abs(available.y.toDouble()) / 4 / itemHeight).toInt()
-                if (available.y > 0) {
-                    state.lazyListState.animateScrollToItem(
-                        maxOf(
-                            0,
-                            state.lazyListState.firstVisibleItemIndex - itemNum
+                scope.launch {
+                    if (available.y > 0) {
+                        state.lazyListState.animateScrollToItem(
+                            maxOf(
+                                0,
+                                state.lazyListState.firstVisibleItemIndex - itemNum
+                            )
                         )
-                    )
-                } else {
-                    state.lazyListState.animateScrollToItem(
-                        minOf(
-                            values.size * loopMultiple,
-                            state.lazyListState.firstVisibleItemIndex + itemNum
+                    } else {
+                        state.lazyListState.animateScrollToItem(
+                            minOf(
+                                values.size * loopMultiple,
+                                state.lazyListState.firstVisibleItemIndex + itemNum
+                            )
                         )
-                    )
+                    }
                 }
                 return available
             }
