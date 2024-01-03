@@ -17,6 +17,7 @@
 package com.lt.common_app.base
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -42,12 +43,31 @@ actual abstract class BaseComposeActivity : AppCompatActivity() {
     actual abstract fun ComposeContent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setRefreshRate()
         super.onCreate(savedInstanceState)
         title = getTitleText()
         mOnCreate()
         setContent {
             MyTheme {
                 ComposeContent()
+            }
+        }
+    }
+
+    //设置屏幕刷新率,直接设置屏幕最大支持的刷新率,ps:就算是安卓8以下支持高刷也不开启(硬件不行)
+    private fun setRefreshRate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 获取系统window支持的模式
+            val modes = window.windowManager.defaultDisplay.supportedModes
+            // 对获取的模式，基于刷新率的大小进行排序，从小到大排序
+            modes.sortBy {
+                it.refreshRate
+            }
+            window.let {
+                val lp = it.attributes
+                // 取出最大的那一个刷新率，直接设置给window
+                lp.preferredDisplayModeId = modes.lastOrNull()?.modeId ?: return@let
+                it.attributes = lp
             }
         }
     }

@@ -188,7 +188,7 @@ fun ValueSelector(
                             VerticalSpace(itemHeightDp)
                         }
                     }
-                    itemsIndexed(values, key = { index, it -> it }) { index, value ->
+                    itemsIndexed(values, key = { _, it -> it }) { index, value ->
                         itemFun(index, value)
                     }
                     repeat(cacheSize) {

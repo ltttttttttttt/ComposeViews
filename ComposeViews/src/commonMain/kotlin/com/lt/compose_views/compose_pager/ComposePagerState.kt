@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.unit.IntSize
+import com.lt.compose_views.util.immutable.StableFlow
 import kotlinx.coroutines.flow.Flow
 
 /**
