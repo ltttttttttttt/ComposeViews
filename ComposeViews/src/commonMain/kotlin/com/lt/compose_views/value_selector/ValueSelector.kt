@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.util.Color333
+import com.lt.compose_views.util.immutable.ImmutableList
 import kotlin.math.abs
 import kotlin.math.round
 
@@ -72,7 +73,7 @@ import kotlin.math.round
 @ExperimentalFoundationApi
 @Composable
 fun ValueSelector(
-    values: ArrayList<String>,
+    values: ImmutableList<String>,
     state: ValueSelectState,
     modifier: Modifier = Modifier,
     defaultSelectIndex: Int = 0,

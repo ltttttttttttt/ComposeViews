@@ -33,6 +33,7 @@ import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.ComposePagerState
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.pager_indicator.TextPagerIndicator
+import com.lt.compose_views.util.immutable.toImmutableList
 
 /**
  * creator: lt  2022/10/22  lt.dygzs@qq.com
@@ -50,7 +51,7 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
         Color(112, 62, 11, 255) to "嗜魂封魔斩",
         Color(50, 134, 74, 255) to "噬魂之手",
     )
-    private val texts = colors.map { it.second }
+    private val texts = colors.map { it.second }.toImmutableList()
     private val pagerState = ComposePagerState()
     private val textColor = Color(0xff999999)
     private val selectTextColor = Color(0xff333333)

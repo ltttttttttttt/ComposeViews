@@ -26,6 +26,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
+import com.lt.compose_views.util.immutable.ImmutableList
 import com.lt.compose_views.value_selector.*
 import com.lt.compose_views.value_selector.CenterLines
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -68,7 +69,7 @@ fun DateSelector(
             }
         }.distinctUntilChanged()
             .collect {
-                state.days = ArrayList((1..it).map { it.toString() })
+                state.days = ImmutableList((1..it).map { it.toString() })
             }
     }
     Box(modifier) {

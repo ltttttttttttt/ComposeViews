@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.HorizontalSpace
+import com.lt.compose_views.util.immutable.ImmutableList
 
 
 // Author: Vast Gui
@@ -64,7 +65,7 @@ import com.lt.compose_views.other.HorizontalSpace
 @Composable
 fun MenuFloatingActionButton(
     srcIcon: ImageVector,
-    items: List<MenuFabItem>,
+    items: ImmutableList<MenuFabItem>,
     modifier: Modifier = Modifier,
     menuFabState: MenuFabState = rememberMenuFabState(),
     srcIconColor: Color = Color.White,

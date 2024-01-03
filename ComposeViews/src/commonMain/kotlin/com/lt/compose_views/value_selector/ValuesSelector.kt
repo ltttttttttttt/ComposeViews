@@ -17,7 +17,12 @@
 package com.lt.compose_views.value_selector
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.other.VerticalSpace
+import com.lt.compose_views.util.immutable.ImmutableList
 
 /**
  * creator: lt  2022/12/7  lt.dygzs@qq.com
@@ -45,8 +51,8 @@ import com.lt.compose_views.other.VerticalSpace
 @ExperimentalFoundationApi
 @Composable
 fun ValuesSelector(
-    valuesList: List<ArrayList<String>>,
-    states: List<ValueSelectState>,
+    valuesList: ImmutableList<ImmutableList<String>>,
+    states: ImmutableList<ValueSelectState>,
     modifier: Modifier = Modifier,
     isLoop: Boolean = false,
     defaultSelectIndexList: List<Int> = remember(valuesList.size) {

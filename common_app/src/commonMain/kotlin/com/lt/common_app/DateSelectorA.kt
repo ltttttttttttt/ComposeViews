@@ -28,6 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.other.FpsText
+import com.lt.compose_views.util.immutable.ImmutableList
+import com.lt.compose_views.util.immutable.immutableListOf
 import com.lt.compose_views.value_selector.ValuesSelector
 import com.lt.compose_views.value_selector.ValueSelectState
 import com.lt.compose_views.value_selector.ValueSelector
@@ -67,13 +69,13 @@ class DateSelectorA : BaseComposeActivity() {
     @Composable
     private fun ValuesSample() {
         val values = remember {
-            listOf(
-                ArrayList((1900..2022).map(Int::toString)),
-                ArrayList((1..12).map(Int::toString)),
+            immutableListOf(
+                ImmutableList((1900..2022).map(Int::toString)),
+                ImmutableList((1..12).map(Int::toString)),
             )
         }
         val states = remember {
-            listOf(
+            immutableListOf(
                 ValueSelectState(),
                 ValueSelectState(),
             )
@@ -94,7 +96,7 @@ class DateSelectorA : BaseComposeActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ValueSample() {
-        val values = remember { ArrayList((0 until 60).map(Int::toString)) }
+        val values = remember { ImmutableList((0 until 60).map(Int::toString)) }
         val state = rememberValueSelectState()
         ValueSelector(
             values = values,

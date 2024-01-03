@@ -27,7 +27,7 @@ sealed interface SelectMode {
      * 单选
      * radio
      */
-    object Radio : SelectMode
+    data object Radio : SelectMode
 
     /**
      * 多选

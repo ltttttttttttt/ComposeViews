@@ -33,6 +33,7 @@ import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.menu_fab.MenuFabItem
 import com.lt.compose_views.menu_fab.MenuFloatingActionButton
 import com.lt.compose_views.other.FpsText
+import com.lt.compose_views.util.immutable.rememberImmutableList
 import resourcePainter
 
 
@@ -81,7 +82,7 @@ class MenuFabActivity : BaseComposeActivity() {
         Box(M.fillMaxSize()) {
             MenuFloatingActionButton(
                 srcIcon = Icons.Filled.Add,
-                items = menuItems,
+                items = rememberImmutableList(menuItems),
                 modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 30.dp),
             ) {
                 "点击了${it.label}".showToast()

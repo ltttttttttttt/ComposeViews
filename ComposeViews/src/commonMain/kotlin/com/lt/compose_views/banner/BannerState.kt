@@ -21,9 +21,9 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
-import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.ComposePagerState
 import com.lt.compose_views.compose_pager.PageChangeAnimFlag
+import com.lt.compose_views.util.immutable.StableFlow
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -53,9 +53,11 @@ class BannerState {
      * 创建Banner当前索引的flow对象
      * Create the [Flow] of the current index of the [Banner]
      */
-    fun createCurrSelectIndexFlow(): Flow<Int> = snapshotFlow {
-        composePagerState.getCurrSelectIndexState().value % pageCount
-    }
+    fun createCurrSelectIndexFlow(): StableFlow<Int> = StableFlow(
+        snapshotFlow {
+            composePagerState.getCurrSelectIndexState().value % pageCount
+        }
+    )
 
     /**
      * 动画是否执行中
@@ -73,15 +75,17 @@ class BannerState {
      * 创建子项Offset偏移比例的flow对象
      * Create the [Flow] of the percent of the offset
      */
-    fun createChildOffsetPercentFlow(): Flow<Float> = snapshotFlow {
-        val mainAxisSize = composePagerState.mainAxisSize
-        if (mainAxisSize == 0)
-            0f
-        else {
-            val percent = composePagerState.offsetAnim.value / mainAxisSize
-            0 - (percent + composePagerState.getCurrSelectIndex())
+    fun createChildOffsetPercentFlow(): StableFlow<Float> = StableFlow(
+        snapshotFlow {
+            val mainAxisSize = composePagerState.mainAxisSize
+            if (mainAxisSize == 0)
+                0f
+            else {
+                val percent = composePagerState.offsetAnim.value / mainAxisSize
+                0 - (percent + composePagerState.getCurrSelectIndex())
+            }
         }
-    }
+    )
 
     /**
      * 切换选中的页数,无动画
