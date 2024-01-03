@@ -26,7 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import com.lt.compose_views.util.immutable.StableFlow
+import androidx.compose.ui.unit.IntSize
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -47,6 +47,9 @@ class ComposePagerState {
 
     //记录ComposePager的宽高中的对应方向的值
     internal var mainAxisSize by mutableStateOf(0)
+
+    //记录当前的size大小,如果大小变更后自动滚动到正确的位置(适配可以改变window大小的场景)
+    internal var size by mutableStateOf(IntSize.Zero)
 
     /**
      * 获取ComposePager当前所在的索引

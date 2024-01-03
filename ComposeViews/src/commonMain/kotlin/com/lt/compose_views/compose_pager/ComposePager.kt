@@ -317,9 +317,12 @@ fun ComposePager(
                 })
             .clipScrollableContainer(orientation)
             .onSizeChanged {
-                //大小变更时,滚动到正确的位置
-                coroutineScope.launch {
-                    composePagerState.setOffset(0f)
+                if (composePagerState.size != it) {
+                    composePagerState.size = it
+                    //大小变更时,滚动到正确的位置
+                    coroutineScope.launch {
+                        composePagerState.setOffset(0f)
+                    }
                 }
             }
     ) { measurableList/* 可测量的(子控件) */, constraints/* 约束条件 */ ->
