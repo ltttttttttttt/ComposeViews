@@ -50,7 +50,7 @@ class DateSelectorState(
     internal var months by mutableStateOf(ArrayList((1..12).map { it.toString() }))
     internal var days by mutableStateOf(ArrayList((1..31).map { it.toString() }))
 
-    fun getYear(): String = years[yearState.getSelectIndex()]
-    fun getMonth(): String = months[monthState.getSelectIndex()]
-    fun getDay(): String = days[dayState.getSelectIndex()]
+    fun getYear(): String = years[yearState.getSelectIndex() % years.size]
+    fun getMonth(): String = months[monthState.getSelectIndex() % months.size]
+    fun getDay(): String = days[dayState.getSelectIndex() % days.size]
 }
