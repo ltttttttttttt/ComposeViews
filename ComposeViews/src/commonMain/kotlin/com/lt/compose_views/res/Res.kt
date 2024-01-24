@@ -17,6 +17,9 @@
 package com.lt.compose_views.res
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.intl.Locale
 
@@ -46,7 +49,7 @@ expect object Res {
 }
 
 //用户指定的语言
-private var Res_language: String? = null
+private var Res_language: String? by mutableStateOf(null)
 
 //获取当前是什么语言
 private fun Res.getLanguage(): String {
