@@ -380,36 +380,16 @@ private fun initContentList(
     //当前索引
     val selectIndex = composePagerState.currSelectIndex.value
     //key的集合: key to index
-    val keyMap = (selectIndex - pageCache).rangeTo(selectIndex + pageCache)
-        .associateBy { indexToKey(it) }
+    val keyList = (selectIndex - pageCache).rangeTo(selectIndex + pageCache)
+        .map { indexToKey(it) to it }
     //特殊处理一下banner中数量过少的问题,保证至少有三条
-    val keyMapSize = keyMap.size
-    if (keyMapSize == 1) {
-        val node = keyMap.entries.first()
-        repeat(3) {
-            val key = node.key
-            contentList.add(ComposePagerContentBean(
-                key,
-                Modifier.layoutId(node.value + it - 2),
-                ComposePagerScope(key)
-            ) { mModifier, mScope ->
-                if (key < 0 || key >= pageCount)
-                    Box(modifier = Modifier)
-                else {
-                    Box(modifier = mModifier) {
-                        mScope.content()
-                    }
-                }
-            })
-        }
-    } else if (keyMapSize == 2) {
-        val cacheList = ArrayList<ComposePagerContentBean>(4)
-        repeat(2) {
-            keyMap.forEach { node ->
-                val key = node.key
-                cacheList.add(ComposePagerContentBean(
+    when (keyList.size) {
+        1 -> {
+            val (key, value) = keyList.first()
+            repeat(3) {
+                contentList.add(ComposePagerContentBean(
                     key,
-                    Modifier.layoutId((node.value - it * 2)),
+                    Modifier.layoutId(value + it - 2),
                     ComposePagerScope(key)
                 ) { mModifier, mScope ->
                     if (key < 0 || key >= pageCount)
@@ -422,24 +402,46 @@ private fun initContentList(
                 })
             }
         }
-        contentList.addAll(cacheList.reversed())
-    } else {
-        //创建或修改缓存
-        keyMap.forEach { node ->
-            val key = node.key
-            contentList.add(ComposePagerContentBean(
-                key,
-                Modifier.layoutId(node.value),
-                ComposePagerScope(key)
-            ) { mModifier, mScope ->
-                if (key < 0 || key >= pageCount)
-                    Box(modifier = Modifier)
-                else {
-                    Box(modifier = mModifier) {
-                        mScope.content()
-                    }
+
+        2 -> {
+            val cacheList = ArrayList<ComposePagerContentBean>(4)
+            repeat(2) {
+                keyList.forEach { (key, value) ->
+                    cacheList.add(ComposePagerContentBean(
+                        key,
+                        Modifier.layoutId((value - it * 2)),
+                        ComposePagerScope(key)
+                    ) { mModifier, mScope ->
+                        if (key < 0 || key >= pageCount)
+                            Box(modifier = Modifier)
+                        else {
+                            Box(modifier = mModifier) {
+                                mScope.content()
+                            }
+                        }
+                    })
                 }
-            })
+            }
+            contentList.addAll(cacheList.reversed())
+        }
+
+        else -> {
+            //创建或修改缓存
+            keyList.forEach { (key, value) ->
+                contentList.add(ComposePagerContentBean(
+                    key,
+                    Modifier.layoutId(value),
+                    ComposePagerScope(key)
+                ) { mModifier, mScope ->
+                    if (key < 0 || key >= pageCount)
+                        Box(modifier = Modifier)
+                    else {
+                        Box(modifier = mModifier) {
+                            mScope.content()
+                        }
+                    }
+                })
+            }
         }
     }
 }

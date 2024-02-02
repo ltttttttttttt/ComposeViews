@@ -16,9 +16,18 @@
 
 package com.lt.compose_views.refresh_layout.refresh_content.bottom
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,8 +38,6 @@ import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.res.Res
-import com.lt.compose_views.res.getLoadingString
-import com.lt.compose_views.res.getNoMoreDataString
 import com.lt.compose_views.util.Color333
 
 /**

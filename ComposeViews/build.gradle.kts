@@ -143,6 +143,8 @@ android {
         targetSdk = 31
         sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
         sourceSets["main"].res.srcDir("resources")
+
+        consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

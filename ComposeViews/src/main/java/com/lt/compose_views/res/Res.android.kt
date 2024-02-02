@@ -17,37 +17,22 @@
 package com.lt.compose_views.res
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import com.lt.compose_views.R
 
 /**
  * creator: lt  2022/11/13  lt.dygzs@qq.com
- * effect :
+ * effect : 资源
  * warning:
  */
-actual object Res {
-    @Composable
-    internal actual fun getRefreshLayoutLoadingPainter(): Painter =
-        painterResource(id = R.drawable.compose_views_refresh_layout_loading)
 
-    @Composable
-    internal actual fun getRefreshLayoutArrowPainter(): Painter =
-        painterResource(id = R.drawable.compose_views_refresh_layout_arrow)
-
-    @Composable
-    internal actual fun getPasswordShowPainter(): Painter =
-        painterResource(id = R.drawable.compose_views_password_show)
-
-    @Composable
-    internal actual fun getPasswordHidePainter(): Painter =
-        painterResource(id = R.drawable.compose_views_password_hide)
-
-    @Composable
-    internal actual fun getStarSelectPainter(): Painter =
-        painterResource(id = R.drawable.star_bar_star_select)
-
-    @Composable
-    internal actual fun getStarPainter(): Painter = painterResource(id = R.drawable.star_bar_star)
+@Composable
+internal actual fun resourcePainter(name: String): Painter {
+    val context = LocalContext.current
+    val id = remember(name) {
+        context.resources.getIdentifier(name, "drawable", context.packageName)
+    }
+    return painterResource(id)
 }
