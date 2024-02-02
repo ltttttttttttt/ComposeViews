@@ -16,9 +16,19 @@
 
 package com.lt.compose_views.refresh_layout.refresh_content.top
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,10 +42,6 @@ import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.res.Res
-import com.lt.compose_views.res.getDropDownToRefreshString
-import com.lt.compose_views.res.getRefreshCompleteString
-import com.lt.compose_views.res.getRefreshingString
-import com.lt.compose_views.res.getReleaseRefreshNowString
 import com.lt.compose_views.util.Color333
 import kotlin.math.abs
 
@@ -60,6 +66,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
             RefreshContentStateEnum.Stop -> {
                 //no image
             }
+
             RefreshContentStateEnum.Refreshing -> {
                 //循环旋转动画
                 val infiniteTransition = rememberInfiniteTransition()
@@ -80,6 +87,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                 )
                 HorizontalSpace(dp = 10)
             }
+
             RefreshContentStateEnum.Dragging -> {
                 //旋转动画
                 val isCannotRefresh =

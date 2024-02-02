@@ -27,39 +27,11 @@ import org.jetbrains.compose.resources.painterResource
  * effect : 资源
  * warning:
  */
-actual object Res {
-    private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
-    private const val IMG_FILE_ENDING = ".webp"
 
-    /**
-     * 根据图片文件名加载图片
-     */
-    @OptIn(ExperimentalResourceApi::class)
-    @Composable
-    private fun resourcePainter(imageName: String): Painter {
-        return painterResource(remember(imageName) { IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING })
-    }
+private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
+private const val IMG_FILE_ENDING = ".webp"
 
-    @Composable
-    internal actual fun getRefreshLayoutLoadingPainter(): Painter =
-        resourcePainter("compose_views_refresh_layout_loading")
-
-    @Composable
-    internal actual fun getRefreshLayoutArrowPainter(): Painter =
-        resourcePainter("compose_views_refresh_layout_arrow")
-
-    @Composable
-    internal actual fun getPasswordShowPainter(): Painter =
-        resourcePainter("compose_views_password_show")
-
-    @Composable
-    internal actual fun getPasswordHidePainter(): Painter =
-        resourcePainter("compose_views_password_hide")
-
-    @Composable
-    internal actual fun getStarSelectPainter(): Painter =
-        resourcePainter("star_bar_star_select")
-
-    @Composable
-    internal actual fun getStarPainter(): Painter = resourcePainter("star_bar_star")
-}
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+internal actual fun resourcePainter(name: String): Painter =
+    painterResource(remember(name) { IMG_FILE_BEGIN + name + IMG_FILE_ENDING })

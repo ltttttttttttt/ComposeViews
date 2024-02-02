@@ -17,38 +17,18 @@
 package com.lt.compose_views.res
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 
 /**
  * creator: lt  2022/11/13  lt.dygzs@qq.com
- * effect :
+ * effect : 资源
  * warning:
  */
-actual object Res {
-    private const val imgFile = "drawable-xxhdpi/%s.webp"
 
-    @Composable
-    internal actual fun getRefreshLayoutLoadingPainter(): Painter =
-        painterResource(imgFile.format("compose_views_refresh_layout_loading"))
+private const val imgFile = "drawable-xxhdpi/%s.webp"
 
-    @Composable
-    internal actual fun getRefreshLayoutArrowPainter(): Painter =
-        painterResource(imgFile.format("compose_views_refresh_layout_arrow"))
-
-    @Composable
-    internal actual fun getPasswordShowPainter(): Painter =
-        painterResource(imgFile.format("compose_views_password_show"))
-
-    @Composable
-    internal actual fun getPasswordHidePainter(): Painter =
-        painterResource(imgFile.format("compose_views_password_hide"))
-
-    @Composable
-    internal actual fun getStarSelectPainter(): Painter =
-        painterResource(imgFile.format("star_bar_star_select"))
-
-    @Composable
-    internal actual fun getStarPainter(): Painter =
-        painterResource(imgFile.format("star_bar_star"))
-}
+@Composable
+internal actual fun resourcePainter(name: String): Painter =
+    painterResource(remember(name) { imgFile.format(name) })
