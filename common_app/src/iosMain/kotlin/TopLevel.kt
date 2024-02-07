@@ -17,6 +17,7 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -38,7 +39,7 @@ actual fun rememberPainter(data: String?): Painter {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun resourcePainter(imageName: String): Painter {
-    return painterResource(remember(imageName) { IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING })
+    return painterResource(remember(imageName) { DrawableResource(IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING) })
 }
 
 actual fun getTestIndex(): Int {
