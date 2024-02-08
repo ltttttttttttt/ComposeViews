@@ -37,8 +37,14 @@ private const val IMG_FILE_ENDING = ".webp"
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun rememberPainter(data: String?): Painter {
-    return BitmapPainter(remember(data) { JSUrlResourceImpl(data ?: "") }.rememberImageBitmap().orEmpty())
+    return BitmapPainter(
+        imageResource(DrawableResource(data?:""))
+    )
 }
+//todo 改成可用的
+//actual fun rememberPainter(data: String?): Painter {
+//    return BitmapPainter(remember(data) { JSUrlResourceImpl(data ?: "") }.rememberImageBitmap().orEmpty())
+//}
 
 /**
  * 根据图片文件名加载图片
@@ -46,32 +52,32 @@ actual fun rememberPainter(data: String?): Painter {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun resourcePainter(imageName: String): Painter {
-    return painterResource(remember(imageName) { IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING })
+    return painterResource(remember(imageName) { DrawableResource(IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING )})
 }
 
 actual fun getTestIndex(): Int {
     return -1
 }
 
-@ExperimentalResourceApi
-private class JSUrlResourceImpl(val path: String) : Resource {
-    override suspend fun readBytes(): ByteArray {
-        return suspendCoroutine { continuation ->
-            val req = XMLHttpRequest()
-            req.open("GET", path, true)
-            req.responseType = XMLHttpRequestResponseType.ARRAYBUFFER
-
-            req.onload = { event ->
-                val arrayBuffer = req.response
-                if (arrayBuffer is ArrayBuffer) {
-                    continuation.resume(arrayBuffer.toByteArray())
-                } else {
-                    continuation.resumeWithException(RuntimeException("Missing resource with path: $path"))
-                }
-            }
-            req.send(null)
-        }
-    }
-
-    private fun ArrayBuffer.toByteArray() = Int8Array(this, 0, byteLength).unsafeCast<ByteArray>()
-}
+//@ExperimentalResourceApi
+//private class JSUrlResourceImpl(val path: String) : Resource {
+//    override suspend fun readBytes(): ByteArray {
+//        return suspendCoroutine { continuation ->
+//            val req = XMLHttpRequest()
+//            req.open("GET", path, true)
+//            req.responseType = XMLHttpRequestResponseType.ARRAYBUFFER
+//
+//            req.onload = { event ->
+//                val arrayBuffer = req.response
+//                if (arrayBuffer is ArrayBuffer) {
+//                    continuation.resume(arrayBuffer.toByteArray())
+//                } else {
+//                    continuation.resumeWithException(RuntimeException("Missing resource with path: $path"))
+//                }
+//            }
+//            req.send(null)
+//        }
+//    }
+//
+//    private fun ArrayBuffer.toByteArray() = Int8Array(this, 0, byteLength).unsafeCast<ByteArray>()
+//}
