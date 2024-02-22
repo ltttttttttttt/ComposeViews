@@ -84,39 +84,26 @@ fun ZoomLayout(
                 maxHeight = maxOf(maxHeight, placeable.height)
                 placeable
             }
-            val layoutWidth = midOf(constraints.minWidth, maxWidth, constraints.maxWidth)
-            val layoutHeight = midOf(constraints.minHeight, maxHeight, constraints.maxHeight)
-            layout(maxOf(maxWidth, constraints.maxWidth), maxOf(maxHeight, constraints.maxHeight)) {
+            val layoutWidth =
+                midOf(constraints.minWidth, maxWidth, constraints.maxWidth) * 2/*防止移出一定范围后直接消失*/
+            val layoutHeight = midOf(constraints.minHeight, maxHeight, constraints.maxHeight) * 2
+            layout(
+                maxOf(maxWidth, constraints.maxWidth) * 2,
+                maxOf(maxHeight, constraints.maxHeight) * 2
+            ) {
                 placeableList.forEach {
+                    //自己处理align和宽高*2
                     val align = (alignment as? BiasAlignment)
                         ?: BiasAlignment(-1f, -1f)/*Alignment.TopStart*/
                     val x = when (align.horizontalBias) {
-                        -1f -> if (layoutWidth >= it.width)/*父比子大*/ 0 else {
-                            (it.width - layoutWidth) / 2
-                        }
-
-                        1f -> if (layoutWidth >= it.width) layoutWidth - it.width else {
-                            (layoutWidth - it.width) / 2
-                        }
-                        else/*0f*/ -> {
-                            if (layoutWidth >= it.width) {
-                                (layoutWidth - it.width) / 2
-                            } else 0
-                        }
+                        -1f -> if (layoutWidth / 2 >= it.width)/*父比子大*/ { layoutWidth / 4 } else { it.width - layoutWidth / 4 }
+                        1f -> if (layoutWidth / 2 >= it.width) { layoutWidth / 4 + layoutWidth / 2 - it.width } else { layoutWidth / 4 }
+                        else/*0f*/ -> if (layoutWidth / 2 >= it.width) { (layoutWidth - it.width) / 2 } else { it.width / 2 }
                     }
                     val y = when (align.verticalBias) {
-                        -1f -> if (layoutHeight >= it.height) 0 else {
-                            (it.height - layoutHeight) / 2
-                        }
-
-                        1f -> if (layoutHeight >= it.height) layoutHeight - it.height else {
-                            (layoutHeight - it.height) / 2
-                        }
-                        else/*0f*/ -> {
-                            if (layoutHeight >= it.height) {
-                                (layoutHeight - it.height) / 2
-                            } else 0
-                        }
+                        -1f -> if (layoutHeight / 2 >= it.height) { layoutHeight / 4 } else { it.height - layoutHeight / 4 }
+                        1f -> if (layoutHeight / 2 >= it.height) { layoutHeight / 4 + layoutHeight / 2 - it.height } else { layoutHeight / 4 }
+                        else/*0f*/ -> if (layoutHeight / 2 >= it.height) { (layoutHeight - it.height) / 2 } else { it.height / 2 }
                     }
                     it.placeRelative(x, y)
                 }
