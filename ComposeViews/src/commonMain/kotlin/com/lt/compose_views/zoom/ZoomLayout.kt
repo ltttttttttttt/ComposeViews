@@ -2,9 +2,11 @@ package com.lt.compose_views.zoom
 
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
@@ -61,17 +63,18 @@ fun ZoomLayout(
         }
     ) {
         //不限制宽高,且多个控件叠加展示
-        Layout(content, Modifier.align(alignment)
-            .scale(zoomState.zoom)
-            .offset {
-                IntOffset(
-                    zoomState.offset.x.roundToInt(),
-                    zoomState.offset.y.roundToInt()
-                )
-            }
-            .applyIf(userCanRotation) {
-                rotate(zoomState.rotation)
-            }) { measurableList, constraints ->
+        Layout(
+            content, Modifier.fillMaxSize()
+                .scale(zoomState.zoom)
+                .offset {
+                    IntOffset(
+                        zoomState.offset.x.roundToInt(),
+                        zoomState.offset.y.roundToInt()
+                    )
+                }
+                .applyIf(userCanRotation) {
+                    rotate(zoomState.rotation)
+                }) { measurableList, constraints ->
             var maxWidth = 0
             var maxHeight = 0
             val mConstraints = if (whetherToLimitSize) constraints else Constraints()
@@ -81,9 +84,27 @@ fun ZoomLayout(
                 maxHeight = maxOf(maxHeight, placeable.height)
                 placeable
             }
-            layout(minOf(maxWidth, constraints.maxWidth), minOf(maxHeight, constraints.maxHeight)) {
+            val layoutWidth = midOf(constraints.minWidth, maxWidth, constraints.maxWidth)
+            val layoutHeight = midOf(constraints.minHeight, maxHeight, constraints.maxHeight)
+            layout(layoutWidth, layoutHeight) {
                 placeableList.forEach {
-                    it.place(0, 0)
+                    val align = (alignment as? BiasAlignment)
+                        ?: BiasAlignment(-1f, -1f)/*Alignment.TopStart*/
+                    val x = when (align.horizontalBias) {
+                        -1f -> 0
+                        1f -> layoutWidth - it.width
+                        else/*0f*/ -> {
+                            (layoutWidth - it.width) / 2
+                        }
+                    }
+                    val y = when (align.verticalBias) {
+                        -1f -> 0
+                        1f -> layoutHeight - it.height
+                        else/*0f*/ -> {
+                            (layoutHeight - it.height) / 2
+                        }
+                    }
+                    it.placeRelative(x, y)
                 }
             }
         }
