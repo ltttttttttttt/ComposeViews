@@ -86,22 +86,36 @@ fun ZoomLayout(
             }
             val layoutWidth = midOf(constraints.minWidth, maxWidth, constraints.maxWidth)
             val layoutHeight = midOf(constraints.minHeight, maxHeight, constraints.maxHeight)
-            layout(layoutWidth, layoutHeight) {
+            layout(maxOf(maxWidth, constraints.maxWidth), maxOf(maxHeight, constraints.maxHeight)) {
                 placeableList.forEach {
                     val align = (alignment as? BiasAlignment)
                         ?: BiasAlignment(-1f, -1f)/*Alignment.TopStart*/
                     val x = when (align.horizontalBias) {
-                        -1f -> 0
-                        1f -> layoutWidth - it.width
-                        else/*0f*/ -> {
+                        -1f -> if (layoutWidth >= it.width)/*父比子大*/ 0 else {
+                            (it.width - layoutWidth) / 2
+                        }
+
+                        1f -> if (layoutWidth >= it.width) layoutWidth - it.width else {
                             (layoutWidth - it.width) / 2
+                        }
+                        else/*0f*/ -> {
+                            if (layoutWidth >= it.width) {
+                                (layoutWidth - it.width) / 2
+                            } else 0
                         }
                     }
                     val y = when (align.verticalBias) {
-                        -1f -> 0
-                        1f -> layoutHeight - it.height
-                        else/*0f*/ -> {
+                        -1f -> if (layoutHeight >= it.height) 0 else {
+                            (it.height - layoutHeight) / 2
+                        }
+
+                        1f -> if (layoutHeight >= it.height) layoutHeight - it.height else {
                             (layoutHeight - it.height) / 2
+                        }
+                        else/*0f*/ -> {
+                            if (layoutHeight >= it.height) {
+                                (layoutHeight - it.height) / 2
+                            } else 0
                         }
                     }
                     it.placeRelative(x, y)
