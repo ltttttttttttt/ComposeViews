@@ -31,7 +31,7 @@
 
 <table broder="1">
 <tr><td>ComposeViews version</td><td>jetpack compose version</td><td>compose-multiplatform version</td><td>kotlin version</td></tr>
-<tr><td><img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/></td><td>1.6.0</td><td>1.6.0</td><td>1.9.22</td></tr>
+<tr><td><img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/></td><td>1.6.1</td><td>1.6.0</td><td>1.9.22</td></tr>
 <tr><td>1.5.10.5</td><td>1.5.4</td><td>1.5.10</td><td>1.9.20</td></tr>
 <tr><td>1.5.1.5</td><td>1.5.0</td><td>1.5.1</td><td>1.9.0</td></tr>
 <tr><td>1.5.0.3</td><td>1.5.0</td><td>1.5.0</td><td>1.9.0</td></tr>
@@ -51,7 +51,7 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this,比如1.5.10.4
+    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this,比如1.6.0.1
 }
 ```
 

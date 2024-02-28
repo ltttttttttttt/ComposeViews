@@ -2,9 +2,11 @@ package com.lt.compose_views.zoom
 
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
@@ -61,17 +63,18 @@ fun ZoomLayout(
         }
     ) {
         //不限制宽高,且多个控件叠加展示
-        Layout(content, Modifier.align(alignment)
-            .scale(zoomState.zoom)
-            .offset {
-                IntOffset(
-                    zoomState.offset.x.roundToInt(),
-                    zoomState.offset.y.roundToInt()
-                )
-            }
-            .applyIf(userCanRotation) {
-                rotate(zoomState.rotation)
-            }) { measurableList, constraints ->
+        Layout(
+            content, Modifier.fillMaxSize()
+                .scale(zoomState.zoom)
+                .offset {
+                    IntOffset(
+                        zoomState.offset.x.roundToInt(),
+                        zoomState.offset.y.roundToInt()
+                    )
+                }
+                .applyIf(userCanRotation) {
+                    rotate(zoomState.rotation)
+                }) { measurableList, constraints ->
             var maxWidth = 0
             var maxHeight = 0
             val mConstraints = if (whetherToLimitSize) constraints else Constraints()
@@ -81,9 +84,28 @@ fun ZoomLayout(
                 maxHeight = maxOf(maxHeight, placeable.height)
                 placeable
             }
-            layout(minOf(maxWidth, constraints.maxWidth), minOf(maxHeight, constraints.maxHeight)) {
+            val layoutWidth =
+                midOf(constraints.minWidth, maxWidth, constraints.maxWidth) * 2/*防止移出一定范围后直接消失*/
+            val layoutHeight = midOf(constraints.minHeight, maxHeight, constraints.maxHeight) * 2
+            layout(
+                maxOf(maxWidth, constraints.maxWidth) * 2,
+                maxOf(maxHeight, constraints.maxHeight) * 2
+            ) {
                 placeableList.forEach {
-                    it.place(0, 0)
+                    //自己处理align和宽高*2
+                    val align = (alignment as? BiasAlignment)
+                        ?: BiasAlignment(-1f, -1f)/*Alignment.TopStart*/
+                    val x = when (align.horizontalBias) {
+                        -1f -> if (layoutWidth / 2 >= it.width)/*父比子大*/ { layoutWidth / 4 } else { it.width - layoutWidth / 4 }
+                        1f -> if (layoutWidth / 2 >= it.width) { layoutWidth / 4 + layoutWidth / 2 - it.width } else { layoutWidth / 4 }
+                        else/*0f*/ -> if (layoutWidth / 2 >= it.width) { (layoutWidth - it.width) / 2 } else { it.width / 2 }
+                    }
+                    val y = when (align.verticalBias) {
+                        -1f -> if (layoutHeight / 2 >= it.height) { layoutHeight / 4 } else { it.height - layoutHeight / 4 }
+                        1f -> if (layoutHeight / 2 >= it.height) { layoutHeight / 4 + layoutHeight / 2 - it.height } else { layoutHeight / 4 }
+                        else/*0f*/ -> if (layoutHeight / 2 >= it.height) { (layoutHeight - it.height) / 2 } else { it.height / 2 }
+                    }
+                    it.placeRelative(x, y)
                 }
             }
         }
