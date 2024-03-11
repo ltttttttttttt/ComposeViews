@@ -34,13 +34,6 @@ import androidx.compose.ui.graphics.painter.Painter
  * limitations under the License.
  */
 
-/**
- * 加载网络图片
- */
-@Composable
-actual fun rememberPainter(data: String?): Painter =
-    com.lt.load_the_image.rememberImagePainter(url = data ?: "")
-
 private const val IMG_FILE = "drawable-xxhdpi/%s.webp"
 
 /**

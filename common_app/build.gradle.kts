@@ -110,6 +110,8 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
+                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
+                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val commonTest by getting {
@@ -122,7 +124,6 @@ kotlin {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
                 implementation("androidx.appcompat:appcompat:1.2.0")
-                implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
         val androidUnitTest by getting {
@@ -134,8 +135,6 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 api(compose.preview)
-                //desktop图片加载器
-                api("com.github.ltttttttttttt:load-the-image:1.0.5")
             }
         }
         val desktopTest by getting

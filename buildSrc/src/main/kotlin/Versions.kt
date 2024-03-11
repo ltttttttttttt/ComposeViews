@@ -21,3 +21,4 @@ val Project.composeVersion: String
     get() = extra["compose.version"] as String
 const val composeCompilerVersion = "1.5.2"//compose编译版本
 const val coroutinesVersion = "1.7.3"//协程版本
+const val coilVersion = "3.0.0-alpha06"//coil图片加载版本

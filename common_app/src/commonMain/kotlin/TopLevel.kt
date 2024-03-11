@@ -17,6 +17,7 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import coil3.compose.rememberAsyncImagePainter
 
 /**
  * creator: lt  2022/10/22  lt.dygzs@qq.com
@@ -30,7 +31,7 @@ typealias M = Modifier
  * 加载网络图片
  */
 @Composable
-expect fun rememberPainter(data: String?): Painter
+fun rememberPainter(data: String?): Painter = rememberAsyncImagePainter(data)
 
 /**
  * 根据图片文件名加载图片
