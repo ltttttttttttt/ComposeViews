@@ -66,8 +66,14 @@ kotlin {
         }
     }
 
-    ios()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries {
+        }
+    }
 
     js(IR) {
         browser()
@@ -94,7 +100,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "ComposeViews"
+            baseName = "common_app"
             isStatic = true
         }
 //        extraSpecAttributes["resources"] =
@@ -139,12 +145,29 @@ kotlin {
         }
         val desktopTest by getting
 
-        val iosMain by getting
-        val iosTest by getting
+        val iosMain by creating {
+            kotlin.srcDir("build/generated/ksp/ios/iosMain/kotlin")
+            dependencies {
+                dependsOn(commonMain)
+            }
+        }
+        val iosTest by creating
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
         }
         val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosX64Test by getting {
             dependsOn(iosTest)
         }
 
