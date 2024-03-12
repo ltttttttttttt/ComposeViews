@@ -26,7 +26,7 @@ plugins {
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "$composeVersion.1"
+version = "$composeVersion.2"
 
 kotlin {
     androidTarget {
@@ -35,28 +35,25 @@ kotlin {
 
     jvm("desktop") {
         compilations.all {
-            defaultSourceSet.resources.srcDir("resources")
             kotlinOptions {
                 jvmTarget = "11"
             }
         }
     }
 
-    ios {
-        compilations.all {
-            defaultSourceSet.resources.srcDir("resources")
-        }
-    }
-    iosSimulatorArm64 {
-        compilations.all {
-            defaultSourceSet.resources.srcDir("resources")
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        //kotlin引入静态库参考: https://kotlinlang.org/docs/multiplatform-dsl-reference.html#cinterops
+        iosTarget.compilations.all {
         }
     }
 
     js(IR) {
         browser()
         compilations.all {
-            defaultSourceSet.resources.srcDir("resources")
         }
     }
 
@@ -82,6 +79,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
+                implementation(compose.components.resources)
                 api("io.github.ltttttttttttt:DataStructure:1.0.14")
             }
         }
@@ -115,22 +113,33 @@ kotlin {
         }
         val desktopTest by getting
 
-        val iosMain by getting {
+        val iosMain by creating {
             dependencies {
-                api("org.jetbrains.compose.components:components-resources:$composeVersion")
+                dependsOn(commonMain)
             }
         }
-        val iosTest by getting
+        val iosTest by creating
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
         }
         val iosSimulatorArm64Test by getting {
             dependsOn(iosTest)
         }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosX64Test by getting {
+            dependsOn(iosTest)
+        }
 
         val jsMain by getting {
             dependencies {
-                api("org.jetbrains.compose.components:components-resources:$composeVersion")
             }
         }
     }
@@ -142,7 +151,6 @@ android {
         minSdk = 21
         targetSdk = 31
         sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
-        sourceSets["main"].res.srcDir("resources")
 
         consumerProguardFiles("consumer-rules.pro")
     }

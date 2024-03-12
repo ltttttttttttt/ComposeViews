@@ -41,8 +41,13 @@ import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
-import com.lt.compose_views.res.Res
+import com.lt.compose_views.res.Strings
 import com.lt.compose_views.util.Color333
+import io.github.ltttttttttttt.composeviews.generated.resources.Res
+import io.github.ltttttttttttt.composeviews.generated.resources.compose_views_refresh_layout_arrow
+import io.github.ltttttttttttt.composeviews.generated.resources.compose_views_refresh_layout_loading
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.abs
 
 /**
@@ -51,6 +56,7 @@ import kotlin.math.abs
  *          Refresh component for pull down refresh
  * warning:
  */
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RefreshLayoutState.PullToRefreshContent() {
     val refreshContentState by remember {
@@ -79,7 +85,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     )
                 )
                 Image(
-                    painter = Res.getRefreshLayoutLoadingPainter(),
+                    painter = painterResource(Res.drawable.compose_views_refresh_layout_loading),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -94,7 +100,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     abs(getRefreshContentOffset()) < getRefreshContentThreshold()
                 val rotate by animateFloatAsState(targetValue = if (isCannotRefresh) 0f else 180f)
                 Image(
-                    painter = Res.getRefreshLayoutArrowPainter(),
+                    painter = painterResource(Res.drawable.compose_views_refresh_layout_arrow),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -105,13 +111,13 @@ fun RefreshLayoutState.PullToRefreshContent() {
         }
         Text(
             text = when (refreshContentState) {
-                RefreshContentStateEnum.Stop -> Res.getRefreshCompleteString()
-                RefreshContentStateEnum.Refreshing -> Res.getRefreshingString()
+                RefreshContentStateEnum.Stop -> Strings.getRefreshCompleteString()
+                RefreshContentStateEnum.Refreshing -> Strings.getRefreshingString()
                 RefreshContentStateEnum.Dragging -> {
                     if (abs(getRefreshContentOffset()) < getRefreshContentThreshold()) {
-                        Res.getDropDownToRefreshString()
+                        Strings.getDropDownToRefreshString()
                     } else {
-                        Res.getReleaseRefreshNowString()
+                        Strings.getReleaseRefreshNowString()
                     }
                 }
             },

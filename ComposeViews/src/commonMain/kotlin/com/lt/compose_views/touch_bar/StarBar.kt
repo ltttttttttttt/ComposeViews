@@ -34,8 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.res.Res
 import com.lt.compose_views.util.applyIf
+import io.github.ltttttttttttt.composeviews.generated.resources.Res
+import io.github.ltttttttttttt.composeviews.generated.resources.star_bar_star
+import io.github.ltttttttttttt.composeviews.generated.resources.star_bar_star_select
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.roundToInt
 
 /**
@@ -65,14 +69,15 @@ import kotlin.math.roundToInt
  * @param onTouchUpEvent 手指抬起事件
  *                       Callback of touch up event
  */
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun StarBar(
     starValue: Int,
     onStarValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
     maxStar: Int = 5,
-    starPainter: Painter = Res.getStarPainter(),
-    starSelectPainter: Painter = Res.getStarSelectPainter(),
+    starPainter: Painter = painterResource(Res.drawable.star_bar_star),
+    starSelectPainter: Painter = painterResource(Res.drawable.star_bar_star_select),
     starSize: Dp = 16.dp,
     margin: Dp = 3.dp,
     orientation: Orientation = Orientation.Horizontal,
