@@ -37,8 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.compose_views.other.HorizontalSpace
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
-import com.lt.compose_views.res.Res
+import com.lt.compose_views.res.Strings
 import com.lt.compose_views.util.Color333
+import io.github.ltttttttttttt.composeviews.generated.resources.Res
+import io.github.ltttttttttttt.composeviews.generated.resources.compose_views_refresh_layout_loading
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * creator: lt  2022/9/18  lt.dygzs@qq.com
@@ -48,6 +52,7 @@ import com.lt.compose_views.util.Color333
  * @param isLoadFinish 是否加载完毕(后面加载不出数据了)
  *                     Is it loaded
  */
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RefreshLayoutState.LoadMoreRefreshContent(
     isLoadFinish: Boolean = false
@@ -75,7 +80,7 @@ fun RefreshLayoutState.LoadMoreRefreshContent(
     ) {
         if (!isLoadFinish) {
             Image(
-                painter = Res.getRefreshLayoutLoadingPainter(),
+                painter = painterResource(Res.drawable.compose_views_refresh_layout_loading),
                 contentDescription = "",
                 modifier = Modifier
                     .size(20.dp)
@@ -85,9 +90,9 @@ fun RefreshLayoutState.LoadMoreRefreshContent(
         }
         Text(
             text = if (isLoadFinish)
-                Res.getNoMoreDataString()
+                Strings.getNoMoreDataString()
             else
-                Res.getLoadingString(),
+                Strings.getLoadingString(),
             fontSize = 14.sp,
             color = Color333,
         )

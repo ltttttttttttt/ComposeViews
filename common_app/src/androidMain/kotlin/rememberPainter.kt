@@ -21,12 +21,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 
 /**
- * 加载网络图片
- */
-@Composable
-actual fun rememberPainter(data: String?): Painter = coil.compose.rememberImagePainter(data)
-
-/**
  * 根据图片文件名加载图片
  */
 @Composable

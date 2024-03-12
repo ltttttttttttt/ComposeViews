@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.intl.Locale
 import kotlin.jvm.JvmName
 
@@ -31,7 +30,10 @@ import kotlin.jvm.JvmName
  * effect : 资源
  * warning:
  */
-object Res {
+@Deprecated("Use Strings.kt")
+typealias Res = Strings
+
+object Strings {
 
     /**
      * 手动设置当前的语言
@@ -45,33 +47,10 @@ object Res {
     private var Res_language: String? by mutableStateOf(null)
 
     //获取当前是什么语言
-    private fun Res.getLanguage(): String {
+    private fun getLanguage(): String {
         Res_language?.let { return it }
         return Locale.current.language
     }
-
-    @Composable
-    internal fun getRefreshLayoutLoadingPainter(): Painter =
-        resourcePainter("compose_views_refresh_layout_loading")
-
-    @Composable
-    internal fun getRefreshLayoutArrowPainter(): Painter =
-        resourcePainter("compose_views_refresh_layout_arrow")
-
-    @Composable
-    internal fun getPasswordShowPainter(): Painter =
-        resourcePainter("compose_views_password_show")
-
-    @Composable
-    internal fun getPasswordHidePainter(): Painter =
-        resourcePainter("compose_views_password_hide")
-
-    @Composable
-    internal fun getStarSelectPainter(): Painter =
-        resourcePainter("star_bar_star_select")
-
-    @Composable
-    internal fun getStarPainter(): Painter = resourcePainter("star_bar_star")
 
     @Composable
     internal fun getNoMoreDataString(): String {
@@ -121,7 +100,3 @@ object Res {
         }
     }
 }
-
-//通过资源名获取[Painter]
-@Composable
-internal expect fun resourcePainter(name: String): Painter

@@ -25,15 +25,6 @@ private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
 private const val IMG_FILE_ENDING = ".webp"
 
 /**
- * 加载网络图片
- */
-@Composable
-actual fun rememberPainter(data: String?): Painter {
-    //暂不处理,显示一个本地图片
-    return resourcePainter("back")
-}
-
-/**
  * 根据图片文件名加载图片
  */
 @OptIn(ExperimentalResourceApi::class)

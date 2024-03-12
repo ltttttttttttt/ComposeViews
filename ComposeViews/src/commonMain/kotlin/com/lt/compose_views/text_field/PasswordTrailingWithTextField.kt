@@ -23,7 +23,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.res.Res
+import io.github.ltttttttttttt.composeviews.generated.resources.Res
+import io.github.ltttttttttttt.composeviews.generated.resources.compose_views_password_hide
+import io.github.ltttttttttttt.composeviews.generated.resources.compose_views_password_show
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * creator: lt  2022/7/16  lt.dygzs@qq.com
@@ -44,6 +48,7 @@ interface PasswordTrailingWithTextField {
          * 默认的眼睛图标,点击后可以切换密码是否可见
          * default eye icon
          */
+        @OptIn(ExperimentalResourceApi::class)
         val DEFAULT = object : PasswordTrailingWithTextField {
             @Composable
             override fun RowScope.Trailing(
@@ -51,7 +56,10 @@ interface PasswordTrailingWithTextField {
                 onPasswordIsShowChange: (Boolean) -> Unit
             ) {
                 Image(
-                    painter = if (passwordIsShow) Res.getPasswordShowPainter() else Res.getPasswordHidePainter(),
+                    painter = if (passwordIsShow)
+                        painterResource(Res.drawable.compose_views_password_show)
+                    else
+                        painterResource(Res.drawable.compose_views_password_hide),
                     contentDescription = "",
                     modifier = Modifier
                         .size(22.dp)

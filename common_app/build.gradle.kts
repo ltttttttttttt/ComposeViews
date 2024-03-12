@@ -66,8 +66,14 @@ kotlin {
         }
     }
 
-    ios()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries {
+        }
+    }
 
     js(IR) {
         browser()
@@ -94,7 +100,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "ComposeViews"
+            baseName = "common_app"
             isStatic = true
         }
 //        extraSpecAttributes["resources"] =
@@ -110,6 +116,8 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
+                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
+                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val commonTest by getting {
@@ -122,7 +130,6 @@ kotlin {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
                 implementation("androidx.appcompat:appcompat:1.2.0")
-                implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
         val androidUnitTest by getting {
@@ -134,18 +141,33 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 api(compose.preview)
-                //desktop图片加载器
-                api("com.github.ltttttttttttt:load-the-image:1.0.5")
             }
         }
         val desktopTest by getting
 
-        val iosMain by getting
-        val iosTest by getting
+        val iosMain by creating {
+            kotlin.srcDir("build/generated/ksp/ios/iosMain/kotlin")
+            dependencies {
+                dependsOn(commonMain)
+            }
+        }
+        val iosTest by creating
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
         }
         val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosX64Test by getting {
             dependsOn(iosTest)
         }
 
