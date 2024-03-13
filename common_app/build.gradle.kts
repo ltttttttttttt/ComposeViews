@@ -107,6 +107,11 @@ kotlin {
 //            "['../ComposeViews/resources/**', '../desktop_app/src/desktopMain/resources/**']"
     }
     sourceSets {
+        all {
+            languageSettings {
+                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            }
+        }
         val commonMain by getting {
             kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
             dependencies {
@@ -116,6 +121,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
+                implementation(compose.components.resources)//api不能生成Res?
                 api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
                 api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }

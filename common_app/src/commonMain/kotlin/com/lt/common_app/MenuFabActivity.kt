@@ -33,7 +33,11 @@ import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.menu_fab.MenuFabItem
 import com.lt.compose_views.menu_fab.MenuFloatingActionButton
 import com.lt.compose_views.other.FpsText
-import resourcePainter
+import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.ic_empty_delete
+import com.lt.ltttttttttttt.common_app.generated.resources.ic_empty_update
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 
 // Author: Vast Gui
@@ -44,13 +48,14 @@ import resourcePainter
 
 class MenuFabActivity : BaseComposeActivity() {
 
+    @OptIn(ExperimentalResourceApi::class)
     private val menuItems = ArrayList<MenuFabItem>().apply {
         add(
             MenuFabItem(
                 icon = {
                     Icon(
                         modifier = Modifier.size(16.dp),
-                        painter = resourcePainter("ic_empty_delete"),
+                        painter = painterResource(Res.drawable.ic_empty_delete),
                         contentDescription = "",
                         tint = Color.White
                     )
@@ -63,7 +68,7 @@ class MenuFabActivity : BaseComposeActivity() {
                 icon = {
                     Icon(
                         modifier = Modifier.size(16.dp),
-                        painter = resourcePainter("ic_empty_update"),
+                        painter = painterResource(Res.drawable.ic_empty_update),
                         contentDescription = "",
                         tint = Color.White
                     )
