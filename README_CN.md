@@ -419,7 +419,7 @@ fun PagerNav()
 
 ```kotlin
 //设置多语言,默认获取系统语言
-Res.setLanguage("zh")
+Strings.setLanguage("zh")
 ```
 
 ## 联系方式

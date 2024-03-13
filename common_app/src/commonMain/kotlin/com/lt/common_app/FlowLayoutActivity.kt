@@ -37,6 +37,10 @@ import com.lt.compose_views.flow_layout.LabelsFlowLayoutState
 import com.lt.compose_views.flow_layout.rememberLabelsFlowLayoutState
 import com.lt.compose_views.util.SelectMode
 import com.lt.compose_views.util.rememberMutableStateOf
+import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.ic_launcher_test
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import resourcePainter
 import kotlin.random.Random
 
@@ -124,6 +128,7 @@ class FlowLayoutActivity : BaseComposeActivity() {
         }
     }
 
+    @OptIn(ExperimentalResourceApi::class, ExperimentalResourceApi::class)
     @Composable
     private fun FlowLayoutSample() {
         FlowLayout(
@@ -140,7 +145,7 @@ class FlowLayoutActivity : BaseComposeActivity() {
             items.forEach {
                 if (it == "Image")
                     Image(
-                        painter = resourcePainter("ic_launcher_test"),
+                        painter = painterResource(Res.drawable.ic_launcher_test),
                         contentDescription = ""
                     )
                 else

@@ -24,7 +24,6 @@ kotlin {
         browser()
         binaries.executable()
         compilations.all {
-            defaultSourceSet.resources.srcDirs("../ComposeViews/resources", "../desktop_app/src/desktopMain/resources")
         }
     }
     sourceSets {

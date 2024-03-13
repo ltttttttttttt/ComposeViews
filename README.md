@@ -419,7 +419,7 @@ fun PagerNav()
 
 ```kotlin
 //Set multiple languages, get the system language by default
-Res.setLanguage("en")
+Strings.setLanguage("en")
 ```
 
 ## contact information
