@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.value_selector
 
+import androidx.compose.animation.core.calculateTargetValue
+import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -117,10 +119,18 @@ fun ValueSelector(
     val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
     val scope = rememberCoroutineScope()
     val scrollStopListener: NestedScrollConnection = remember {
+        //用作衰减动画的衰减器,用于和速度一块计算最后能滑动到哪(当前速度能不能滑出去)
+        val decay = splineBasedDecay<Float>(density)
+
         object : NestedScrollConnection {
             override suspend fun onPreFling(available: Velocity): Velocity {
+                //根据衰减器和速度,来计算最后停下来的位置
+                val targetOffsetX = decay.calculateTargetValue(
+                    state.lazyListState.firstVisibleItemScrollOffset.toFloat(),
+                    available.y
+                )
                 //计算速度大概能滚动多少条目,并执行滚动动画
-                val itemNum = round(abs(available.y.toDouble()) / 4 / itemHeight).toInt()
+                val itemNum = round(abs(targetOffsetX) / 4 / itemHeight).toInt()
                 scope.launch {
                     if (available.y > 0) {
                         state.lazyListState.animateScrollToItem(
