@@ -17,23 +17,9 @@
 package com.lt.compose_views.compose_pager
 
 import androidx.compose.foundation.clipScrollableContainer
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.ScrollScope
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
@@ -64,6 +50,8 @@ import kotlin.math.roundToInt
  *                  The number of pagers cached on the left and right sides
  * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件
  *                                    Scroll state monitor
+ * @param pagerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
+ *                 Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  * @param content compose内容区域
  *                Content of compose
  */
@@ -76,6 +64,7 @@ fun ComposePager(
     userEnable: Boolean = true,
     pageCache: Int = 1,
     scrollableInteractionSource: DragInteractionSource? = null,
+    pagerKey: (index: Int) -> Any = { it },
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     val indexToKey = LocalIndexToKey.current
@@ -114,6 +103,7 @@ fun ComposePager(
             composePagerState,
             pageCache,
             indexToKey,
+            pagerKey,
             contentList,
             pageCount,
             content
@@ -131,6 +121,7 @@ fun ComposePager(
                 composePagerState,
                 pageCache,
                 indexToKey,
+                pagerKey,
                 contentList,
                 pageCount,
                 content
@@ -148,6 +139,7 @@ fun ComposePager(
             val key = indexToKey(index)
             contentList[currIndex] = ComposePagerContentBean(
                 key,
+                getPagerKey(pagerKey, pageCount, key),
                 Modifier.layoutId(index),
                 ComposePagerScope(key)
             ) { mModifier, mScope ->
@@ -166,6 +158,7 @@ fun ComposePager(
             val key = indexToKey(index)
             contentList[currIndex] = ComposePagerContentBean(
                 key,
+                getPagerKey(pagerKey, pageCount, key),
                 Modifier.layoutId(index),
                 ComposePagerScope(key)
             ) { mModifier, mScope ->
@@ -372,6 +365,7 @@ private fun initContentList(
     composePagerState: ComposePagerState,
     pageCache: Int,
     indexToKey: (index: Int) -> Int,
+    pagerKey: (index: Int) -> Any,
     contentList: MutableList<ComposePagerContentBean>,
     pageCount: Int,
     content: @Composable (ComposePagerScope.() -> Unit)
@@ -389,6 +383,7 @@ private fun initContentList(
             repeat(3) {
                 contentList.add(ComposePagerContentBean(
                     key,
+                    getPagerKey(pagerKey, pageCount, key),
                     Modifier.layoutId(value + it - 2),
                     ComposePagerScope(key)
                 ) { mModifier, mScope ->
@@ -409,6 +404,7 @@ private fun initContentList(
                 keyList.forEach { (key, value) ->
                     cacheList.add(ComposePagerContentBean(
                         key,
+                        getPagerKey(pagerKey, pageCount, key),
                         Modifier.layoutId((value - it * 2)),
                         ComposePagerScope(key)
                     ) { mModifier, mScope ->
@@ -430,6 +426,7 @@ private fun initContentList(
             keyList.forEach { (key, value) ->
                 contentList.add(ComposePagerContentBean(
                     key,
+                    getPagerKey(pagerKey, pageCount, key),
                     Modifier.layoutId(value),
                     ComposePagerScope(key)
                 ) { mModifier, mScope ->
@@ -446,6 +443,18 @@ private fun initContentList(
     }
 }
 
+//由于有pageCache的存在,所以需要处理越界问题
+private fun getPagerKey(
+    pagerKey: (index: Int) -> Any,
+    pageCount: Int,
+    index: Int,
+): Any {
+    return if (index < 0 || index >= pageCount)
+        index
+    else
+        pagerKey(index)
+}
+
 //通过index确定key,用来保存和复用content
 internal val LocalIndexToKey = compositionLocalOf<(index: Int) -> Int> { { it } }
 
@@ -458,6 +467,7 @@ fun BannerScope.InnerComposePager(
     orientation: Orientation = Orientation.Horizontal,
     userEnable: Boolean = true,
     pageCache: Int = 1,
+    pagerKey: (index: Int) -> Any = { it },
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     CompositionLocalProvider(LocalIndexToKey provides { it }) {
@@ -468,6 +478,7 @@ fun BannerScope.InnerComposePager(
             orientation = orientation,
             userEnable = userEnable,
             pageCache = pageCache,
+            pagerKey = pagerKey,
             content = content,
         )
     }

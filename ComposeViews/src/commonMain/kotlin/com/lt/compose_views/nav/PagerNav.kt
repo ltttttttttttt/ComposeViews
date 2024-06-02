@@ -36,6 +36,7 @@ fun PagerNav(
         state.composePagerState,
         userEnable = false,
         pageCache = pageCache,
+        pagerKey = { state.navContents[it].route },
     ) {
         state.navContents[index].Content(this)
     }

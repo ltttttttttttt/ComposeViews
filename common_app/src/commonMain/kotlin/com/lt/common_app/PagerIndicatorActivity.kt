@@ -104,6 +104,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                 bannerState = bannerState,
                 autoScrollTime = 1000,
                 orientation = orientation.value,
+                bannerKey = { colors[it].toString() }
             ) {
                 Box(
                     modifier = M
@@ -159,6 +160,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                 M.fillMaxSize(),
                 composePagerState = pagerState,
                 orientation = orientation.value,
+                pagerKey = { colors[it].toString() }
             ) {
                 Box(
                     modifier = M

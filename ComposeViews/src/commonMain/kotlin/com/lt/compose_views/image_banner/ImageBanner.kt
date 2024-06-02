@@ -54,6 +54,8 @@ import com.lt.compose_views.pager_indicator.PagerIndicatorScope
  *                   Whether to scroll automatically
  * @param autoScrollTime 自动滚动间隔时间
  *                       Auto scroll interval
+ * @param bannerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
+ *                  Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  */
 @Composable
 fun ImageBanner(
@@ -66,6 +68,7 @@ fun ImageBanner(
     orientation: Orientation = Orientation.Horizontal,
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
+    bannerKey: (index: Int) -> Any = { it },
 ) {
     Box(modifier = modifier) {
         //banner部分
@@ -75,6 +78,7 @@ fun ImageBanner(
             orientation = orientation,
             autoScroll = autoScroll,
             autoScrollTime = autoScrollTime,
+            bannerKey = bannerKey,
             modifier = Modifier.fillMaxSize()
         ) {
             imageContent()
