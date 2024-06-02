@@ -68,6 +68,7 @@ class BannerActivity : BaseComposeActivity() {
             bannerState = bannerState,
             autoScrollTime = 1000,
             orientation = orientation.value,
+            bannerKey = { index -> colors[index].toString() },
         ) {
             Box(
                 modifier = M

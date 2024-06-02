@@ -92,6 +92,9 @@ class ComposePagerActivity : BaseComposeActivity() {
             composePagerState = composePagerState,
             orientation = orientation.value,
             pageCache = 2,
+            pagerKey = { index ->
+                if (isImage) images[index] else colors[index].toString()
+            }
         ) {
             if (isImage) {
                 //看日志测试pageCache

@@ -72,6 +72,7 @@ sample</a>
  * @param userEnable Whether the user can scroll
  * @param pageCache The number of pagers cached on the left and right sides
  * @param scrollableInteractionSource Scroll state monitor
+ * @param pagerKey Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  * @param content Content of compose
  */
 @Composable
@@ -93,6 +94,7 @@ sample</a>
  * @param userEnable Whether the user can scroll
  * @param autoScroll Whether to scroll automatically
  * @param autoScrollTime Auto scroll interval
+ * @param bannerKey Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  * @param content Content of compose
  */
 @Composable
@@ -163,6 +165,7 @@ sample</a>
  * @param orientation Orientation of indicators
  * @param autoScroll Whether to scroll automatically
  * @param autoScrollTime Auto scroll interval
+ * @param bannerKey Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  */
 @Composable
 fun ImageBanner()

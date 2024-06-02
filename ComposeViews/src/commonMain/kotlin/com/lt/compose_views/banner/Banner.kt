@@ -43,6 +43,8 @@ import kotlinx.coroutines.delay
  *                   Whether to scroll automatically
  * @param autoScrollTime 自动滚动间隔时间
  *                       Auto scroll interval
+ * @param bannerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
+ *                  Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  * @param content compose内容区域
  *                Content of compose
  */
@@ -55,7 +57,8 @@ fun Banner(
     userEnable: Boolean = true,
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
-    content: @Composable BannerScope.() -> Unit
+    bannerKey: (index: Int) -> Any = { it },
+    content: @Composable BannerScope.() -> Unit,
 ) {
     if (pageCount <= 0)
         return
@@ -104,6 +107,7 @@ fun Banner(
             userEnable = userEnable,
             pageCache = maxOf(1, (pageCount - 1) / 2),
             scrollableInteractionSource = scrollableInteractionSource,
+            pagerKey = bannerKey,
         ) {
             content(BannerScope(index))
         }
