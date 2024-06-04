@@ -21,6 +21,7 @@ include(":common_app")
 include(":android_app")
 include("desktop_app")
 include("js_app")
+include("wasm_app")
 
 
 includeBuild("convention-plugins")
