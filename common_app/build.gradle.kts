@@ -21,6 +21,7 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp")
     kotlin("native.cocoapods")
+    kotlin("plugin.compose")
 }
 
 group = "com.lt.ltttttttttttt"

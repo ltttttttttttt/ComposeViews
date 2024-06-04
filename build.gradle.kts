@@ -23,6 +23,7 @@ plugins {
     id("com.android.library").apply(false)
     id("org.jetbrains.compose").apply(false)
     id("com.google.devtools.ksp").apply(false)
+    kotlin("plugin.compose").apply(false)
 }
 
 group = "com.github.ltttttttttttt"
