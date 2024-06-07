@@ -31,7 +31,7 @@ typealias M = Modifier
  * 加载网络图片
  */
 @Composable
-fun rememberPainter(data: String?): Painter = rememberAsyncImagePainter(data)
+expect fun rememberPainter(data: String?): Painter
 
 /**
  * 根据图片文件名加载图片

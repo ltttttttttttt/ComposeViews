@@ -101,7 +101,7 @@ kotlin {
                 api(compose.animation)
                 api(compose.ui)
                 implementation(compose.components.resources)
-                api("io.github.ltttttttttttt:DataStructure:1.0.14")
+                api("io.github.ltttttttttttt:DataStructure:1.1.1")
             }
         }
         val commonTest by getting {

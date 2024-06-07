@@ -143,8 +143,6 @@ kotlin {
                 api(compose.animation)
                 api(compose.ui)
                 implementation(compose.components.resources)//api不能生成Res?
-                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
-                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val commonTest by getting {
@@ -157,6 +155,8 @@ kotlin {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
                 implementation("androidx.appcompat:appcompat:1.2.0")
+                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
+                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val androidUnitTest by getting {
@@ -168,6 +168,8 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 api(compose.preview)
+                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
+                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val desktopTest by getting
@@ -176,6 +178,8 @@ kotlin {
             kotlin.srcDir("build/generated/ksp/ios/iosMain/kotlin")
             dependencies {
                 dependsOn(commonMain)
+                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
+                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val iosTest by creating
@@ -198,6 +202,18 @@ kotlin {
             dependsOn(iosTest)
         }
 
+        val jsMain by getting {
+            dependencies {
+                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
+                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependencies {
+            }
+        }
+
 //        val macosMain by creating {
 //            dependsOn(commonMain)
 //        }
@@ -214,5 +230,5 @@ kotlin {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.0.6")
+    add("kspCommonMainMetadata", "com.github.ltttttttttttt:VirtualReflection:1.3.1")
 }
