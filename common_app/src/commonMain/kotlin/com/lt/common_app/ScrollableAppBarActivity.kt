@@ -15,28 +15,14 @@
  */
 
 package com.lt.common_app
+
 import M
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.animateScrollBy
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -58,7 +44,6 @@ import com.lt.compose_views.util.ComposePosition
 import com.lt.ltttttttttttt.common_app.generated.resources.Res
 import com.lt.ltttttttttttt.common_app.generated.resources.top_bar_bk
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -84,7 +69,6 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun Menu() {
         Row {
@@ -151,18 +135,21 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
                                         .roundToInt(),
                                     0
                                 )
+
                                 ComposePosition.End -> IntOffset(
                                     state
                                         .getScrollPositionValue()
                                         .roundToInt(),
                                     0
                                 )
+
                                 ComposePosition.Top -> IntOffset(
                                     0,
                                     state
                                         .getScrollPositionValue()
                                         .roundToInt()
                                 )
+
                                 ComposePosition.Bottom -> IntOffset(
                                     0,
                                     state
@@ -238,7 +225,7 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ColumnScope.AppBar() {
         val lazyListState = rememberLazyListState()

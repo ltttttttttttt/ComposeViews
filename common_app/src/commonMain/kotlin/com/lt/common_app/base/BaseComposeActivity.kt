@@ -17,6 +17,7 @@
 package com.lt.common_app.base
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import kotlinx.coroutines.CoroutineScope
 import kotlin.reflect.KClass
 

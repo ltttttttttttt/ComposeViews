@@ -23,12 +23,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import com.lt.common_app.base.BaseComposeActivity
 import getTestIndex
 
 class MainActivity : BaseComposeActivity() {
 
-    private val buttons = listOf(
+    private val buttons = mutableStateListOf(
         "rv的基础功能" to MainListActivity::class,
         "ViewPager功能" to ComposePagerActivity::class,
         "Banner功能" to BannerActivity::class,

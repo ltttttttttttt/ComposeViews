@@ -5,4 +5,4 @@
  */
 
 //是否检查重组性能
-const val vkomposeIsCheck = true
+const val vkomposeIsCheck = false

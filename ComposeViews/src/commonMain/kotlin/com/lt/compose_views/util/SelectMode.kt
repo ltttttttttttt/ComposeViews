@@ -25,6 +25,7 @@ import androidx.compose.runtime.Stable
  *          Select mode
  * warning:
  */
+@Stable
 sealed interface SelectMode {
     /**
      * 单选

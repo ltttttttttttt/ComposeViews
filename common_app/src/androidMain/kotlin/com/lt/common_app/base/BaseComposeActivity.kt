@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlin.reflect.KClass
@@ -31,6 +32,7 @@ import kotlin.reflect.KClass
  * effect :
  * warning:
  */
+@Immutable
 actual abstract class BaseComposeActivity : AppCompatActivity() {
     actual val mainScope = MainScope()
 

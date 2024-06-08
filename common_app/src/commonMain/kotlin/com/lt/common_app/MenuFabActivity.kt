@@ -25,6 +25,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,8 +49,7 @@ import org.jetbrains.compose.resources.painterResource
 
 class MenuFabActivity : BaseComposeActivity() {
 
-    @OptIn(ExperimentalResourceApi::class)
-    private val menuItems = ArrayList<MenuFabItem>().apply {
+    private val menuItems = mutableStateListOf<MenuFabItem>().apply {
         add(
             MenuFabItem(
                 icon = {
