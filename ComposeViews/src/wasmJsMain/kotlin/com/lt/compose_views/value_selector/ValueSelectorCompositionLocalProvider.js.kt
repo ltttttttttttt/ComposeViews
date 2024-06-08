@@ -14,29 +14,11 @@
  * limitations under the License.
  */
 
-package com.lt.compose_views.util
+package com.lt.compose_views.value_selector
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Composable
 
-/**
- * creator: lt  2022/10/26  lt.dygzs@qq.com
- * effect : 选择模式
- *          Select mode
- * warning:
- */
-sealed interface SelectMode {
-    /**
-     * 单选
-     * radio
-     */
-    @Immutable
-    data object Radio : SelectMode
-
-    /**
-     * 多选
-     * Multiple choice
-     */
-    @Stable
-    class MultipleChoice(val max: Int = Int.MAX_VALUE) : SelectMode
+@Composable
+internal actual fun ValueSelectorCompositionLocalProvider(content: @Composable () -> Unit) {
+    content()
 }

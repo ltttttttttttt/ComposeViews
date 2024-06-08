@@ -25,7 +25,26 @@ plugins {
     //id("maven-publish")
     id("convention.publication")
     kotlin("plugin.compose")
+    id("com.vk.vkompose")
 }
+
+if (vkomposeIsCheck)
+    vkompose {
+        skippabilityCheck = true
+
+        recompose {
+            isHighlighterEnabled = true
+            isLoggerEnabled = true
+        }
+
+        testTag {
+            isApplierEnabled = true
+            isDrawerEnabled = true
+            isCleanerEnabled = true
+        }
+
+        sourceInformationClean = true
+    }
 
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository

@@ -16,10 +16,7 @@
 
 package com.lt.compose_views.value_selector.date_selector
 
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import com.lt.compose_views.value_selector.ValueSelectState
 
 /**
@@ -46,9 +43,9 @@ class DateSelectorState(
     val monthState = ValueSelectState()
     val dayState = ValueSelectState()
 
-    internal var years by mutableStateOf(ArrayList((minYear..maxYear).map { it.toString() }))
-    internal var months by mutableStateOf(ArrayList((1..12).map { it.toString() }))
-    internal var days by mutableStateOf(ArrayList((1..31).map { it.toString() }))
+    internal var years by mutableStateOf((minYear..maxYear).map { it.toString() }.toMutableStateList())
+    internal var months by mutableStateOf((1..12).map { it.toString() }.toMutableStateList())
+    internal var days by mutableStateOf((1..31).map { it.toString() }.toMutableStateList())
 
     fun getYear(): String = years[yearState.getSelectIndex() % years.size]
     fun getMonth(): String = months[monthState.getSelectIndex() % months.size]

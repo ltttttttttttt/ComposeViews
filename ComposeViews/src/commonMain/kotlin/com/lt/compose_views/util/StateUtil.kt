@@ -60,8 +60,12 @@ fun <T> rememberMutableStateListOf(): SnapshotStateList<T> = remember { Snapshot
 
 @Composable
 inline fun <T> rememberMutableStateListOf(
-    crossinline initValue: @DisallowComposableCalls SnapshotStateList<T>.() -> Unit
-): SnapshotStateList<T> = remember { SnapshotStateList<T>().apply(initValue) }
+    crossinline initValue: @DisallowComposableCalls () -> List<T>
+): SnapshotStateList<T> = remember {
+    SnapshotStateList<T>().apply {
+        addAll(initValue())
+    }
+}
 
 @Deprecated(
     "Need to use a function with the same name as lambda for higher performance", ReplaceWith(

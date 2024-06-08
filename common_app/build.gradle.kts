@@ -25,7 +25,26 @@ plugins {
     id("com.google.devtools.ksp")
     kotlin("native.cocoapods")
     kotlin("plugin.compose")
+    id("com.vk.vkompose")
 }
+
+if (vkomposeIsCheck)
+    vkompose {
+        skippabilityCheck = true
+
+        recompose {
+            isHighlighterEnabled = true
+            isLoggerEnabled = true
+        }
+
+        testTag {
+            isApplierEnabled = true
+            isDrawerEnabled = true
+            isCleanerEnabled = true
+        }
+
+        sourceInformationClean = true
+    }
 
 group = "com.lt.ltttttttttttt"
 

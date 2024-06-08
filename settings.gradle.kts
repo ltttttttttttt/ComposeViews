@@ -53,6 +53,8 @@ pluginManagement {
         id("org.jetbrains.compose").version(composeVersion)
 
         id("com.google.devtools.ksp").version(kspVersion)
+
+        id("com.vk.vkompose") version "0.5.3-k2"
     }
 }
 
