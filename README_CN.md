@@ -1,6 +1,6 @@
 <h1 align="center">ComposeViews</h1>
 
-<p align="center">适用于 Compose-multiplatform(Jetpack), 支持的目标: Android, iOS, Web, Desktop(Windows, Linux, macOS)</p>
+<p align="center">适用于 Compose-multiplatform(Jetpack), 支持的目标: Android, iOS, Web(js, Wasm js), Desktop(Windows, Linux, macOS)</p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/Kotlin-Multiplatform-%237f52ff?logo=kotlin">
