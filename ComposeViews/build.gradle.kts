@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 /*
  * Copyright lt 2023
  *
@@ -21,12 +24,32 @@ plugins {
     id("com.android.library")
     //id("maven-publish")
     id("convention.publication")
+    kotlin("plugin.compose")
+    id("com.vk.vkompose")
 }
+
+if (vkomposeIsCheck)
+    vkompose {
+        skippabilityCheck = true
+
+        recompose {
+            isHighlighterEnabled = true
+            isLoggerEnabled = true
+        }
+
+        testTag {
+            isApplierEnabled = true
+            isDrawerEnabled = true
+            isCleanerEnabled = true
+        }
+
+        sourceInformationClean = true
+    }
 
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "$composeVersion.4"
+version = "$composeVersion.1"
 
 kotlin {
     androidTarget {
@@ -57,6 +80,23 @@ kotlin {
         }
     }
 
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "ComposeViews"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "ComposeViews.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(project.projectDir.path)
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
+
     cocoapods {
         summary = "Jatpack(JetBrains) Compose views"
         homepage = "https://github.com/ltttttttttttt/ComposeViews"
@@ -80,7 +120,7 @@ kotlin {
                 api(compose.animation)
                 api(compose.ui)
                 implementation(compose.components.resources)
-                api("io.github.ltttttttttttt:DataStructure:1.0.14")
+                api("io.github.ltttttttttttt:DataStructure:1.1.1")
             }
         }
         val commonTest by getting {
@@ -139,6 +179,11 @@ kotlin {
         }
 
         val jsMain by getting {
+            dependencies {
+            }
+        }
+
+        val wasmJsMain by getting {
             dependencies {
             }
         }

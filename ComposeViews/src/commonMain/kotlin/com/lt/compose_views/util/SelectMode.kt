@@ -16,22 +16,28 @@
 
 package com.lt.compose_views.util
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+
 /**
  * creator: lt  2022/10/26  lt.dygzs@qq.com
  * effect : 选择模式
  *          Select mode
  * warning:
  */
+@Stable
 sealed interface SelectMode {
     /**
      * 单选
      * radio
      */
-    object Radio : SelectMode
+    @Immutable
+    data object Radio : SelectMode
 
     /**
      * 多选
      * Multiple choice
      */
+    @Stable
     class MultipleChoice(val max: Int = Int.MAX_VALUE) : SelectMode
 }

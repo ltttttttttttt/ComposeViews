@@ -19,13 +19,7 @@ package com.lt.common_app
 import M
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -39,7 +33,6 @@ import com.lt.compose_views.zoom.ImageViewer
 import com.lt.compose_views.zoom.ZoomLayout
 import com.lt.ltttttttttttt.common_app.generated.resources.Res
 import com.lt.ltttttttttttt.common_app.generated.resources.top_bar_bk
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
 /**
@@ -48,7 +41,6 @@ import org.jetbrains.compose.resources.painterResource
  * warning:
  */
 class ImageViewerActivity : BaseComposeActivity() {
-    @OptIn(ExperimentalResourceApi::class)
     @Composable
     override fun ComposeContent() {
         Column(M.fillMaxSize()) {

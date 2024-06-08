@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +34,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.StableFlow
 import com.lt.compose_views.util.getPercentageValue
 import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.flow.Flow
@@ -70,9 +72,9 @@ import kotlin.math.roundToInt
  */
 @Composable
 fun TextPagerIndicator(
-    texts: List<String>,
-    offsetPercentWithSelectFlow: Flow<Float>,
-    selectIndexFlow: Flow<Int>,
+    texts: SnapshotStateList<String>,
+    offsetPercentWithSelectFlow: StableFlow<Float>,
+    selectIndexFlow: StableFlow<Int>,
     fontSize: TextUnit,
     selectFontSize: TextUnit,
     textColor: Color,
@@ -133,9 +135,9 @@ fun TextPagerIndicator(
 //[selectIndicatorItem] 被选中的指示器
 @Composable
 fun TextPagerIndicator(
-    texts: List<String>,
-    offsetPercentWithSelectFlow: Flow<Float>,
-    selectIndexFlow: Flow<Int>,
+    texts: SnapshotStateList<String>,
+    offsetPercentWithSelectFlow: StableFlow<Float>,
+    selectIndexFlow: StableFlow<Int>,
     fontSize: TextUnit,
     selectFontSize: TextUnit,
     textColor: Color,
@@ -198,12 +200,12 @@ fun TextPagerIndicator(
     )
 }
 
-@Deprecated("因为重组的性能原因,请使用其他同名(重载)函数  For performance reasons of reorganization, use other functions with the same name (overloaded)")
+@Deprecated("Need to use another function with the same name for higher performance")
 @Composable
 fun TextPagerIndicator(
     texts: List<String>,
-    offsetPercentWithSelect: Float,
-    selectIndex: Int,
+    offsetPercentWithSelectFlow: Flow<Float>,
+    selectIndexFlow: Flow<Int>,
     fontSize: TextUnit,
     selectFontSize: TextUnit,
     textColor: Color,
@@ -220,8 +222,8 @@ fun TextPagerIndicator(
     }
     TextPagerIndicator(
         texts = texts,
-        offsetPercentWithSelect = offsetPercentWithSelect,
-        selectIndex = selectIndex,
+        offsetPercentWithSelectFlow = offsetPercentWithSelectFlow,
+        selectIndexFlow = selectIndexFlow,
         fontSize = fontSize,
         selectFontSize = selectFontSize,
         textColor = textColor,
@@ -229,6 +231,8 @@ fun TextPagerIndicator(
         onIndicatorClick = onIndicatorClick,
         selectIndicatorItem = {
             var width by rememberMutableStateOf(0.dp)
+            val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
+            val selectIndex by selectIndexFlow.collectAsState(0)
             LaunchedEffect(texts, offsetPercentWithSelect, selectIndex) {
                 width = density.run {
                     //当前选中的指示器宽度
@@ -259,13 +263,13 @@ fun TextPagerIndicator(
     )
 }
 
+@Deprecated("Need to use another function with the same name for higher performance")
 //[selectIndicatorItem] 被选中的指示器
-@Deprecated("因为重组的性能原因,请使用其他同名(重载)函数  For performance reasons of reorganization, use other functions with the same name (overloaded)")
 @Composable
 fun TextPagerIndicator(
     texts: List<String>,
-    offsetPercentWithSelect: Float,
-    selectIndex: Int,
+    offsetPercentWithSelectFlow: Flow<Float>,
+    selectIndexFlow: Flow<Int>,
     fontSize: TextUnit,
     selectFontSize: TextUnit,
     textColor: Color,
@@ -277,23 +281,25 @@ fun TextPagerIndicator(
     userCanScroll: Boolean = true,
 ) {
     val density = LocalDensity.current
-    val fontPx by remember(fontSize) {
+    val fontPx by remember(fontSize, density) {
         mutableStateOf(density.run { fontSize.toPx() })
     }
-    val selectFontPx by remember(selectFontSize) {
+    val selectFontPx by remember(selectFontSize, density) {
         mutableStateOf(density.run { selectFontSize.toPx() })
     }
     PagerIndicator(
         size = texts.size,
-        offsetPercentWithSelect = offsetPercentWithSelect,
-        selectIndex = selectIndex,
+        offsetPercentWithSelectFlow = offsetPercentWithSelectFlow,
+        selectIndexFlow = selectIndexFlow,
         indicatorItem = { index ->
+            val selectIndex by selectIndexFlow.collectAsState(0)
             Box(modifier = Modifier
                 .fillMaxHeight()
                 .clickable {
                     if (index != selectIndex)
                         onIndicatorClick(index)
                 }) {
+                val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
                 val (size, color) = remember(
                     index,
                     selectIndex,

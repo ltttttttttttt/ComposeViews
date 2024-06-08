@@ -29,6 +29,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
@@ -46,7 +47,7 @@ import kotlin.random.Random
  * warning:
  */
 class MainListActivity : BaseComposeActivity() {
-    private var array = ArrayList(IntArray(20) { it * 2 }.asList())
+    private var array = IntArray(20) { it * 2 }.asList().toMutableStateList()
 
     data class Value(val a: String, val b: String)
 
@@ -81,7 +82,7 @@ class MainListActivity : BaseComposeActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ShowRv(
-        list: MutableList<Int>,
+        list: SnapshotStateList<Int>,
         listChangeListener: (List<Int>) -> Unit,
         reSetDataListener: () -> Unit,
     ) {

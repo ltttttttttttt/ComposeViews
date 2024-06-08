@@ -19,15 +19,13 @@ package com.lt.compose_views.value_selector.date_selector
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
+import com.lt.compose_views.util.rememberMutableStateListOf
 import com.lt.compose_views.value_selector.*
-import com.lt.compose_views.value_selector.CenterLines
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
@@ -48,9 +46,19 @@ fun DateSelector(
     modifier: Modifier = Modifier,
     isLoop: Boolean = false,
     cacheSize: Int = 2,
-    textSizes: ArrayList<TextUnit> = remember { arrayListOf(valueSelector_defaultTextSize2, valueSelector_defaultTextSize1) },
+    textSizes: SnapshotStateList<TextUnit> = rememberMutableStateListOf {
+        listOf(
+            valueSelector_defaultTextSize2,
+            valueSelector_defaultTextSize1
+        )
+    },
     selectedTextSize: TextUnit = valueSelector_defaultSelectedTextSize,
-    textColors: ArrayList<Color> = remember { arrayListOf(valueSelector_defaultTextColor, valueSelector_defaultTextColor) },
+    textColors: SnapshotStateList<Color> = rememberMutableStateListOf {
+        listOf(
+            valueSelector_defaultTextColor,
+            valueSelector_defaultTextColor
+        )
+    },
     selectedTextColor: Color = valueSelector_defaultSelectedTextColor,
 ) {
     LaunchedEffect(Unit) {
@@ -68,7 +76,7 @@ fun DateSelector(
             }
         }.distinctUntilChanged()
             .collect {
-                state.days = ArrayList((1..it).map { it.toString() })
+                state.days = (1..it).map { it.toString() }.toMutableStateList()
             }
     }
     Box(modifier) {

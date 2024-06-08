@@ -25,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,7 +51,7 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
         Color(112, 62, 11, 255) to "嗜魂封魔斩",
         Color(50, 134, 74, 255) to "噬魂之手",
     )
-    private val texts = colors.map { it.second }
+    private val texts = colors.map { it.second }.toMutableStateList()
     private val pagerState = ComposePagerState()
     private val textColor = Color(0xff999999)
     private val selectTextColor = Color(0xff333333)

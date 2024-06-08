@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +44,34 @@ import com.lt.compose_views.other.VerticalSpace
  * @param defaultSelectIndexList 默认选中的值索引列表
  *                               Default selected value index list
  */
+@ExperimentalFoundationApi
+@Composable
+fun ValuesSelector(
+    valuesList: SnapshotStateList<SnapshotStateList<String>>,
+    states: SnapshotStateList<ValueSelectState>,
+    modifier: Modifier = Modifier,
+    isLoop: Boolean = false,
+    defaultSelectIndexList: SnapshotStateList<Int> = remember(valuesList.size) {
+        valuesList.indices.map { 0 }.toMutableStateList()
+    },
+) {
+    Box(modifier) {
+        Row {
+            repeat(valuesList.size) {
+                ValueSelector(
+                    values = remember(valuesList, it) { valuesList[it] },
+                    state = remember(states, it) { states[it] },
+                    modifier = Modifier.weight(1f),
+                    defaultSelectIndex = remember(defaultSelectIndexList, it) { defaultSelectIndexList[it] },
+                    isLoop = isLoop,
+                )
+            }
+        }
+        CenterLines()
+    }
+}
+
+@Deprecated("Need to use another function with the same name for higher performance")
 @ExperimentalFoundationApi
 @Composable
 fun ValuesSelector(

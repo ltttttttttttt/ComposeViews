@@ -34,6 +34,7 @@ import kotlin.reflect.KClass
  * effect :
  * warning:
  */
+@Immutable
 actual abstract class BaseComposeActivity {
     actual val mainScope = MainScope()
 

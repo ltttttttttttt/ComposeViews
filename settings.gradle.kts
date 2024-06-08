@@ -21,6 +21,7 @@ include(":common_app")
 include(":android_app")
 include("desktop_app")
 include("js_app")
+include("wasm_app")
 
 
 includeBuild("convention-plugins")
@@ -44,6 +45,7 @@ pluginManagement {
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
         kotlin("android").version(kotlinVersion)
+        kotlin("plugin.compose").version(kotlinVersion)
 
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
@@ -51,6 +53,8 @@ pluginManagement {
         id("org.jetbrains.compose").version(composeVersion)
 
         id("com.google.devtools.ksp").version(kspVersion)
+
+        id("com.vk.vkompose") version "0.5.3-k2"
     }
 }
 

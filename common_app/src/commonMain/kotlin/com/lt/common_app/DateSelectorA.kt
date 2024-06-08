@@ -26,14 +26,14 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.other.FpsText
-import com.lt.compose_views.value_selector.ValuesSelector
-import com.lt.compose_views.value_selector.ValueSelectState
-import com.lt.compose_views.value_selector.ValueSelector
+import com.lt.compose_views.util.rememberMutableStateListOf
+import com.lt.compose_views.value_selector.*
 import com.lt.compose_views.value_selector.date_selector.DateSelector
 import com.lt.compose_views.value_selector.date_selector.DateSelectorState
-import com.lt.compose_views.value_selector.rememberValueSelectState
 
 /**
  * creator: lt  2022/12/3  lt.dygzs@qq.com
@@ -66,13 +66,13 @@ class DateSelectorA : BaseComposeActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ValuesSample() {
-        val values = remember {
+        val values = rememberMutableStateListOf {
             listOf(
-                ArrayList((1900..2022).map(Int::toString)),
-                ArrayList((1..12).map(Int::toString)),
+                (1900..2022).map(Int::toString).toMutableStateList(),
+                (1..12).map(Int::toString).toMutableStateList(),
             )
         }
-        val states = remember {
+        val states = rememberMutableStateListOf {
             listOf(
                 ValueSelectState(),
                 ValueSelectState(),
@@ -94,7 +94,7 @@ class DateSelectorA : BaseComposeActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ValueSample() {
-        val values = remember { ArrayList((0 until 60).map(Int::toString)) }
+        val values = rememberMutableStateListOf { (0 until 60).map(Int::toString) }
         val state = rememberValueSelectState()
         ValueSelector(
             values = values,

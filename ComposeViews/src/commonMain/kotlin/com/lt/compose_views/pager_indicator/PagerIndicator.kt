@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.StableFlow
 import com.lt.compose_views.util.applyIf
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
@@ -60,8 +61,8 @@ import kotlin.math.roundToInt
 @Composable
 fun PagerIndicator(
     size: Int,
-    offsetPercentWithSelectFlow: Flow<Float>,
-    selectIndexFlow: Flow<Int>,
+    offsetPercentWithSelectFlow: StableFlow<Float>,
+    selectIndexFlow: StableFlow<Int>,
     indicatorItem: @Composable (index: Int) -> Unit,
     selectIndicatorItem: @Composable PagerIndicatorScope.() -> Unit,
     modifier: Modifier = Modifier,
@@ -298,12 +299,12 @@ fun PagerIndicator(
     })
 }
 
-@Deprecated("因为重组的性能原因,请使用其他同名(重载)函数  For performance reasons of reorganization, use other functions with the same name (overloaded)")
+@Deprecated("Need to use another function with the same name for higher performance")
 @Composable
 fun PagerIndicator(
     size: Int,
-    offsetPercentWithSelect: Float,
-    selectIndex: Int,
+    offsetPercentWithSelectFlow: Flow<Float>,
+    selectIndexFlow: Flow<Int>,
     indicatorItem: @Composable (index: Int) -> Unit,
     selectIndicatorItem: @Composable PagerIndicatorScope.() -> Unit,
     modifier: Modifier = Modifier,
@@ -334,6 +335,8 @@ fun PagerIndicator(
             canOffset - oldOffset
         }
     }
+    val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
+    val selectIndex by selectIndexFlow.collectAsState(0)
 
     Layout(modifier = modifier.applyIf(userCanScroll) {
         scrollable(scrollState, orientation)
@@ -343,6 +346,8 @@ fun PagerIndicator(
             indicatorItem(it)
         }
     }, measurePolicy = { measurableList, constraints ->
+        if (measurableList.isEmpty())
+            return@Layout layout(0, 0) {}
         val marginPx = density.run { margin.roundToPx() }
         val mConstraints = constraints.copy(minWidth = 0, minHeight = 0)
         val selectPlaceable = measurableList.first().measure(mConstraints)
