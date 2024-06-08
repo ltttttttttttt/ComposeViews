@@ -17,7 +17,6 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import coil3.compose.rememberAsyncImagePainter
 
 /**
  * creator: lt  2022/10/22  lt.dygzs@qq.com
