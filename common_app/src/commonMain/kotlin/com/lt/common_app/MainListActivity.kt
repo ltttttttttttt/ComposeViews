@@ -60,7 +60,7 @@ class MainListActivity : BaseComposeActivity() {
             list.addAll(array)
             list
         }
-        var bean by rememberMutableStateOf(value = Value("0", ""))
+        var bean by rememberMutableStateOf { Value("0", "") }
         Column {
             Divider()
             println("${bean.a.length}")

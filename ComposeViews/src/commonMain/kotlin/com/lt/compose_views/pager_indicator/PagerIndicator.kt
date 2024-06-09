@@ -82,7 +82,7 @@ fun PagerIndicator(
     val coroutineScope = rememberCoroutineScope()
     //用户滑动的偏移
     val offset = remember { Animatable(0f) }
-    var minOffset by rememberMutableStateOf(value = 0f)
+    var minOffset by rememberMutableStateOf { 0f }
     val scrollState = remember(userCanScroll) {
         ScrollableState {
             val oldOffset = offset.value
@@ -324,7 +324,7 @@ fun PagerIndicator(
     val coroutineScope = rememberCoroutineScope()
     //用户滑动的偏移
     val offset = remember { Animatable(0f) }
-    var minOffset by rememberMutableStateOf(value = 0f)
+    var minOffset by rememberMutableStateOf { 0f }
     val scrollState = remember(userCanScroll) {
         ScrollableState {
             val oldOffset = offset.value

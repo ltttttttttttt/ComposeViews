@@ -62,7 +62,7 @@ class SwipeToDismissActivity : BaseComposeActivity() {
 
     @Composable
     private fun Star() {
-        var star by rememberMutableStateOf(value = 0)
+        var star by rememberMutableStateOf { 0 }
         StarBar(
             starValue = star,
             onStarValueChange = { star = it },

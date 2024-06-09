@@ -64,12 +64,12 @@ class TextFieldActivity : BaseComposeActivity() {
                 keyboardController?.show()//弹出软键盘
             })
 
-            val text1 = rememberMutableStateOf("我是账号")
-            var text2 by rememberMutableStateOf("")
-            val password = rememberMutableStateOf("password")
-            val passwordIsShow = rememberMutableStateOf(false)
-            val password2 = rememberMutableStateOf("123456")
-            val passwordIsShow2 = rememberMutableStateOf(true)
+            val text1 = rememberMutableStateOf { "我是账号" }
+            var text2 by rememberMutableStateOf { "" }
+            val password = rememberMutableStateOf { "password" }
+            val passwordIsShow = rememberMutableStateOf { false }
+            val password2 = rememberMutableStateOf { "123456" }
+            val passwordIsShow2 = rememberMutableStateOf { true }
             GoodTextField(
                 value = text1.value,
                 onValueChange = text1::value::set,
@@ -105,11 +105,11 @@ class TextFieldActivity : BaseComposeActivity() {
             VerticalSpace(dp = 16)
             Text("TextFieldValue")
             VerticalSpace(dp = 16)
-            val fieldText = rememberMutableStateOf(
+            val fieldText = rememberMutableStateOf {
                 TextFieldValue("我是账号", TextRange(4))
-            )
-            val fieldPassword = rememberMutableStateOf(TextFieldValue("password", TextRange(6)))
-            val fieldPasswordIsShow = rememberMutableStateOf(false)
+            }
+            val fieldPassword = rememberMutableStateOf { TextFieldValue("password", TextRange(6)) }
+            val fieldPasswordIsShow = rememberMutableStateOf { false }
             GoodTextField(
                 value = fieldText.value,
                 onValueChange = fieldText::value::set,

@@ -80,7 +80,7 @@ fun ComposePager(
     var nextContentReplaceIndex by remember(key1 = pageCache, key2 = pageCount) {
         mutableStateOf<Int?>(null)
     }
-    var isNextPage by rememberMutableStateOf<PageChangeAnimFlag>(PageChangeAnimFlag.Reduction)
+    var isNextPage by rememberMutableStateOf<PageChangeAnimFlag> { PageChangeAnimFlag.Reduction }
     val coroutineScope = rememberCoroutineScope()
     //检查索引是否在页数内
     remember(key1 = pageCount) {
