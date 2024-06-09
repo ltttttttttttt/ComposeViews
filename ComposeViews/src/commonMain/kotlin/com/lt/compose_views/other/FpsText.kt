@@ -30,9 +30,9 @@ import com.lt.compose_views.util.rememberMutableStateOf
 @Composable
 @Deprecated("建议仅测试时使用")
 fun FpsText(modifier: Modifier = Modifier) {
-    var fpsCount by rememberMutableStateOf(0)
-    var fps by rememberMutableStateOf(0)
-    var lastUpdate by rememberMutableStateOf(0L)
+    var fpsCount by rememberMutableStateOf { 0 }
+    var fps by rememberMutableStateOf { 0 }
+    var lastUpdate by rememberMutableStateOf { 0L }
     Text(
         text = "Fps: $fps",
         modifier = modifier,

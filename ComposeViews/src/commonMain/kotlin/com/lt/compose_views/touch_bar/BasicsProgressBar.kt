@@ -58,7 +58,7 @@ fun BasicsProgressBar(
     onTouchUpEvent: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
-    var size by rememberMutableStateOf(value = 0)
+    var size by rememberMutableStateOf { 0 }
     val p by rememberUpdatedState(newValue = progress)
     val state = remember(size, onProgressChange) {
         ScrollableState {

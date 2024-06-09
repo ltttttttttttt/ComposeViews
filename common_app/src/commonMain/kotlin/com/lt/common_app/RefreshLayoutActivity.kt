@@ -134,7 +134,7 @@ class RefreshLayoutActivity : BaseComposeActivity() {
 
     @Composable
     private fun MyRefreshableLazyColumn() {
-        var isLoadFinish by rememberMutableStateOf(value = false)
+        var isLoadFinish by rememberMutableStateOf { false }
         VerticalRefreshableLayout(
             //顶部刷新的状态
             topRefreshLayoutState = createState(),

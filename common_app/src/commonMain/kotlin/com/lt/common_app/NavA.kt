@@ -102,7 +102,7 @@ class NavA : BaseComposeActivity() {
 
         @Composable
         override fun Content(scope: ComposePagerScope) {
-            var text by rememberMutableStateOf("d")
+            var text by rememberMutableStateOf { "d" }
             GoodTextField(text, { text = it })
         }
     }

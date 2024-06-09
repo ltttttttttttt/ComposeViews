@@ -99,7 +99,7 @@ fun TextPagerIndicator(
         selectTextColor = selectTextColor,
         onIndicatorClick = onIndicatorClick,
         selectIndicatorItem = {
-            var width by rememberMutableStateOf(0.dp)
+            var width by rememberMutableStateOf { 0.dp }
             val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
             val selectIndex by selectIndexFlow.collectAsState(0)
             LaunchedEffect(texts, offsetPercentWithSelect, selectIndex) {
@@ -230,7 +230,7 @@ fun TextPagerIndicator(
         selectTextColor = selectTextColor,
         onIndicatorClick = onIndicatorClick,
         selectIndicatorItem = {
-            var width by rememberMutableStateOf(0.dp)
+            var width by rememberMutableStateOf { 0.dp }
             val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
             val selectIndex by selectIndexFlow.collectAsState(0)
             LaunchedEffect(texts, offsetPercentWithSelect, selectIndex) {

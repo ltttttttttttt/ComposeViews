@@ -70,7 +70,7 @@ class FlowLayoutActivity : BaseComposeActivity() {
 
             FlowLayoutSample()
 
-            var selectMode by rememberMutableStateOf<SelectMode>(value = SelectMode.Radio)
+            var selectMode by rememberMutableStateOf<SelectMode> { SelectMode.Radio }
             val state = rememberLabelsFlowLayoutState(size = 10, selectMode = selectMode)
 
             LabelsFlowLayoutMenu({ selectMode = it }, state)

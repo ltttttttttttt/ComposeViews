@@ -51,7 +51,7 @@ inline fun Modifier.click(
     role: Role? = null,
     crossinline onClick: () -> Unit
 ): Modifier {
-    var lastClickTime by rememberMutableStateOf(value = 0L)
+    var lastClickTime by rememberMutableStateOf { 0L }
     return clickable(interactionSource, indication, enabled, onClickLabel, role) {
         val currentTimeMillis = _currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {
@@ -69,7 +69,7 @@ inline fun composeClick(
     time: Int = VIEW_CLICK_INTERVAL_TIME,
     crossinline onClick: () -> Unit
 ): () -> Unit {
-    var lastClickTime by rememberMutableStateOf(value = 0L)
+    var lastClickTime by rememberMutableStateOf { 0L }
     return {
         val currentTimeMillis = _currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {
