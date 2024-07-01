@@ -16,17 +16,11 @@
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
-import org.jetbrains.compose.resources.*
-import org.khronos.webgl.ArrayBuffer
-import org.khronos.webgl.Int8Array
-import org.w3c.xhr.ARRAYBUFFER
-import org.w3c.xhr.XMLHttpRequest
-import org.w3c.xhr.XMLHttpRequestResponseType
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.InternalResourceApi
+import org.jetbrains.compose.resources.ResourceItem
+import org.jetbrains.compose.resources.painterResource
 
 private const val IMG_FILE_BEGIN = "drawable-xxhdpi/"
 private const val IMG_FILE_ENDING = ".webp"
@@ -34,10 +28,20 @@ private const val IMG_FILE_ENDING = ".webp"
 /**
  * 根据图片文件名加载图片
  */
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(InternalResourceApi::class)
 @Composable
 actual fun resourcePainter(imageName: String): Painter {
-    return painterResource(remember(imageName) { DrawableResource(IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING )})
+    return painterResource(remember(imageName) {
+        DrawableResource(
+            IMG_FILE_BEGIN + imageName + IMG_FILE_ENDING, setOf(
+                ResourceItem(
+                    setOf(
+                        org.jetbrains.compose.resources.DensityQualifier.XXHDPI,
+                    ), "drawable-xxhdpi/back.webp", -1, -1
+                ),
+            )
+        )
+    })
 }
 
 actual fun getTestIndex(): Int {
