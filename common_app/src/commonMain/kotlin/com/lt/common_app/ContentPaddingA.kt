@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,19 +26,24 @@ class ContentPaddingA : BaseComposeActivity() {
     @Composable
     override fun ComposeContent() {
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-            ComposePager(
-                10,
-                M.size(200.dp, 80.dp),
-                orientation = Orientation.Horizontal,
-                pageCache = 2,
-                clip = false,
-                contentTransformation = rememberScalePagerContentTransformation(0.8f)
-            ) {
-                Text(
-                    text = "ContentPadding$index",
-                    M.fillMaxSize().padding(horizontal = 10.dp).background(Color.Gray, Shapes.medium)
-                )
-            }
+            ComposePager()
+        }
+    }
+
+    @Composable
+    private fun ComposePager() {
+        ComposePager(
+            10,
+            M.size(200.dp, 80.dp),
+            orientation = Orientation.Horizontal,
+            pageCache = 2,
+            clip = false,
+            contentTransformation = rememberScalePagerContentTransformation(1.1f, 0.8f)
+        ) {
+            Text(
+                text = "ContentPadding$index",
+                M.fillMaxSize().background(Color.Gray, Shapes.medium)
+            )
         }
     }
 }

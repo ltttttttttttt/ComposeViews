@@ -44,17 +44,21 @@ internal object NoPagerContentTransformation : PagerContentTransformation {
 /**
  * 缩放变换
  * Scale transformation
+ * @property maxScale Float 最大的缩放值
+ *                          Max scale value
  * @property minScale Float 最小的缩放值
  *                          Min scale value
  */
 class ScalePagerContentTransformation(
+    private val maxScale: Float,
     private val minScale: Float,
 ) : PagerContentTransformation {
     override fun transformation(percent: Float, modifier: Modifier): Modifier {
-        val scale = (minScale - 1f) * abs(percent) + 1f
+        val scale = (minScale - maxScale) * abs(percent) + maxScale
         return modifier.scale(scale)
     }
 }
 
 @Composable
-fun rememberScalePagerContentTransformation(minScale: Float) = remember { ScalePagerContentTransformation(minScale) }
+fun rememberScalePagerContentTransformation(maxScale: Float, minScale: Float) =
+    remember { ScalePagerContentTransformation(maxScale, minScale) }
