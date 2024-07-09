@@ -28,6 +28,7 @@ import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.util.DragInteractionSource
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
+import com.lt.compose_views.util.runIf
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -52,6 +53,8 @@ import kotlin.math.roundToInt
  *                                    Scroll state monitor
  * @param pagerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
  *                 Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ *             Whether to crop the content area
  * @param content compose内容区域
  *                Content of compose
  */
@@ -65,6 +68,8 @@ fun ComposePager(
     pageCache: Int = 1,
     scrollableInteractionSource: DragInteractionSource? = null,
     pagerKey: (index: Int) -> Any = { it },
+    clip: Boolean = true,
+    contentTransformation: PagerContentTransformation = NoPagerContentTransformation,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     val indexToKey = LocalIndexToKey.current
@@ -283,7 +288,10 @@ fun ComposePager(
         content = {
             contentList.forEach {
                 key(it.key) {
-                    it.function(it.paramModifier, it.paramScope)
+                    it.function(
+                        contentTransformation.transformation(composePagerState, it.paramScope, it.paramModifier),
+                        it.paramScope,
+                    )
                 }
             }
         },
@@ -308,7 +316,7 @@ fun ComposePager(
                         }
                     }
                 })
-            .clipScrollableContainer(orientation)
+            .runIf(clip) { clipScrollableContainer(orientation) }
             .onSizeChanged {
                 if (composePagerState.size != it) {
                     composePagerState.size = it

@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.lt.compose_views.util.applyIf
+import com.lt.compose_views.util.runIf
 import io.github.ltttttttttttt.composeviews.generated.resources.Res
 import io.github.ltttttttttttt.composeviews.generated.resources.star_bar_star
 import io.github.ltttttttttttt.composeviews.generated.resources.star_bar_star_select
@@ -112,7 +112,7 @@ fun StarBar(
                     contentDescription = "star",
                     modifier = Modifier
                         .size(starSize)
-                        .applyIf(userEnable) {
+                        .runIf(userEnable) {
                             clickable(remember { MutableInteractionSource() }, null) {
                                 onStarValueChange(index + 1)
                                 onTouchUpEvent?.invoke()

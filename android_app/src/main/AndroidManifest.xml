@@ -52,6 +52,7 @@
         <activity android:name="com.lt.common_app.DateSelectorA" />
         <activity android:name="com.lt.common_app.ImageViewerActivity" />
         <activity android:name="com.lt.common_app.NavA" />
+        <activity android:name="com.lt.common_app.ContentPaddingA" />
     </application>
 
 </manifest>
