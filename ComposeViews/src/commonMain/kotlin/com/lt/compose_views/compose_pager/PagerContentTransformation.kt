@@ -22,9 +22,22 @@ interface PagerContentTransformation {
      * @param scope ComposePagerScope
      * @return Modifier
      */
-    fun transformation(state: ComposePagerState, scope: ComposePagerScope, modifier: Modifier): Modifier {
-        return transformation(state.getOffsetPercent(scope.index), modifier)
+    fun transformation(
+        state: ComposePagerState,
+        scope: ComposePagerScope,
+        modifier: Modifier
+    ): Modifier {
+        //只变换±n以内的page,用来提升性能
+        if (abs(scope.realIndex - state.getCurrSelectIndex()) > effectivePageNumber())
+            return modifier
+        return transformation(state.getOffsetPercent(scope.realIndex), modifier)
     }
+
+    /**
+     * 只变换±n以内的page,用来提升性能
+     * Only transform pages within ±n to improve performance
+     */
+    fun effectivePageNumber(): Int = 2
 
     /**
      * 通过content距离当前位置的百分比变换ComposePager的Content
@@ -35,8 +48,11 @@ interface PagerContentTransformation {
 
 //不变换
 internal object NoPagerContentTransformation : PagerContentTransformation {
-    override fun transformation(state: ComposePagerState, scope: ComposePagerScope, modifier: Modifier): Modifier =
-        modifier
+    override fun transformation(
+        state: ComposePagerState,
+        scope: ComposePagerScope,
+        modifier: Modifier,
+    ): Modifier = modifier
 
     override fun transformation(percent: Float, modifier: Modifier): Modifier = modifier
 }

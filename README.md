@@ -52,7 +52,7 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.6.0.1
+    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this, such as 1.6.11.2
 }
 ```
 
@@ -65,7 +65,7 @@ sample</a>
 
 ```kotlin
 /**
- * Equivalent to the ViewPager in android
+ * Pager (Equivalent to the ViewPager in android)
  * @param pageCount Sum page count
  * @param modifier
  * @param composePagerState ComposePager's state
@@ -74,6 +74,8 @@ sample</a>
  * @param pageCache The number of pagers cached on the left and right sides
  * @param scrollableInteractionSource Scroll state monitor
  * @param pagerKey Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip Whether to crop the content area
+ * @param contentTransformation Transform the Content of ComposePager
  * @param content Content of compose
  */
 @Composable
@@ -96,6 +98,8 @@ sample</a>
  * @param autoScroll Whether to scroll automatically
  * @param autoScrollTime Auto scroll interval
  * @param bannerKey Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip Whether to crop the content area
+ * @param contentTransformation Transform the Content of ComposePager
  * @param content Content of compose
  */
 @Composable
@@ -167,6 +171,8 @@ sample</a>
  * @param autoScroll Whether to scroll automatically
  * @param autoScrollTime Auto scroll interval
  * @param bannerKey Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip Whether to crop the content area
+ * @param contentTransformation Transform the Content of ComposePager
  */
 @Composable
 fun ImageBanner()

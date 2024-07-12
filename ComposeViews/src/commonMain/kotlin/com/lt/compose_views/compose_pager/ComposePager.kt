@@ -55,6 +55,8 @@ import kotlin.math.roundToInt
  *                 Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
  * @param clip 是否对内容区域进行裁剪
  *             Whether to crop the content area
+ * @param contentTransformation 变换ComposePager的Content
+ *                              Transform the Content of ComposePager
  * @param content compose内容区域
  *                Content of compose
  */
@@ -146,7 +148,7 @@ fun ComposePager(
                 key,
                 getPagerKey(pagerKey, pageCount, key),
                 Modifier.layoutId(index),
-                ComposePagerScope(key)
+                ComposePagerScope(key, index)
             ) { mModifier, mScope ->
                 if (key < 0 || key >= pageCount)
                     Box(modifier = Modifier)
@@ -165,7 +167,7 @@ fun ComposePager(
                 key,
                 getPagerKey(pagerKey, pageCount, key),
                 Modifier.layoutId(index),
-                ComposePagerScope(key)
+                ComposePagerScope(key, index)
             ) { mModifier, mScope ->
                 if (key < 0 || key >= pageCount)
                     Box(modifier = Modifier)
@@ -393,7 +395,7 @@ private fun initContentList(
                     key,
                     getPagerKey(pagerKey, pageCount, key),
                     Modifier.layoutId(value + it - 2),
-                    ComposePagerScope(key)
+                    ComposePagerScope(key, value + it - 2)
                 ) { mModifier, mScope ->
                     if (key < 0 || key >= pageCount)
                         Box(modifier = Modifier)
@@ -414,7 +416,7 @@ private fun initContentList(
                         key,
                         getPagerKey(pagerKey, pageCount, key),
                         Modifier.layoutId((value - it * 2)),
-                        ComposePagerScope(key)
+                        ComposePagerScope(key, (value - it * 2))
                     ) { mModifier, mScope ->
                         if (key < 0 || key >= pageCount)
                             Box(modifier = Modifier)
@@ -436,7 +438,7 @@ private fun initContentList(
                     key,
                     getPagerKey(pagerKey, pageCount, key),
                     Modifier.layoutId(value),
-                    ComposePagerScope(key)
+                    ComposePagerScope(key, value)
                 ) { mModifier, mScope ->
                     if (key < 0 || key >= pageCount)
                         Box(modifier = Modifier)
@@ -463,7 +465,7 @@ private fun getPagerKey(
         pagerKey(index)
 }
 
-//通过index确定key,用来保存和复用content
+//通过当前index确定pager的index,用来保存和复用content
 internal val LocalIndexToKey = compositionLocalOf<(index: Int) -> Int> { { it } }
 
 //应该不会有人这样用吧...
