@@ -51,7 +51,7 @@ class BannerState {
      * Create the [Flow] of the current index of the [Banner]
      */
     fun createCurrSelectIndexFlow(): StableFlow<Int> = snapshotFlow {
-        composePagerState.getCurrSelectIndexState().value % pageCount
+        composePagerState.getCurrSelectIndex() % pageCount
     }.toStableFlow()
 
     /**

@@ -131,6 +131,22 @@ class ComposePagerState {
     suspend fun setOffsetPercent(percent: Float) {
         setOffset(percent * mainAxisSize)
     }
+
+    /**
+     * 获取当前索引的偏移量百分比
+     * Get the offset percentage of the current index
+     */
+    fun getCurrentOffsetPercent(): Float = getOffsetPercent(getCurrSelectIndex())
+
+    /**
+     * 获取指定索引的偏移量百分比
+     * Get the offset percentage of the specified index
+     */
+    fun getOffsetPercent(index: Int): Float {
+        if (mainAxisSize == 0)
+            return 0f
+        return ((index * -mainAxisSize) - offsetAnim.value) / mainAxisSize
+    }
 }
 
 /**

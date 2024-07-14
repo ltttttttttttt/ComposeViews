@@ -23,6 +23,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ import com.lt.compose_views.banner.Banner
 import com.lt.compose_views.banner.rememberBannerState
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.rememberComposePagerState
+import com.lt.compose_views.compose_pager.rememberScalePagerContentTransformation
 import com.lt.compose_views.flow_layout.FlowLayout
 import com.lt.compose_views.image_banner.ImageBanner
 import com.lt.compose_views.other.FpsText
@@ -66,8 +68,9 @@ class PagerIndicatorActivity : BaseComposeActivity() {
     override fun ComposeContent() {
         Column(M.fillMaxSize()) {
             Menu()
-
             BannerView()
+            VerticalSpace(dp = 10)
+            BannerViewTransformation()
             VerticalSpace(dp = 10)
             PagerView()
             VerticalSpace(dp = 10)
@@ -143,6 +146,27 @@ class PagerIndicatorActivity : BaseComposeActivity() {
                     .align(Alignment.BottomCenter)
                     .padding(10.dp),
                 orientation = orientation.value,
+            )
+        }
+    }
+
+    @Composable
+    private fun BannerViewTransformation() {
+        Banner(
+            colors.size,
+            M.fillMaxWidth()
+                .height(100.dp)
+                .padding(horizontal = 60.dp),
+            autoScrollTime = 1000,
+            orientation = orientation.value,
+            bannerKey = { colors[it].toString() },
+            clip = false,
+            contentTransformation = rememberScalePagerContentTransformation(1f, 0.8f)
+        ) {
+            Box(
+                modifier = M
+                    .fillMaxSize()
+                    .background(colors.getOrNull(index) ?: Color.Black, RoundedCornerShape(10.dp))
             )
         }
     }

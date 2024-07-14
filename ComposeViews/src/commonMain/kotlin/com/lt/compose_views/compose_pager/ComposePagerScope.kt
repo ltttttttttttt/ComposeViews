@@ -29,4 +29,7 @@ class ComposePagerScope(
      * Current content index in the [ComposePager]
      */
     val index: Int,
+
+    //真实索引
+    internal val realIndex: Int,
 )

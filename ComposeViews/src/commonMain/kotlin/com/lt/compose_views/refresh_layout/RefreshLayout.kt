@@ -35,7 +35,7 @@ import com.lt.compose_views.util.ComposePosition.Bottom
 import com.lt.compose_views.util.ComposePosition.End
 import com.lt.compose_views.util.ComposePosition.Start
 import com.lt.compose_views.util.ComposePosition.Top
-import com.lt.compose_views.util.applyIf
+import com.lt.compose_views.util.runIf
 import kotlin.math.roundToInt
 
 /**
@@ -121,7 +121,7 @@ fun RefreshLayout(
             refreshLayoutState.refreshContent()
         },
         modifier = modifier
-            .applyIf(userEnable) {
+            .runIf(userEnable) {
                 nestedScroll(nestedScrollState)
             }
             .clipScrollableContainer(composePosition.orientation)

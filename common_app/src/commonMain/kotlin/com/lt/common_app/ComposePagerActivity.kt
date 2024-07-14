@@ -178,6 +178,11 @@ class ComposePagerActivity : BaseComposeActivity() {
             }) {
                 Text(text = "切换")
             }
+            Button({
+                jump(ContentPaddingA::class)
+            }) {
+                Text("contentPadding")
+            }
         }
     }
 

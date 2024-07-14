@@ -15,7 +15,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
-import com.lt.compose_views.util.applyIf
+import com.lt.compose_views.util.runIf
 import com.lt.compose_views.util.midOf
 import kotlin.math.roundToInt
 
@@ -72,7 +72,7 @@ fun ZoomLayout(
                         zoomState.offset.y.roundToInt()
                     )
                 }
-                .applyIf(userCanRotation) {
+                .runIf(userCanRotation) {
                     rotate(zoomState.rotation)
                 }) { measurableList, constraints ->
             var maxWidth = 0

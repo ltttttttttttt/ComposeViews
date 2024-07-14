@@ -20,8 +20,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.lt.compose_views.compose_pager.ComposePager
-import com.lt.compose_views.compose_pager.LocalIndexToKey
+import com.lt.compose_views.compose_pager.*
 import com.lt.compose_views.util.DragInteractionSource
 import kotlinx.coroutines.delay
 
@@ -45,6 +44,10 @@ import kotlinx.coroutines.delay
  *                       Auto scroll interval
  * @param bannerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
  *                  Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ *             Whether to crop the content area
+ * @param contentTransformation 变换ComposePager的Content
+ *                              Transform the Content of ComposePager
  * @param content compose内容区域
  *                Content of compose
  */
@@ -58,6 +61,8 @@ fun Banner(
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
     bannerKey: (index: Int) -> Any = { it },
+    clip: Boolean = true,
+    contentTransformation: PagerContentTransformation = NoPagerContentTransformation,
     content: @Composable BannerScope.() -> Unit,
 ) {
     if (pageCount <= 0)
@@ -89,7 +94,7 @@ fun Banner(
         LaunchedEffect(key1 = autoScrollTime, block = {
             while (true) {
                 delay(autoScrollTime)
-                val index = bannerState.composePagerState.currSelectIndex.value
+                val index = bannerState.composePagerState.getCurrSelectIndex()
                 if (index + 1 >= maxPageCount)
                     bannerState.composePagerState.setPageIndex(pageCount * bannerState.startMultiple)
                 else
@@ -105,9 +110,11 @@ fun Banner(
             composePagerState = bannerState.composePagerState,
             orientation = orientation,
             userEnable = userEnable,
-            pageCache = maxOf(1, (pageCount - 1) / 2),
+            pageCache = maxOf(2, (pageCount - 1) / 2),
             scrollableInteractionSource = scrollableInteractionSource,
             pagerKey = bannerKey,
+            clip = clip,
+            contentTransformation = contentTransformation,
         ) {
             content(BannerScope(index))
         }

@@ -28,6 +28,7 @@ import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.util.DragInteractionSource
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
+import com.lt.compose_views.util.runIf
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -52,6 +53,10 @@ import kotlin.math.roundToInt
  *                                    Scroll state monitor
  * @param pagerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
  *                 Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ *             Whether to crop the content area
+ * @param contentTransformation 变换ComposePager的Content
+ *                              Transform the Content of ComposePager
  * @param content compose内容区域
  *                Content of compose
  */
@@ -65,6 +70,8 @@ fun ComposePager(
     pageCache: Int = 1,
     scrollableInteractionSource: DragInteractionSource? = null,
     pagerKey: (index: Int) -> Any = { it },
+    clip: Boolean = true,
+    contentTransformation: PagerContentTransformation = NoPagerContentTransformation,
     content: @Composable ComposePagerScope.() -> Unit
 ) {
     val indexToKey = LocalIndexToKey.current
@@ -141,7 +148,7 @@ fun ComposePager(
                 key,
                 getPagerKey(pagerKey, pageCount, key),
                 Modifier.layoutId(index),
-                ComposePagerScope(key)
+                ComposePagerScope(key, index)
             ) { mModifier, mScope ->
                 if (key < 0 || key >= pageCount)
                     Box(modifier = Modifier)
@@ -160,7 +167,7 @@ fun ComposePager(
                 key,
                 getPagerKey(pagerKey, pageCount, key),
                 Modifier.layoutId(index),
-                ComposePagerScope(key)
+                ComposePagerScope(key, index)
             ) { mModifier, mScope ->
                 if (key < 0 || key >= pageCount)
                     Box(modifier = Modifier)
@@ -283,7 +290,10 @@ fun ComposePager(
         content = {
             contentList.forEach {
                 key(it.key) {
-                    it.function(it.paramModifier, it.paramScope)
+                    it.function(
+                        contentTransformation.transformation(composePagerState, it.paramScope, it.paramModifier),
+                        it.paramScope,
+                    )
                 }
             }
         },
@@ -308,7 +318,7 @@ fun ComposePager(
                         }
                     }
                 })
-            .clipScrollableContainer(orientation)
+            .runIf(clip) { clipScrollableContainer(orientation) }
             .onSizeChanged {
                 if (composePagerState.size != it) {
                     composePagerState.size = it
@@ -385,7 +395,7 @@ private fun initContentList(
                     key,
                     getPagerKey(pagerKey, pageCount, key),
                     Modifier.layoutId(value + it - 2),
-                    ComposePagerScope(key)
+                    ComposePagerScope(key, value + it - 2)
                 ) { mModifier, mScope ->
                     if (key < 0 || key >= pageCount)
                         Box(modifier = Modifier)
@@ -406,7 +416,7 @@ private fun initContentList(
                         key,
                         getPagerKey(pagerKey, pageCount, key),
                         Modifier.layoutId((value - it * 2)),
-                        ComposePagerScope(key)
+                        ComposePagerScope(key, (value - it * 2))
                     ) { mModifier, mScope ->
                         if (key < 0 || key >= pageCount)
                             Box(modifier = Modifier)
@@ -428,7 +438,7 @@ private fun initContentList(
                     key,
                     getPagerKey(pagerKey, pageCount, key),
                     Modifier.layoutId(value),
-                    ComposePagerScope(key)
+                    ComposePagerScope(key, value)
                 ) { mModifier, mScope ->
                     if (key < 0 || key >= pageCount)
                         Box(modifier = Modifier)
@@ -455,7 +465,7 @@ private fun getPagerKey(
         pagerKey(index)
 }
 
-//通过index确定key,用来保存和复用content
+//通过当前index确定pager的index,用来保存和复用content
 internal val LocalIndexToKey = compositionLocalOf<(index: Int) -> Int> { { it } }
 
 //应该不会有人这样用吧...

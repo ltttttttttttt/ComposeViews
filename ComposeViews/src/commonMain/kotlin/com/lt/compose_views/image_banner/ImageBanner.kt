@@ -29,6 +29,8 @@ import com.lt.compose_views.banner.Banner
 import com.lt.compose_views.banner.BannerScope
 import com.lt.compose_views.banner.BannerState
 import com.lt.compose_views.banner.rememberBannerState
+import com.lt.compose_views.compose_pager.NoPagerContentTransformation
+import com.lt.compose_views.compose_pager.PagerContentTransformation
 import com.lt.compose_views.pager_indicator.PagerIndicator
 import com.lt.compose_views.pager_indicator.PagerIndicatorScope
 
@@ -56,6 +58,10 @@ import com.lt.compose_views.pager_indicator.PagerIndicatorScope
  *                       Auto scroll interval
  * @param bannerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
  *                  Using key to improve performance, reduce recombination, and achieve the same effect as [LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ *             Whether to crop the content area
+ * @param contentTransformation 变换ComposePager的Content
+ *                              Transform the Content of ComposePager
  */
 @Composable
 fun ImageBanner(
@@ -69,17 +75,21 @@ fun ImageBanner(
     autoScroll: Boolean = true,
     autoScrollTime: Long = 3000,
     bannerKey: (index: Int) -> Any = { it },
+    clip: Boolean = true,
+    contentTransformation: PagerContentTransformation = NoPagerContentTransformation,
 ) {
     Box(modifier = modifier) {
         //banner部分
         Banner(
             pageCount = imageSize,
+            modifier = Modifier.fillMaxSize(),
             bannerState = bannerState,
             orientation = orientation,
             autoScroll = autoScroll,
             autoScrollTime = autoScrollTime,
             bannerKey = bannerKey,
-            modifier = Modifier.fillMaxSize()
+            clip = clip,
+            contentTransformation = contentTransformation,
         ) {
             imageContent()
         }

@@ -28,7 +28,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.lt.compose_views.util.StableFlow
-import com.lt.compose_views.util.applyIf
+import com.lt.compose_views.util.runIf
 import com.lt.compose_views.util.midOf
 import com.lt.compose_views.util.rememberMutableStateOf
 import kotlinx.coroutines.flow.Flow
@@ -96,7 +96,7 @@ fun PagerIndicator(
     val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
     val selectIndex by selectIndexFlow.collectAsState(0)
 
-    Layout(modifier = modifier.applyIf(userCanScroll) {
+    Layout(modifier = modifier.runIf(userCanScroll) {
         scrollable(scrollState, orientation)
     }, content = {
         pagerIndicatorScope.selectIndicatorItem()
@@ -338,7 +338,7 @@ fun PagerIndicator(
     val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
     val selectIndex by selectIndexFlow.collectAsState(0)
 
-    Layout(modifier = modifier.applyIf(userCanScroll) {
+    Layout(modifier = modifier.runIf(userCanScroll) {
         scrollable(scrollState, orientation)
     }, content = {
         pagerIndicatorScope.selectIndicatorItem()

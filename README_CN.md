@@ -52,7 +52,7 @@ version
 ```kotlin
 dependencies {
     ...
-    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this,比如1.6.0.1
+    implementation("io.github.ltttttttttttt:ComposeViews:$version")//this,比如1.6.11.2
 }
 ```
 
@@ -65,7 +65,7 @@ dependencies {
 
 ```kotlin
 /**
- * 类似于安卓中的ViewPager
+ * Pager (类似于安卓中的ViewPager)
  * @param pageCount 一共有多少页
  * @param modifier 修饰
  * @param composePagerState ComposePager的状态
@@ -74,6 +74,8 @@ dependencies {
  * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
  * @param scrollableInteractionSource 滚动状态监听,可以用来监听:用户开始(结束,取消)滑动等事件,使用可以参考[Banner]
  * @param pagerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ * @param contentTransformation 变换ComposePager的Content
  * @param content compose内容区域
  */
 @Composable
@@ -96,6 +98,8 @@ fun ComposePager()
  * @param autoScroll 是否自动滚动
  * @param autoScrollTime 自动滚动间隔时间
  * @param bannerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ * @param contentTransformation 变换ComposePager的Content
  * @param content compose内容区域
  */
 @Composable
@@ -167,6 +171,8 @@ fun TextPagerIndicator()
  * @param autoScroll 是否自动滚动
  * @param autoScrollTime 自动滚动间隔时间
  * @param bannerKey 使用key来提高性能,减少重组,效果等同于[LazyColumn#items#key]
+ * @param clip 是否对内容区域进行裁剪
+ * @param contentTransformation 变换ComposePager的Content
  */
 @Composable
 fun ImageBanner()
