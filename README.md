@@ -58,9 +58,14 @@ dependencies {
 
 ## ComposePager
 
-<div align=center><img src="md_resource/compose_pager.gif" width=25%></div>
+<div align=center>
+    <img src="md_resource/compose_pager.gif" width=25%>
+    <img src="md_resource/compose_pager_transformation.png" width=45%>
+</div>
 
 <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/ComposePagerActivity.kt">
+sample</a>
+<a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/common_app/src/commonMain/kotlin/com/lt/common_app/ContentPaddingA.kt">
 sample</a>
 
 ```kotlin
