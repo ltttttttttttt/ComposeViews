@@ -27,7 +27,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.util.rememberMutableStateListOf
@@ -101,13 +103,17 @@ class DateSelectorA : BaseComposeActivity() {
             state = state,
             defaultSelectIndex = 10,
             //isLoop = true,
-            //cacheSize = 4,
-            //textColors = arrayListOf(
-            //    Color.Black, Color.Red, Color.Green, Color.Blue
-            //),
-            //textSizes = arrayListOf(
-            //    16.sp, 14.sp, 12.sp, 10.sp,
-            //)
+            //cacheSize = 1,
+            //textColors = rememberMutableStateListOf {
+            //    listOf(
+            //        Color.Black,/* Color.Red, Color.Green, Color.Blue*/
+            //    )
+            //},
+            //textSizes = rememberMutableStateListOf {
+            //    listOf(
+            //        16.sp,/* 14.sp, 12.sp, 10.sp,*/
+            //    )
+            //}
         )
         Button({
             values[state.getSelectIndex()].showToast()
