@@ -164,27 +164,17 @@ fun ValueSelector(
             LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
                 val defaultTextAttributes = textSizes.last() to textColors.last()
                 val itemFun: @Composable (index: Int, value: String) -> Unit = { index, value ->
-                    val textAttributes by remember(currentSelectIndex, index) {
-                        //计算text的大小和颜色
-                        mutableStateOf(
-                            if (currentSelectIndex == index)
-                                selectedTextSize to selectedTextColor
-                            else {
-                                //根据索引差值,从list中获取
-                                val diff = abs(currentSelectIndex - index)
-                                if (diff >= cacheSize)
-                                    defaultTextAttributes
-                                else
-                                    textSizes[diff - 1] to textColors[diff - 1]
-                            }
-                        )
-                    }
                     Box(Modifier.fillMaxWidth().height(itemHeightDp)) {
                         Text(
                             value,
                             Modifier.align(Alignment.Center),
-                            fontSize = textAttributes.first,
-                            color = textAttributes.second,
+                            //计算text的大小和颜色,根据索引差值,从list中获取
+                            fontSize = if (currentSelectIndex == index) selectedTextSize else textSizes.getOrNull(
+                                abs(currentSelectIndex - index) - 1
+                            ) ?: defaultTextAttributes.first,
+                            color = if (currentSelectIndex == index) selectedTextColor else textColors.getOrNull(
+                                abs(currentSelectIndex - index) - 1
+                            ) ?: defaultTextAttributes.second,
                         )
                     }
                 }
