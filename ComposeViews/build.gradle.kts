@@ -49,7 +49,7 @@ if (vkomposeIsCheck)
 group = "io.github.ltttttttttttt"
 //上传到mavenCentral命令: ./gradlew publishAllPublicationsToSonatypeRepository
 //mavenCentral后台: https://s01.oss.sonatype.org/#stagingRepositories
-version = "$composeVersion.1"
+version = "$composeVersion.4"
 
 kotlin {
     androidTarget {
