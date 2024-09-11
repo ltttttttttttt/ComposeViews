@@ -54,7 +54,12 @@ val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
 
-fun getExtraString(name: String) = ext[name]?.toString()
+fun getExtraString(name: String) = try {
+    ext[name]?.toString()
+} catch (e: Exception) {
+    e.printStackTrace()
+    null
+}
 
 publishing {
     // Configure maven central repository
