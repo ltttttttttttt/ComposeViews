@@ -23,7 +23,7 @@
 9. ChainScrollableComponent + ScrollableAppBar + SwipeToDismiss
 
 <a href="https://github.com/ltttttttttttt/ComposeViews/blob/main/md_resource/compose_views_demo.apk">
-查看demo</a>
+查看demo.apk</a>
 
 [![Star History Chart](https://api.star-history.com/svg?repos=ltttttttttttt/ComposeViews&type=Date)](https://star-history.com/#ltttttttttttt/ComposeViews&Date)
 
