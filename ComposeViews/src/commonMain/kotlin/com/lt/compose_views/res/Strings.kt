@@ -30,9 +30,6 @@ import kotlin.jvm.JvmName
  * effect : 资源
  * warning:
  */
-@Deprecated("Use Strings.kt")
-typealias Res = Strings
-
 object Strings {
 
     /**

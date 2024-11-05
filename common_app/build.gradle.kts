@@ -49,10 +49,10 @@ if (vkomposeIsCheck)
 group = "com.lt.ltttttttttttt"
 
 android {
-    compileSdk = 33
+    namespace = "com.lt.common_app"
+    compileSdk = 35
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
 
         var testIndex = "-1"
         try {
@@ -62,13 +62,17 @@ android {
         buildConfigField("int", "TEST_INDEX", testIndex)
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     lint {
+        targetSdk = 35
         checkDependencies = true//开启 lint 性能优化
         abortOnError = false//忽略Lint检查
         checkReleaseBuilds = false//压制警告,打包的时候有时候会有莫名其妙的警告
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -76,7 +80,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
@@ -84,7 +88,7 @@ kotlin {
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }

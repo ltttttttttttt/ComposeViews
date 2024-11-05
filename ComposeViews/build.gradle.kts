@@ -59,7 +59,7 @@ kotlin {
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
@@ -191,17 +191,20 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    namespace = "com.lt.compose_views"
+    compileSdk = 35
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
         sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
 
         consumerProguardFiles("consumer-rules.pro")
     }
+    lint {
+        targetSdk = 35
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

@@ -22,13 +22,14 @@ plugins {
 }
 
 android {
-    compileSdk = 34
-    buildToolsVersion = "30.0.3"
+    namespace = "com.lt.test_compose"
+    compileSdk = 35
+    buildToolsVersion = "35.0.0"
 
     defaultConfig {
         applicationId = "com.lt.test_compose"
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -57,11 +58,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
         freeCompilerArgs = listOf("-Xallow-kotlin-package")
     }
     buildFeatures {
