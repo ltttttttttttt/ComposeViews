@@ -106,7 +106,6 @@ kotlin {
         browser()
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "common_app"
         browser {
