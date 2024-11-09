@@ -21,14 +21,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
-import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 
 /**
@@ -37,6 +33,7 @@ import androidx.compose.ui.graphics.Shape
  *          Button without click effect
  * warning:
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ButtonWithNotRipple(
     onClick: () -> Unit,
@@ -50,7 +47,7 @@ fun ButtonWithNotRipple(
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit
 ) {
-    CompositionLocalProvider(LocalRippleTheme provides NotRippleTheme) {
+    CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
         Button(
             onClick,
             modifier,
@@ -64,13 +61,4 @@ fun ButtonWithNotRipple(
             content
         )
     }
-}
-
-//没有点击效果的样式
-private object NotRippleTheme : RippleTheme {
-    @Composable
-    override fun defaultColor(): Color = Color.Transparent
-
-    @Composable
-    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
 }

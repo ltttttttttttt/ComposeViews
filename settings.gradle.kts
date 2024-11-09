@@ -27,20 +27,22 @@ include("wasm_app")
 includeBuild("convention-plugins")
 
 pluginManagement {
-    repositories {
-        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven("https://jitpack.io")
-        google()
-        gradlePluginPortal()
-        mavenCentral()
+    listOf(repositories, dependencyResolutionManagement.repositories).forEach {
+        it.apply {
+            maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
+            maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+            maven("https://jitpack.io")
+            google()
+            gradlePluginPortal()
+            mavenCentral()
+        }
     }
 
     plugins {
         val kotlinVersion = extra["kotlin.version"] as String
         val composeVersion = extra["compose.version"] as String
         val kspVersion = extra["ksp.version"] as String
-        val agpVersion = "7.4.2"
+        val agpVersion = "8.3.2"
 
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
@@ -54,17 +56,6 @@ pluginManagement {
 
         id("com.google.devtools.ksp").version(kspVersion)
 
-        id("com.vk.vkompose") version "0.5.4-k2"
-    }
-}
-
-dependencyResolutionManagement {
-    repositories {
-        maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven("https://jitpack.io")
-        google()
-        gradlePluginPortal()
-        mavenCentral()
+        id("com.vk.vkompose") version "0.6.2-k2"
     }
 }

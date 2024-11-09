@@ -56,8 +56,7 @@ val javadocJar by tasks.registering(Jar::class) {
 
 fun getExtraString(name: String) = try {
     ext[name]?.toString()
-} catch (e: Exception) {
-    e.printStackTrace()
+} catch (ignore: Exception) {
     null
 }
 

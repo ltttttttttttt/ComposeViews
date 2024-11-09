@@ -27,7 +27,7 @@ group = "com.github.ltttttttttttt"
 kotlin {
     jvm("desktop") {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "17"
         }
 //        withJava() //https://issuetracker.google.com/issues/248593403?hl=ko
     }

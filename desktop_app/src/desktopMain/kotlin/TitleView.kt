@@ -19,6 +19,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,7 +65,7 @@ fun BaseComposeActivity.TitleView(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = resourcePainter("back"),
+                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                 contentDescription = "",
                 modifier = Modifier
                     .clickable { mFinish() }
