@@ -164,8 +164,7 @@ fun TextPagerIndicator(
             Box(modifier = Modifier
                 .fillMaxHeight()
                 .clickable {
-                    if (index != selectIndex)
-                        onIndicatorClick(index)
+                    onIndicatorClick(index)
                 }) {
                 val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
                 val (size, color) = remember(

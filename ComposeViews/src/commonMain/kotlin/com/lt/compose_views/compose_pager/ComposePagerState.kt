@@ -21,7 +21,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.unit.IntSize
 import com.lt.compose_views.util.StableFlow
 import com.lt.compose_views.util.toStableFlow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 /**
  * [ComposePager]的状态
@@ -44,6 +46,9 @@ class ComposePagerState {
 
     //记录当前的size大小,如果大小变更后自动滚动到正确的位置(适配可以改变window大小的场景)
     internal var size by mutableStateOf(IntSize.Zero)
+
+    //compose的scope
+    internal lateinit var scope: CoroutineScope
 
     /**
      * 获取ComposePager当前所在的索引
@@ -102,13 +107,13 @@ class ComposePagerState {
      * Set the current index, with animate
      */
     fun setPageIndexWithAnimate(index: Int) {
-        val currIndex = currSelectIndex.value
-        if (index == currIndex - 1) {
-            pageChangeAnimFlag = PageChangeAnimFlag.Prev
-        } else if (index == currIndex + 1) {
-            pageChangeAnimFlag = PageChangeAnimFlag.Next
-        } else {
-            pageChangeAnimFlag = PageChangeAnimFlag.GoToPageWithAnim(index)
+        pageChangeAnimFlag = null
+        scope.launch {
+            withFrameNanos {}
+            pageChangeAnimFlag = if (index == currSelectIndex.value)
+                PageChangeAnimFlag.Reduction
+            else
+                PageChangeAnimFlag.GoToPageWithAnim(index)
         }
     }
 

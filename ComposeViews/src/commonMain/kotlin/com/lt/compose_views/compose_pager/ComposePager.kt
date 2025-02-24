@@ -106,6 +106,7 @@ fun ComposePager(
         key1 = pageCount,
         key2 = pageCache,
     ) {
+        composePagerState.scope = coroutineScope
         initContentList(
             composePagerState,
             pageCache,
