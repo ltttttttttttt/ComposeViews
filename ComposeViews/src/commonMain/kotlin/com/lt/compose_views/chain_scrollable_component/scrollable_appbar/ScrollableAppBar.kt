@@ -19,10 +19,7 @@ package com.lt.compose_views.chain_scrollable_component.scrollable_appbar
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -77,17 +74,8 @@ import kotlin.math.roundToInt
 fun ScrollableAppBar(
     title: String,
     background: Painter,
+    navigationIcon: @Composable (state: ChainScrollableComponentState) -> Unit,
     modifier: Modifier = Modifier,
-    navigationIcon: @Composable (state: ChainScrollableComponentState) -> Unit =
-        remember {
-            {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "ArrowBack",
-                    tint = Color.White
-                )
-            }
-        },
     minScrollPosition: Dp = 56.dp,
     maxScrollPosition: Dp = 200.dp,
     onScrollStop: ((state: ChainScrollableComponentState, delta: Float) -> Boolean)? = null,

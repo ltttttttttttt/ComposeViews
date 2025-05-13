@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
@@ -42,6 +43,7 @@ import com.lt.compose_views.chain_scrollable_component.scrollable_appbar.Scrolla
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.util.ComposePosition
 import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.back
 import com.lt.ltttttttttttt.common_app.generated.resources.top_bar_bk
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -232,6 +234,9 @@ class ScrollableAppBarActivity : BaseComposeActivity() {
         ScrollableAppBar(
             title = "toolbar",
             background = painterResource(Res.drawable.top_bar_bk),
+            navigationIcon = {
+                Image(painterResource(Res.drawable.back), "back", colorFilter = ColorFilter.tint(Color.White))
+            },
             maxScrollPosition = maxDp,
             modifier = Modifier
                 .weight(1f)

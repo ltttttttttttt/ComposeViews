@@ -22,22 +22,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.lt.common_app.base.BaseComposeActivity
 import com.lt.compose_views.menu_fab.MenuFabItem
 import com.lt.compose_views.menu_fab.MenuFloatingActionButton
 import com.lt.compose_views.other.FpsText
 import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.back
 import com.lt.ltttttttttttt.common_app.generated.resources.ic_empty_delete
 import com.lt.ltttttttttttt.common_app.generated.resources.ic_empty_update
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
 
@@ -85,7 +85,14 @@ class MenuFabActivity : BaseComposeActivity() {
         FpsText(modifier = M)
         Box(M.fillMaxSize()) {
             MenuFloatingActionButton(
-                srcIcon = Icons.Filled.Add,
+                icon = {
+                    Icon(
+                        painterResource(Res.drawable.back),
+                        modifier = Modifier.rotate(it.value),
+                        tint = Color.White,
+                        contentDescription = null
+                    )
+                },
                 items = menuItems,
                 modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 30.dp),
             ) {
