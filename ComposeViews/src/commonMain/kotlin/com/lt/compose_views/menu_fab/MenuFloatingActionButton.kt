@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -73,13 +74,42 @@ fun MenuFloatingActionButton(
     showLabels: Boolean = true,
     onFabItemClicked: (item: MenuFabItem) -> Unit
 ) {
+    MenuFloatingActionButton(
+        icon = {
+            Icon(
+                imageVector = srcIcon,
+                modifier = Modifier.rotate(it.value),
+                tint = srcIconColor,
+                contentDescription = null
+            )
+        },
+        items = items,
+        modifier = modifier,
+        menuFabState = menuFabState,
+        fabBackgroundColor = fabBackgroundColor,
+        showLabels = showLabels,
+        onFabItemClicked = onFabItemClicked
+
+    )
+}
+
+@Composable
+fun MenuFloatingActionButton(
+    icon: @Composable (rotateAnim: State<Float>) -> Unit,
+    items: SnapshotStateList<MenuFabItem>,
+    modifier: Modifier = Modifier,
+    menuFabState: MenuFabState = rememberMenuFabState(),
+    fabBackgroundColor: Color = Color.Unspecified,
+    showLabels: Boolean = true,
+    onFabItemClicked: (item: MenuFabItem) -> Unit,
+) {
     //创建过渡对象，用于管理多个动画值，并且根据状态变化运行这些值
     val transition = updateTransition(
         targetState = menuFabState.menuFabStateEnum.value,
         label = "menuFabStateEnum"
     )
     //用于+号按钮的旋转动画
-    val rotateAnim: Float by transition.animateFloat(
+    val rotateAnim = transition.animateFloat(
         transitionSpec = {
             if (targetState == MenuFabStateEnum.Expanded) {
                 spring(stiffness = Spring.StiffnessLow)
@@ -165,12 +195,7 @@ fun MenuFloatingActionButton(
                 menuFabState.menuFabStateEnum.value =
                     if (menuFabState.menuFabStateEnum.value == MenuFabStateEnum.Collapsed) MenuFabStateEnum.Expanded else MenuFabStateEnum.Collapsed
             }) {
-            Icon(
-                imageVector = srcIcon,
-                modifier = Modifier.rotate(rotateAnim),
-                tint = srcIconColor,
-                contentDescription = null
-            )
+            icon(rotateAnim)
         }
     }
 }

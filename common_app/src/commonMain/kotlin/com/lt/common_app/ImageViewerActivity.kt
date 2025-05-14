@@ -21,8 +21,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -32,6 +30,7 @@ import com.lt.common_app.base.click
 import com.lt.compose_views.zoom.ImageViewer
 import com.lt.compose_views.zoom.ZoomLayout
 import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.back
 import com.lt.ltttttttttttt.common_app.generated.resources.top_bar_bk
 import org.jetbrains.compose.resources.painterResource
 
@@ -51,7 +50,7 @@ class ImageViewerActivity : BaseComposeActivity() {
                     userCanRotation = true,
                 )
                 Image(
-                    Icons.Filled.Close,
+                    painterResource(Res.drawable.back),
                     "close",
                     M.padding(10.dp)
                         .click { mFinish() }
