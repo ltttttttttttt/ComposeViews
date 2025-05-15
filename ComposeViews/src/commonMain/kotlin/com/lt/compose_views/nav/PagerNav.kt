@@ -23,18 +23,21 @@ import com.lt.compose_views.compose_pager.ComposePager
  * @param modifier 修饰
  * @param pageCache 左右两边的页面缓存,默认左右各缓存1页,但不能少于1页(不宜过大)
  *                  The number of pagers cached on the left and right sides
+ * @param userEnable 用户是否可以滑动,等于false时用户滑动无反应,但代码可以执行翻页
+ *                   Whether the user can scroll
  */
 @Composable
 fun PagerNav(
     state: PagerNavState,
     modifier: Modifier = Modifier,
     pageCache: Int = state.navContents.size,
+    userEnable: Boolean = false,
 ) {
     ComposePager(
         state.navContents.size,
         modifier,
         state.composePagerState,
-        userEnable = false,
+        userEnable = userEnable,
         pageCache = pageCache,
         pagerKey = { state.navContents[it].route },
     ) {
