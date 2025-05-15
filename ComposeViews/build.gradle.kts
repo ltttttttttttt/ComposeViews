@@ -119,7 +119,7 @@ kotlin {
                 api(compose.material)
                 api(compose.animation)
                 api(compose.ui)
-                implementation(compose.components.resources)
+                api(compose.components.resources)
                 api("io.github.ltttttttttttt:DataStructure:1.1.4")
             }
         }

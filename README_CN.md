@@ -31,7 +31,7 @@
 
 <table broder="1">
 <tr><td>ComposeViews version</td><td>jetpack compose version</td><td>compose-multiplatform version</td><td>kotlin version</td></tr>
-<tr><td><img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/></td><td>1.8.0</td><td>1.8.0</td><td>2.0.0+</td></tr>
+<tr><td><img src="https://img.shields.io/maven-central/v/io.github.ltttttttttttt/ComposeViews"/></td><td>1.8.0</td><td>1.8.0</td><td>2.1.10+</td></tr>
 <tr><td>1.7.0.1</td><td>1.7.1</td><td>1.7.0</td><td>2.0.0+</td></tr>
 <tr><td>1.6.11.4</td><td>1.6.7</td><td>1.6.11</td><td>2.0.0+</td></tr>
 <tr><td>1.6.0.4</td><td>1.6.1</td><td>1.6.0</td><td>1.9.22</td></tr>
