@@ -1,5 +1,5 @@
 ---
-name: "`Bug report(Use this)`"
+name: Bug report(Use this)
 about: Create a report to help us improve
 title: ''
 labels: ''
@@ -12,3 +12,6 @@ assignees: ''
 *ComposeViews versions:*
 
 *Sample code*
+```kotlin
+
+```
