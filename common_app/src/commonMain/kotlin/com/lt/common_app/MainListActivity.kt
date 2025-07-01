@@ -37,6 +37,7 @@ import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.VerticalRefreshableLayout
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
 import com.lt.compose_views.util.rememberMutableStateOf
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -131,22 +132,23 @@ class MainListActivity : BaseComposeActivity() {
                         }
                         /*item {
                             //骚操作实现上拉加载,不保证没有问题,原理:滑动到最底部,就会触发最底部的这个item函数,然后执行副作用函数
-                            //加载的布局
-                            Text(text = "加载中")
-                            if (job == null) {
-                                job = mainScope.launch {
-                                    try {
-                                        delay(1000)
-                                        Toast.makeText(this@MainListActivity, "加载完成", Toast.LENGTH_LONG)
-                                            .show()
-                                        listChangeListener(IntArray(20) {
-                                            random.nextInt()
-                                        }.asList())
-                                    } finally {
-                                        job = null
+                            LaunchedEffect(key1 = Unit, block = {
+                                if (loadMoreJob == null) {
+                                    loadMoreJob = coroutineScope.launch {
+                                        try {
+                                            delay(1000)
+                                            "加载完成".showToast()
+                                            listChangeListener(IntArray(20) {
+                                                Random.nextInt()
+                                            }.asList())
+                                        } finally {
+                                            loadMoreJob = null
+                                        }
                                     }
                                 }
-                            }
+                            })
+                            //加载的布局
+                            Text(text = "加载中")
                         }*/
                     })
             })
