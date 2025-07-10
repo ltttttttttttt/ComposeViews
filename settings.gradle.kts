@@ -23,9 +23,6 @@ include("desktop_app")
 include("js_app")
 include("wasm_app")
 
-
-includeBuild("convention-plugins")
-
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
@@ -42,7 +39,7 @@ pluginManagement {
         val kotlinVersion = extra["kotlin.version"] as String
         val composeVersion = extra["compose.version"] as String
         val kspVersion = extra["ksp.version"] as String
-        val agpVersion = "8.3.2"
+        val agpVersion = "8.7.0"
 
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
