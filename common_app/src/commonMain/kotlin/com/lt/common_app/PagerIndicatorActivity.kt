@@ -47,7 +47,9 @@ import com.lt.compose_views.image_banner.ImageBanner
 import com.lt.compose_views.other.FpsText
 import com.lt.compose_views.other.VerticalSpace
 import com.lt.compose_views.pager_indicator.PagerIndicator
-import rememberPainter
+import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.back
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * creator: lt  2022/9/5  lt.dygzs@qq.com
@@ -245,7 +247,7 @@ class PagerIndicatorActivity : BaseComposeActivity() {
             imageSize = images.size,
             imageContent = {
                 Image(
-                    painter = rememberPainter(data = images[index]),
+                    painter = painterResource(Res.drawable.back),
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxSize()

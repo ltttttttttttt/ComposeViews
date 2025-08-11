@@ -27,12 +27,6 @@ import androidx.compose.ui.graphics.painter.Painter
 typealias M = Modifier
 
 /**
- * 加载网络图片
- */
-@Composable
-expect fun rememberPainter(data: String?): Painter
-
-/**
  * 根据图片文件名加载图片
  */
 @Composable

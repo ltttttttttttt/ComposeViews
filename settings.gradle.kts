@@ -19,13 +19,22 @@ rootProject.name = "ComposeViews"
 include(":ComposeViews")
 include(":common_app")
 include(":android_app")
-include("desktop_app")
-include("js_app")
-include("wasm_app")
+//include("desktop_app")
+//include("js_app")
+//include("wasm_app")
 
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
+            maven("https://mirrors.tencent.com/nexus/repository/maven-tencent")
+            maven("https://mirrors.tencent.com/nexus/repository/maven-public")
+            google {
+                mavenContent {
+                    includeGroupAndSubgroups("androidx")
+                    includeGroupAndSubgroups("com.android")
+                    includeGroupAndSubgroups("com.google")
+                }
+            }
             maven("https://mirrors.tencent.com/nexus/repository/maven-public/")
             maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
             maven("https://jitpack.io")
@@ -38,7 +47,6 @@ pluginManagement {
     plugins {
         val kotlinVersion = extra["kotlin.version"] as String
         val composeVersion = extra["compose.version"] as String
-        val kspVersion = extra["ksp.version"] as String
         val agpVersion = "8.7.0"
 
         kotlin("jvm").version(kotlinVersion)
@@ -50,9 +58,5 @@ pluginManagement {
         id("com.android.library").version(agpVersion)
 
         id("org.jetbrains.compose").version(composeVersion)
-
-        id("com.google.devtools.ksp").version(kspVersion)
-
-        id("com.vk.vkompose") version "0.7"
     }
 }

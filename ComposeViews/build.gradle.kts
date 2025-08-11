@@ -27,26 +27,8 @@ plugins {
     //https://central.sonatype.com/publishing/deployments
     id("com.vanniktech.maven.publish") version publishVersion
     kotlin("plugin.compose")
-    id("com.vk.vkompose")
 }
 
-if (vkomposeIsCheck)
-    vkompose {
-        skippabilityCheck = true
-
-        recompose {
-            isHighlighterEnabled = true
-            isLoggerEnabled = true
-        }
-
-        testTag {
-            isApplierEnabled = true
-            isDrawerEnabled = true
-            isCleanerEnabled = true
-        }
-
-        sourceInformationClean = true
-    }
 
 group = PublishConfig.group
 version = "$composeVersion.1"
@@ -89,14 +71,6 @@ kotlin {
         publishLibraryVariants("release")
     }
 
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -107,26 +81,18 @@ kotlin {
         }
     }
 
-    js(IR) {
-        browser()
-        compilations.all {
+    ohosArm64 {
+        binaries.sharedLib {
+            baseName = "kn"
+            export("org.jetbrains.compose.export:export:$composeVersion")
         }
-    }
 
-    wasmJs {
-        moduleName = "ComposeViews"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "ComposeViews.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.projectDir.path)
-                    }
-                }
-            }
+        val main by compilations.getting
+
+        val resource by main.cinterops.creating {
+            defFile(file("src/ohosArm64Main/cinterop/resource.def"))
+            includeDirs(file("src/ohosArm64Main/cinterop/include"))
         }
-        binaries.executable()
     }
 
     cocoapods {
@@ -152,7 +118,6 @@ kotlin {
                 api(compose.animation)
                 api(compose.ui)
                 api(compose.components.resources)
-                api("io.github.ltttttttttttt:DataStructure:1.1.4")
             }
         }
         val commonTest by getting {
@@ -164,8 +129,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api("androidx.activity:activity-compose:1.4.0")
-                //协程
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
             }
         }
         val androidUnitTest by getting {
@@ -173,17 +136,6 @@ kotlin {
                 implementation("junit:junit:4.13")
             }
         }
-
-        val desktopMain by getting {
-            dependencies {
-                //api(project(":ComposeViews")) {
-                //    exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-android")//剔除安卓协程依赖
-                //}
-                //协程
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
-            }
-        }
-        val desktopTest by getting
 
         val iosMain by creating {
             dependencies {
@@ -210,13 +162,9 @@ kotlin {
             dependsOn(iosTest)
         }
 
-        val jsMain by getting {
+        val ohosArm64Main by getting {
             dependencies {
-            }
-        }
-
-        val wasmJsMain by getting {
-            dependencies {
+                api("org.jetbrains.compose.export:export:$composeVersion")
             }
         }
     }

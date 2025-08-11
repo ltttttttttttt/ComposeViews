@@ -107,7 +107,7 @@ private fun SurfaceWithNotRipple(
     contentColor: Color = contentColorFor(color),
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
-    interactionSource: MutableInteractionSource? = null,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) {
     val absoluteElevation = LocalAbsoluteElevation.current + elevation

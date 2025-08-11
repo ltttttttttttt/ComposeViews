@@ -24,9 +24,9 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.lt.compose_views.util.IntArrayList
 import com.lt.compose_views.util.NotPlace
 import com.lt.compose_views.util.midOf
-import com.lt.data_structure.basic_value.IntArrayList
 
 /**
  * creator: lt  2022/7/4  lt.dygzs@qq.com

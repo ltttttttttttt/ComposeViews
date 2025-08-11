@@ -43,7 +43,7 @@ internal class RefreshLayoutNestedScrollConnection(
         available: Offset,
         source: NestedScrollSource
     ): Offset {
-        if (source == NestedScrollSource.UserInput) {
+        if (source == NestedScrollSource.Drag) {
             when (composePosition) {
                 ComposePosition.Start -> {
                     val value = available.x
@@ -93,7 +93,7 @@ internal class RefreshLayoutNestedScrollConnection(
                 Offset(0f, available.y)
         }
         val refreshOffset = refreshLayoutState.refreshContentOffsetState.value
-        if (source == NestedScrollSource.UserInput) {
+        if (source == NestedScrollSource.Drag) {
             when (composePosition) {
                 ComposePosition.Start -> {
                     if (available.x < 0 && refreshOffset > 0) {

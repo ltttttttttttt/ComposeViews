@@ -26,8 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import com.lt.compose_views.util._currentTimeMillis
 import com.lt.compose_views.util.rememberMutableStateOf
-import com.lt.data_structure.util._currentTimeMillis
 
 /**
  * creator: lt  2021/4/13  lt.dygzs@qq.com

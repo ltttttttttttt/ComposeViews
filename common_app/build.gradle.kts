@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
-
 /*
  * Copyright lt 2023
  *
@@ -22,29 +19,9 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
-    id("com.google.devtools.ksp")
     kotlin("native.cocoapods")
     kotlin("plugin.compose")
-    id("com.vk.vkompose")
 }
-
-if (vkomposeIsCheck)
-    vkompose {
-        skippabilityCheck = true
-
-        recompose {
-            isHighlighterEnabled = true
-            isLoggerEnabled = true
-        }
-
-        testTag {
-            isApplierEnabled = true
-            isDrawerEnabled = true
-            isCleanerEnabled = true
-        }
-
-        sourceInformationClean = true
-    }
 
 group = "com.lt.ltttttttttttt"
 
@@ -85,14 +62,6 @@ kotlin {
         }
     }
 
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -100,26 +69,6 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries {
         }
-    }
-
-    js(IR) {
-        browser()
-    }
-
-    wasmJs {
-        moduleName = "common_app"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "common_app.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.projectDir.path)
-                    }
-                }
-            }
-        }
-        binaries.executable()
     }
 
 //    macosX64 {
@@ -177,8 +126,6 @@ kotlin {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.4.0")
                 implementation("androidx.appcompat:appcompat:1.2.0")
-                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
-                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val androidUnitTest by getting {
@@ -187,21 +134,10 @@ kotlin {
             }
         }
 
-        val desktopMain by getting {
-            dependencies {
-                api(compose.preview)
-                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
-                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
-            }
-        }
-        val desktopTest by getting
-
         val iosMain by creating {
             kotlin.srcDir("build/generated/ksp/ios/iosMain/kotlin")
             dependencies {
                 dependsOn(commonMain)
-                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
-                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
             }
         }
         val iosTest by creating
@@ -224,18 +160,6 @@ kotlin {
             dependsOn(iosTest)
         }
 
-        val jsMain by getting {
-            dependencies {
-                api("io.coil-kt.coil3:coil-compose:$coilVersion")//coil图片加载
-                api("io.coil-kt.coil3:coil-network-ktor:$coilVersion")//图片网络请求引擎
-            }
-        }
-
-        val wasmJsMain by getting {
-            dependencies {
-            }
-        }
-
 //        val macosMain by creating {
 //            dependsOn(commonMain)
 //        }
@@ -246,11 +170,4 @@ kotlin {
 //            dependsOn(macosMain)
 //        }
     }
-    ksp {
-        arg("packageListWithVirtualReflection", "com.lt.common_app")
-    }
-}
-
-dependencies {
-    add("kspCommonMainMetadata", "io.github.ltttttttttttt:VirtualReflection:1.3.1")
 }

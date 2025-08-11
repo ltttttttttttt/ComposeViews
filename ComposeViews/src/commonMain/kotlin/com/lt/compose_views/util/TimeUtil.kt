@@ -1,8 +1,5 @@
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.extra
-
 /*
- * Copyright lt 2023
+ * Copyright lt 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +13,16 @@ import org.gradle.kotlin.dsl.extra
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//compose版本
-val Project.composeVersion: String
-    get() = extra["compose.version"] as String
-const val publishVersion = "0.33.0"
+
+package com.lt.compose_views.util
+
+/**
+ * creator: lt  2023/3/5  lt.dygzs@qq.com
+ * effect :
+ * warning:
+ */
+
+/**
+ * 获取当前时间戳
+ */
+expect fun _currentTimeMillis(): Long

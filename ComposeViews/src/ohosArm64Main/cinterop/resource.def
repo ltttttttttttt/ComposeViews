@@ -1,0 +1,2 @@
+package = platform.resource
+headers = raw_file_manager.h raw_file.h

@@ -42,9 +42,11 @@ import com.lt.compose_views.refresh_layout.RefreshContentStateEnum
 import com.lt.compose_views.refresh_layout.RefreshLayoutState
 import com.lt.compose_views.refresh_layout.VerticalRefreshableLayout
 import com.lt.compose_views.refresh_layout.rememberRefreshLayoutState
+import com.lt.ltttttttttttt.common_app.generated.resources.Res
+import com.lt.ltttttttttttt.common_app.generated.resources.back
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import rememberPainter
+import org.jetbrains.compose.resources.painterResource
 import kotlin.random.Random
 
 class ComposePagerActivity : BaseComposeActivity() {
@@ -105,7 +107,7 @@ class ComposePagerActivity : BaseComposeActivity() {
                     }
                 })
                 Image(
-                    painter = rememberPainter(data = images[index]),
+                    painter = painterResource(Res.drawable.back),
                     contentDescription = "",
                     modifier = M
                         .fillMaxSize()
