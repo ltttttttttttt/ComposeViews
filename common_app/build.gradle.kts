@@ -50,7 +50,7 @@ group = "com.lt.ltttttttttttt"
 
 android {
     namespace = "com.lt.common_app"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 21
 
