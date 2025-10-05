@@ -224,7 +224,7 @@ kotlin {
 
 android {
     namespace = "com.lt.compose_views"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 21
         sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")

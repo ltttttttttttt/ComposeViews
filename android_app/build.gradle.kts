@@ -23,8 +23,8 @@ plugins {
 
 android {
     namespace = "com.lt.test_compose"
-    compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
 
     defaultConfig {
         applicationId = "com.lt.test_compose"
