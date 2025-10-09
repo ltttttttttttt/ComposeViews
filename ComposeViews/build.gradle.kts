@@ -49,7 +49,7 @@ if (vkomposeIsCheck)
     }
 
 group = PublishConfig.group
-version = "$composeVersion.1"
+version = "$composeVersion.3"
 
 mavenPublishing {
     publishToMavenCentral()
