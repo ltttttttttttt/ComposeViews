@@ -40,6 +40,10 @@ internal fun Float/*percentage*/.getPercentageValue(startValue: Float, endValue:
     if (startValue == endValue) startValue
     else (endValue - startValue) * this + startValue
 
+internal fun Float/*percentage*/.getPercentageValue(startValue: Int, endValue: Int): Int =
+    if (startValue == endValue) startValue
+    else ((endValue - startValue) * this + startValue).toInt()
+
 internal fun Float/*percentage*/.getPercentageValue(startValue: Color, endValue: Color): Color =
     Color(
         alpha = getPercentageValue(startValue.alpha, endValue.alpha),

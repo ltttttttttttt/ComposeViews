@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lt.common_app.base.BaseComposeActivity
@@ -100,6 +101,8 @@ class TextPagerIndicatorActivity : BaseComposeActivity() {
                 .fillMaxWidth()
                 .height(35.dp),
             margin = 28.dp,
+            selectFontWeight = FontWeight.Bold,
+            tabClickIndication = null,
         )
     }
 

@@ -49,7 +49,7 @@ if (vkomposeIsCheck)
     }
 
 group = PublishConfig.group
-version = "$composeVersion.3"
+version = "$composeVersion.4"
 
 mavenPublishing {
     publishToMavenCentral()
@@ -87,6 +87,11 @@ mavenPublishing {
 kotlin {
     androidTarget {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
     }
 
     jvm("desktop") {

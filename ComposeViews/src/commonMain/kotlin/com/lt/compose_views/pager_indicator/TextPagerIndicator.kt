@@ -16,6 +16,8 @@
 
 package com.lt.compose_views.pager_indicator
 
+import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -31,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -69,6 +72,10 @@ import kotlin.math.roundToInt
  *               Spacing between the text indicators
  * @param userCanScroll 用户是否可以滚动
  *                      Whether the user can scroll
+ * @param selectFontWeight 选中的文字粗细
+ *                         Selected FontWeight
+ * @param tabClickIndication tab点击事件的[Indication]
+ *                         Tab clickable [Indication]
  */
 @Composable
 fun TextPagerIndicator(
@@ -84,6 +91,8 @@ fun TextPagerIndicator(
     modifier: Modifier = Modifier,
     margin: Dp = 8.dp,
     userCanScroll: Boolean = true,
+    selectFontWeight: FontWeight = FontWeight.Normal,
+    tabClickIndication: Indication? = LocalIndication.current,
 ) {
     val density = LocalDensity.current
     val dp20 = remember(density) {
@@ -129,6 +138,8 @@ fun TextPagerIndicator(
         modifier = modifier,
         margin = margin,
         userCanScroll = userCanScroll,
+        selectFontWeight = selectFontWeight,
+        tabClickIndication = tabClickIndication,
     )
 }
 
@@ -147,6 +158,8 @@ fun TextPagerIndicator(
     modifier: Modifier = Modifier,
     margin: Dp = 8.dp,
     userCanScroll: Boolean = true,
+    selectFontWeight: FontWeight = FontWeight.Normal,
+    tabClickIndication: Indication?
 ) {
     val density = LocalDensity.current
     val fontPx by remember(fontSize, density) {
@@ -161,13 +174,14 @@ fun TextPagerIndicator(
         selectIndexFlow = selectIndexFlow,
         indicatorItem = { index ->
             val selectIndex by selectIndexFlow.collectAsState(0)
-            Box(modifier = Modifier
-                .fillMaxHeight()
-                .clickable {
-                    onIndicatorClick(index)
-                }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .clickable(null, tabClickIndication) {
+                        onIndicatorClick(index)
+                    }) {
                 val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
-                val (size, color) = remember(
+                val (size, color, fontWeight) = remember(
                     index,
                     selectIndex,
                     offsetPercentWithSelect,
@@ -175,19 +189,26 @@ fun TextPagerIndicator(
                     fontSize,
                     textColor,
                     selectTextColor,
+                    selectFontWeight
                 ) {
                     val percent = abs(selectIndex + offsetPercentWithSelect - index)
                     if (percent > 1f)
-                        return@remember fontSize to textColor
-                    density.run {
-                        percent.getPercentageValue(selectFontPx, fontPx).roundToInt().toSp()
-                    } to percent.getPercentageValue(selectTextColor, textColor)
+                        return@remember Triple(fontSize, textColor, FontWeight.Normal)
+                    Triple(
+                        density.run { percent.getPercentageValue(selectFontPx, fontPx).roundToInt().toSp() },
+                        percent.getPercentageValue(selectTextColor, textColor),
+                        if (selectFontWeight == FontWeight.Normal)
+                            FontWeight.Normal
+                        else
+                            FontWeight(percent.getPercentageValue(selectFontWeight.weight, FontWeight.Normal.weight))
+                    )
                 }
                 Text(
                     text = texts[index],
                     fontSize = size,
                     color = color,
                     modifier = Modifier.align(Alignment.Center),
+                    fontWeight = fontWeight
                 )
             }
         },
@@ -292,12 +313,13 @@ fun TextPagerIndicator(
         selectIndexFlow = selectIndexFlow,
         indicatorItem = { index ->
             val selectIndex by selectIndexFlow.collectAsState(0)
-            Box(modifier = Modifier
-                .fillMaxHeight()
-                .clickable {
-                    if (index != selectIndex)
-                        onIndicatorClick(index)
-                }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .clickable {
+                        if (index != selectIndex)
+                            onIndicatorClick(index)
+                    }) {
                 val offsetPercentWithSelect by offsetPercentWithSelectFlow.collectAsState(0f)
                 val (size, color) = remember(
                     index,
