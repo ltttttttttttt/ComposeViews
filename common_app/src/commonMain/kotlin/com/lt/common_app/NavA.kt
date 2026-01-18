@@ -27,7 +27,7 @@ import com.lt.compose_views.util.rememberMutableStateOf
  */
 class NavA : BaseComposeActivity() {
     private val state = PagerNavState(
-        listOf(
+        mutableStateListOf(
             A(),
             B(),
             C(),

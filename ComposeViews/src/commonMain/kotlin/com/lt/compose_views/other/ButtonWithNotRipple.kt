@@ -67,7 +67,7 @@ fun ButtonWithNotRipple(
     content: @Composable RowScope.() -> Unit
 ) {
     @Suppress("NAME_SHADOWING")
-    val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val interactionSource = interactionSource
     val contentColor by colors.contentColor(enabled)
     SurfaceWithNotRipple(
         onClick = onClick,

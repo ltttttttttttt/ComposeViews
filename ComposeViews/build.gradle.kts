@@ -1,4 +1,4 @@
-import PublishConfig.inceptionYear
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 /*
@@ -27,29 +27,29 @@ plugins {
     //https://central.sonatype.com/publishing/deployments
     id("com.vanniktech.maven.publish") version publishVersion
     kotlin("plugin.compose")
-    id("com.vk.vkompose")
+//    id("com.vk.vkompose")
 }
 
-if (vkomposeIsCheck)
-    vkompose {
-        skippabilityCheck = true
-
-        recompose {
-            isHighlighterEnabled = true
-            isLoggerEnabled = true
-        }
-
-        testTag {
-            isApplierEnabled = true
-            isDrawerEnabled = true
-            isCleanerEnabled = true
-        }
-
-        sourceInformationClean = true
-    }
+//if (vkomposeIsCheck)
+//    vkompose {
+//        skippabilityCheck = true
+//
+//        recompose {
+//            isHighlighterEnabled = true
+//            isLoggerEnabled = true
+//        }
+//
+//        testTag {
+//            isApplierEnabled = true
+//            isDrawerEnabled = true
+//            isCleanerEnabled = true
+//        }
+//
+//        sourceInformationClean = true
+//    }
 
 group = PublishConfig.group
-version = "$composeVersion.4"
+version = "$composeVersion.1"
 
 mavenPublishing {
     publishToMavenCentral()
@@ -87,18 +87,14 @@ mavenPublishing {
 kotlin {
     androidTarget {
         publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
         }
     }
 
     jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
         }
     }
 
@@ -119,7 +115,7 @@ kotlin {
     }
 
     wasmJs {
-        moduleName = "ComposeViews"
+        outputModuleName = "ComposeViews"
         browser {
             commonWebpackConfig {
                 outputFileName = "ComposeViews.js"

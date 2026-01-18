@@ -15,8 +15,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
-import com.lt.compose_views.util.runIf
 import com.lt.compose_views.util.midOf
+import com.lt.compose_views.util.runIf
 import kotlin.math.roundToInt
 
 /**
@@ -42,7 +42,8 @@ import kotlin.math.roundToInt
 fun ZoomLayout(
     modifier: Modifier = Modifier,
     alignment: Alignment = Alignment.TopStart,
-    zoomRange: ClosedFloatingPointRange<Float> = 0.25f..4f,
+    zoomRangeStart: Float = 0.25f,
+    zoomRangeEnd: Float = 4f,
     zoomState: ZoomState = rememberZoomState(),
     userCanRotation: Boolean = false,
     whetherToLimitSize: Boolean = false,
@@ -54,7 +55,7 @@ fun ZoomLayout(
             //监听位移,缩放和旋转手势
             detectTransformGestures(true) { _, pan, zoom, rotation ->
                 val newZoom = zoomState.zoom * zoom
-                zoomState.zoom = midOf(zoomRange.start, newZoom, zoomRange.endInclusive)
+                zoomState.zoom = midOf(zoomRangeStart, newZoom, zoomRangeEnd)
                 zoomState.offset += (pan / zoomState.zoom)
                 if (userCanRotation) {
                     zoomState.rotation += rotation
@@ -110,4 +111,27 @@ fun ZoomLayout(
             }
         }
     }
+}
+
+@Deprecated("Need to use another function with the same name for higher performance")
+@Composable
+fun ZoomLayout(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.TopStart,
+    zoomRange: ClosedFloatingPointRange<Float> = 0.25f..4f,
+    zoomState: ZoomState = rememberZoomState(),
+    userCanRotation: Boolean = false,
+    whetherToLimitSize: Boolean = false,
+    content: @Composable () -> Unit,
+) {
+    ZoomLayout(
+        modifier,
+        alignment,
+        zoomRange.start,
+        zoomRange.endInclusive,
+        zoomState,
+        userCanRotation,
+        whetherToLimitSize,
+        content
+    )
 }

@@ -18,6 +18,8 @@ package com.lt.compose_views.text_field
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.TextUnit
 import com.lt.compose_views.util.Color999
 
@@ -27,6 +29,7 @@ import com.lt.compose_views.util.Color999
  *          Content of the [TextField] with if value is Empty
  * warning:
  */
+@Stable
 interface HintComposeWithTextField {
     /**
      * 输入框没有内容时展示

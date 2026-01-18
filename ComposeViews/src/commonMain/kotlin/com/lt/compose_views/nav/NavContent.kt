@@ -1,6 +1,7 @@
 package com.lt.compose_views.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import com.lt.compose_views.compose_pager.ComposePagerScope
 
 /**
@@ -9,6 +10,7 @@ import com.lt.compose_views.compose_pager.ComposePagerScope
  *          [PagerNav]'s Compose content
  * warning:
  */
+@Immutable
 interface NavContent {
     /**
      * 导航的路由

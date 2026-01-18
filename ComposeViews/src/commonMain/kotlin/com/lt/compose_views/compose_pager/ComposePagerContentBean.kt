@@ -17,6 +17,7 @@
 package com.lt.compose_views.compose_pager
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 
@@ -25,7 +26,7 @@ import androidx.compose.ui.Modifier
  * effect :
  * warning:
  */
-@Stable
+@Immutable
 internal data class ComposePagerContentBean(
     val index: Int,//一般为index,banner的情况下是index % size
     val key: Any,//Compose函数作用域的Key,用于提高性能,减少重组,确认remember作用域

@@ -16,6 +16,7 @@
 
 package com.lt.compose_views.pager_indicator
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 
 /**
@@ -24,7 +25,7 @@ import androidx.compose.runtime.Stable
  *          Compose scope of the [PagerIndicator]
  * warning:
  */
-@Stable
+@Immutable
 class PagerIndicatorScope(
     /**
      * 指示器列表的信息

@@ -53,6 +53,6 @@ pluginManagement {
 
         id("com.google.devtools.ksp").version(kspVersion)
 
-        id("com.vk.vkompose") version "0.7"
+//        id("com.vk.vkompose") version "0.7"
     }
 }

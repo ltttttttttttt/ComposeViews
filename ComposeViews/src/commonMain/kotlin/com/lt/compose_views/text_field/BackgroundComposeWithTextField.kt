@@ -19,6 +19,7 @@ package com.lt.compose_views.text_field
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -31,6 +32,7 @@ import com.lt.compose_views.util.ColorF5
  *          Background of the [GoodTextField]
  * warning:
  */
+@Stable
 interface BackgroundComposeWithTextField {
     /**
      * 通过[Modifier]来设置[GoodTextField]的背景

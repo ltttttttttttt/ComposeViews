@@ -19,6 +19,8 @@ package com.lt.compose_views.util
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -28,6 +30,7 @@ import kotlinx.coroutines.flow.flowOf
  *          Listen the [DragInteraction]
  * warning:
  */
+@Immutable
 class DragInteractionSource(
     private val dragInteractionChange: (DragInteraction) -> Unit
 ) : MutableInteractionSource {

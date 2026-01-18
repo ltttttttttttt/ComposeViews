@@ -21,6 +21,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.ltttttttttttt.composeviews.generated.resources.Res
@@ -35,6 +36,7 @@ import org.jetbrains.compose.resources.painterResource
  *          The component to the right of the password input box
  * warning:
  */
+@Stable
 interface PasswordTrailingWithTextField {
     /**
      * 在密码输入框右侧展示

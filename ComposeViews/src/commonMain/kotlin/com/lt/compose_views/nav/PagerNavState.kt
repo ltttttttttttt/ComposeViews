@@ -2,6 +2,7 @@ package com.lt.compose_views.nav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.lt.compose_views.compose_pager.ComposePager
 import com.lt.compose_views.compose_pager.ComposePagerScope
 import com.lt.compose_views.compose_pager.ComposePagerState
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.map
  */
 @Stable
 class PagerNavState(
-    val navContents: List<NavContent>,
+    val navContents: SnapshotStateList<NavContent>,
     val composePagerState: ComposePagerState = ComposePagerState(),
 ) {
     /**

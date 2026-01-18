@@ -17,6 +17,7 @@
 package com.lt.compose_views.menu_fab
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
  * @param fabBackgroundColor Fab按钮背景色
  *                             Background color of floating action button
  */
+@Immutable
 class MenuFabItem(
     val icon: @Composable () -> Unit,
     val label: String,

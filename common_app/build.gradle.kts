@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -25,26 +26,26 @@ plugins {
     id("com.google.devtools.ksp")
     kotlin("native.cocoapods")
     kotlin("plugin.compose")
-    id("com.vk.vkompose")
+//    id("com.vk.vkompose")
 }
 
-if (vkomposeIsCheck)
-    vkompose {
-        skippabilityCheck = true
-
-        recompose {
-            isHighlighterEnabled = true
-            isLoggerEnabled = true
-        }
-
-        testTag {
-            isApplierEnabled = true
-            isDrawerEnabled = true
-            isCleanerEnabled = true
-        }
-
-        sourceInformationClean = true
-    }
+//if (vkomposeIsCheck)
+//    vkompose {
+//        skippabilityCheck = true
+//
+//        recompose {
+//            isHighlighterEnabled = true
+//            isLoggerEnabled = true
+//        }
+//
+//        testTag {
+//            isApplierEnabled = true
+//            isDrawerEnabled = true
+//            isCleanerEnabled = true
+//        }
+//
+//        sourceInformationClean = true
+//    }
 
 group = "com.lt.ltttttttttttt"
 
@@ -78,18 +79,14 @@ android {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
         }
     }
 
     jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
         }
     }
 
@@ -107,7 +104,7 @@ kotlin {
     }
 
     wasmJs {
-        moduleName = "common_app"
+        outputModuleName = "common_app"
         browser {
             commonWebpackConfig {
                 outputFileName = "common_app.js"
