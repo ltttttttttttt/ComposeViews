@@ -48,7 +48,7 @@ class ComposePagerState {
     internal var size by mutableStateOf(IntSize.Zero)
 
     //compose的scope
-    internal lateinit var scope: CoroutineScope
+    internal var scope: CoroutineScope? = null
 
     /**
      * 获取ComposePager当前所在的索引
@@ -108,7 +108,7 @@ class ComposePagerState {
      */
     fun setPageIndexWithAnimate(index: Int) {
         pageChangeAnimFlag = null
-        scope.launch {
+        scope?.launch {
             withFrameNanos {}
             pageChangeAnimFlag = if (index == currSelectIndex.value)
                 PageChangeAnimFlag.Reduction
