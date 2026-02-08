@@ -69,7 +69,7 @@ suspend inline fun animateWithFloat(
     while (_currentTimeMillis() <= startTime + duration) {
         frameClock.withFrameNanos {
             val progress = animInterpolator.getInterpolation(
-                minOf(it - startTime, duration).toFloat() / duration
+                minOf(_currentTimeMillis() - startTime, duration).toFloat() / duration
             )
             val increase = progress * valueToBeTransformed
             onValueChange(startValue + increase)
