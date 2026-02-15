@@ -16,7 +16,19 @@
 
 package com.lt.compose_views.util
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisallowComposableCalls
+import androidx.compose.runtime.MutableDoubleState
+import androidx.compose.runtime.MutableFloatState
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.MutableLongState
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 
 /**
@@ -54,6 +66,26 @@ inline fun <T> rememberMutableStateOf(
     key3: Any?,
     crossinline initValue: @DisallowComposableCalls () -> T
 ): MutableState<T> = remember(key1 = key1, key2 = key2, key3 = key3) { mutableStateOf(initValue()) }
+
+@Composable
+inline fun rememberMutableIntStateOf(
+    crossinline initValue: @DisallowComposableCalls () -> Int
+): MutableIntState = remember { mutableIntStateOf(initValue()) }
+
+@Composable
+inline fun rememberMutableFloatStateOf(
+    crossinline initValue: @DisallowComposableCalls () -> Float
+): MutableFloatState = remember { mutableFloatStateOf(initValue()) }
+
+@Composable
+inline fun rememberMutableLongStateOf(
+    crossinline initValue: @DisallowComposableCalls () -> Long
+): MutableLongState = remember { mutableLongStateOf(initValue()) }
+
+@Composable
+inline fun rememberMutableDoubleStateOf(
+    crossinline initValue: @DisallowComposableCalls () -> Double
+): MutableDoubleState = remember { mutableDoubleStateOf(initValue()) }
 
 @Composable
 fun <T> rememberMutableStateListOf(): SnapshotStateList<T> = remember { SnapshotStateList() }
