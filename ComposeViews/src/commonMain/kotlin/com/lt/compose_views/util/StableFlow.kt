@@ -25,3 +25,23 @@ inline fun <T> rememberStableFlow(
 ): StableFlow<T> = remember { StableFlow(initFlow()) }
 
 fun <T> Flow<T>.toStableFlow(): StableFlow<T> = StableFlow(this)
+
+@Stable
+class StableList<T>(list: List<T>) : List<T> by list
+
+fun <T> List<T>.toStableList(): StableList<T> = StableList(this)
+
+@Composable
+inline fun <T> rememberStableList(
+    crossinline initList: @DisallowComposableCalls () -> List<T>
+): StableList<T> = remember { StableList(initList()) }
+
+@Stable
+class StableMap<K, V>(map: Map<K, V>) : Map<K, V> by map
+
+fun <K, V> Map<K, V>.toStableMap(): StableMap<K, V> = StableMap(this)
+
+@Composable
+inline fun <K, V> rememberStableMap(
+    crossinline initMap: @DisallowComposableCalls () -> Map<K, V>
+): StableMap<K, V> = remember { StableMap(initMap()) }
