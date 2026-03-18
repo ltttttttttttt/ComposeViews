@@ -49,7 +49,7 @@ plugins {
 //    }
 
 group = PublishConfig.group
-version = "$composeVersion.1"
+version = "$composeVersion.2"
 
 mavenPublishing {
     publishToMavenCentral()
