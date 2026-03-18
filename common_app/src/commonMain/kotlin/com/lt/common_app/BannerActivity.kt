@@ -19,9 +19,7 @@ package com.lt.common_app
 import M
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -53,8 +51,10 @@ class BannerActivity : BaseComposeActivity() {
         val bannerState = rememberBannerState()
         val itemIndex by remember { bannerState.createCurrSelectIndexFlow() }
             .collectAsState(initial = 0)
-        Column(M.fillMaxSize()) {
-            Menu(itemIndex)
+        val rawIndex by remember { bannerState.createRawCurrSelectIndexFlow() }
+            .collectAsState(initial = 0)
+        Column(M.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
+            Menu(itemIndex, rawIndex)
 
             BannerSample(bannerState)
         }
@@ -78,17 +78,17 @@ class BannerActivity : BaseComposeActivity() {
                 Button(onClick = {
                     "index=$index".showToast()
                 }, modifier = M.align(Alignment.Center)) {
-                    Text(text = this@Banner.index.toString(), fontSize = 30.sp)
+                    Text(text = "item:$index  rawIndex:$rawIndex", fontSize = 30.sp)
                 }
             }
         }
     }
 
     @Composable
-    private fun Menu(itemIndex: Int) {
+    private fun Menu(itemIndex: Int, rawIndex: Int) {
         FlowLayout(horizontalMargin = 10.dp) {
             FpsText(modifier = Modifier)
-            Text(text = "item:$itemIndex")
+            Text(text = "current item:$itemIndex \n current rawIndex:$rawIndex")
             Button(onClick = {
                 orientation.value = if (orientation.value == Orientation.Horizontal)
                     Orientation.Vertical

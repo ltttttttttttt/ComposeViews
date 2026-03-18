@@ -47,11 +47,25 @@ class BannerState {
     fun getCurrSelectIndex(): Int = composePagerState.getCurrSelectIndex() % pageCount
 
     /**
+     * 获取Banner当前所在的原始索引
+     * Get current raw index in the [Banner]
+     */
+    fun getRawCurrSelectIndex(): Int = composePagerState.getCurrSelectIndex()
+
+    /**
      * 创建Banner当前索引的flow对象
      * Create the [Flow] of the current index of the [Banner]
      */
     fun createCurrSelectIndexFlow(): StableFlow<Int> = snapshotFlow {
         composePagerState.getCurrSelectIndex() % pageCount
+    }.toStableFlow()
+
+    /**
+     * 创建Banner当前原始索引的flow对象
+     * Create the [Flow] of the current raw index of the [Banner]
+     */
+    fun createRawCurrSelectIndexFlow(): StableFlow<Int> = snapshotFlow {
+        composePagerState.getCurrSelectIndex()
     }.toStableFlow()
 
     /**

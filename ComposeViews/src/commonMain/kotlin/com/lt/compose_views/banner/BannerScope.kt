@@ -29,4 +29,10 @@ class BannerScope(
      * Current content index in the [Banner]
      */
     val index: Int,
+
+    /**
+     * 当前的Banner布局content所在的原始索引
+     * Current content raw index in the [Banner]
+     */
+    val rawIndex: Int,
 )

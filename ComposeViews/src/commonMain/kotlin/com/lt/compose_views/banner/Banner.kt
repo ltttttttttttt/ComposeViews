@@ -20,7 +20,10 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.lt.compose_views.compose_pager.*
+import com.lt.compose_views.compose_pager.ComposePager
+import com.lt.compose_views.compose_pager.LocalIndexToKey
+import com.lt.compose_views.compose_pager.NoPagerContentTransformation
+import com.lt.compose_views.compose_pager.PagerContentTransformation
 import com.lt.compose_views.util.DragInteractionSource
 import kotlinx.coroutines.delay
 
@@ -116,7 +119,7 @@ fun Banner(
             clip = clip,
             contentTransformation = contentTransformation,
         ) {
-            content(BannerScope(index))
+            content(BannerScope(index, realIndex))
         }
     }
 }
