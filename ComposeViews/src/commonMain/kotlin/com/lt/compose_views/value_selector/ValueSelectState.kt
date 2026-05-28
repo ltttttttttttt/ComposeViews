@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import kotlin.math.roundToInt
 
 /**
  * creator: lt  2022/12/3  lt.dygzs@qq.com
@@ -35,12 +36,20 @@ class ValueSelectState {
     internal var cacheSize = 0
     internal var valueSize = 0
     internal var isLoop = false
+    internal var itemHeightPx = 0f
 
     /**
      * 获取当前选中的索引
      * Get current selected index
      */
-    fun getSelectIndex(): Int = lazyListState.firstVisibleItemIndex % valueSize + (if (isLoop) cacheSize else 0)
+    fun getSelectIndex(): Int {
+        val list = lazyListState
+        // 与ValueSelector中currentSelectIndex的计算保持一致,避免firstVisibleItemScrollOffset接近itemHeight临界状态下返回错位的索引
+        val offsetIndex = if (itemHeightPx > 0f) {
+            (list.firstVisibleItemScrollOffset.toFloat() / itemHeightPx).roundToInt()
+        } else 0
+        return (list.firstVisibleItemIndex + offsetIndex) % valueSize + (if (isLoop) cacheSize else 0)
+    }
 }
 
 /**

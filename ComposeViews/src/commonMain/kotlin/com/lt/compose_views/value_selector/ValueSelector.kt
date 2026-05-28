@@ -27,7 +27,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -97,6 +104,8 @@ fun ValueSelector(
     },
     selectedTextColor: Color = valueSelector_defaultSelectedTextColor,
 ) {
+    val density = LocalDensity.current
+    val itemHeight = remember(density) { density.run { itemHeightDp.toPx() } }
     //init
     remember(defaultSelectIndex, state, values, cacheSize, isLoop, textSizes, textColors) {
         val selectIndex = if (state._lazyListState != null)
@@ -112,11 +121,10 @@ fun ValueSelector(
         state.cacheSize = cacheSize
         state.valueSize = values.size
         state.isLoop = isLoop
+        state.itemHeightPx = itemHeight
         if (textSizes.size != cacheSize || textColors.size != cacheSize)
             throw IllegalStateException("Size of [textSizes] and [textColors] must equals [cacheSize]")
     }
-    val density = LocalDensity.current
-    val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
     val scope = rememberCoroutineScope()
     LaunchedEffect(state.lazyListState) {
         //是否已经滚动过
@@ -156,7 +164,7 @@ fun ValueSelector(
             modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
                 .fillMaxWidth()
         ) {
-            val currentSelectIndex by remember(values.size, cacheSize, isLoop) {
+            val currentSelectIndex by remember(state.lazyListState, values.size, cacheSize, isLoop) {
                 snapshotFlow {
                     round(state.lazyListState.firstVisibleItemScrollOffset.toFloat() / itemHeight).toInt() + state.lazyListState.firstVisibleItemIndex
                 }
@@ -175,145 +183,6 @@ fun ValueSelector(
                             color = if (currentSelectIndex == index) selectedTextColor else textColors.getOrNull(
                                 abs(currentSelectIndex - index) - 1
                             ) ?: defaultTextAttributes.second,
-                        )
-                    }
-                }
-                if (isLoop) {
-                    val valueSize = values.size
-                    items(valueSize * loopMultiple, key = { it }) {
-                        itemFun(it - cacheSize, remember(it) { values[it % valueSize] })
-                    }
-                } else {
-                    repeat(cacheSize) {
-                        item {
-                            VerticalSpace(itemHeightDp)
-                        }
-                    }
-                    itemsIndexed(values, key = { index, it -> it }) { index, value ->
-                        itemFun(index, value)
-                    }
-                    repeat(cacheSize) {
-                        item {
-                            VerticalSpace(itemHeightDp)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Deprecated("Need to use another function with the same name for higher performance")
-@ExperimentalFoundationApi
-@Composable
-fun ValueSelector(
-    values: ArrayList<String>,
-    state: ValueSelectState,
-    modifier: Modifier = Modifier,
-    defaultSelectIndex: Int = 0,
-    isLoop: Boolean = false,
-    cacheSize: Int = 2,
-    textSizes: ArrayList<TextUnit> = remember {
-        arrayListOf(
-            valueSelector_defaultTextSize2,
-            valueSelector_defaultTextSize1
-        )
-    },
-    selectedTextSize: TextUnit = valueSelector_defaultSelectedTextSize,
-    textColors: ArrayList<Color> = remember {
-        arrayListOf(
-            valueSelector_defaultTextColor,
-            valueSelector_defaultTextColor
-        )
-    },
-    selectedTextColor: Color = valueSelector_defaultSelectedTextColor,
-) {
-    //init
-    remember(defaultSelectIndex, state, values, cacheSize, isLoop, textSizes, textColors) {
-        val selectIndex = if (state._lazyListState != null)
-            state.getSelectIndex()
-        else
-            defaultSelectIndex
-        state._lazyListState = LazyListState(
-            if (isLoop)
-                values.size * loopMultiple / 2 + selectIndex - cacheSize
-            else
-                selectIndex
-        )
-        state.cacheSize = cacheSize
-        state.valueSize = values.size
-        state.isLoop = isLoop
-        if (textSizes.size != cacheSize || textColors.size != cacheSize)
-            throw IllegalStateException("Size of [textSizes] and [textColors] must equals [cacheSize]")
-    }
-    val density = LocalDensity.current
-    val itemHeight = remember(density) { density.run { 50.dp.toPx() } }
-    val scope = rememberCoroutineScope()
-    val scrollStopListener: NestedScrollConnection = remember {
-        //用作衰减动画的衰减器,用于和速度一块计算最后能滑动到哪(当前速度能不能滑出去)
-        val decay = splineBasedDecay<Float>(density)
-
-        object : NestedScrollConnection {
-            override suspend fun onPreFling(available: Velocity): Velocity {
-                //根据衰减器和速度,来计算最后停下来的位置
-                val targetOffsetX = decay.calculateTargetValue(
-                    state.lazyListState.firstVisibleItemScrollOffset.toFloat(),
-                    available.y
-                )
-                //计算速度大概能滚动多少条目,并执行滚动动画
-                val itemNum = round(abs(targetOffsetX) / 4 / itemHeight).toInt()
-                scope.launch {
-                    if (available.y > 0) {
-                        state.lazyListState.animateScrollToItem(
-                            maxOf(
-                                0,
-                                state.lazyListState.firstVisibleItemIndex - itemNum
-                            )
-                        )
-                    } else {
-                        state.lazyListState.animateScrollToItem(
-                            minOf(
-                                values.size * loopMultiple,
-                                state.lazyListState.firstVisibleItemIndex + itemNum
-                            )
-                        )
-                    }
-                }
-                return available
-            }
-        }
-    }
-    ValueSelectorCompositionLocalProvider {
-        Box(
-            modifier.height(itemHeightDp * cacheSize * 2 + itemHeightDp)
-                .fillMaxWidth()
-                .nestedScroll(scrollStopListener)
-        ) {
-            LazyColumn(state = state.lazyListState, modifier = Modifier.fillMaxSize()) {
-                val defaultTextAttributes = textSizes.last() to textColors.last()
-                val itemFun: @Composable (index: Int, value: String) -> Unit = { index, value ->
-                    val textAttributes by remember(state.lazyListState.firstVisibleItemIndex) {
-                        val firstIndex = state.lazyListState.firstVisibleItemIndex
-                        //计算text的大小和颜色
-                        mutableStateOf(
-                            if (firstIndex == index)
-                                selectedTextSize to selectedTextColor
-                            else {
-                                //根据索引差值,从list中获取
-                                val diff = abs(firstIndex - index)
-                                if (diff >= cacheSize)
-                                    defaultTextAttributes
-                                else
-                                    textSizes[diff - 1] to textColors[diff - 1]
-                            }
-                        )
-                    }
-                    Box(Modifier.fillMaxWidth().height(itemHeightDp)) {
-                        Text(
-                            value,
-                            Modifier.align(Alignment.Center),
-                            fontSize = textAttributes.first,
-                            color = textAttributes.second,
                         )
                     }
                 }

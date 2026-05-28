@@ -71,34 +71,6 @@ fun ValuesSelector(
     }
 }
 
-@Deprecated("Need to use another function with the same name for higher performance")
-@ExperimentalFoundationApi
-@Composable
-fun ValuesSelector(
-    valuesList: List<ArrayList<String>>,
-    states: List<ValueSelectState>,
-    modifier: Modifier = Modifier,
-    isLoop: Boolean = false,
-    defaultSelectIndexList: List<Int> = remember(valuesList.size) {
-        valuesList.indices.map { 0 }
-    },
-) {
-    Box(modifier) {
-        Row {
-            repeat(valuesList.size) {
-                ValueSelector(
-                    values = remember(valuesList, it) { valuesList[it] },
-                    state = remember(states, it) { states[it] },
-                    modifier = Modifier.weight(1f),
-                    defaultSelectIndex = remember(defaultSelectIndexList, it) { defaultSelectIndexList[it] },
-                    isLoop = isLoop,
-                )
-            }
-        }
-        CenterLines()
-    }
-}
-
 //中间的两条线
 @Composable
 internal fun BoxScope.CenterLines() {
