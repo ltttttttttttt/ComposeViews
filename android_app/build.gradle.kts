@@ -61,15 +61,17 @@ android {
 //        sourceCompatibility = JavaVersion.VERSION_17
 //        targetCompatibility = JavaVersion.VERSION_17
 //    }
-    kotlinOptions {
-//        jvmTarget = "17"
-        freeCompilerArgs = listOf("-Xallow-kotlin-package")
-    }
     buildFeatures {
         compose = true
     }
     composeOptions {
         //kotlinCompilerExtensionVersion = composeCompilerVersion
+    }
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xallow-kotlin-package")
     }
 }
 
